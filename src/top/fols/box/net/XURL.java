@@ -542,7 +542,8 @@ public class XURL implements Serializable {
     }
 
     public XURLParam param() {
-        return new XURLParam(this.getParam());
+        String param = this.getParam();
+        return null == param ? null : new XURLParam();
     }
 
     public static String formatPath(String path) {
