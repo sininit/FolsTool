@@ -1,303 +1,404 @@
 package top.fols.box.util.thread;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import top.fols.box.annotation.XAnnotations;
-import top.fols.box.util.XObjects;
-import top.fols.box.util.interfaces.XInterfaceInterruptable;
+import top.fols.box.time.XTimeTool;
+import top.fols.box.util.XDoubleLinked;
 
 public class XFixedThreadPool {
-	/*
-	 * 运行区 等待区.... 用户post到等待区。。。 根据maxRunningCount 判断等待区任务是否可以添加到运行区
-	 */
-	private int maxRunningCount = 1;// 设置最大运行数
-	private int nowRunningCount = 0;
-	private int nowWaitCount = 0;// 这个是无限制的
-	private List<ThreadMessage> postData = new ArrayList<ThreadMessage>();
-	private List<Run> allrm = Collections.synchronizedList(new ArrayList<Run>());
-	private Object sync = new Object();
 
-	private static class RunnablemThread extends Thread {
-		private ThreadMessage tm;
+	private static class RunInterfaceMessage {
+		private SinglyLinked linkedRoot;
 
-		private RunnablemThread(ThreadMessage tm) {
-			this.tm = tm;
-		}
+		private XDoubleLinked.VarLinked<Run> element;
 
-		@Override
-		public void run() {
-			// TODO: Implement this method
-			try {
-				tm.rm.checkInterrupt();
-				tm.rm.run();
-			} catch (Exception e) {
-				e = null;// 无视异常
-			}
-			if (null != this.tm.rm) {
-				this.tm.rm.runComplete(this.tm.rm);
-			}
-		}
+		private int status = STATUS_NO_OPTION; 
+
+		private XFixedThreadPool.SubThread subThread;
+
+		private static final int STATUS_NO_OPTION = 0;
+		private static final int STATUS_WAIT = 1;
+		private static final int STATUS_RUNING = 2;
+		private static final int STATUS_END = 3;
 	}
+	public static abstract class Run {
+		private final RunInterfaceMessage _message = new RunInterfaceMessage();
 
-	@XAnnotations("will use thread execute this class")
-	public static abstract class Run implements XInterfaceInterruptable, Runnable {
-		private XFixedThreadPool pool;
-		private ThreadMessage tm;
+		public abstract void run();
 
-		public ThreadMessage getThreadMessage() {
-			return this.tm;
-		}
-
-		private boolean runComplete;
 		private boolean interrupt;
-
-		@Override
-		public boolean checkInterrupt() throws InterruptedException {
-			if (interrupt)
-				throw new InterruptedException();
-			return false;
+		public void interrupt() {
+			this.interrupt = true;
 		}
 
-		@Override
 		public boolean isInterrupt() {
 			// TODO: Implement this method
 			return this.interrupt;
 		}
 
+		public boolean checkInterrupt() throws InterruptedException {
+			if (interrupt) {
+				throw new InterruptedException();
+			}
+			return false;
+		}
+	}
+	private static class SinglyLinked {
+		private final XDoubleLinked.VarLinked<Run> linkedRoot = new XDoubleLinked.VarLinked<Run>(null);
+		private XDoubleLinked.VarLinked<Run> linkedTop = linkedRoot;
+		private void addToTop(XDoubleLinked.VarLinked<Run> element) {
+			linkedTop.addNext(element);
+			linkedTop = element;
+
+			if (null == this.now) {
+				this.now = element;
+			}
+		}
+		private void remove(XDoubleLinked.VarLinked<Run> element) throws RuntimeException {
+			if (this.linkedRoot == element) {
+				throw new RuntimeException("cannot remove linked root");
+			}
+
+			if (element == this.now) {
+				XDoubleLinked.VarLinked<Run> next = this.getNext();
+				this.now = next;
+			}
+
+			if (this.linkedTop == element) {
+				XDoubleLinked.VarLinked<Run> last = element.getLast();
+				this.linkedRoot.remove(element);
+				this.linkedTop = last;
+			} else {
+				this.linkedRoot.remove(element);
+			}
+		}
+
+
+
+		private XDoubleLinked.VarLinked<Run> now = linkedRoot;
+		private XDoubleLinked.VarLinked<Run> getNext() {
+			return (null == now || null == now.getNext()) ?null: now.getNext();
+		}
+		private XDoubleLinked.VarLinked<Run> next() {
+			return this.now = this.getNext();
+		}
+		private XDoubleLinked.VarLinked<Run> now() {
+			return this.now;
+		}
+	}
+
+
+
+
+
+	private final SinglyLinked list = new SinglyLinked();
+
+	private Object lock = new Object();
+	private volatile boolean isWait;//处理线程是否正在等待
+	private volatile boolean isRuningThread;//是否运行了处理线程
+
+	private volatile int runingCount = 0;
+	private volatile int maxRuningCount = 1;
+
+	private volatile int waitCount = 0;
+
+	public XFixedThreadPool() {
+		this.isWait = false;
+		this.isRuningThread = false;
+	}
+
+	public XFixedThreadPool setMaxRuningCount(int maxRuningCount) {
+		this.maxRuningCount = maxRuningCount;
+		return this;
+	}
+
+	public int getMaxRuningCount() {
+		return maxRuningCount;
+	}
+
+	public int getNowRuningCount() {
+		return this.runingCount;
+	}
+
+	public int getWaitCount() {
+		return this.waitCount;
+	}
+
+
+	public boolean isStatusNoOption(Run runinterface) {
+		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_NO_OPTION;
+	}
+	public boolean isStatusWait(Run runinterface) {
+		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_WAIT;
+	}
+	public boolean isStatusRuning(Run runinterface) {
+		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_RUNING;
+	}
+	public boolean isStatusEnd(Run runinterface) {
+		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_END;
+	}
+
+
+
+
+	private static void notify(final Object lock) {
+		new Thread(){
+			@Override
+			public void run() {
+				synchronized (lock) {
+					try {
+						lock.notify();
+					} catch (Throwable e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
+	}
+	private void dealThread0() {
+		synchronized (this.lock) {
+			if (this.isWait) {
+				this.notify(this.lock);
+				this.isWait = false;
+			}
+			if (!this.isRuningThread) {
+				this.isRuningThread = true;
+				this.isWait = false;
+
+				new DealThread().start();
+			}
+		}
+	}
+
+
+
+
+
+
+
+	public void post(Run runinterface) throws RuntimeException {
+		synchronized (this.lock) {
+			if (null != runinterface._message.linkedRoot || null != runinterface._message.element) {
+				throw new RuntimeException("already add to thread pool");
+			}
+			runinterface._message.linkedRoot = this.list;
+			runinterface._message.element = new XDoubleLinked.VarLinked<Run>(runinterface);
+			runinterface._message.status = RunInterfaceMessage.STATUS_WAIT;
+			runinterface._message.subThread = null;
+			this.waitCount++;
+			this.list.addToTop(runinterface._message.element);
+			this.dealThread0();
+		}
+	}
+	private class SubThread extends Thread {
+		private Run runinterface;
+
 		@Override
-		public void interrupt() {
-			// TODO: Implement this method
-			this.interrupt = true;
-		}
+		public void run() {
+			try {
+				this.runinterface.run();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			} 
+			try {
+				XFixedThreadPool pool = XFixedThreadPool.this;
+				synchronized (pool.lock) {
+					runinterface._message.status = RunInterfaceMessage.STATUS_END;
 
-		public abstract void run();
+					pool.runingCount--;
+					pool.list.remove(runinterface._message.element);
 
-		// 运行完成后必须运行这个方法
-		private void runComplete(Run This) {
-			synchronized (pool.sync) {
-				this.runComplete = true;
-				this.pool.remove(This);
-				this.pool.deal();
-			}
-		}
+					runinterface._message.linkedRoot = null;
+					runinterface._message.element = null;
+					runinterface._message.subThread = null;
 
-	}
-
-	private static class ThreadMessage {
-		public static enum stateType {
-			running, waiting;
-		}
-
-		private stateType state = null;
-		private Run rm;
-		private RunnablemThread rmt = null;
-
-		public ThreadMessage(Run t) {
-			this.rm = XObjects.requireNonNull(t);
-		}
-	}
-
-	public XFixedThreadPool setMaxRunningCount(int count) {
-		this.maxRunningCount = count <= 0 ? 0 : count;
-		return this;
-	}
-
-	public int getMaxRunningCount() {
-		return this.maxRunningCount;
-	}
-
-	public int getNowRunningCount() {
-		return this.nowRunningCount;
-	}
-
-	public int getNowWaitCount() {
-		return this.nowWaitCount;
-	}
-
-	public XFixedThreadPool post(Run run) {
-		synchronized (sync) {
-			if (null == run) {
-				throw new NullPointerException();
-			}
-			int index = postData.indexOf(run);
-			if (index < 0) {
-				ThreadMessage tm;
-				tm = new ThreadMessage(run);
-				tm.state = ThreadMessage.stateType.waiting;
-				tm.rm = run;
-				tm.rm.pool = this;
-				tm.rm.tm = tm;
-
-				this.postData.add(tm);
-				this.allrm.add(run);
-				this.nowWaitCount++;
-			}
-		}
-		this.deal();
-
-		return this;
-	}
-
-	public XFixedThreadPool postAll(List<Run> runs) {
-		synchronized (sync) {
-			if (null == runs) {
-				throw new NullPointerException();
-			}
-			for (Run run : runs) {
-				int index = postData.indexOf(run);
-				if (index < 0) {
-					ThreadMessage tm;
-					tm = new ThreadMessage(run);
-					tm.state = ThreadMessage.stateType.waiting;
-					tm.rm = run;
-					tm.rm.pool = this;
-					tm.rm.tm = tm;
-
-					this.postData.add(tm);
-					this.allrm.add(run);
-					this.nowWaitCount++;
+					pool.dealThread0();
+//						System.out.println(";;");
 				}
+			} catch (Throwable e) {
+				e.printStackTrace();
+			} 
+		}
+	}
+	private class DealThread extends Thread {
+		@Override
+		public void run() {
+//				System.out.println("xt");
+			XDoubleLinked.VarLinked<Run> now;
+			XFixedThreadPool pool = XFixedThreadPool.this;
+			synchronized (pool.lock) {
+//					System.out.println("startthread");
+
+				while (true) {
+					if (pool.runingCount + 1 <= pool.maxRuningCount) {
+						if (null != pool.list.now()) {
+							if (pool.list.now().isBottom()) {
+								pool.list.next();
+								continue;
+							}
+							now = pool.list.now();
+							pool.list.next();//下一个线程
+							if (null == now.content()) {
+								throw new RuntimeException("null thread");
+							}
+
+//								System.out.println("get: " + now);
+							Run runinterface = now.content();
+							try {
+								SubThread st = new SubThread();
+								st.runinterface = runinterface;
+								pool.waitCount--;
+								runinterface._message.status = RunInterfaceMessage.STATUS_RUNING;
+								runinterface._message.subThread = st;
+								pool.runingCount++;
+								try {
+									st.start();
+								} catch (Throwable e) {
+									runinterface._message.status = RunInterfaceMessage.STATUS_END;
+									runinterface._message.subThread = null;
+									pool.runingCount--;
+									pool.list.remove(runinterface._message.element);
+									throw e;
+								}
+							} catch (Throwable e) {
+								e.printStackTrace();
+							}
+						} else {
+							//没有需要处理的线程了，暂停本线程
+							try {
+								pool.isWait = true;
+//									System.out.println("wait");
+								pool.lock.wait(XTimeTool.time_1s);
+//									System.out.println("continue");
+								pool.isWait = false;
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							if (!(null != pool.list.now())) {
+								break;
+							}
+						}
+					} else {
+						//运行中的线程 已满足最大运行中线程条件
+						try {
+							pool.isWait = true;
+//								System.out.println("wait");
+							pool.lock.wait(XTimeTool.time_1s);
+//								System.out.println("continue");
+							pool.isWait = false;
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						if (!(pool.runingCount + 1 <= pool.maxRuningCount)) {
+							break;
+						}
+					}
+				}
+//					System.out.println("stopthread");
+
+				pool.isRuningThread = false;
+				pool.isWait = false;
 			}
 		}
-		this.deal();
-
-		return this;
 	}
 
-	public boolean exist(Run task) {
-		synchronized (sync) {
-			return this.allrm.contains(task);
+	public void remove(Run runinterface) throws RuntimeException {
+		synchronized (this.lock) {
+			if (runinterface._message.linkedRoot != this.list) {
+				throw new RuntimeException("the thread is not on this thread pool");
+			}
+			XDoubleLinked.VarLinked<Run> now = runinterface._message.element;
+			if (runinterface._message.status == RunInterfaceMessage.STATUS_WAIT) {
+				this.list.remove(now);
+				this.waitCount--;
+
+				runinterface._message.status = RunInterfaceMessage.STATUS_NO_OPTION;
+				runinterface._message.linkedRoot = null;
+				runinterface._message.element = null;
+				runinterface._message.subThread = null;
+			} else if (runinterface._message.status == RunInterfaceMessage.STATUS_RUNING) {
+				this.list.remove(now);
+
+				XFixedThreadPool.interrupt(runinterface);
+			} 
+
 		}
 	}
 
+	private static void interrupt(Run runinterface) {
+		try { 
+			runinterface.interrupt(); 
+			runinterface._message.subThread.interrupt();
+		} catch (Throwable e) { 
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void removeAll() throws RuntimeException {
+		synchronized (this.lock) {
+			XDoubleLinked.VarLinked<Run> now;
+			now = this.list.linkedRoot;
+			now = now.getNext();
+			while (null != now) {
+				Run runinterface = now.content();
+				XDoubleLinked.VarLinked<Run> next = now.getNext();
+				this.remove(runinterface);
+				now = next;
+			}
+		}
+	}
+	
+	
 	public XFixedThreadPool stopAndWaitComplete(List<Run> tasks) {
-		synchronized (sync) {
+		synchronized (this.lock) {
 			for (Run r : tasks) {
 				if (null != r) {
-					r.interrupt();
-					if (null != r.tm.rmt)
-						r.tm.rmt.interrupt();
+					this.remove(r);
 				}
 			}
 			for (Run r : tasks) {
 				if (null != r) {
-					while (!r.runComplete) {
+					while (this.exist(r)) {
 						try {
 							Thread.sleep(1);
 						} catch (InterruptedException e) {
 							e = null;
 						}
-						continue;
 					}
 				}
 			}
 		}
 		return this;
 	}
+	
+	
+	
+	
+	public List<Run> list() {
+		List<Run> list = new ArrayList<>();
+		synchronized (this.lock) {
+			XDoubleLinked.VarLinked<Run> now;
 
-	public List<Run> getRunnablems() {
-		return this.allrm;
-	}
-
-	public XFixedThreadPool remove(Run run) {
-		synchronized (sync) {
-			// System.out.println("origin: " + this.postData + "\n" + this.allrm);
-			// System.out.println("remove: " + run);
-
-			int index = this.postData.indexOf(run.tm);
-			if (index >= 0) {
-				if (null != run.tm.rm)
-					run.tm.rm.interrupt();
-				if (null != run.tm.rmt)
-					run.tm.rmt.interrupt();
-				this.postData.remove(index);
-				this.allrm.remove(run);
-				if (null != run.tm) {
-					run.tm.rm = null;
-					run.tm.rmt = null;
-					run.tm = null;
-				}
-				this.nowRunningCount--;
-			}
-			// System.out.println("new: " + this.postData + "\n" + this.allrm);
-			// System.out.println();
-		}
-		return this;
-	}
-
-	public XFixedThreadPool remove(List<Run> runs) {
-		synchronized (sync) {
-			for (Run run : runs) {
-				int index = this.postData.indexOf(run.tm);
-				if (index >= 0) {
-					if (null != run.tm.rm) {
-						run.tm.rm.interrupt();
-					}
-					if (null != run.tm.rmt) {
-						run.tm.rmt.interrupt();
-					}
-					this.postData.remove(index);
-					this.nowRunningCount--;
-					if (null != run.tm) {
-						run.tm.rm = null;
-						run.tm.rmt = null;
-						run.tm = null;
-					}
-				}
-			}
-			this.allrm.removeAll(runs);
-		}
-		return this;
-	}
-
-	public XFixedThreadPool removeAll() {
-		synchronized (sync) {
-			for (ThreadMessage tn : this.postData) {
-				Run run = tn.rm;
-				if (null == run) {
-					continue;
-				}
-				int index = this.postData.indexOf(run.tm);
-				if (index >= 0) {
-					if (null != run.tm.rm)
-						run.tm.rm.interrupt();
-					if (null != run.tm.rmt)
-						run.tm.rmt.interrupt();
-					if (null != run.tm) {
-						run.tm.rm = null;
-						run.tm.rmt = null;
-						run.tm = null;
-					}
-					run = null;
-				}
-			}
-			this.postData.clear();
-			this.allrm.clear();
-			this.nowRunningCount = 0;
-		}
-		return this;
-	}
-
-	protected void deal() {
-		synchronized (sync) {
-			while (this.nowRunningCount + 1 <= this.maxRunningCount && this.nowWaitCount >= 1) {
-				ThreadMessage tm = null;
-				for (ThreadMessage t : postData) {
-					if (t.state == ThreadMessage.stateType.waiting) {
-						tm = t;
-						break;
-					}
-				}
-				if (null != tm) {
-					tm.state = ThreadMessage.stateType.running;
-					tm.rmt = new RunnablemThread(tm);
-					tm.rmt.start();
-
-					this.nowRunningCount++;
-					this.nowWaitCount--;
-				}
+			now = this.list.linkedRoot;
+			while (null != (now = now.getNext())) {
+				Run runinterface = now.content();
+				list.add(runinterface);
 			}
 		}
+		return list;
+	}
+
+	public boolean exist(Run runinterface) {
+		return null != runinterface && 
+			(runinterface._message.linkedRoot == this.list);
 	}
 }
