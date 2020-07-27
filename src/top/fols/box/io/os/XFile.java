@@ -27,54 +27,73 @@ import top.fols.box.util.XDoubleLinked;
 
 public class XFile extends XAbstractRandomAccessOutputStream implements Closeable {
 
+
+	public static final char        UNIX_FILE_SEPARATOR_CHAR = '/';
+    public static final String      UNIX_FILE_SEPARATOR_STRING = String.valueOf(UNIX_FILE_SEPARATOR_CHAR);
+
+    public static final char        WINDOWS_FILE_SEPARATOR_CHAR = '\\';
+	public static final String      WINDOWS_FILE_SEPARATOR_STRING = String.valueOf(WINDOWS_FILE_SEPARATOR_CHAR);
+	
+    public static char getSystemFileSeparatorChar() {
+        return File.separatorChar;
+    }
+
 	public static final String FILE_EXTENSION_NAME_SEPARATOR = ".";
 
-	private String filePath;
-	private File file;
-	private XRandomAccessFileOutputStream raf;
 
-	public XFile(String file) {
-		this(new File(file));
+
+
+
+
+
+	private String path;
+
+	private File file0;
+	private XRandomAccessFileOutputStream raf0;
+
+	public XFile(CharSequence file) {
+		this.path = XFile.normalizePath(path, File.separatorChar);
 	}
-
+	public XFile(CharSequence parent, CharSequence subfilepath) {
+        this.path = XFile.normalizePath(parent, subfilepath, File.separatorChar);
+	}
+	
 	public XFile(File file) {
-		this.file = file;
-
-		try {
-			this.filePath = file.getCanonicalPath();
-		} catch (IOException e) {
-			this.filePath = XFile.getCanonicalPath(file.getAbsolutePath(), false, File.separatorChar);
-		}
+		this(file.getPath());
+	}
+	public XFile(File file, String subfilepath) {
+		this(file.getPath(), subfilepath);
 	}
 
 	private void openStream() throws IOException {
-		if (null == this.raf) {
-			this.raf = new XRandomAccessFileOutputStream(filePath);
+		if (null == this.raf0) {
+			this.raf0 = new XRandomAccessFileOutputStream(this.getFile());
 		}
 	}
 
+
 	public File getFile() {
-		return this.file;
+		return null == this.file0 ? this.file0 = new File(this.getPath()) : this.file0;
 	}
 
 	public String getExtensionName() {
-		return XFile.getExtensionName(filePath);
+		return XFile.getExtensionName(path);
 	}
 
 	public String getName() {
-		return XFile.getName(filePath);
+		return XFile.getName(path);
 	}
 
 	public String getNameNoExtension() {
-		return XFile.getNameNoExtension(filePath);
+		return XFile.getNameNoExtension(path);
 	}
 
-	public String getDir() {
-		return XFile.getDir(filePath);
+	public String getParent() {
+		return XFile.getParent(path);
 	}
 
 	public String getPath() {
-		return this.filePath;
+		return this.path;
 	}
 
 	public XFile append(String bytes) throws IOException {
@@ -108,40 +127,40 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 	@Override
 	public void write(int p1) throws FileNotFoundException, IOException {
 		this.openStream();
-		this.raf.write(p1);
+		this.raf0.write(p1);
 	}
 
 	@Override
 	public void write(byte[] bytes, int off, int len) throws IOException {
 		this.openStream();
-		this.raf.write(bytes, off, len);
+		this.raf0.write(bytes, off, len);
 	}
 
 	//
 	public XFile empty() throws IOException {
 		this.openStream();
-		this.raf.empty();
+		this.raf0.empty();
 		return this;
 	}
 
 	@Override
 	public long getIndex() {
-		return this.raf.getIndex();
+		return this.raf0.getIndex();
 	}
 
 	@Override
 	public void seekIndex(long index) throws IOException {
-		this.raf.seekIndex(index);
+		this.raf0.seekIndex(index);
 	}
 
 	@Override
 	public void setLength(long newLength) throws IOException {
-		this.raf.setLength(newLength);
+		this.raf0.setLength(newLength);
 	}
 
 	@Override
 	public long length() {
-		return this.file.length();
+		return this.getFile().length();
 	}
 
 	@Override
@@ -153,9 +172,9 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 	public void close() {
 		// TODO: Implement this method
 		try {
-			this.raf.close();
+			this.raf0.close();
 		} catch (IOException e) {
-			this.raf = null;
+			this.raf0 = null;
 		}
 	}
 
@@ -166,7 +185,7 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 	@Override
 	public String toString() throws RuntimeException {
 		try {
-			byte[] bs = XFile.getBytes(this.getFile());
+			byte[] bs = XFile.readFile(this.getFile());
 			if (null == bs) {
 				return null;
 			}
@@ -177,11 +196,11 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 	}
 
 	public String toString(String encoding) throws IOException {
-		return new String(XFile.getBytes(this.getFile()), encoding);
+		return new String(XFile.readFile(this.getFile()), encoding);
 	}
 
 	public String toString(Charset encoding) throws IOException {
-		return new String(XFile.getBytes(this.getFile()), encoding);
+		return new String(XFile.readFile(this.getFile()), encoding);
 	}
 
 	public static InputStream getRangeInputStream(File file, long off, long len) throws IOException {
@@ -196,25 +215,7 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		return new XOutputStreamFixedLength<XRandomAccessFileOutputStream>(out, len);
 	}
 
-	public static byte[] getBytes(File file) throws IOException, FileNotFoundException {
-		if (!file.exists()) {
-			throw new FileNotFoundException(file.toString());
-		}
-		InputStream in = new XRandomAccessFileInputStream(file);
-		byte[] b = XStream.InputStreamTool.toByteArray(in);
-		in.close();
-		return b;
-	}
-
-	public static byte[] getBytes(File file, long off, int len) throws IOException, FileNotFoundException {
-		if (!file.exists()) {
-			throw new FileNotFoundException(file.toString());
-		}
-		InputStream in = XFile.getRangeInputStream(file, off, len);
-		byte[] b = XStream.InputStreamTool.toByteArray(in);
-		in.close();
-		return b;
-	}
+	
 
 	public static byte[] readFile(File file) throws IOException {
 		long length = file.length();
@@ -290,23 +291,28 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 
 	@XAnnotations("1B = 8bit")
 	private static final XUnitConversion fileUnit1024 = new XUnitConversion(new LinkedHashMap<String, BigDecimal>() {
-            {
-                double base = 1024;
-                put("B", new BigDecimal(1));
-                put("KB", new BigDecimal(base).pow(1));
-                put("MB", new BigDecimal(base).pow(2));
-                put("GB", new BigDecimal(base).pow(3));
-                put("TB", new BigDecimal(base).pow(4));
-                put("PB", new BigDecimal(base).pow(5));
-                put("EB", new BigDecimal(base).pow(6));
-                put("ZB", new BigDecimal(base).pow(7));
-                put("YB", new BigDecimal(base).pow(8));
-                put("BB", new BigDecimal(base).pow(9));
-                put("NB", new BigDecimal(base).pow(10));
-                put("DB", new BigDecimal(base).pow(11));
-                put("CB", new BigDecimal(base).pow(12));
-            }
-        });
+		/**
+		*
+		*/
+		private static final long serialVersionUID = 1L;
+
+		{
+			double base = 1024;
+			put("B", new BigDecimal(1));
+			put("KB", new BigDecimal(base).pow(1));
+			put("MB", new BigDecimal(base).pow(2));
+			put("GB", new BigDecimal(base).pow(3));
+			put("TB", new BigDecimal(base).pow(4));
+			put("PB", new BigDecimal(base).pow(5));
+			put("EB", new BigDecimal(base).pow(6));
+			put("ZB", new BigDecimal(base).pow(7));
+			put("YB", new BigDecimal(base).pow(8));
+			put("BB", new BigDecimal(base).pow(9));
+			put("NB", new BigDecimal(base).pow(10));
+			put("DB", new BigDecimal(base).pow(11));
+			put("CB", new BigDecimal(base).pow(12));
+		}
+	});
 
 	public static String fileUnitFormat(String bytelength) {
 		return fileUnit1024.format(new XUnitConversion.Num(bytelength), 2);
@@ -324,185 +330,275 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		return fileUnit1024.format(new XUnitConversion.Num(bytelength), scale);
 	}
 
-	/*
-	 * will {/,\} cast to param@separator
-	 */
-	public static String formatPath(String path, char separator) {
-		StringBuilder fPath = new StringBuilder();
-		boolean lastSeparator = false;
-		int length = path.length();
-		for (int i = 0; i < length; i++) {
-			char ch = path.charAt(i);
-			if (ch == '\\' || ch == '/') {
-				ch = separator;
-			}
-			if (ch == separator) {
-				if (!lastSeparator) {
-					fPath.append(ch);
-					lastSeparator = true;
-				}
-			} else {
-				fPath.append(ch);
-				lastSeparator = false;
-			}
-		}
-		return fPath.toString();
-	}
+	
+	
 
-	/*
-	 * deal relative path ../ ./
-	 */
-	public static String dealRelativePath(String path, char separator) {
-		String separatorString = String.valueOf(separator);
-		int length = path.length();
-		if (length == 0) {
-			return separatorString;
-		}
+ /**
+     * Normalize all system separators and modify them to target separators
+     * 归一化所有系统分隔符修改为目标分隔符 并且将路径转换为标准路径
+     */
+    public static String normalizePathSeparator(String path, char separator) {
+        StringBuilder sb = new StringBuilder(path.length());
+        for (int i = 0;i < path.length();i++) {
+            char ch = path.charAt(i);
+            if (ch == WINDOWS_FILE_SEPARATOR_CHAR ||
+                ch == UNIX_FILE_SEPARATOR_CHAR) {
+                ch = separator;
+            }
+            sb.append(ch);
+        }
+        return normalizePath(sb, separator);
+    }
 
-		XDoubleLinked.VarLinked<String> p = new XDoubleLinked.VarLinked<>(null);
-		XDoubleLinked bottom = p;
-		XDoubleLinked top = p;
 
-		int lastIndex = 0;
-		for (int i = 0; i <= length; i++) {
-			if (i == length) {
-				if (i - lastIndex > 0) {
-					String t = path.substring(lastIndex, i);
 
-					XDoubleLinked.VarLinked<String> p1 = new XDoubleLinked.VarLinked<>(t);
-					top.addNext(top = p1);
-				}
-			} else {
-				char ch = path.charAt(i);
-				if (ch == separator) {
-					if (i - lastIndex > 0) {
-						String t = path.substring(lastIndex, i);
 
-						XDoubleLinked.VarLinked<String> p1 = new XDoubleLinked.VarLinked<>(t);
-						top.addNext(top = p1);
-					}
-					XDoubleLinked.VarLinked<String> p1 = new XDoubleLinked.VarLinked<>(separatorString);
-					top.addNext(top = p1);
+    /**
+     * Handling relative path jumps ../ or ./
+     * 处理相对路径跳转 ../ 或者 ./
+     */
+    public static String dealRelativePath(String path, char separator) {
+        String separatorString = String.valueOf(separator);
+        int length = path.length();
+        if (length == 0) {
+            return "";
+        }
 
-					lastIndex = i + 1;
-				}
-			}
-		}
+        XDoubleLinked.VarLinked<String> p = new XDoubleLinked.VarLinked<>(null);
+        XDoubleLinked bottom = p;
+        XDoubleLinked top = p;
 
-		// "/a/b/ff/3/3/7/" >> {/,a,b,ff,3,3,7}
+        int lastIndex = 0;
+        for (int i = 0; i < length; i++) {
+            char ch = path.charAt(i);
+            if (ch == separator) {
+                String t = path.substring(lastIndex, i);
+                XDoubleLinked.VarLinked<String> element;
 
-		/*
-		 * ../a/b/c ./a/b/c /../a/b/c /a/../c
-		 * 
-		 * /a/b/c/.. /a/b/c/. /a/b/c
-		 * 
-		 * ...
-		 * 
-		 */
-		XDoubleLinked now = bottom.getNext();
+                if (i > 0) {
+                    element = new XDoubleLinked.VarLinked<String>(t);
+                    top.addNext(element);
+                    top = element;
+                }
 
-		while (true) {
-			if (XDoubleLinked.VarLinked.equals(".", now)) {
-				// 处理 ./
+                element = new XDoubleLinked.VarLinked<String>(separatorString);
+                top.addNext(element);
+                top = element;
 
-				XDoubleLinked next = now.getNext();
-				// boolean isBottom = now.getLast() == bottom;
-				bottom.remove(now);
+                lastIndex = i + 1;
+            }
+        }
+        if (lastIndex != length) {
+            String t = path.substring(lastIndex, length);
+            XDoubleLinked.VarLinked<String> element = new XDoubleLinked.VarLinked<String>(t);
+            top.addNext(element);
+            top = element;
+        }
 
-				if (XDoubleLinked.VarLinked.equals(separatorString, next)) {
-					bottom.remove(next);
-				}
-			} else if (XDoubleLinked.VarLinked.equals("..", now)) {
-				// 处理 ../
-				XDoubleLinked last1 = now.getLast();
-				last1 = last1 == bottom ? null : last1;
-				XDoubleLinked last2 = null == last1 ? null : last1.getLast();
-				last2 = last2 == bottom ? null : last2;
-				if (null != last1) {
-					bottom.remove(last1);
-				}
-				if (null != last2) {
-					bottom.remove(last2);
-				}
 
-				XDoubleLinked next = now.getNext();
-				// boolean isBottom = now.getLast() == bottom;
-				bottom.remove(now);
+        // "/a/b/ff/3/3/7/" >> {/,a,b,ff,3,3,7}
 
-				if (XDoubleLinked.VarLinked.equals(separatorString, next)) {
-					bottom.remove(next);
-				}
-			}
+        /*
+         * ../a/b/c ./a/b/c /../a/b/c /a/../c
+         * 
+         * /a/b/c/.. /a/b/c/. /a/b/c
+         * 
+         * ...
+         * 
+         */
+        XDoubleLinked now = bottom.getNext();
+        while (true) {
+            if (XDoubleLinked.VarLinked.equals(".", now)) {
+                // 处理 ./
 
-			if (null == (now = now.getNext())) {
-				break;
-			}
-		}
+                XDoubleLinked next = now.getNext();
+                XDoubleLinked last = now.getLast();
+                bottom.remove(now);
+                now = last;
 
-		XDoubleLinked absbottom = bottom.getNext();
-		top.remove(bottom);
+                if (XDoubleLinked.VarLinked.equals(separatorString, next)) {
+                    bottom.remove(next);
+                }
+            } else if (XDoubleLinked.VarLinked.equals("..", now)) {
+                // 处理 ../
+                XDoubleLinked last1 = now.getLast();
+                last1 = last1 == bottom ? null : last1;
+                XDoubleLinked last2 = null == last1 ? null : last1.getLast();
+                last2 = last2 == bottom ? null : last2;
+                if (null != last1) {
+                    bottom.remove(last1);
+                }
+                if (null != last2) {
+                    bottom.remove(last2);
+                }
 
-		if (null == absbottom) {
-			return "";
-		} else {
-			StringBuilder right = new StringBuilder();
-			XDoubleLinked x = absbottom;
-			do {
-				right.append(x);
-			} while (null != (x = x.getNext()));
-			return right.toString();
-		}
-	}
+                XDoubleLinked next = now.getNext();
+                XDoubleLinked last = now.getLast();
+                bottom.remove(now);
+                now = last;
 
-	public static String getCanonicalPath(String path) {
-		return getCanonicalPath(path, false, File.separatorChar);
-	}
+                if (XDoubleLinked.VarLinked.equals(separatorString, next)) {
+                    bottom.remove(next);
+                }
+            }
 
-	public static String getCanonicalPath(String path, char separator) {
-		return getCanonicalPath(path, false, separator);
-	}
+            if (!(null != now && null != (now = now.getNext()))) {
+                break;
+            }
+        }
 
-	/**
-	 * 
-	 * 
-	 * @param path
-	 * @param noFormatPath if ture noFormatPath, flase format @param path file
-	 *                     separator to @param separator
-	 * @param separator
-	 * @return
-	 */
-	public static String getCanonicalPath(String path, boolean noFormatPath, char separator) {
-		String separatorString = String.valueOf(separator);
-		String dealPath = !noFormatPath ? formatPath(path, separator) : path;
-		String newPath = dealRelativePath(dealPath, separator);
-		if (!newPath.startsWith(separatorString)) {
-			return new StringBuilder(separatorString).append(newPath).toString();
-		} else {
-			return newPath;
-		}
-	}
+        XDoubleLinked absbottom = bottom.getNext();
+        top.remove(bottom);
 
-	/*
-	 * no deal dir relative path
-	 */
-	public static String getCanonicalPath(String dir, String path) {
-		return getCanonicalPath(dir, path, false, File.separatorChar);
-	}
+        if (null == absbottom) {
+            return "";
+        } else {
+            StringBuilder right = new StringBuilder();
+            XDoubleLinked x = absbottom;
+            do {
+                right.append(x);
+            } while (null != (x = x.getNext()));
+            return right.toString();
+        }
+    }
 
-	public static String getCanonicalPath(String dir, String path, char separator) {
-		return getCanonicalPath(dir, path, false, separator);
-	}
 
-	public static String getCanonicalPath(String dir, String path, boolean noFormatPath, char separator) {
-		StringBuilder newPath = new StringBuilder();
-		newPath.append(getCanonicalPath(dir, noFormatPath, separator));
-		newPath.append(getCanonicalPath(path, noFormatPath, separator));
-		if (!noFormatPath) {
-			return formatPath(newPath.toString(), separator);
-		} else {
-			return newPath.toString();
-		}
-	}
+
+    /**
+     * Convert path to standard path
+     * 将路径转换为标准路径
+     */
+    public static String normalizePath(CharSequence path, char separatorChar) {
+        StringBuilder ppath = new StringBuilder(path.length());
+
+        int plen = path.length();
+        if (plen > 0) {
+            Character plast = null;
+            for (int i = 0;i < plen;i++) {
+                char ch = path.charAt(i);
+                if (ch == separatorChar) {
+                    if (null != plast && plast.charValue() == separatorChar) {
+                        continue;
+                    }
+                }
+                ppath.append(plast = ch);
+            }
+            if (plast == separatorChar) {
+                ppath.setLength(ppath.length() - 1);
+            }
+        }
+        return ppath.toString();
+    }
+    /**
+     * Convert path to standard path
+     * 将路径转换为标准路径
+     */
+    public static String normalizePath(CharSequence parent, CharSequence subfilepath, char separatorChar) {
+        StringBuilder ppath = new StringBuilder(parent.length());
+
+        int plen = parent.length();
+        if (plen > 0) {
+            Character plast = null;
+            for (int i = 0;i < plen;i++) {
+                char ch = parent.charAt(i);
+                if (ch == separatorChar) {
+                    if (null != plast && plast.charValue() == separatorChar) {
+                        continue;
+                    }
+                }
+                ppath.append(plast = ch);
+            }
+            if (plast == separatorChar) {
+                ppath.setLength(ppath.length() - 1);
+            }
+        }
+
+
+        int sstart = 0;
+        int slen = subfilepath.length();
+        while (sstart < slen && subfilepath.charAt(sstart) == separatorChar) {
+            sstart++;
+        }
+        if (slen - sstart > 0) {
+            ppath.append(separatorChar);
+
+            char slast = subfilepath.charAt(sstart);
+            for (int i = sstart;i < slen;i++) {
+                char ch = subfilepath.charAt(i);
+                if (ch == separatorChar) {
+                    if (slast == separatorChar) {
+                        continue;
+                    }
+                }
+                ppath.append(slast = ch);
+            }
+        }
+
+        return ppath.toString();
+    }
+
+
+    /**
+     * Nothing to do with the file system
+     * 与文件系统无关
+     */
+    public static String getCanonicalPath(String path) {
+        return getCanonicalPath(path, false, File.separatorChar);
+    }
+
+    public static String getCanonicalPath(String path, char separator) {
+        return getCanonicalPath(path, false, separator);
+    }
+
+    /**
+     * 
+     * 
+     * @param path
+     * @param noFormatPath if ture noFormatPath, flase format @param path file
+     *                     separator to @param separator
+     * @param separator
+     * @return
+     */
+    public static String getCanonicalPath(String path, boolean noFormatPath, char separator) {
+        String separatorString = String.valueOf(separator);
+        String dealPath = !noFormatPath ? normalizePathSeparator(path, separator) : path;
+        String newPath = dealRelativePath(dealPath, separator);
+        if (!newPath.startsWith(separatorString)) {
+            return new StringBuilder(separatorString).append(newPath).toString();
+        } else {
+            return newPath;
+        }
+    }
+
+    public static String getCanonicalPath(String dir, String path) {
+        return getCanonicalPath(dir, path, false, File.separatorChar);
+    }
+
+    public static String getCanonicalPath(String dir, String path, char separator) {
+        return getCanonicalPath(dir, path, false, separator);
+    }
+
+    public static String getCanonicalPath(String dir, String path, boolean noFormatPath, char separator) {
+        StringBuilder newPath = new StringBuilder();
+        newPath.append(getCanonicalPath(dir, noFormatPath, separator));
+        newPath.append(getCanonicalPath(path, noFormatPath, separator));
+        if (!noFormatPath) {
+            return normalizePathSeparator(newPath.toString(), separator);
+        } else {
+            return newPath.toString();
+        }
+    }
+    
+
+
+
+
+
+
+
+
+
+
 
 	public static String getRunningDir() {
 		return getCanonicalPath(new File(".").getAbsolutePath());
@@ -533,14 +629,14 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 	/*
 	 * 获得 文件目录
 	 */
-	public static String getDir(String filePath) {
-		return getDir(filePath, File.separator);
+	public static String getParent(String filePath) {
+		return getParent(filePath, File.separator);
 	}
 
 	/*
 	 * 获得 文件目录
 	 */
-	public static String getDir(String filePath, String pathSeparator) {
+	public static String getParent(String filePath, String pathSeparator) {
 		if ((null != filePath)) {
 			int dot = filePath.lastIndexOf(pathSeparator);
 			if (dot > -1) {
@@ -606,6 +702,16 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		}
 		return null;
 	}
+
+
+
+
+
+
+
+
+
+
 
 	public static File setFilePermission(File file, Boolean readable, Boolean writeable, Boolean executeable,
                                          Boolean ownerOnly) {
@@ -767,6 +873,17 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		return b;
 	}
 
+
+
+
+
+
+
+
+
+
+	
+
 	public static long indexOf(File file, byte b, long startIndex, long indexRange) throws IOException {
 		XFileByteAt fba = new XFileByteAt(file);
 		return XFileByteAt.indexOf(fba, b, startIndex, indexRange);
@@ -802,12 +919,12 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 	 * Get Dir File List 获取文件夹文件列表 Parameter:filePath 路径, recursion 递增搜索, adddir
 	 * 列表是否添加文件夹
 	 */
-	public static List<String> getFileList(String filePath, boolean recursion, boolean adddir) {
+	public static List<String> listRelativeFilePath(String filePath, boolean recursion, boolean adddir) {
 		List<String> List = new ArrayList<String>();
-		return getFilesList(List, new File(filePath), recursion, adddir, new StringBuilder());
+		return listRelativeFilePath(List, new File(filePath), recursion, adddir, new StringBuilder());
 	}
 
-	private static List<String> getFilesList(List<String> list, File filePath, boolean recursion, boolean adddir,
+	private static List<String> listRelativeFilePath(List<String> list, File filePath, boolean recursion, boolean adddir,
                                              StringBuilder baseDir) {
 		File[] files = filePath.listFiles();
 		if (null != files) {
@@ -817,7 +934,7 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 				String name = file.getName();
 				if (file.isDirectory()) {
 					if (recursion) {
-						getFilesList(list, file, true, adddir,
+						listRelativeFilePath(list, file, true, adddir,
                             new StringBuilder(baseDir).append(name).append(File.separator));
 					}
 					if (adddir) {
@@ -831,17 +948,22 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		return list;
 	}
 
+
+
+
+
+
 	public static List<String> listFilesSort(File filePath, boolean adddir) {
 		return listFilesSort(filePath.listFiles(), adddir, java.util.Locale.CHINA);
 	}
-
 	public static List<String> listFilesSort(File[] files, boolean adddir, Locale locale) {
 		List<String> d = new ArrayList<String>();
 		List<String> f = new ArrayList<String>();
 		if (null != files) {
 			for (File file : files) {
-				if (null == file)
+				if (null == file) {
 					continue;
+				}
 				String name = file.getName();
 				if (file.isDirectory()) {
 					if (adddir) {

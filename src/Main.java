@@ -238,7 +238,7 @@ public class Main extends k {
 
 		private static File getNewExtensionNamePath(String filepath, String newExtensionName) {
 			File orgFile = new File(filepath);
-			File file = new File(XFile.getDir(orgFile.getAbsolutePath()) + XFile.getNameNoExtension(filepath) + "."
+			File file = new File(XFile.getParent(orgFile.getAbsolutePath()) + XFile.getNameNoExtension(filepath) + "."
 					+ newExtensionName);
 			return file;
 		}
