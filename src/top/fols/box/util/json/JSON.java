@@ -101,45 +101,7 @@ class JSON {
 
 
 
-	public static String format(String jsonStr) {
-        int level = 0;
-        StringBuffer jsonForMatStr = new StringBuffer();
-		for (int i=0;i < jsonStr.length();i++) {
-			char c = jsonStr.charAt(i);
-			if (level > 0 && '\n' == jsonForMatStr.charAt(jsonForMatStr.length() - 1)) {
-				jsonForMatStr.append(formatLevelStr0(level));
-			}
-			switch (c) {
-				case '{':
-				case '[':
-					jsonForMatStr.append(c + "\n");
-					level++;
-					break;
-				case ',':
-					jsonForMatStr.append(c + "\n");
-					break;
-				case '}':
-				case ']':
-					jsonForMatStr.append("\n");
-					level--;
-					jsonForMatStr.append(formatLevelStr0(level));
-					jsonForMatStr.append(c);
-					break;
-				default:
-					jsonForMatStr.append(c);
-					break;
-			}
-		}
-		return jsonForMatStr.toString();
-	}
-
-	private static String formatLevelStr0(int level) {
-		StringBuffer levelStr = new StringBuffer();
-		for (int levelI = 0;levelI < level ; levelI++) {
-			levelStr.append("\t");
-		}
-        return levelStr.toString();
-    }
+	
 
 
 

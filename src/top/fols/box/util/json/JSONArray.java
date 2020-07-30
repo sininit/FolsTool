@@ -594,7 +594,7 @@ public class JSONArray {
     }
 	
 	public String toFormatString(){
-		return JSON.format(toString());
+		return this.toString(4);
 	}
 
     /**
