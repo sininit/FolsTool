@@ -51,7 +51,7 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 	private File file0;
 	private XRandomAccessFileOutputStream raf0;
 
-	public XFile(CharSequence file) {
+	public XFile(CharSequence path) {
 		this.path = XFile.normalizePath(path, File.separatorChar);
 	}
 	public XFile(CharSequence parent, CharSequence subfilepath) {
