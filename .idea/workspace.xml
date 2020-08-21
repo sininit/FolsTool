@@ -1,14 +1,495 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:folsTool" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="bb100163-b7ba-4468-947d-05f834c493a7" name="Default" comment="" />
-    <ignored path="$PROJECT_DIR$/bin/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
+    <list default="true" id="bb100163-b7ba-4468-947d-05f834c493a7" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Compiler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$AA.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$BB.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$QmcDecode$MaskCacl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$QmcDecode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$TestA.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$TestB.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$TestC.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$Vx.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$XBase64Simple.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$XFileThreadCopy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$v1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$v2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/k.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/annotation/XAnnotations.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/XStream$InputStreamTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/XStream$ObjectTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/XStream$ReaderTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/XStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/abstracts/XAbstractRandomAccessInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/abstracts/XAbstractRandomAccessOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XByteArrayInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XByteArrayOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XCharArrayReader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XCharArrayWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XInputStreamFixedLength.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XInputStreamLine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$11.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$12.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$13.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$14.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$15.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$16.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$17.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$18.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$19.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$20.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$21.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$22.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$23.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$24.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$25.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$26.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$27.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$28.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$29.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$30.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$31.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$32.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$33.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$34.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$35.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$36.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$37.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$38.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$39.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$40.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$41.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$42.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$43.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$44.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$ObjectReader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams$ObjectWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XObjectStreams.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XOutputStreamFixedLength$OutOfLengthException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XOutputStreamFixedLength.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XOutputStreamLine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XReaderFixedLength.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XReaderLine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XStringReader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XStringWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XWriterFixedLength.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/base/XWriterLine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/digest/XChecksumInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/digest/XChecksumOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/digest/XDigestInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/digest/XDigestOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfaceFixedLengthStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfaceGetOriginStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfaceLineReaderStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfacePrivateBuffOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfacePrivateByteArrayBuffSearchOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfacePrivateCharArrayBuffSearchOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfacePrivateFixedStreamIndexBigOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfacePrivateFixedStreamIndexOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfaceReleaseBufferable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/interfaces/XInterfaceSequenceBigByteIO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/os/XFile$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/os/XFile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/os/XFileByteAt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/os/XFileOption.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/os/XRandomAccessFileInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/os/XRandomAccessFileOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/os/XRandomAccessUnicodeFileReader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/io/os/XRandomAccessUnicodeFileWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XBits.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XBitsLittleEndian.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XClass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XSequences.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XString.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat$CharCheck$CharAnnotation$STRF.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat$CharCheck$CharAnnotation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat$CharCheck.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat$Util.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat$VarManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XStringFormat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XUnitConversion$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XUnitConversion$Num.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XUnitConversion$Sort.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/XUnitConversion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/abstracts/XAbstractSequence.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XBooleanSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XByteSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XCharSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XDoubleSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XFloatSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XGenericSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XIntSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XLongSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XObjectSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XShortSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/impl/sequences/XStringSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectCache$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectCache$ClassesList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectCache$ConstructorList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectCache$FieldList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectCache$MethodList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectCache.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectCacheFast$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectCacheFast.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectMatcher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectPeakMatcher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectPoint$StaticOption.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/XReflectPoint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/optdeclared/XReflectAccessible.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/optdeclared/XReflectAccessibleInherit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/lang/reflect/safety/XReflect.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XCookie.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XSocket$MySimpleTrustManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XSocket.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURL$Cache.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURL.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURLBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURLConnectionMessageHeader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURLConnectionTool$GetRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURLConnectionTool$HttpURLConnectionUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURLConnectionTool$PostRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURLConnectionTool$URLConnectionUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURLConnectionTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/net/XURLParam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/statics/XStaticBaseType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/statics/XStaticFixedValue$FileOptMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/statics/XStaticFixedValue.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/statics/XStaticSystem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/time/XTimeTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/time/XTiming.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XArray.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XArrayPieceIndexManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XArrays$CharSequenceUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XArrays.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XAvgergeCycleSpeedCalc.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XBlurryKeyMap$KeyFormatProcess$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XBlurryKeyMap$KeyFormatProcess$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XBlurryKeyMap$KeyFormatProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XBlurryKeyMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XByteEncode$Unicode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XByteEncode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XByteEncodeDetect$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XByteEncodeDetect$BytesEncodingDetect.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XByteEncodeDetect$EncodingType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XByteEncodeDetect.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XByteEncodeDetectInit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XChecksum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XCollections.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XCycleSpeedLimiter$SpeedLimiterInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XCycleSpeedLimiter$SpeedLimiterOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XCycleSpeedLimiter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XDoubleLinked$VarLinked.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XDoubleLinked.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XEscape.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XExceptionTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XFixelArrayFill.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XKeyMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XMessageDigest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XObjects$AcceptProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XObjects$CastProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XObjects$ComparatorProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XObjects.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XRandom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/XStringJoiner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/encode/XBase64Encoder$DecInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/encode/XBase64Encoder$Decoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/encode/XBase64Encoder$EncOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/encode/XBase64Encoder$Encoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/encode/XBase64Encoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/encode/XHexEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/encode/XURLEncoder$URLCodeMatcher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/encode/XURLEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/encode/XUnicodeEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/interfaces/XInterfaceGetOriginMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/interfaces/XInterfaceInterruptable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/json/JSON.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/json/JSONArray.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/json/JSONException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/json/JSONObject$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/json/JSONObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/json/JSONStringer$Scope.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/json/JSONStringer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/json/JSONTokener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/thread/XFixedThreadPool$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/thread/XFixedThreadPool$DealThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/thread/XFixedThreadPool$Run.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/thread/XFixedThreadPool$RunInterfaceMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/thread/XFixedThreadPool$SinglyLinked.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/thread/XFixedThreadPool$SubThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/top/fols/box/util/thread/XFixedThreadPool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/annotation/XAnnotations.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/XStream$InputStreamTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/XStream$ObjectTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/XStream$ReaderTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/XStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/abstracts/XAbstractRandomAccessInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/abstracts/XAbstractRandomAccessOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XByteArrayInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XByteArrayOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XCharArrayReader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XCharArrayWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XInputStreamFixedLength.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XInputStreamLine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$11.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$12.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$13.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$14.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$15.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$16.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$17.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$18.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$19.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$20.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$21.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$22.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$23.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$24.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$25.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$26.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$27.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$28.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$29.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$30.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$31.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$32.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$33.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$34.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$35.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$36.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$37.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$38.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$39.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$40.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$41.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$42.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$43.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$44.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$ObjectReader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$ObjectWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XOutputStreamFixedLength$OutOfLengthException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XOutputStreamFixedLength.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XOutputStreamLine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XReaderFixedLength.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XReaderLine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XStringReader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XStringWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XWriterFixedLength.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XWriterLine.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/digest/XChecksumInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/digest/XChecksumOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/digest/XDigestInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/digest/XDigestOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfaceFixedLengthStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfaceGetOriginStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfaceLineReaderStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfacePrivateBuffOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfacePrivateByteArrayBuffSearchOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfacePrivateCharArrayBuffSearchOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfacePrivateFixedStreamIndexBigOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfacePrivateFixedStreamIndexOperat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfaceReleaseBufferable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/interfaces/XInterfaceSequenceBigByteIO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XFile$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XFile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XFileByteAt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XFileOption.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XRandomAccessFileInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XRandomAccessFileOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XRandomAccessUnicodeFileReader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XRandomAccessUnicodeFileWriter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XBits.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XBitsLittleEndian.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XClass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XSequences.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XString.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat$CharCheck$CharAnnotation$STRF.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat$CharCheck$CharAnnotation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat$CharCheck.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat$Util.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat$VarManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XStringFormat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XUnitConversion$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XUnitConversion$Num.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XUnitConversion$Sort.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XUnitConversion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/abstracts/XAbstractSequence.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XBooleanSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XByteSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XCharSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XDoubleSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XFloatSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XGenericSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XIntSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XLongSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XObjectSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XShortSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/impl/sequences/XStringSequenceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectCache$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectCache$ClassesList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectCache$ConstructorList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectCache$FieldList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectCache$MethodList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectCache.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectCacheFast$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectCacheFast.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectMatcher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectPeakMatcher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectPoint$StaticOption.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/XReflectPoint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/optdeclared/XReflectAccessible.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/optdeclared/XReflectAccessibleInherit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/reflect/safety/XReflect.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XCookie.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XSocket$MySimpleTrustManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XSocket.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURL$Cache.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURL.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURLBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURLConnectionMessageHeader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURLConnectionTool$GetRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURLConnectionTool$HttpURLConnectionUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURLConnectionTool$PostRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURLConnectionTool$URLConnectionUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURLConnectionTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/net/XURLParam.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/statics/XStaticBaseType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/statics/XStaticFixedValue$FileOptMode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/statics/XStaticFixedValue.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/statics/XStaticSystem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/time/XTimeTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/time/XTiming.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XArray.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XArrayPieceIndexManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XArrays$CharSequenceUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XArrays.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XAvgergeCycleSpeedCalc.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XBlurryKeyMap$KeyFormatProcess$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XBlurryKeyMap$KeyFormatProcess$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XBlurryKeyMap$KeyFormatProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XBlurryKeyMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncode$Unicode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncodeDetect$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncodeDetect$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncodeDetect$BytesEncodingDetect.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncodeDetect$EncodingType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncodeDetect.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncodeDetectInit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XChecksum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XCollections.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XCycleSpeedLimiter$SpeedLimiterInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XCycleSpeedLimiter$SpeedLimiterOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XCycleSpeedLimiter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XDoubleLinked$VarLinked.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XDoubleLinked.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XEscape.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XExceptionTool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XFixelArrayFill.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XKeyMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XMessageDigest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XObjects$AcceptProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XObjects$CastProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XObjects$ComparatorProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XObjects.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XRandom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XStringJoiner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XBase64Encoder$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XBase64Encoder$DecInputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XBase64Encoder$Decoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XBase64Encoder$EncOutputStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XBase64Encoder$Encoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XBase64Encoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XHexEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XURLEncoder$URLCodeMatcher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XURLEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/encode/XUnicodeEncoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/interfaces/XInterfaceGetOriginMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/interfaces/XInterfaceInterruptable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/json/JSON.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/json/JSONArray.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/json/JSONException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/json/JSONObject$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/json/JSONObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/json/JSONStringer$Scope.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/json/JSONStringer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/json/JSONTokener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/thread/XFixedThreadPool$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/thread/XFixedThreadPool$DealThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/thread/XFixedThreadPool$Run.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/thread/XFixedThreadPool$RunInterfaceMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/thread/XFixedThreadPool$SinglyLinked.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/thread/XFixedThreadPool$SubThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/thread/XFixedThreadPool.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/top.fols.box.jar" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/_project_name_$Main.ic" NAME="Main Coverage Results" MODIFIED="1524119631026" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
@@ -27,99 +508,8 @@
     <expand />
     <select />
   </component>
-  <component name="FavoritesManager">
-    <favorites_list name="$project_name$" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="49" column="9" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XNsReaderRow.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/ns/XNsReaderRow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="177" column="12" selection-start-line="177" selection-start-column="12" selection-end-line="177" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FtpClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ftp9/ftp9/impl/FtpClient.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="29697">
-              <caret line="1632" column="11" selection-start-line="1632" selection-start-column="11" selection-end-line="1632" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XURLConnectionTool.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/top/fols/box/net/XURLConnectionTool.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="68" column="35" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XIOLimiterPiece.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/XIOLimiterPiece.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2793">
-              <caret line="168" column="5" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XReflect.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/top/fols/box/lang/reflect/XReflect.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5415">
-              <caret line="309" column="9" selection-start-line="309" selection-start-column="9" selection-end-line="309" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XFileTool.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/os/XFileTool.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="40" column="16" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractCharArrayWriterUtils.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractCharArrayReaderUtils.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractInputStreamRow.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/lang/reflect/XReflectCacheManager.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractStreamFixedLength.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractByteArrayOutputStreamUtils.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractByteArrayInputStreamUtils.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractReaderRow.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/statics/XStaticBaseType.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/lang/XClassLoader.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/lang/reflect/XReflect.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/io/os/XFileTool.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/io/base/XIOLimiterPiece.java" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
-        <option value="$PROJECT_DIR$/src/top/fols/box/net/XURLConnectionTool.java" />
-      </list>
-    </option>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -133,89 +523,13 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="MavenProjectNavigator">
-    <treeState>
-      <expand />
-      <select />
-    </treeState>
-  </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="310" />
-    <option name="y" value="7" />
-    <option name="width" value="1074" />
-    <option name="height" value="818" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="$project_name$" type="b2602c69:ProjectViewProjectNode" />
-              <item name="folsTool" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="$project_name$" type="b2602c69:ProjectViewProjectNode" />
-              <item name="folsTool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="$project_name$" type="b2602c69:ProjectViewProjectNode" />
-              <item name="folsTool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="box" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="$project_name$" type="b2602c69:ProjectViewProjectNode" />
-              <item name="folsTool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="box" type="462c0819:PsiDirectoryNode" />
-              <item name="io" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="$project_name$" type="b2602c69:ProjectViewProjectNode" />
-              <item name="folsTool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="box" type="462c0819:PsiDirectoryNode" />
-              <item name="io" type="462c0819:PsiDirectoryNode" />
-              <item name="base" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="$project_name$" type="b2602c69:ProjectViewProjectNode" />
-              <item name="folsTool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="box" type="462c0819:PsiDirectoryNode" />
-              <item name="io" type="462c0819:PsiDirectoryNode" />
-              <item name="base" type="462c0819:PsiDirectoryNode" />
-              <item name="ns" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="$project_name$" type="b2602c69:ProjectViewProjectNode" />
-              <item name="folsTool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="box" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="$project_name$" type="b2602c69:ProjectViewProjectNode" />
-              <item name="folsTool" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Main.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectId" id="1gPzldZcKmAoGR9gKfyFc56ahdE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
@@ -224,77 +538,51 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="$project_name$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.last.edited" value="项目" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
     <property name="settings.editor.splitter.proportion" value="0.24366471" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="$project_name$" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
-    <configuration default="true" type="TestNG" factoryName="TestNG">
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
+    <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
       <properties />
       <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
+        <item itemvalue="应用程序.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -316,319 +604,73 @@
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="2309000" />
   </component>
-  <component name="TodoView" selected-index="2">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-      <is-preview-enabled value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="310" y="7" width="1074" height="818" extended-state="0" />
-    <layout>
-      <window_info anchor="right" id="Palette" order="5" />
-      <window_info anchor="bottom" id="TODO" order="11" sideWeight="0.49713466" weight="0.57930106" />
-      <window_info active="true" anchor="bottom" id="Messages" order="4" sideWeight="0.49013805" visible="true" weight="0.35714287" />
-      <window_info anchor="right" id="Palette&#9;" order="1" />
-      <window_info id="Image Layers" order="4" />
-      <window_info anchor="right" id="Capture Analysis" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50986195" side_tool="true" visible="true" weight="0.35714287" />
-      <window_info anchor="right" id="Maven Projects" order="4" weight="0.3295129" />
-      <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="3" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="7" sideWeight="0.48710603" weight="0.3373656" />
-      <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.49641833" weight="0.3293011" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Designer" order="0" />
-      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.43286574" visible="true" weight="0.35897437" />
-      <window_info anchor="right" id="Database" order="3" weight="0.3295129" />
-      <window_info id="Structure" order="6" sideWeight="0.56782943" side_tool="true" weight="0.24930556" />
-      <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
-      <window_info id="UI Designer" order="1" />
-      <window_info anchor="right" id="Theme Preview" order="2" />
-      <window_info id="Favorites" order="3" sideWeight="0.56713426" side_tool="true" weight="0.25716332" />
-      <window_info anchor="bottom" id="Debug" order="8" sideWeight="0.49928367" weight="0.39919356" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Message" order="5" />
-      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="6" />
-    </layout>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="antWorkspaceConfiguration">
-    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
-    <option name="FILTER_TARGETS" value="false" />
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="use idea jdk8" />
+    <option name="LAST_COMMIT_MESSAGE" value="use idea jdk8" />
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="49" column="9" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ftp9/ftp9/impl/FtpClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31008">
-          <caret line="1632" column="11" selection-start-line="1632" selection-start-column="11" selection-end-line="1632" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/XIOLimiterPiece.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2793">
-          <caret line="168" column="5" lean-forward="true" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/lang/reflect/XReflect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5415">
-          <caret line="309" column="9" lean-forward="true" selection-start-line="309" selection-start-column="9" selection-end-line="309" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/os/XFileTool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="40" column="16" lean-forward="true" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/net/XURLConnectionTool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8854">
-          <caret line="466" column="53" selection-start-line="466" selection-start-column="53" selection-end-line="466" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractCharArrayWriterUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/io/RandomAccessFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="258" selection-start-line="258" selection-end-line="258" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/statics/XStaticBaseType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="162" column="5" lean-forward="true" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractReaderRow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractByteArrayOutputStreamUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractStreamFixedLength.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/lang/reflect/XReflectCacheManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="258" column="89" selection-start-line="258" selection-start-column="89" selection-end-line="258" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractByteArrayInputStreamUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractInputStreamRow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="19" column="37" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/abstracts/XAbstractCharArrayReaderUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ftp9/ftp9/impl/FtpClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29697">
-          <caret line="1632" column="11" selection-start-line="1632" selection-start-column="11" selection-end-line="1632" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/lang/reflect/XReflect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5415">
-          <caret line="309" column="9" selection-start-line="309" selection-start-column="9" selection-end-line="309" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/lang/XClassLoader.java" />
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/os/XFileTool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="40" column="16" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/XIOLimiterPiece.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2793">
-          <caret line="168" column="5" selection-start-line="168" selection-start-column="5" selection-end-line="168" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/ns/XNsByteArrayInputStreamUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="49" column="9" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/io/base/ns/XNsReaderRow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="177" column="12" selection-start-line="177" selection-start-column="12" selection-end-line="177" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/top/fols/box/net/XURLConnectionTool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="68" column="35" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>9</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>$project_name$</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ScopeChooserConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
+  <component name="WindowStateProjectService">
+    <state x="223" y="67" width="1088" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598033207496">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="223" y="67" width="1088" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1598033207496" />
+    <state x="548" y="117" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1598032662873">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="548" y="117" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1598032662873" />
+    <state x="138" y="344" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1598033206319">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="138" y="344" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1598033206319" />
+    <state x="227" y="262" width="1134" height="299" key="#配置路径变量" timestamp="1598031279501">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="227" y="262" width="1134" height="299" key="#配置路径变量/0.0.1536.824@0.0.1536.824" timestamp="1598031279501" />
+    <state x="151" y="54" width="1038" height="744" key="#项目结构" timestamp="1598033396024">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="151" y="54" width="1038" height="744" key="#项目结构/0.0.1536.824@0.0.1536.824" timestamp="1598033396024" />
+    <state x="520" y="265" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1598031745336">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="520" y="265" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1598031745336" />
+    <state x="548" y="167" width="438" height="486" key="FileChooserDialogImpl" timestamp="1598033394997">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="548" y="167" width="438" height="486" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1598033394997" />
+    <state width="1493" height="216" key="GridCell.Tab.0.bottom" timestamp="1598033502893">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="216" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598033502893" />
+    <state width="1493" height="216" key="GridCell.Tab.0.center" timestamp="1598033502893">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="216" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598033502893" />
+    <state width="1493" height="216" key="GridCell.Tab.0.left" timestamp="1598033502893">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="216" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598033502893" />
+    <state width="1493" height="216" key="GridCell.Tab.0.right" timestamp="1598033502893">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="216" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598033502893" />
+    <state x="270" y="57" key="SettingsEditor" timestamp="1598032177657">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1598032177657" />
   </component>
 </project>

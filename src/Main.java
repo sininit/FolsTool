@@ -507,6 +507,10 @@ public class Main extends k {
 
 	public static void main(String[] args) throws Throwable {
 
+
+
+
+
 		// System.out.println(XString.join(XReflectAccessibleInherit.getMethodsAll(a.class),
 		// "\n"));
 
