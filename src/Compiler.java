@@ -114,6 +114,7 @@ public class Compiler {
         fos.close();
         command = null;
         Compiler.runBat(bat);
+        bat.delete();
 
         // jar cvf lib.jar -C classes/ .
         String wrapJarName = String.format(jarName);
@@ -125,6 +126,7 @@ public class Compiler {
         fos.close();
         command = null;
         Compiler.runBat(bat);
+        bat.delete();
     }
 
     public static void runBat(File bat) throws IOException {

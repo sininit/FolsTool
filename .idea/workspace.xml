@@ -20,28 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb100163-b7ba-4468-947d-05f834c493a7" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$AA.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$BB.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$QmcDecode$MaskCacl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$QmcDecode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$TestA.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$TestB.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$TestC.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$Vx.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$XBase64Simple.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$XFileThreadCopy.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$v1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main$v2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/k.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/comilperSrc.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reference.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rely.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapJar.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/Compiler.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/Compiler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,22 +194,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="167" width="438" height="486" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1598033394997" />
-    <state width="1493" height="216" key="GridCell.Tab.0.bottom" timestamp="1598033502893">
+    <state width="1493" height="216" key="GridCell.Tab.0.bottom" timestamp="1598034730925">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="216" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598033502893" />
-    <state width="1493" height="216" key="GridCell.Tab.0.center" timestamp="1598033502893">
+    <state width="1493" height="216" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598034730925" />
+    <state width="1493" height="216" key="GridCell.Tab.0.center" timestamp="1598034730925">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="216" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598033502893" />
-    <state width="1493" height="216" key="GridCell.Tab.0.left" timestamp="1598033502893">
+    <state width="1493" height="216" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598034730925" />
+    <state width="1493" height="216" key="GridCell.Tab.0.left" timestamp="1598034730925">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="216" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598033502893" />
-    <state width="1493" height="216" key="GridCell.Tab.0.right" timestamp="1598033502893">
+    <state width="1493" height="216" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598034730925" />
+    <state width="1493" height="216" key="GridCell.Tab.0.right" timestamp="1598034730925">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="216" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598033502893" />
+    <state width="1493" height="216" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598034730925" />
+    <state x="494" y="114" key="RollbackChangesDialog" timestamp="1598034089072">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="494" y="114" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1598034089072" />
     <state x="270" y="57" key="SettingsEditor" timestamp="1598033674909">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
