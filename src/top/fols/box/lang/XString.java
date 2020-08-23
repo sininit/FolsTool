@@ -487,4 +487,104 @@ public class XString {
 		}
 	}
 
+
+
+
+	/**
+	 * 替换文本
+	 * replace string
+	 * @param str string
+	 * @param target need replace substrings
+	 * @param replacement replacement
+	 */
+	public static CharSequence replace(CharSequence str, CharSequence[] target, CharSequence replacement) {
+		if (null == str) { return null; }
+		if (str.equals("")) { return ""; }
+		if (null == target || target.length == 0) { return str; }
+
+		StringBuilder sb = new StringBuilder();
+
+		int len = str.length();
+		int lastIndex = 0;
+		for (int strIndex = 0; strIndex < len; strIndex++) {
+			char strchar = str.charAt(strIndex);
+
+			for (int targetIndex = 0; targetIndex < target.length; targetIndex++) {
+				if (target[targetIndex].charAt(0) == strchar && (strIndex + target[targetIndex].length()) <= len) {
+					int c = 1;
+					for (int targetElementIndex = 1; targetElementIndex < target[targetIndex].length(); targetElementIndex++) {
+						if (target[targetIndex].charAt(targetElementIndex) == str.charAt(strIndex + targetElementIndex)) {
+							c++;
+						}
+					}
+					if (c == target[targetIndex].length()) {
+						int st = lastIndex;
+						int et = strIndex + target[targetIndex].length();
+
+						sb.append(str, st, strIndex).append(replacement);
+
+						lastIndex = et;
+						strIndex += target[targetIndex].length();
+
+						strIndex -= 1;// for (offset for self-increment)
+					}
+				}
+			}
+		}
+		if (lastIndex != len) {
+			int st = lastIndex;
+			int et = len;
+			sb.append(str, st, et);
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 替换文本
+	 * replace string
+	 * @param str string
+	 * @param target need replace substrings
+	 * @param replacement correspond@param target
+	 */
+	public static CharSequence replace(CharSequence str, CharSequence[] target, CharSequence[] replacement) {
+		if (null == str) { return null; }
+		if (str.equals("")) { return ""; }
+		if (null == target || target.length == 0) { return str; }
+
+		StringBuilder sb = new StringBuilder();
+
+		int len = str.length();
+		int lastIndex = 0;
+		for (int strIndex = 0; strIndex < len; strIndex++) {
+			char strchar = str.charAt(strIndex);
+
+			for (int targetIndex = 0; targetIndex < target.length; targetIndex++) {
+				if (target[targetIndex].charAt(0) == strchar && (strIndex + target[targetIndex].length()) <= len) {
+					int c = 1;
+					for (int targetElementIndex = 1; targetElementIndex < target[targetIndex].length(); targetElementIndex++) {
+						if (target[targetIndex].charAt(targetElementIndex) == str.charAt(strIndex + targetElementIndex)) {
+							c++;
+						}
+					}
+					if (c == target[targetIndex].length()) {
+						int st = lastIndex;
+						int et = strIndex + target[targetIndex].length();
+
+						sb.append(str, st, strIndex).append(replacement[targetIndex]);
+
+						lastIndex = et;
+						strIndex += target[targetIndex].length();
+
+						strIndex -= 1;// for (offset for self-increment)
+					}
+				}
+			}
+		}
+		if (lastIndex != len) {
+			int st = lastIndex;
+			int et = len;
+			sb.append(str, st, et);
+		}
+		return sb.toString();
+	}
 }

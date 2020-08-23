@@ -9,7 +9,7 @@ import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XByteEncode;
 
 /**
- * will chars cast To bytes, java Unicode Encoding
+ * will chars cast To bytes, java BIG_ENDIAN Unicode Encoding
  * <p>
  * byte length = char count * 2
  * <p>
@@ -21,8 +21,8 @@ public class XRandomAccessUnicodeFileWriter extends java.io.Writer {
     private File file;
     private RandomAccessFile stream;
     private long charPos, charLength;
-    private static final byte[] UNICODE_FILE_HEADER = XByteEncode.Unicode.getFileHeader();
-    private static final int ONE_CHAR_BYTE_LENGTH = XByteEncode.Unicode.charsLenToBytesLen(1);
+    private static final byte[] UNICODE_FILE_HEADER = XByteEncode.UnicodeOption.BIG_ENDIAN.getFileHeader();
+    private static final int ONE_CHAR_BYTE_LENGTH = XByteEncode.UnicodeOption.BIG_ENDIAN.charsLenToBytesLen(1);
 
     public XRandomAccessUnicodeFileWriter(String file) throws FileNotFoundException, IOException {
         this(file, false);
@@ -50,7 +50,7 @@ public class XRandomAccessUnicodeFileWriter extends java.io.Writer {
                 XRandomAccessUnicodeFileReader.checkUnicodeFile(this.getFile());
             }
 
-            this.charLength = XByteEncode.Unicode.bytesLenToCharsLen(byteLength - UNICODE_FILE_HEADER.length);
+            this.charLength = XByteEncode.UnicodeOption.BIG_ENDIAN.bytesLenToCharsLen(byteLength - UNICODE_FILE_HEADER.length);
             this.charPos = this.charLength;
             this.seek(this.charLength);
         } else {
@@ -74,7 +74,7 @@ public class XRandomAccessUnicodeFileWriter extends java.io.Writer {
         XRandomAccessUnicodeFileReader.checkUnicodeFile(this.getFile());
 
         long byteLength = this.file.length();
-        this.charLength = XByteEncode.Unicode.bytesLenToCharsLen(byteLength - UNICODE_FILE_HEADER.length);
+        this.charLength = XByteEncode.UnicodeOption.BIG_ENDIAN.bytesLenToCharsLen(byteLength - UNICODE_FILE_HEADER.length);
         this.charPos = this.charPos > this.charLength ? this.charLength : this.charPos;
         this.seek(this.charPos);
         return this;
@@ -135,7 +135,7 @@ public class XRandomAccessUnicodeFileWriter extends java.io.Writer {
     private void writeChar0(int c) throws IOException {
         char ch = (char) c;
 
-        XByteEncode.Unicode.putChar(chBytes, 0, ch);
+        XByteEncode.UnicodeOption.BIG_ENDIAN.putChar(chBytes, 0, ch);
         this.stream.write(chBytes);
         this.charPos++;
         if (this.charPos > this.charLength) {
@@ -145,7 +145,7 @@ public class XRandomAccessUnicodeFileWriter extends java.io.Writer {
 
     private void writeChars0(char[] b, int off, int len) throws IOException {
         byte[] chsBytes = new byte[ONE_CHAR_BYTE_LENGTH * len];
-        XByteEncode.Unicode.putCharsToBytes(b, off, len, chsBytes, 0);
+        XByteEncode.UnicodeOption.BIG_ENDIAN.putCharsToBytes(b, off, len, chsBytes, 0);
         this.stream.write(chsBytes);
         chsBytes = null;
         this.charPos += len;

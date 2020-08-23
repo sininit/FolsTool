@@ -309,11 +309,11 @@ public class XProperties implements Serializable, XInterfaceGetOriginMap{
         return this.save(new OutputStreamWriter(out, charsetName));
     }
 
-    public XProperties save(Writer out) throws IOException {
+    public XProperties save(Writer out) throws IOException,NullPointerException {
         final char escapeCharByte = '\\';
         final char valueSeparatorCharByte = '=';
         final char lineSeparatorCharByte = '\n', //
-            lineSeparatorCodeCharByte = 'n';
+                lineSeparatorCodeCharByte = 'n';
 
         BufferedWriter bw = new BufferedWriter(out);
 
@@ -322,6 +322,9 @@ public class XProperties implements Serializable, XInterfaceGetOriginMap{
         try {
             Set<String> keys = this.properties.keySet();
             for (String key : keys) {
+                if (null == key) {
+                    throw new NullPointerException("contains null key");
+                }
                 String value = this.properties.get(key);
 
                 {
@@ -342,24 +345,27 @@ public class XProperties implements Serializable, XInterfaceGetOriginMap{
                     keybuffered.releaseBuffer();
                 }
 
-                bw.write(valueSeparatorCharByte);
+                if (null != value) {
+                    bw.write(valueSeparatorCharByte);
 
-                {
-                    int length = value.length();
-                    for (int i = 0; i < length; i++) {
-                        char ch = value.charAt(i);
-                        if (ch == escapeCharByte || ch == valueSeparatorCharByte) {
-                            valbuffered.append(escapeCharByte);
-                            valbuffered.append(ch);
-                        } else if (ch == lineSeparatorCharByte) {
-                            valbuffered.append(escapeCharByte);
-                            valbuffered.append(lineSeparatorCodeCharByte);
-                        } else {
-                            valbuffered.append(ch);
+                    {
+                        int length = value.length();
+                        for (int i = 0; i < length; i++) {
+                            char ch = value.charAt(i);
+                            if (ch == escapeCharByte || ch == valueSeparatorCharByte) {
+                                valbuffered.append(escapeCharByte);
+                                valbuffered.append(ch);
+                            } else if (ch == lineSeparatorCharByte) {
+                                valbuffered.append(escapeCharByte);
+                                valbuffered.append(lineSeparatorCodeCharByte);
+                            } else {
+                                valbuffered.append(ch);
+                            }
                         }
+                        bw.write(valbuffered.getBuff(), 0, valbuffered.size());
+                        valbuffered.releaseBuffer();
                     }
-                    bw.write(valbuffered.getBuff(), 0, valbuffered.size());
-                    valbuffered.releaseBuffer();
+
                 }
 
                 bw.write(lineSeparatorCharByte);

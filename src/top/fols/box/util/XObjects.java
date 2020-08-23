@@ -128,7 +128,6 @@ public class XObjects {
 	 * toString(byte[],String coding); toString(Object);
 	 * 
 	 * @param objArr
-	 * @param codeing
 	 * @return
 	 */
 	public static String toString(Object objArr) {
@@ -342,6 +341,7 @@ public class XObjects {
 	/**
 	 * 
 	 * read String first num
+	 * @see top.fols.box.lang.XString retian;
 	 */
 	public static String retainNum(CharSequence str, int off, int len) {
 		char[] buf = new char[20];// long max string len = 20
@@ -379,6 +379,7 @@ public class XObjects {
 	/**
 	 * 
 	 * read String first num
+	 * @see top.fols.box.lang.XString retian;
 	 */
 	public static String retainDouble(CharSequence str, int off, int len) {
 		char[] buf = new char[64];

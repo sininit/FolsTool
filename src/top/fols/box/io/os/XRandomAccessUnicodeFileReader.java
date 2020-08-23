@@ -11,7 +11,7 @@ import top.fols.box.util.XByteEncode;
 import top.fols.box.util.XObjects;
 
 /**
- * will chars cast To bytes, java Unicode Encoding
+ * will chars cast To bytes, java BIG_ENDIAN Unicode Encoding
  * <p>
  * byte length = char count * 2
  * <p>
@@ -23,8 +23,8 @@ public class XRandomAccessUnicodeFileReader extends java.io.Reader {
     private RandomAccessFile stream;
     private long charPos, charLength;
     private long mark = 0;
-    private static final byte[] UNICODE_FILE_HEADER = XByteEncode.Unicode.getFileHeader();
-    private static final int ONE_CHAR_BYTE_LENGTH = XByteEncode.Unicode.charsLenToBytesLen(1);
+    private static final byte[] UNICODE_FILE_HEADER = XByteEncode.UnicodeOption.BIG_ENDIAN.getFileHeader();
+    private static final int ONE_CHAR_BYTE_LENGTH = XByteEncode.UnicodeOption.BIG_ENDIAN.charsLenToBytesLen(1);
 
     public XRandomAccessUnicodeFileReader(String file) throws FileNotFoundException, IOException {
         this(new File(file));
@@ -65,7 +65,7 @@ public class XRandomAccessUnicodeFileReader extends java.io.Reader {
         XRandomAccessUnicodeFileReader.checkUnicodeFile(this.getFile());
 
         long byteLength = this.file.length();
-        this.charLength = XByteEncode.Unicode.bytesLenToCharsLen(byteLength - UNICODE_FILE_HEADER.length);
+        this.charLength = XByteEncode.UnicodeOption.BIG_ENDIAN.bytesLenToCharsLen(byteLength - UNICODE_FILE_HEADER.length);
         this.charPos = this.charPos > this.charLength ? this.charLength : this.charPos;
         this.seek(this.charPos);
         return this;
@@ -104,7 +104,7 @@ public class XRandomAccessUnicodeFileReader extends java.io.Reader {
         } else if (r != ONE_CHAR_BYTE_LENGTH) {
             throw new IOException("need byte len =" + ONE_CHAR_BYTE_LENGTH + ", read to =" + r);
         }
-        int result = (int) XByteEncode.Unicode.getChar(chBytes, 0);
+        int result = (int) XByteEncode.UnicodeOption.BIG_ENDIAN.getChar(chBytes, 0);
         this.charPos++;
         return result;
     }
@@ -118,7 +118,7 @@ public class XRandomAccessUnicodeFileReader extends java.io.Reader {
             throw new IOException("read byte len error, read to len=" + r);
         }
         int rcl = r / ONE_CHAR_BYTE_LENGTH;
-        XByteEncode.Unicode.putBytesToChars(chsBytes, 0, cs, off, rcl);
+        XByteEncode.UnicodeOption.BIG_ENDIAN.putBytesToChars(chsBytes, 0, cs, off, rcl);
         chsBytes = null;
         this.charPos += rcl;
         return rcl;
@@ -199,7 +199,7 @@ public class XRandomAccessUnicodeFileReader extends java.io.Reader {
 
     public static long length(File file) {
         long byteLength = file.length();
-        return XByteEncode.Unicode.bytesLenToCharsLen(byteLength - UNICODE_FILE_HEADER.length);
+        return XByteEncode.UnicodeOption.BIG_ENDIAN.bytesLenToCharsLen(byteLength - UNICODE_FILE_HEADER.length);
     }
 
     public static char[] readFileChars(File file, long off, int len) throws FileNotFoundException, IOException {
@@ -216,6 +216,6 @@ public class XRandomAccessUnicodeFileReader extends java.io.Reader {
         if (length > Integer.MAX_VALUE) {
             throw new OutOfMemoryError("fileSize=" + length);
         }
-        return readFileChars(file, 0, XByteEncode.Unicode.charsLenToBytesLen((int) length));
+        return readFileChars(file, 0, XByteEncode.UnicodeOption.BIG_ENDIAN.charsLenToBytesLen((int) length));
     }
 }

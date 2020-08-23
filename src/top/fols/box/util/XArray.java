@@ -1,6 +1,8 @@
 package top.fols.box.util;
 
 import java.lang.reflect.Array;
+import java.util.*;
+
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.lang.XClass;
 import top.fols.box.lang.XSequences;
@@ -543,5 +545,118 @@ public class XArray {
 		}
 		return newArray;
 	}
+
+
+
+	public static <T> void sort(T[] cover, Comparator<T> c) {
+		XArray.sort(cover, 0, cover.length, c);
+	}
+	public static <T> void sort(T[] cover, int off, int ed, Comparator<T> c) {
+		int i, j;
+		for (i = off; i < ed - 1; i++) {
+			for (j = off; j < ed - 1 - i + off; j++) {
+				if (c.compare(cover[j], cover[j + 1]) > 0) {
+					T temp = cover[j];
+					cover[j] = cover[j + 1];
+					cover[j + 1] = temp;
+				}
+			}
+		}
+	}
+	public static <T> T[] filter(T[] origin, XObjects.AcceptProcess<T> fp) {
+		return XArray.filter(origin, 0, origin.length, fp);
+	}
+	public static <T> T[] filter(T[] origin, int off, int len, XObjects.AcceptProcess<T> fp) {
+		List<T> newList = new ArrayList<T>();
+		for (int i = 0; i < len; i++) {
+			T content = origin[off + i];
+			if (fp.accept(content)) {
+				newList.add(content);
+			}
+		}
+		Object array = XArray.newInstance(XArray.getElementClass(origin), newList.size());
+		T[] newArray = newList.toArray((T[]) array);
+		newList = null;
+		return newArray;
+	}
+
+	/**
+	 * 合并数组
+	 */
+	public static <T> T[] merge(T[][] arrays) {
+		return null == arrays ? null : merge(arrays, 0, arrays.length);
+	}
+	public static <T> T[] merge(T[][] arrays, int off, int len) {
+		if (null == arrays) {
+			return null;
+		}
+		int length = 0;
+		for (int i = 0; i < len; i++) {
+			T[] array = arrays[off + i];
+			length += (null == array ? 0 : array.length);
+		}
+		int index = 0;
+		Class elementClass = XArray.getElementClass(XArray.getElementClass(arrays));
+		T[] newArray = (T[]) XArray.newInstance(elementClass, length);
+		for (int i = 0; i < len; i++) {
+			T[] array = arrays[off + i];
+			System.arraycopy(array, 0, newArray, index, array.length);
+			index += array.length;
+		}
+		return newArray;
+	}
+
+	/**
+	 * 合并去重数组
+	 */
+	public static <T> T[] mergeDeduplication(T[][] arrays) {
+		return null == arrays ? null : mergeDeduplication(arrays, 0, arrays.length);
+	}
+	public static <T> T[] mergeDeduplication(T[][] arrays, int off, int len) {
+		if (null == arrays) {
+			return null;
+		}
+
+		Map<T, Object> map = new LinkedHashMap<>();
+		for (int i = 0; i < len; i++) {
+			T[] arraysElement = arrays[off + i];
+			if (null == arraysElement) {
+				continue;
+			}
+			for (T aee : arraysElement) {
+				map.put(aee, null);
+			}
+		}
+		Class elementClass = XArray.getElementClass(XArray.getElementClass(arrays));
+		T[] newArray = map.keySet().toArray((T[]) XArray.newInstance(elementClass, map.size()));
+
+		return newArray;
+	}
+
+
+
+
+
+	/**
+	 * 去除重复元素
+	 */
+	public static <T> T[] deduplication(T[] array) {
+		return null == array ? null : deduplication(array, 0, array.length);
+	}
+	public static <T> T[] deduplication(T[] array, int off, int len) {
+		if (null == array) {
+			return null;
+		}
+		Map<T, Object> map = new LinkedHashMap<>();
+		for (int i = 0; i < len; i++) {
+			T element = array[off + i];
+			map.put(element, null);
+		}
+		T[] newArray = map.keySet().toArray((T[]) XArray.newInstance(XArray.getElementClass(array), map.size()));
+		map = null;
+		return newArray;
+	}
+
+
 
 }
