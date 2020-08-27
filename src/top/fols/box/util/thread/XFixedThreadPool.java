@@ -10,7 +10,7 @@ public class XFixedThreadPool {
 	private static class RunInterfaceMessage {
 		private SinglyLinked linkedRoot;
 
-		private XDoubleLinked.VarLinked<Run> element;
+		private XDoubleLinked<Run> element;
 
 		private int status = STATUS_NO_OPTION; 
 
@@ -44,9 +44,9 @@ public class XFixedThreadPool {
 		}
 	}
 	private static class SinglyLinked {
-		private final XDoubleLinked.VarLinked<Run> linkedRoot = new XDoubleLinked.VarLinked<Run>(null);
-		private XDoubleLinked.VarLinked<Run> linkedTop = linkedRoot;
-		private void addToTop(XDoubleLinked.VarLinked<Run> element) {
+		private final XDoubleLinked<Run> linkedRoot = new XDoubleLinked<Run>(null);
+		private XDoubleLinked<Run> linkedTop = linkedRoot;
+		private void addToTop(XDoubleLinked<Run> element) {
 			linkedTop.addNext(element);
 			linkedTop = element;
 
@@ -54,20 +54,20 @@ public class XFixedThreadPool {
 				this.now = element;
 			}
 		}
-		private void remove(XDoubleLinked.VarLinked<Run> element) throws RuntimeException {
+		private void remove(XDoubleLinked<Run> element) throws RuntimeException {
 			if (this.linkedRoot == element) {
 				throw new RuntimeException("cannot remove linked root");
 			}
 
 			if (element == this.now) {
-				XDoubleLinked.VarLinked<Run> next = this.getNext();
+				XDoubleLinked<Run> next = this.getNext();
 				this.now = next;
 			}
 
 			if (this.linkedTop == element) {
-				XDoubleLinked.VarLinked<Run> last = element.getLast();
+				XDoubleLinked<Run> prev = element.getPrev();
 				this.linkedRoot.remove(element);
-				this.linkedTop = last;
+				this.linkedTop = prev;
 			} else {
 				this.linkedRoot.remove(element);
 			}
@@ -75,14 +75,14 @@ public class XFixedThreadPool {
 
 
 
-		private XDoubleLinked.VarLinked<Run> now = linkedRoot;
-		private XDoubleLinked.VarLinked<Run> getNext() {
+		private XDoubleLinked<Run> now = linkedRoot;
+		private XDoubleLinked<Run> getNext() {
 			return (null == now || null == now.getNext()) ?null: now.getNext();
 		}
-		private XDoubleLinked.VarLinked<Run> next() {
+		private XDoubleLinked<Run> next() {
 			return this.now = this.getNext();
 		}
-		private XDoubleLinked.VarLinked<Run> now() {
+		private XDoubleLinked<Run> now() {
 			return this.now;
 		}
 	}
@@ -182,7 +182,7 @@ public class XFixedThreadPool {
 				throw new RuntimeException("already add to thread pool");
 			}
 			runinterface._message.linkedRoot = this.list;
-			runinterface._message.element = new XDoubleLinked.VarLinked<Run>(runinterface);
+			runinterface._message.element = new XDoubleLinked<Run>(runinterface);
 			runinterface._message.status = RunInterfaceMessage.STATUS_WAIT;
 			runinterface._message.subThread = null;
 			this.waitCount++;
@@ -224,7 +224,7 @@ public class XFixedThreadPool {
 		@Override
 		public void run() {
 //				System.out.println("xt");
-			XDoubleLinked.VarLinked<Run> now;
+			XDoubleLinked<Run> now;
 			XFixedThreadPool pool = XFixedThreadPool.this;
 			synchronized (pool.lock) {
 //					System.out.println("startthread");
@@ -232,7 +232,7 @@ public class XFixedThreadPool {
 				while (true) {
 					if (pool.runingCount + 1 <= pool.maxRuningCount) {
 						if (null != pool.list.now()) {
-							if (pool.list.now().isBottom()) {
+							if (pool.list.now().isFirst()) {
 								pool.list.next();
 								continue;
 							}
@@ -307,7 +307,7 @@ public class XFixedThreadPool {
 			if (runinterface._message.linkedRoot != this.list) {
 				throw new RuntimeException("the thread is not on this thread pool");
 			}
-			XDoubleLinked.VarLinked<Run> now = runinterface._message.element;
+			XDoubleLinked<Run> now = runinterface._message.element;
 			if (runinterface._message.status == RunInterfaceMessage.STATUS_WAIT) {
 				this.list.remove(now);
 				this.waitCount--;
@@ -345,12 +345,12 @@ public class XFixedThreadPool {
 	
 	public void removeAll() throws RuntimeException {
 		synchronized (this.lock) {
-			XDoubleLinked.VarLinked<Run> now;
+			XDoubleLinked<Run> now;
 			now = this.list.linkedRoot;
 			now = now.getNext();
 			while (null != now) {
 				Run runinterface = now.content();
-				XDoubleLinked.VarLinked<Run> next = now.getNext();
+				XDoubleLinked<Run> next = now.getNext();
 				this.remove(runinterface);
 				now = next;
 			}
@@ -386,7 +386,7 @@ public class XFixedThreadPool {
 	public List<Run> list() {
 		List<Run> list = new ArrayList<>();
 		synchronized (this.lock) {
-			XDoubleLinked.VarLinked<Run> now;
+			XDoubleLinked<Run> now;
 
 			now = this.list.linkedRoot;
 			while (null != (now = now.getNext())) {

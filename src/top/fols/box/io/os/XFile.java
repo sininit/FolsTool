@@ -364,7 +364,7 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
             return "";
         }
 
-        XDoubleLinked.VarLinked<String> p = new XDoubleLinked.VarLinked<>(null);
+        XDoubleLinked<String> p = new XDoubleLinked<>(null);
         XDoubleLinked bottom = p;
         XDoubleLinked top = p;
 
@@ -373,15 +373,15 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
             char ch = path.charAt(i);
             if (ch == separator) {
                 String t = path.substring(lastIndex, i);
-                XDoubleLinked.VarLinked<String> element;
+                XDoubleLinked<String> element;
 
                 if (i > 0) {
-                    element = new XDoubleLinked.VarLinked<String>(t);
+                    element = new XDoubleLinked<String>(t);
                     top.addNext(element);
                     top = element;
                 }
 
-                element = new XDoubleLinked.VarLinked<String>(separatorString);
+                element = new XDoubleLinked<String>(separatorString);
                 top.addNext(element);
                 top = element;
 
@@ -390,7 +390,7 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
         }
         if (lastIndex != length) {
             String t = path.substring(lastIndex, length);
-            XDoubleLinked.VarLinked<String> element = new XDoubleLinked.VarLinked<String>(t);
+            XDoubleLinked<String> element = new XDoubleLinked<String>(t);
             top.addNext(element);
             top = element;
         }
@@ -408,22 +408,22 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
          */
         XDoubleLinked now = bottom.getNext();
         while (true) {
-            if (XDoubleLinked.VarLinked.equals(".", now)) {
+            if (XDoubleLinked.equalsContent(".", now)) {
                 // 处理 ./
 
                 XDoubleLinked next = now.getNext();
-                XDoubleLinked last = now.getLast();
+                XDoubleLinked last = now.getPrev();
                 bottom.remove(now);
                 now = last;
 
-                if (XDoubleLinked.VarLinked.equals(separatorString, next)) {
+                if (XDoubleLinked.equalsContent(separatorString, next)) {
                     bottom.remove(next);
                 }
-            } else if (XDoubleLinked.VarLinked.equals("..", now)) {
+            } else if (XDoubleLinked.equalsContent("..", now)) {
                 // 处理 ../
-                XDoubleLinked last1 = now.getLast();
+                XDoubleLinked last1 = now.getPrev();
                 last1 = last1 == bottom ? null : last1;
-                XDoubleLinked last2 = null == last1 ? null : last1.getLast();
+                XDoubleLinked last2 = null == last1 ? null : last1.getPrev();
                 last2 = last2 == bottom ? null : last2;
                 if (null != last1) {
                     bottom.remove(last1);
@@ -433,11 +433,11 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
                 }
 
                 XDoubleLinked next = now.getNext();
-                XDoubleLinked last = now.getLast();
+                XDoubleLinked last = now.getPrev();
                 bottom.remove(now);
                 now = last;
 
-                if (XDoubleLinked.VarLinked.equals(separatorString, next)) {
+                if (XDoubleLinked.equalsContent(separatorString, next)) {
                     bottom.remove(next);
                 }
             }
@@ -744,13 +744,13 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
                                           Boolean ownerOnly) {
 		file = file.getAbsoluteFile();
 
-		XDoubleLinked.VarLinked<File> files = new XDoubleLinked.VarLinked<>(null);
+		XDoubleLinked<File> files = new XDoubleLinked<>(null);
 		File pn = file;
 		while (null != (pn = pn.getParentFile())) {
-			files.addNext(new XDoubleLinked.VarLinked<>(pn));
+			files.addNext(new XDoubleLinked<>(pn));
 		}
-		XDoubleLinked.VarLinked<File> now = files;
-		while (null != now && null != (now = (XDoubleLinked.VarLinked<File>) now.getNext())) {
+		XDoubleLinked<File> now = files;
+		while (null != now && null != (now = (XDoubleLinked<File>) now.getNext())) {
 			File f = now.content();
 			setFilePermission(f, readable, writeable, executeable, ownerOnly);
 		}
@@ -770,15 +770,15 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 			return true;
 		} else {
 			boolean b = false;
-			XDoubleLinked.VarLinked<File> files = new XDoubleLinked.VarLinked<>(null);
-			files.addNext(new XDoubleLinked.VarLinked<>(file));
+			XDoubleLinked<File> files = new XDoubleLinked<>(null);
+			files.addNext(new XDoubleLinked<>(file));
 
 			File pn = file;
 			while (null != (pn = pn.getParentFile())) {
-				files.addNext(new XDoubleLinked.VarLinked<>(pn));
+				files.addNext(new XDoubleLinked<>(pn));
 			}
-			XDoubleLinked.VarLinked<File> now = files;
-			while (null != now && null != (now = (XDoubleLinked.VarLinked<File>) now.getNext())) {
+			XDoubleLinked<File> now = files;
+			while (null != now && null != (now = (XDoubleLinked<File>) now.getNext())) {
 				File dir = now.content();
 				if (!dir.exists()) {
 					boolean result = dir.mkdir();

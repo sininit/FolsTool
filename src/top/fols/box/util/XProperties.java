@@ -380,14 +380,14 @@ public class XProperties implements Serializable, XInterfaceGetOriginMap{
 
     @SuppressWarnings("unchecked")
     public XProperties removeMatches(String regexKey) {
-        XDoubleLinked.VarLinked<String> rk = new XDoubleLinked.VarLinked<String>(null);
+        XDoubleLinked<String> rk = new XDoubleLinked<String>(null);
         for (String key : this.properties.keySet()) {
             if (Pattern.matches(regexKey, key)) {
-                rk.addNext(new XDoubleLinked.VarLinked<String>(key));
+                rk.addNext(new XDoubleLinked<String>(key));
             }
         }
         while (rk.hasNext()) {
-            String key = ((XDoubleLinked.VarLinked<String>) rk.getNext()).content();
+            String key = ((XDoubleLinked<String>) rk.getNext()).content();
             rk.remove(rk.getNext());
             this.remove(key);
         }

@@ -20,134 +20,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb100163-b7ba-4468-947d-05f834c493a7" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/folsTool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FolsTool.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$10.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$11.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$12.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$13.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$14.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$15.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$16.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$17.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$18.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$19.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$20.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$21.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$21.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$22.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$22.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$23.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$23.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$24.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$24.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$25.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$25.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$26.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$26.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$27.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$27.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$28.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$28.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$29.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$29.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$30.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$30.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$31.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$31.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$32.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$32.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$33.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$33.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$34.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$34.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$35.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$35.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$36.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$36.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$37.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$37.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$38.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$38.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$39.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$39.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$40.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$40.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$41.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$41.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$42.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$42.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$43.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$43.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$44.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$44.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$ObjectReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$ObjectReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$ObjectWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams$ObjectWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/base/XObjectStreams.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/os/XRandomAccessUnicodeFileReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/os/XRandomAccessUnicodeFileReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/os/XRandomAccessUnicodeFileWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/io/os/XRandomAccessUnicodeFileWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/lang/XBits.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/lang/XBitsLittleEndian.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/lang/XBitsLittleEndian.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/lang/XString.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/lang/XString.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XArray.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XByteEncode$Unicode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XByteEncode.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XByteEncode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XCollections.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XCollections.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XObjects.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XObjects.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XProperties.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/production/folsTool/top/fols/box/util/XProperties.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$10.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$11.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$12.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$13.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$14.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$15.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$16.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$17.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$18.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$19.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$20.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$21.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$21.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$22.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$22.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$23.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$23.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$24.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$24.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$25.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$25.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$26.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$26.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$27.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$27.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$28.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$28.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$29.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$29.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$30.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$30.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$31.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$31.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$32.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$32.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$33.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$33.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$34.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$34.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$35.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$35.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$36.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$36.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$37.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$37.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$38.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$38.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$39.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$39.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$40.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$40.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$41.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$41.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$42.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$42.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$43.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$43.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$44.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$44.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$ObjectReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$ObjectReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$ObjectWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams$ObjectWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/base/XObjectStreams.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XRandomAccessUnicodeFileReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/os/XRandomAccessUnicodeFileReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/io/os/XRandomAccessUnicodeFileWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/io/os/XRandomAccessUnicodeFileWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XBits.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XBitsLittleEndian.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/lang/XBitsLittleEndian.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/lang/XString.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/lang/XString.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/util/XArray.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncode$Unicode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncode.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/util/XByteEncode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XCollections.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/util/XCollections.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XObjects.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/util/XObjects.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/top/fols/box/util/XProperties.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/top/fols/box/util/XProperties.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XObjectStreams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XObjectStreams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/os/XRandomAccessUnicodeFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/os/XRandomAccessUnicodeFileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/os/XRandomAccessUnicodeFileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/os/XRandomAccessUnicodeFileWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/lang/XBits.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/lang/XBitsBigEndian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/lang/XBitsLittleEndian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/lang/XBitsLittleEndian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/lang/XString.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/lang/XString.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XByteEncode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XByteEncode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XCollections.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XCollections.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XObjects.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/os/XFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/os/XFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/lang/XUnitConversion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/lang/XUnitConversion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/lang/reflect/optdeclared/XReflectAccessibleInherit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/lang/reflect/optdeclared/XReflectAccessibleInherit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XAvgergeCycleSpeedCalc.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XCycleSpeedLimiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XCycleSpeedLimiter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XDoubleLinked.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XDoubleLinked.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/thread/XFixedThreadPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/thread/XFixedThreadPool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/top.fols.box.jar" beforeDir="false" afterPath="$PROJECT_DIR$/top.fols.box.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -216,11 +100,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="项目" />
+    <property name="project.structure.last.edited" value="模块" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.24366471" />
   </component>
   <component name="RunManager">
@@ -315,46 +199,58 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="138" y="344" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1598033206319" />
+    <state x="305" y="100" width="985" height="713" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1598524607678">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="305" y="100" width="985" height="713" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1598524607678" />
     <state x="227" y="262" width="1134" height="299" key="#配置路径变量" timestamp="1598031279501">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="227" y="262" width="1134" height="299" key="#配置路径变量/0.0.1536.824@0.0.1536.824" timestamp="1598031279501" />
-    <state x="151" y="54" width="1038" height="744" key="#项目结构" timestamp="1598033639917">
+    <state x="151" y="54" width="1038" height="744" key="#项目结构" timestamp="1598531614283">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="151" y="54" width="1038" height="744" key="#项目结构/0.0.1536.824@0.0.1536.824" timestamp="1598033639917" />
-    <state x="520" y="265" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1598031745336">
+    <state x="151" y="54" width="1038" height="744" key="#项目结构/0.0.1536.824@0.0.1536.824" timestamp="1598531614283" />
+    <state x="520" y="265" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1598526454381">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="520" y="265" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1598031745336" />
+    <state x="520" y="265" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1598526454381" />
     <state x="548" y="167" width="438" height="486" key="FileChooserDialogImpl" timestamp="1598033394997">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="167" width="438" height="486" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1598033394997" />
-    <state width="1493" height="216" key="GridCell.Tab.0.bottom" timestamp="1598206085239">
+    <state width="1478" height="212" key="GridCell.Tab.0.bottom" timestamp="1598531559477">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="216" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598206085239" />
-    <state width="1493" height="216" key="GridCell.Tab.0.center" timestamp="1598206085237">
+    <state width="1478" height="212" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598531559477" />
+    <state width="1478" height="212" key="GridCell.Tab.0.center" timestamp="1598531559477">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="216" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598206085237" />
-    <state width="1493" height="216" key="GridCell.Tab.0.left" timestamp="1598206085237">
+    <state width="1478" height="212" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598531559477" />
+    <state width="1478" height="212" key="GridCell.Tab.0.left" timestamp="1598531559477">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="216" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598206085237" />
-    <state width="1493" height="216" key="GridCell.Tab.0.right" timestamp="1598206085238">
+    <state width="1478" height="212" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598531559477" />
+    <state width="1478" height="212" key="GridCell.Tab.0.right" timestamp="1598531559477">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="216" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598206085238" />
+    <state width="1478" height="212" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598531559477" />
     <state x="494" y="114" key="RollbackChangesDialog" timestamp="1598034089072">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="494" y="114" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1598034089072" />
-    <state x="270" y="57" key="SettingsEditor" timestamp="1598033674909">
+    <state x="270" y="57" key="SettingsEditor" timestamp="1598523482488">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1598033674909" />
+    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1598523482488" />
+    <state x="467" y="10" width="601" height="804" key="find.popup" timestamp="1598526496111">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="467" y="10" width="601" height="804" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1598526496111" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1598523961740">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1598523961740" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1598205136074">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -135,8 +135,8 @@ public class XUnitConversion {
 	}
 
 	@SuppressWarnings("unchecked")
-	private XDoubleLinked.VarLinked<String> nextItem0(XDoubleLinked.VarLinked<String> now) {
-		return null == now ? null : (XDoubleLinked.VarLinked<String>) now.getNext();
+	private XDoubleLinked<String> nextItem0(XDoubleLinked<String> now) {
+		return null == now ? null : (XDoubleLinked<String>) now.getNext();
 	}
 
 	/**
@@ -145,9 +145,9 @@ public class XUnitConversion {
 	 * @return base
 	 */
 	public Num parseToSum(String value) throws ArithmeticException {
-		XDoubleLinked.VarLinked<String> bottom = splitStringValue(value);
-		XDoubleLinked.VarLinked<String> num = nextItem0(bottom);
-		XDoubleLinked.VarLinked<String> unit = nextItem0(num);
+		XDoubleLinked<String> bottom = splitStringValue(value);
+		XDoubleLinked<String> num = nextItem0(bottom);
+		XDoubleLinked<String> unit = nextItem0(num);
 		BigDecimal base = BigDecimal.ZERO;
 		while (null != num && null != unit) {
 			BigDecimal decimal = new BigDecimal(num.toString());
@@ -221,15 +221,15 @@ public class XUnitConversion {
 		return c == '+' || c == '-' || c >= '0' && c <= '9' || c == '.';
 	}
 
-	private XDoubleLinked.VarLinked<String> splitStringValue(String value) {
+	private XDoubleLinked<String> splitStringValue(String value) {
 		int TYPE_START = 0, TYPE_NUMBER = 1, TYPE_OTHER = 2;
 
 		int length = value.length();
 		int lastIndex = 0;
 		int lastType = TYPE_START; // start
 
-		XDoubleLinked.VarLinked<String> bottom = new XDoubleLinked.VarLinked<String>(null);
-		XDoubleLinked.VarLinked<String> top = bottom;
+		XDoubleLinked<String> bottom = new XDoubleLinked<String>(null);
+		XDoubleLinked<String> top = bottom;
 
 		for (int i = 0; i < length; i++) {
 			char ch = value.charAt(i);
@@ -237,7 +237,7 @@ public class XUnitConversion {
 				if (lastType != TYPE_NUMBER) {
 					lastType = TYPE_NUMBER;
 					if (lastIndex != i) {
-						XDoubleLinked.VarLinked<String> next = new XDoubleLinked.VarLinked<String>(
+						XDoubleLinked<String> next = new XDoubleLinked<String>(
                             value.substring(lastIndex, i));
 						top.addNext(next);
 						top = next;
@@ -248,7 +248,7 @@ public class XUnitConversion {
 				if (lastType != TYPE_OTHER) {
 					lastType = TYPE_OTHER;
 					if (lastIndex != i) {
-						XDoubleLinked.VarLinked<String> next = new XDoubleLinked.VarLinked<String>(
+						XDoubleLinked<String> next = new XDoubleLinked<String>(
                             value.substring(lastIndex, i));
 						top.addNext(next);
 						top = next;
@@ -258,7 +258,7 @@ public class XUnitConversion {
 			}
 		}
 		if (lastIndex != length) {
-			XDoubleLinked.VarLinked<String> next = new XDoubleLinked.VarLinked<String>(
+			XDoubleLinked<String> next = new XDoubleLinked<String>(
                 value.substring(lastIndex, length));
 			top.addNext(next);
 			top = next;

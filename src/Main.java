@@ -43,12 +43,7 @@ import top.fols.box.net.XURLConnectionTool;
 import top.fols.box.net.XURLParam;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.time.XTiming;
-import top.fols.box.util.XArray;
-import top.fols.box.util.XArrayPieceIndexManager;
-import top.fols.box.util.XArrays;
-import top.fols.box.util.XCycleSpeedLimiter;
-import top.fols.box.util.XDoubleLinked;
-import top.fols.box.util.XObjects;
+import top.fols.box.util.*;
 import top.fols.box.util.json.JSONObject;
 import top.fols.box.io.base.XReaderLine;
 import top.fols.box.io.base.XCharArrayReader;
@@ -884,15 +879,18 @@ public class Main extends k {
 			long start = System.currentTimeMillis();
 
 			XCycleSpeedLimiter xioread = new XCycleSpeedLimiter();
-			xioread.setCycleMaxSpeed(24 * 1024 * 1024);// 限制 每个周期时间内 最多读24M
+			xioread.setCycleAccessMax(24 * 1024 * 1024);// 限制 每个周期时间内 最多读24M
 			xioread.setCycle(500);
-			xioread.setLimit(true);
+			xioread.limit(true);
+			XCycleAvgergeSpeedGet xioreadspeed = new XCycleAvgergeSpeedGet();
+			xioreadspeed.setCycle(1000);
+
 
 			System.out.println(xioread.isLimit());
 			System.out.println(xioread);
 			XFileThreadCopy tread = null;
 			for (int i = 0; i < 10; i++) {
-				tread = new XFileThreadCopy("/sdcard/AppProjects/android-22.jar", "/sdcard/" + i + ".test", xioread);
+				tread = new XFileThreadCopy("/sdcard/AppProjects/android-22.jar", "/sdcard/" + i + ".test", xioread, xioreadspeed);
 				tread.start();
 			}
 			while (true) {
@@ -903,7 +901,7 @@ public class Main extends k {
 				// XFileTool.FileFormatSize(xioread.getCycleUseSpeedEverySecondMax()) + " /s
 				// 剩余:" + XFileTool.FileFormatSize(xioread.getCycleFreeSpeed()));
 				// if(xioread.getEverySecondAverageSpeed()>0)
-				System.out.println("当前平均速度:" + XFile.fileUnitFormat(xioread.getAverageSpeed()) + "/S");
+				System.out.println("当前平均速度:" + XFile.fileUnitFormat(xioreadspeed.getAvgergeValue()) + "/S");
 			}
 
 			System.out.println();
@@ -921,27 +919,30 @@ public class Main extends k {
 		private String destPath;// 目标文件地址
 		private long start, end;// start指定起始位置，end指定结束位置
 		private XCycleSpeedLimiter Xiolimit = null;
+		private XCycleAvgergeSpeedGet XiolimitSpeed;
 
 		// 构造CopyThread方法
 		public XFileThreadCopy(String srcPath, String destPath, long start, long end) {
-			this(srcPath, destPath, start, end, null);
+			this(srcPath, destPath, start, end, null, null);
 		}
-
 		public XFileThreadCopy(String srcPath, String destPath) {
 			this(srcPath, destPath, 0, new File(srcPath).length());
 		}
 
-		public XFileThreadCopy(String srcPath, String destPath, long start, long end, XCycleSpeedLimiter xio) {
+		public XFileThreadCopy(String srcPath, String destPath, XCycleSpeedLimiter xio, XCycleAvgergeSpeedGet xiospeed) {
+			this(srcPath, destPath, 0, new File(srcPath).length(), xio, xiospeed);
+		}
+
+
+		public XFileThreadCopy(String srcPath, String destPath, long start, long end, XCycleSpeedLimiter xio, XCycleAvgergeSpeedGet xiospeed) {
 			this.srcPath = srcPath;// 要复制的源文件路径
 			this.destPath = destPath;// 复制到的文件路径
 			this.start = start;// 复制起始位置
 			this.end = end;// 复制结束位置
 			this.Xiolimit = xio;// 数据流速度限制器
+			this.XiolimitSpeed = xiospeed;
 		}
 
-		public XFileThreadCopy(String srcPath, String destPath, XCycleSpeedLimiter xio) {
-			this(srcPath, destPath, 0, new File(srcPath).length(), xio);
-		}
 
 		public final static int state_copying = 1;
 		public final static int state_copyComplete = 2;
@@ -991,6 +992,7 @@ public class Main extends k {
 				while (true) {
 					if ((read = in.read(buffer)) == -1)
 						break;
+					this.XiolimitSpeed.access(read);
 
 					out.write(buffer, 0, read);
 					length += read;

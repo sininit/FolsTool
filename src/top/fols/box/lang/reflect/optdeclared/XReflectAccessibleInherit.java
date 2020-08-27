@@ -141,11 +141,11 @@ public class XReflectAccessibleInherit {
      * <p>
      * super
      */
-    private static XDoubleLinked.VarLinked<Class<?>> getSuperClassLinkedRootToTop0(Class<?> cls) {
-        XDoubleLinked.VarLinked<Class<?>> linked = new XDoubleLinked.VarLinked<>(null);
+    private static XDoubleLinked<Class<?>> getSuperClassLinkedRootToTop0(Class<?> cls) {
+        XDoubleLinked<Class<?>> linked = new XDoubleLinked<>(null);
         Class<?> clazz = cls;
         while (null != clazz) {
-            linked.addNext(new XDoubleLinked.VarLinked<Class<?>>(clazz));
+            linked.addNext(new XDoubleLinked<Class<?>>(clazz));
             clazz = clazz.getSuperclass();
         }
         return linked;
@@ -156,12 +156,12 @@ public class XReflectAccessibleInherit {
      * <p>
      * Object.class
      */
-    private static XDoubleLinked.VarLinked<Class<?>> getSuperClassLinkedTopToRoot0(Class<?> cls) {
-        XDoubleLinked.VarLinked<Class<?>> linked = new XDoubleLinked.VarLinked<>(null);
-        XDoubleLinked.VarLinked<Class<?>> top = linked;
+    private static XDoubleLinked<Class<?>> getSuperClassLinkedTopToRoot0(Class<?> cls) {
+        XDoubleLinked<Class<?>> linked = new XDoubleLinked<>(null);
+        XDoubleLinked<Class<?>> top = linked;
         Class<?> clazz = cls;
         while (null != clazz) {
-            XDoubleLinked.VarLinked<Class<?>> c = new XDoubleLinked.VarLinked<Class<?>>(clazz);
+            XDoubleLinked<Class<?>> c = new XDoubleLinked<Class<?>>(clazz);
             top.addNext(c);
             top = c;
             clazz = clazz.getSuperclass();
@@ -207,8 +207,8 @@ public class XReflectAccessibleInherit {
             return null;
         }
         XKeyMap<Class> methodMap = new XKeyMap<>(new LinkedHashMap<>());
-        XDoubleLinked.VarLinked<Class<?>> now = getSuperClassLinkedRootToTop0(cls);
-        while (null != now && null != (now = (XDoubleLinked.VarLinked<Class<?>>) now.getNext())) {
+        XDoubleLinked<Class<?>> now = getSuperClassLinkedRootToTop0(cls);
+        while (null != now && null != (now = (XDoubleLinked<Class<?>>) now.getNext())) {
             Class[] newms = now.content().getDeclaredClasses();
             methodMap.putAll(newms);
         }
@@ -241,8 +241,8 @@ public class XReflectAccessibleInherit {
             return null;
         }
         Map<String, Field> methodMap = new HashMap<>();
-        XDoubleLinked.VarLinked<Class<?>> now = getSuperClassLinkedRootToTop0(cls);
-        while (null != now && null != (now = (XDoubleLinked.VarLinked<Class<?>>) now.getNext())) {
+        XDoubleLinked<Class<?>> now = getSuperClassLinkedRootToTop0(cls);
+        while (null != now && null != (now = (XDoubleLinked<Class<?>>) now.getNext())) {
             Field[] newms = cacheDeclaredFields0(now.content());
             getFieldsAllPutAll0(methodMap, newms);
         }
@@ -302,8 +302,8 @@ public class XReflectAccessibleInherit {
             return null;
         }
         List<Method> methodMap = new ArrayList<>();
-        XDoubleLinked.VarLinked<Class<?>> now = getSuperClassLinkedRootToTop0(cls);
-        while (null != now && null != (now = (XDoubleLinked.VarLinked<Class<?>>) now.getNext())) {
+        XDoubleLinked<Class<?>> now = getSuperClassLinkedRootToTop0(cls);
+        while (null != now && null != (now = (XDoubleLinked<Class<?>>) now.getNext())) {
             Method[] newms = cacheDeclaredMethods0(now.content());
             getMethodsAllPutAll0(methodMap, newms, requestName);
         }
@@ -356,8 +356,8 @@ public class XReflectAccessibleInherit {
             return null;
         }
         List<Method> methodMap = new ArrayList<>();
-        XDoubleLinked.VarLinked<Class<?>> now = getSuperClassLinkedTopToRoot0(cls);
-        while (null != now && null != (now = (XDoubleLinked.VarLinked<Class<?>>) now.getNext())) {
+        XDoubleLinked<Class<?>> now = getSuperClassLinkedTopToRoot0(cls);
+        while (null != now && null != (now = (XDoubleLinked<Class<?>>) now.getNext())) {
             methodMap.addAll(Arrays.asList(cacheDeclaredMethods0(now.content())));
         }
         Method[] ms = methodMap.toArray(new Method[methodMap.size()]);
