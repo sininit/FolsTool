@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.time.XTimeTool;
 
 public class XCycleSpeedLimiter {
 
@@ -27,10 +28,7 @@ public class XCycleSpeedLimiter {
 	}
 
 	private static long time() throws RuntimeException {
-		long time = System.currentTimeMillis();
-		if (time <= 0) {
-			throw new RuntimeException("system time error");
-		}
+		long time = XTimeTool.currentTimeMillis();
 		return time;
 	}
 

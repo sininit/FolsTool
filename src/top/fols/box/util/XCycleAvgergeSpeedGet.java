@@ -1,15 +1,13 @@
 package top.fols.box.util;
 
+import top.fols.box.time.XTimeTool;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import top.fols.box.time.XTimeTool;
-import top.fols.box.util.XFixelArrayFill;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class XCycleAvgergeSpeedGet {
-    private Object lock = new Object();
-
     private AtomicLong nowAccess;// 周期时间内的速率
     private AtomicBoolean stop;
     private long cycle;
@@ -26,12 +24,9 @@ public class XCycleAvgergeSpeedGet {
         this.nowAccess.getAndAdd(count);
         long newTime = this.time();
         if (newTime - this.lastAccessTime.get() >= cycle) {
-            synchronized (lock) {
-                this.averageSpeedList.left(nowAccess.get());
-                this.averageSpeedUpdateTimeList.left(newTime);
-                this.lastAccessTime.getAndSet(newTime);
-                this.nowAccess.set(0);
-            }
+            this.averageSpeedList.left(new Recording(this.nowAccess.get(), newTime));
+            this.lastAccessTime.getAndSet(newTime);
+            this.nowAccess.set(0);
         }
     }
 
@@ -44,21 +39,29 @@ public class XCycleAvgergeSpeedGet {
         return this;
     }
 
+
+
     private static long time() throws RuntimeException {
-        long time = System.currentTimeMillis();
-        if (time <= 0) {
-            throw new RuntimeException("system time error");
-        }
+        long time = XTimeTool.currentTimeMillis();
         return time;
     }
 
 
+    private static class Recording {
+        private long speed, time;
+        public Recording(long speed, long time) {
+            this.speed = speed;
+            this.time = time;
+        }
+    }
+
+
+
     private double lastCycleAverageSpeed = 0;
     private long lastCycleAverageSpeedGetTime = 0;
-    private XFixelArrayFill<Long> averageSpeedList = new XFixelArrayFill<Long>(6);
-    private XFixelArrayFill<Long> averageSpeedUpdateTimeList = new XFixelArrayFill<Long>(6);
+    private XFixelArrayFill<Recording> averageSpeedList = new XFixelArrayFill<>(6);
 
-    public double getAvgergeValue() {
+    public synchronized double getAvgergeValue() {
         if (stop.get()) {
             return 0.0D;
         } else {
@@ -71,21 +74,21 @@ public class XCycleAvgergeSpeedGet {
                 timeRange = newTime - (cycle * 3);
 
                 int forLength = 0;
-                for (int i = 0; i < averageSpeedUpdateTimeList.length(); i++) {
-                    Long lastUpdate = averageSpeedUpdateTimeList.get(i);
-                    if (null != lastUpdate && lastUpdate.longValue() > timeRange) {
-                        m = m.add(new BigDecimal((double) averageSpeedList.get(i)));
+                for (int i = 0; i < averageSpeedList.length(); i++) {
+                    Recording recording = averageSpeedList.get(i);
+                    if (null != recording && recording.time > timeRange) {
+                        m = m.add(new BigDecimal((double) recording.speed));
                         ++forLength;
                     }
                 }
                 // System.out.println(averageSpeedList);
                 // System.out.println(averageSpeedUpdateTimeList);
                 if (forLength == 0) {
+                    stop.set(true);
                     return 0;
                 }
                 m = m.divide(new BigDecimal(forLength), 12, RoundingMode.CEILING);
                 lastCycleAverageSpeedGetTime = newTime;
-                stop.set(true);
                 return lastCycleAverageSpeed = m.doubleValue();
             } else {
                 return lastCycleAverageSpeed;

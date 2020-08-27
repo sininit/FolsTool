@@ -42,6 +42,7 @@ import top.fols.box.net.XURLConnectionMessageHeader;
 import top.fols.box.net.XURLConnectionTool;
 import top.fols.box.net.XURLParam;
 import top.fols.box.statics.XStaticFixedValue;
+import top.fols.box.time.XTimeTool;
 import top.fols.box.time.XTiming;
 import top.fols.box.util.*;
 import top.fols.box.util.json.JSONObject;
@@ -876,7 +877,7 @@ public class Main extends k {
 			System.out.println("______test multi thread copy file@ speed limiter start");
 
 			Thread.sleep(10000000L);
-			long start = System.currentTimeMillis();
+			long start = XTimeTool.currentTimeMillis();
 
 			XCycleSpeedLimiter xioread = new XCycleSpeedLimiter();
 			xioread.setCycleAccessMax(24 * 1024 * 1024);// 限制 每个周期时间内 最多读24M
