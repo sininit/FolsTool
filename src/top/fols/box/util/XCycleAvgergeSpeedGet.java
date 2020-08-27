@@ -1,41 +1,43 @@
 package top.fols.box.util;
 
-import top.fols.box.time.XTimeTool;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import top.fols.box.time.XTimeTool;
+import top.fols.box.util.XFixelArrayFill;
+import top.fols.box.lang.XStringFormat;
 
 public class XCycleAvgergeSpeedGet {
-    private AtomicLong nowAccess;// 周期时间内的速率
-    private AtomicBoolean stop;
-    private long cycle;
-    private AtomicLong lastAccessTime;
+    private AtomicLong nowAccessCount = new AtomicLong(0);// 周期时间内的速率
+    private AtomicLong lastCycleAccessTime = new AtomicLong(0);//上一个周期内最后访问时间
+
+    private AtomicBoolean isIdle = new AtomicBoolean(false);
+
+    private volatile long cycleTime = 0;//周期
+
 
     public XCycleAvgergeSpeedGet() {
-        this.nowAccess = new AtomicLong(0);
-        this.stop = new AtomicBoolean(false);
-        this.lastAccessTime = new AtomicLong(0);
+        super();
     }
 
     public void access(long count) {
-        this.stop.set(false);
-        this.nowAccess.getAndAdd(count);
+        this.isIdle.set(false);
+        long nowAccessCount = this.nowAccessCount.addAndGet(count);
         long newTime = this.time();
-        if (newTime - this.lastAccessTime.get() >= cycle) {
-            this.averageSpeedList.left(new Recording(this.nowAccess.get(), newTime));
-            this.lastAccessTime.getAndSet(newTime);
-            this.nowAccess.set(0);
+        if (newTime - this.lastCycleAccessTime.get() >= cycleTime) {
+            this.speeds.left(new Recording(nowAccessCount, newTime));
+            this.nowAccessCount.set(0);
+            this.lastCycleAccessTime.getAndSet(newTime);
         }
     }
 
     public long getCycle() {
-        return cycle;
+        return cycleTime;
     }
 
     public XCycleAvgergeSpeedGet setCycle(long cycle) {
-        this.cycle = cycle;
+        this.cycleTime = cycle;
         return this;
     }
 
@@ -53,45 +55,49 @@ public class XCycleAvgergeSpeedGet {
             this.speed = speed;
             this.time = time;
         }
+        @Override
+        public String toString() {
+            // TODO: Implement this method
+            return new StringBuilder().append(XStringFormat.strf("speed={0} time={1}", speed, time)).toString();
+        }
     }
 
 
+    private AtomicLong lastCycleAverageSpeedGetTime = new AtomicLong(0);
 
-    private double lastCycleAverageSpeed = 0;
-    private long lastCycleAverageSpeedGetTime = 0;
-    private XFixelArrayFill<Recording> averageSpeedList = new XFixelArrayFill<>(6);
-
-    public synchronized double getAvgergeValue() {
-        if (stop.get()) {
-            return 0.0D;
+    private volatile double lastCycleAverageSpeed = 0;
+    private volatile XFixelArrayFill<Recording> speeds = new XFixelArrayFill<>(6);
+    public double getAvgergeValue() {
+        if (this.isIdle.get()) {
+            return 0;
         } else {
             long newTime = this.time();
             // 因为是周期速度 频繁的重新计算速度也无意义
-            if (newTime - lastCycleAverageSpeedGetTime >= cycle) {
-                BigDecimal m = BigDecimal.ZERO;
+            if (newTime - this.lastCycleAverageSpeedGetTime.get() >= this.cycleTime) {
+                BigDecimal all = BigDecimal.ZERO;
                 // 3倍周期内的数据 / 除以3
-                long timeRange;
-                timeRange = newTime - (cycle * 3);
-
+                long timeRange = newTime - (this.cycleTime * 3);
                 int forLength = 0;
-                for (int i = 0; i < averageSpeedList.length(); i++) {
-                    Recording recording = averageSpeedList.get(i);
+                for (int i = 0; i < this.speeds.length(); i++) {
+                    Recording recording = this.speeds.get(i);
                     if (null != recording && recording.time > timeRange) {
-                        m = m.add(new BigDecimal((double) recording.speed));
+                        all = all.add(new BigDecimal((double) recording.speed));
                         ++forLength;
                     }
                 }
-                // System.out.println(averageSpeedList);
-                // System.out.println(averageSpeedUpdateTimeList);
+                //System.out.println(this.speeds);
+                if (!(newTime - this.lastCycleAverageSpeedGetTime.get() >= this.cycleTime)) {
+                    return this.lastCycleAverageSpeed;
+                }
                 if (forLength == 0) {
-                    stop.set(true);
+                    this.isIdle.set(true);
                     return 0;
                 }
-                m = m.divide(new BigDecimal(forLength), 12, RoundingMode.CEILING);
-                lastCycleAverageSpeedGetTime = newTime;
-                return lastCycleAverageSpeed = m.doubleValue();
+                all = all.divide(new BigDecimal(forLength), 12, RoundingMode.CEILING);
+                this.lastCycleAverageSpeedGetTime.set(newTime);
+                return this.lastCycleAverageSpeed = all.doubleValue();
             } else {
-                return lastCycleAverageSpeed;
+                return this.lastCycleAverageSpeed;
             }
         }
     }

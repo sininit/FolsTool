@@ -20,10 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb100163-b7ba-4468-947d-05f834c493a7" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/FolsTool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/folsTool.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XCycleAvgergeSpeedGet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XCycleAvgergeSpeedGet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XCycleSpeedLimiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XCycleSpeedLimiter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/top.fols.box.jar" beforeDir="false" afterPath="$PROJECT_DIR$/top.fols.box.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -179,10 +179,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="461" y="28" key="#Main/0.0.1536.824@0.0.1536.824" timestamp="1598532719525" />
-    <state x="223" y="67" width="1088" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598536262013">
+    <state x="223" y="67" width="1088" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598548378998">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="223" y="67" width="1088" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1598536262013" />
+    <state x="223" y="67" width="1088" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1598548378998" />
     <state x="548" y="117" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1598032662873">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -203,10 +203,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="227" y="262" width="1134" height="299" key="#配置路径变量/0.0.1536.824@0.0.1536.824" timestamp="1598031279501" />
-    <state x="151" y="54" width="1038" height="744" key="#项目结构" timestamp="1598531614283">
+    <state x="151" y="54" width="1038" height="744" key="#项目结构" timestamp="1598548399436">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="151" y="54" width="1038" height="744" key="#项目结构/0.0.1536.824@0.0.1536.824" timestamp="1598531614283" />
+    <state x="151" y="54" width="1038" height="744" key="#项目结构/0.0.1536.824@0.0.1536.824" timestamp="1598548399436" />
     <state x="520" y="265" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1598526454381">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -215,22 +215,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="167" width="438" height="486" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1598033394997" />
-    <state width="1478" height="529" key="GridCell.Tab.0.bottom" timestamp="1598536345910">
+    <state width="1478" height="529" key="GridCell.Tab.0.bottom" timestamp="1598548461574">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="529" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598536345910" />
-    <state width="1478" height="529" key="GridCell.Tab.0.center" timestamp="1598536345910">
+    <state width="1478" height="529" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598548461574" />
+    <state width="1478" height="529" key="GridCell.Tab.0.center" timestamp="1598548461574">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="529" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598536345910" />
-    <state width="1478" height="529" key="GridCell.Tab.0.left" timestamp="1598536345910">
+    <state width="1478" height="529" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598548461574" />
+    <state width="1478" height="529" key="GridCell.Tab.0.left" timestamp="1598548461574">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="529" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598536345910" />
-    <state width="1478" height="529" key="GridCell.Tab.0.right" timestamp="1598536345910">
+    <state width="1478" height="529" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598548461574" />
+    <state width="1478" height="529" key="GridCell.Tab.0.right" timestamp="1598548461574">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="529" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598536345910" />
+    <state width="1478" height="529" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598548461574" />
     <state x="494" y="114" key="RollbackChangesDialog" timestamp="1598034089072">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
