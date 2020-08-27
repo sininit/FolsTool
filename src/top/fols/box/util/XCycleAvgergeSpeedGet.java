@@ -18,6 +18,7 @@ public class XCycleAvgergeSpeedGet {
     public XCycleAvgergeSpeedGet() {
         this.nowAccess = new AtomicLong(0);
         this.stop = new AtomicBoolean(false);
+        this.lastAccessTime = new AtomicLong(0);
     }
 
     public void access(long count) {
