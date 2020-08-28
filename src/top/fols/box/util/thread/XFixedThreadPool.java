@@ -66,10 +66,10 @@ public class XFixedThreadPool {
 
 			if (this.linkedTop == element) {
 				XDoubleLinked<Run> prev = element.getPrev();
-				this.linkedRoot.remove(element);
+				element.remove();
 				this.linkedTop = prev;
 			} else {
-				this.linkedRoot.remove(element);
+				element.remove();
 			}
 		}
 

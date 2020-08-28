@@ -413,11 +413,11 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 
                 XDoubleLinked next = now.getNext();
                 XDoubleLinked last = now.getPrev();
-                bottom.remove(now);
+                now.remove();
                 now = last;
 
                 if (XDoubleLinked.equalsContent(separatorString, next)) {
-                    bottom.remove(next);
+                    next.remove();
                 }
             } else if (XDoubleLinked.equalsContent("..", now)) {
                 // 处理 ../
@@ -426,19 +426,19 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
                 XDoubleLinked last2 = null == last1 ? null : last1.getPrev();
                 last2 = last2 == bottom ? null : last2;
                 if (null != last1) {
-                    bottom.remove(last1);
+                    last1.remove();
                 }
                 if (null != last2) {
-                    bottom.remove(last2);
+                    last2.remove();
                 }
 
                 XDoubleLinked next = now.getNext();
                 XDoubleLinked last = now.getPrev();
-                bottom.remove(now);
+                now.remove();
                 now = last;
 
                 if (XDoubleLinked.equalsContent(separatorString, next)) {
-                    bottom.remove(next);
+                    next.remove();
                 }
             }
 
@@ -448,7 +448,7 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
         }
 
         XDoubleLinked absbottom = bottom.getNext();
-        top.remove(bottom);
+        bottom.remove();
 
         if (null == absbottom) {
             return "";

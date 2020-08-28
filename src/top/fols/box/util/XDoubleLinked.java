@@ -9,7 +9,6 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 	public T content() {
 		return this.content;
 	}
-
 	public XDoubleLinked<T> setContent(T content) {
 		this.content = content;
 		return this;
@@ -20,6 +19,7 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 		// TODO: Implement this method
 		return null == this.content ? 0 : this.content.hashCode();
 	}
+	public int superHashCode(){ return super.hashCode(); }
 
 	@Override
 	public boolean equals(Object obj) {
@@ -31,7 +31,6 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 			return false;
 		}
 	}
-
 
 
 
@@ -58,189 +57,164 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 
 
 
-	protected XDoubleLinked<T> prev = null, next = null;
+	private XDoubleLinked<T> prev = null, next = null;
+
+
 	public XDoubleLinked() {
+		super();
 	}
 	public XDoubleLinked(T object) {
 		this.content = object;
 	}
 
+
+
+
 	// 获取上一个item
 	public XDoubleLinked<T> getPrev() {
 		return this.prev;
 	}
-	public static <T extends Object> XDoubleLinked<T> getPrev(XDoubleLinked<T> element) {
-		return null == element ? null : element.getPrev();
-	}
-
-
 	// 获取下一个item
 	public XDoubleLinked<T> getNext() {
 		return this.next;
-	}
-	public static <T extends Object> XDoubleLinked<T> getNext(XDoubleLinked<T> element) {
-		return null == element ? null : element.getNext();
 	}
 
 
 	public boolean hasPrev() {
 		return null != this.prev;
 	}
-	public static <T extends Object> boolean hasPrev(XDoubleLinked<T> element) {
-		return null == element ? false : element.hasPrev();
-	}
-
-
 	public boolean hasNext() {
 		return null != this.next;
 	}
-	public static <T extends Object> boolean hasNext(XDoubleLinked<T> element) {
-		return null == element ? false : element.hasNext();
-	}
 
-	/*
-	 * bottom >> elements >> top
+
+
+
+
+	/**
+	 * first >> elements >> last
 	 */
-
-	// 添加下一个item
-	public void addNext(XDoubleLinked<T> item) {
-		this.addNext(this, item);
+	public void addNext(XDoubleLinked<T> element) throws NullPointerException {
+		XDoubleLinked._addNext(this, element);
 	}
-
-	public static <T extends Object> void addNext(XDoubleLinked<T> index, XDoubleLinked<T> addelement) throws NullPointerException {
+	// 添加下一个item
+	static <T extends Object> void _addNext(XDoubleLinked<T> index, XDoubleLinked<T> element) throws NullPointerException {
 		if (null == index) {
-			throw new NullPointerException("item for null");
+			throw new NullPointerException("index");
 		}
-		if (null == addelement) {
+		if (null == element) {
 			throw new NullPointerException("need add item for null");
 		}
 
 		/*
 		 * [index, ...] 原index下个元素引索
 		 */
-		XDoubleLinked<T> itemnext = index.next;
-		/*
-		 * 如果index 的下一个元素就是addelement那么直接退出 (在位置重复添加元素了)
-		 */
-		if (itemnext == addelement) {
+		XDoubleLinked<T> indexnext = index.next;
+		if (indexnext == element) {
 			return;
 		}
 
-		/*
-		 * 将index的下一个元素设置成 addelement
+		/**
+		 * unlink element
+		 * 将原来 element 两端连接 并且删除 element
 		 */
-		index.next = addelement;
-		/*
-		 * 将index 的 下一个元素 的上一个元素引索设置为 addelement
+		XDoubleLinked._remove(element);
+
+		/**
+		 * link element
 		 */
-		if (null != itemnext) {
-			itemnext.prev = addelement;
+		index.next = element;
+		if (null != indexnext) {
+			indexnext.prev = element;
 		}
 
-		if (null != addelement.prev) {
-			/*
-			 * [a, addelement, index, ...] ==> [a, index, addelement, ...]
-			 * 
-			 * 将 原来addelement所在的位置的上一个元素 的下一个元素引索 设置为 addelement的下一个元素引索
-			 */
-			addelement.prev.next = addelement.next;
-		}
-		if (null != addelement.next) {
-			addelement.next.prev = addelement.prev;
-		}
-
-		/*
-		 * 将addelement 的上一个元素引索设置为index
+		element.prev = index;
+		element.next = indexnext;
+	}
+	public void remove() {
+		XDoubleLinked._remove(this);
+	}
+	static <T extends Object> void _remove(XDoubleLinked<T> element) {
+		/**
+		 * 取消链接 next
+		 * index 存在下个元素，将(index.next) 的 prev 连接到 index.prev
+		 * 将 index.prev 删除
 		 */
-		addelement.prev = index;
-
-		/*
-		 * 将addelement的下个元素引索改为原index的下个元素引索
+		if (null != element.next) {
+			element.next.prev = element.prev;
+		}
+		/**
+		 * 取消链接 prev
+		 * index 存在上个元素，将(index.prev) 的 next 连接到 index.next
+		 * 将 index.next 删除
 		 */
-		addelement.next = itemnext;
-	}
-
-	public boolean remove(XDoubleLinked<T> item) {
-		if (null == item) {
-			return false;// null
+		if (null != element.prev) {
+			element.prev.next = element.next;
 		}
-		boolean result = false;
-		XDoubleLinked<T> itemprev = item.prev;
-		if (null != item.next) {
-			item.next.prev = itemprev;
-			item.prev = null;
-			result = true;
-		}
-		if (null != itemprev) {
-			itemprev.next = item.next;
-			item.next = null;
-			result = true;
-		} else {
-			/*
-			 * 不存在前一个元素 所以 这是栈底
-			 */
-			item.next = null;
-		}
-		return result;
+		element.prev = element.next = null;
 	}
-
-
-	/*
-	 * 是否为栈底
-	 */
-	public boolean isFirst() {
-		return null == this.prev;
-	}
-	public static <T extends Object> boolean isFirst(XDoubleLinked<T> element) {
-		return null == element ? false : element.isFirst();
-	}
-
-	/*
-	 * 是否为栈顶
-	 */
-	public boolean isLast() {
-		return null == this.next;
-	}
-	public static <T extends Object> boolean isLast(XDoubleLinked<T> element) {
-		return null == element ? false : element.isLast();
-	}
-
 	/**
 	 *
-	 * @param first new First
+	 * @param newFirst new First
 	 * @return new First
 	 * @throws NullPointerException
 	 * @throws RuntimeException
 	 */
-	public XDoubleLinked<T> addFirst(XDoubleLinked<T> first) throws NullPointerException, RuntimeException{
-		if (null == first) {
-			throw new NullPointerException("item for null");
+	public void addFirst(XDoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
+		XDoubleLinked._addFirst(this, newFirst);
+	}
+	static <T extends Object> void _addFirst(XDoubleLinked<T> originalFirst, XDoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
+		if (null == originalFirst) {
+			throw new NullPointerException("original-first for null");
 		}
-		if (!isFirst()) {
-			throw new RuntimeException("only may be added from the bottom");
+		if (null == newFirst) {
+			throw new NullPointerException("new-first for null");
 		}
+		if (originalFirst == newFirst) {
+			return;
+		}
+		if (!originalFirst.isFirst()) {
+			throw new RuntimeException("only may be added from the first");
+		}
+		XDoubleLinked._remove(newFirst);
 
-		this.addNext(first);
-		first.addNext(this);
-		return first;
+//		newFirst.prev = null;
+		newFirst.next = originalFirst;
+
+		originalFirst.prev = newFirst;
+//		originalFirst.next = originalFirst.next;
+
+	}
+
+
+
+
+
+
+
+	/*
+	 * 是否为第一个
+	 */
+	public boolean isFirst() {
+		return null == this.prev;
 	}
 
 	/*
-	 * 不在栈里 独立item 孤儿
+	 * 是否为最后一个
+	 */
+	public boolean isLast() {
+		return null == this.next;
+	}
+
+
+
+
+	/*
+	 * 没有任何链接 独立item 孤儿
 	 */
 	public boolean isOrphan() {
 		return null == this.prev && null == this.next;
 	}
-	public static <T extends Object> boolean isOrphan(XDoubleLinked<T> element) {
-		return null == element ? false : element.isOrphan();
-	}
-
-
-
-
-
-
-
 
 
 
@@ -251,75 +225,54 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 
 	// 获取第一个元素
 	public XDoubleLinked<T> findFirst() {
-		return XDoubleLinked.findFirst(this);
+		XDoubleLinked<T> now;
+		for (now = this; null != now.prev;) {
+			now = now.prev;
+		}
+		return now;
 	}
-	// 获取第一个元素
-	public static <T extends Object> XDoubleLinked<T> findFirst(XDoubleLinked<T> item) throws NullPointerException {
-		if (null == item) {
-			throw new NullPointerException("item for null");
-		}
-		XDoubleLinked<T> tmp = item;
-		XDoubleLinked<T> bottom = null;
-		while (null != (tmp = tmp.prev)) {
-			bottom = tmp;
-		}
-		if (null == bottom) {
-			return item;
-		}
-		return bottom;
-	}
-
 
 	// 获取最后一个元素
 	public XDoubleLinked<T> findLast() {
-		return XDoubleLinked.findLast(this);
-	}
-
-	// 获取最后一个元素
-	public static <T extends Object> XDoubleLinked<T> findLast(XDoubleLinked<T> item) throws NullPointerException{
-		if (null == item) {
-			throw new NullPointerException("item for null");
+		XDoubleLinked<T> now;
+		for (now = this; null != now.next;) {
+			now = now.next;
 		}
-		XDoubleLinked<T> tmp = item;
-		XDoubleLinked<T> next = null;
-		while (null != (tmp = tmp.next)) {
-			next = tmp;
-		}
-		if (null == next) {
-			return item;
-		}
-		return next;
+		return now;
 	}
 
 
 
-
-
-	public static <T extends Object> String toStringFromLastStart(XDoubleLinked<T> item) {
-		if (null == item) {
-			return "{}";
-		}
-		XStringJoiner sj = new XStringJoiner(",", "{", "}");
-		XDoubleLinked top = findLast(item);
-		if (null != top) {
-			do {
-				sj.add(top.toString());
-			} while (top.hasPrev() && null != (top = top.getPrev()));
-		}
-		return sj.toString();
+	public <T extends Object> String toStringFromFirstStart() {
+		return         XDoubleLinked.toStringFromFirstStart(this);
 	}
-
+	public <T extends Object> String toStringFromLastStart() {
+		return         XDoubleLinked.toStringFromLastStart(this);
+	}
 	public static <T extends Object> String toStringFromFirstStart(XDoubleLinked<T> item) {
 		if (null == item) {
-			return "{}";
-		}
-		XStringJoiner sj = new XStringJoiner(",", "{", "}");
-		XDoubleLinked top = findFirst(item);
-		if (null != top) {
+			return String.valueOf(item);
+		} else {
+			XStringJoiner strbuf = new XStringJoiner(",", "{", "}");
+			XDoubleLinked element = item.findFirst();
 			do {
-				sj.add(top.toString());
-			} while (top.hasNext() && null != (top = top.getNext()));
+				strbuf.add(element.toString());
+			} while (null != (element = element.getNext()));
+			return strbuf.toString();
 		}
-		return sj.toString();
 	}
+	public static <T extends Object> String toStringFromLastStart(XDoubleLinked<T> item) {
+		if (null == item) {
+			return String.valueOf(item);
+		} else {
+			XStringJoiner strbuf = new XStringJoiner(",", "{", "}");
+			XDoubleLinked element = item.findLast();
+			do {
+				strbuf.add(element.toString());
+			} while (null != (element = element.getPrev()));
+			return strbuf.toString();
+		}
+	}
+
 }
+

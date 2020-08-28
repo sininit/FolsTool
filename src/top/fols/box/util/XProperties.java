@@ -388,7 +388,7 @@ public class XProperties implements Serializable, XInterfaceGetOriginMap{
         }
         while (rk.hasNext()) {
             String key = ((XDoubleLinked<String>) rk.getNext()).content();
-            rk.remove(rk.getNext());
+            rk.getNext().remove();
             this.remove(key);
         }
         return this;

@@ -105,29 +105,26 @@ public class XURL implements Serializable {
     private String uPathAndParam; // /(dir/filename)(?param=value&multiplyParam=value)
     private String uRef; // null / ref
 
-    private static class Cache<T extends Object> extends XObject<T> implements Serializable {
-        private static final long serialVersionUID = 1L;
-        
+    private static class Cache<T extends Object> extends XObject<T> {
         private Cache(T object) {
             super(object);
         }
-
         private static <T extends Object> Cache<T> wrap(T object) {
             return new Cache<T>(object);
         }
     }
 
-    private Cache<String> cAuthority = null; // (user@)host(:port)
-    private Cache<String> cHost = null; // host
-    private Cache<String> cPort = null; // null / port
-    private Cache<String> cFilePath = null; // /(dir/filename)
-    private Cache<String> cDirName = null; // dirname
-    private Cache<String> cFileName = null; // filename
-    private Cache<String> cFileNameAndParam = null; // filename(?param=value&multiplyParam=value)
-    private Cache<String> cParam = null; // null / param=value&multiplyParam=value
+    private transient Cache<String> cAuthority = null; // (user@)host(:port)
+    private transient Cache<String> cHost = null; // host
+    private transient Cache<String> cPort = null; // null / port
+    private transient Cache<String> cFilePath = null; // /(dir/filename)
+    private transient Cache<String> cDirName = null; // dirname
+    private transient Cache<String> cFileName = null; // filename
+    private transient Cache<String> cFileNameAndParam = null; // filename(?param=value&multiplyParam=value)
+    private transient Cache<String> cParam = null; // null / param=value&multiplyParam=value
 
-    private Cache<String> cAbsoluteUrl = null; // absoluteURL
-    private Cache<String> cFormatUrl = null; // formatURL
+    private transient Cache<String> cAbsoluteUrl = null; // absoluteURL
+    private transient Cache<String> cFormatUrl = null; // formatURL
 
     /**
      * "@return create the parameter URL for this instance"
