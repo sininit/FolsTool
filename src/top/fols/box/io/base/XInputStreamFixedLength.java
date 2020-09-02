@@ -3,13 +3,13 @@ package top.fols.box.io.base;
 import java.io.IOException;
 import java.io.InputStream;
 import top.fols.box.io.interfaces.XInterfaceFixedLengthStream;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 
 /**
  * constraint inputStream max read Size
  **/
 public class XInputStreamFixedLength<T extends InputStream> extends InputStream
-		implements XInterfaceFixedLengthStream, XInterfaceGetOriginStream<T> {
+		implements XInterfaceFixedLengthStream, XInterfaceGetInnerStream<T> {
 	private T stream;
 	private long maxCount;
 	private long nowCount;
@@ -139,7 +139,7 @@ public class XInputStreamFixedLength<T extends InputStream> extends InputStream
 	}
 
 	@Override
-	public T getStream() {
+	public T getInnerStream() {
 		return stream;
 	}
 }

@@ -5,7 +5,7 @@ import java.io.Reader;
 import java.util.Arrays;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.io.XStream;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.io.interfaces.XInterfaceLineReaderStream;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
@@ -13,7 +13,7 @@ import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.statics.XStaticSystem;
 
 public class XReaderLine<T extends Reader> extends Reader implements XInterfacePrivateBuffOperat<char[]>,
-XInterfaceLineReaderStream<char[]>, XInterfaceReleaseBufferable, XInterfaceGetOriginStream<T> {
+XInterfaceLineReaderStream<char[]>, XInterfaceReleaseBufferable, XInterfaceGetInnerStream<T> {
 	private T is;
 	private char[] buf;// readLine superfluous data
 
@@ -471,7 +471,7 @@ top: while (true) {
 	}
 
 	@Override
-	public T getStream() {
+	public T getInnerStream() {
 		return this.is;
 	}
 

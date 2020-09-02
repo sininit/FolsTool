@@ -9,13 +9,13 @@ public class XCollections {
 
 
     /**
-     * @see top.fols.box.util.XArray sort
+     * @see top.fols.box.util.XArray#sort
      */
     public static <T> void sort(List<T> cover, Comparator<T> c) {
         XCollections.sort(cover, 0, cover.size(), c);
     }
     /**
-     * @see top.fols.box.util.XArray sort
+     * @see top.fols.box.util.XArray#sort
      */
     public static <T> void sort(List<T> cover, int off, int ed, Comparator<T> c) {
         int i, j;
@@ -32,13 +32,13 @@ public class XCollections {
 
 
     /**
-     * @see top.fols.box.util.XArray filter
+     * @see top.fols.box.util.XArray#filter
      */
     public static <T> List<T> filter(List<T> origin, XObjects.AcceptProcess<T> fp) {
         return XCollections.filter(origin, 0, origin.size(), fp);
     }
     /**
-     * @see top.fols.box.util.XArray filter
+     * @see top.fols.box.util.XArray#filter(Object[], int, int, XObjects.AcceptProcess)
      */
     public static <T> List<T> filter(List<T> origin, int off, int len, XObjects.AcceptProcess<T> fp) {
         List<T> newList = new ArrayList<T>();
@@ -55,7 +55,7 @@ public class XCollections {
     /**
      * 去除重复元素
      *
-     * @see top.fols.box.util.XArray deduplication
+     * @see top.fols.box.util.XArray#deduplication
      */
     public static <T> Collection<T> deduplication(Collection<T> array) {
         if (null == array) {

@@ -6,11 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import top.fols.box.util.interfaces.XInterfaceGetOriginMap;
+import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 
 import java.util.Collection;
 
-public class XKeyMap<K extends Object> implements Serializable, XInterfaceGetOriginMap{
+public class XKeyMap<K extends Object> implements Serializable, XInterfaceGetInnerMap {
 	private static final long serialVersionUID = 1L;
 
 
@@ -39,7 +39,7 @@ public class XKeyMap<K extends Object> implements Serializable, XInterfaceGetOri
 	}
 	
 	@Override
-    public Map<K, ?> getMap() {
+    public Map<K, ?> getInnerMap() {
         return this.map;
 	}
 	

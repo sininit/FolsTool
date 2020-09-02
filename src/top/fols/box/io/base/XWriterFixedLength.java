@@ -3,11 +3,11 @@ package top.fols.box.io.base;
 import java.io.IOException;
 import java.io.Writer;
 import top.fols.box.io.interfaces.XInterfaceFixedLengthStream;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.io.base.XOutputStreamFixedLength.OutOfLengthException;
 
 public class XWriterFixedLength<T extends Writer> extends Writer
-implements XInterfaceFixedLengthStream, XInterfaceGetOriginStream<T> {
+implements XInterfaceFixedLengthStream, XInterfaceGetInnerStream<T> {
     private T stream;
     private long maxCount;
     private long nowCount;
@@ -114,7 +114,7 @@ implements XInterfaceFixedLengthStream, XInterfaceGetOriginStream<T> {
     }
 
     @Override
-    public T getStream() {
+    public T getInnerStream() {
         return stream;
     }
 }

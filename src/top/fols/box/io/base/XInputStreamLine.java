@@ -9,7 +9,7 @@ import java.util.Map;
 
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.io.XStream;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.io.interfaces.XInterfaceLineReaderStream;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
@@ -17,7 +17,7 @@ import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.statics.XStaticSystem;
 
 public class XInputStreamLine<T extends InputStream> extends InputStream implements XInterfacePrivateBuffOperat<byte[]>,
-XInterfaceLineReaderStream<byte[]>, XInterfaceReleaseBufferable, XInterfaceGetOriginStream<T> {
+XInterfaceLineReaderStream<byte[]>, XInterfaceReleaseBufferable, XInterfaceGetInnerStream<T> {
 	private T is;
 	private byte[] buf;// readLine superfluous data
 
@@ -510,7 +510,7 @@ top: while (true) {
 	}
 
 	@Override
-	public T getStream() {
+	public T getInnerStream() {
 		return this.is;
 	}
 

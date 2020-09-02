@@ -3,9 +3,9 @@ package top.fols.box.io.digest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.Checksum;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 
-public class XChecksumInputStream<T extends InputStream> extends InputStream implements XInterfaceGetOriginStream<T> {
+public class XChecksumInputStream<T extends InputStream> extends InputStream implements XInterfaceGetInnerStream<T> {
 
 	/* NOTE: This should be made a generic UpdaterInputStream */
 
@@ -112,7 +112,7 @@ public class XChecksumInputStream<T extends InputStream> extends InputStream imp
 	}
 
 	@Override
-	public T getStream() {
+	public T getInnerStream() {
 		// TODO: Implement this method
 		return this.stream;
 	}

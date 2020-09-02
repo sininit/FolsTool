@@ -341,7 +341,7 @@ public class XObjects {
 	/**
 	 * 
 	 * read String first num
-	 * @see top.fols.box.lang.XString retian;
+	 * @see top.fols.box.lang.XString#retain(CharSequence, int, int, char[]) 
 	 */
 	public static String retainNum(CharSequence str, int off, int len) {
 		char[] buf = new char[20];// long max string len = 20
@@ -379,7 +379,7 @@ public class XObjects {
 	/**
 	 * 
 	 * read String first num
-	 * @see top.fols.box.lang.XString retian;
+	 * @see top.fols.box.lang.XString#retain(CharSequence, int, int, char[]) 
 	 */
 	public static String retainDouble(CharSequence str, int off, int len) {
 		char[] buf = new char[64];

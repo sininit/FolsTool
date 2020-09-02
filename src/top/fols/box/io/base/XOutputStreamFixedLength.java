@@ -4,7 +4,7 @@ package top.fols.box.io.base;
 import java.io.IOException;
 import java.io.OutputStream;
 import top.fols.box.io.interfaces.XInterfaceFixedLengthStream;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 
 /*
  * @java.io.OutputStream
@@ -12,7 +12,7 @@ import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
  * 限制输出流最大写入大小
  */
 public class XOutputStreamFixedLength<T extends OutputStream> extends OutputStream
-implements XInterfaceFixedLengthStream, XInterfaceGetOriginStream<T> {
+implements XInterfaceFixedLengthStream, XInterfaceGetInnerStream<T> {
     private T stream;
     protected long maxCount;
     protected long nowCount;
@@ -111,7 +111,7 @@ implements XInterfaceFixedLengthStream, XInterfaceGetOriginStream<T> {
     }
 
     @Override
-    public T getStream() {
+    public T getInnerStream() {
         return stream;
     }
 

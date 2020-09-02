@@ -252,7 +252,7 @@ public class XReflect {
     
     
     /**
-     * @see XReflectAccessible.testPrivateReflect()
+     * @see XReflectAccessible#testPrivateReflect()
     */
     private static boolean testPrivateReflectMethod0() { return true; }
 }

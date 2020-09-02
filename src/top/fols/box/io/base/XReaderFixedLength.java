@@ -2,11 +2,11 @@ package top.fols.box.io.base;
 
 import java.io.IOException;
 import java.io.Reader;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.io.interfaces.XInterfaceFixedLengthStream;
 
 public class XReaderFixedLength<T extends Reader> extends Reader
-		implements XInterfaceFixedLengthStream, XInterfaceGetOriginStream<T> {
+		implements XInterfaceFixedLengthStream, XInterfaceGetInnerStream<T> {
 	private T stream;
 	private long maxCount;
 	private long nowCount;
@@ -130,7 +130,7 @@ public class XReaderFixedLength<T extends Reader> extends Reader
 	}
 
 	@Override
-	public T getStream() {
+	public T getInnerStream() {
 		return stream;
 	}
 

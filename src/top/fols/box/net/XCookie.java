@@ -16,10 +16,13 @@ public class XCookie {
 
     public static Map<String, String> getHeaderCookieToMap(URLConnection urlc) {
         Map<String, String> val = new LinkedHashMap<>();
-        val.putAll(XCookie
-            .cookieValueToMap(XURLConnectionMessageHeader.getHeaderFieldValue(urlc, XCookie.HEADER_KEY_COOKIE)));
-        val.putAll(XCookie
-            .cookieValueToMap(XURLConnectionMessageHeader.getHeaderFieldValue(urlc, XCookie.HEADER_KEY_SET_COOKIE)));
+
+        XURLConnectionMessageHeader hm = new XURLConnectionMessageHeader(urlc.getHeaderFields());
+
+
+
+        val.putAll(XCookie.cookieValueToMap(hm.get(XCookie.HEADER_KEY_COOKIE)));
+        val.putAll(XCookie.cookieValueToMap(hm.get(XCookie.HEADER_KEY_SET_COOKIE)));
         return val;
     }
 

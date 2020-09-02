@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.statics.XStaticSystem;
 
-public class XOutputStreamLine<T extends OutputStream> extends OutputStream implements XInterfaceGetOriginStream<T> {
+public class XOutputStreamLine<T extends OutputStream> extends OutputStream implements XInterfaceGetInnerStream<T> {
     private T stream;
 
     public XOutputStreamLine(T stream) {
@@ -34,7 +34,7 @@ public class XOutputStreamLine<T extends OutputStream> extends OutputStream impl
     }
 
     @Override
-    public T getStream() {
+    public T getInnerStream() {
         return this.stream;
     }
 

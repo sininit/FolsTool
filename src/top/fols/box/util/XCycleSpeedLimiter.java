@@ -3,7 +3,7 @@ package top.fols.box.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.time.XTimeTool;
 
 public class XCycleSpeedLimiter {
@@ -173,7 +173,7 @@ public class XCycleSpeedLimiter {
 
 
 	public static class SpeedLimiterInputStream<T extends InputStream> extends InputStream
-			implements XInterfaceGetOriginStream<T> {
+			implements XInterfaceGetInnerStream<T> {
 		private T stream;
 		private XCycleSpeedLimiter m;
 
@@ -220,7 +220,7 @@ public class XCycleSpeedLimiter {
 		}
 
 		@Override
-		public T getStream() {
+		public T getInnerStream() {
 			return stream;
 		}
 
@@ -240,7 +240,7 @@ public class XCycleSpeedLimiter {
 	}
 
 	public static class SpeedLimiterOutputStream<T extends OutputStream> extends OutputStream
-			implements XInterfaceGetOriginStream<T> {
+			implements XInterfaceGetInnerStream<T> {
 		private T stream;
 		private XCycleSpeedLimiter m;
 
@@ -276,7 +276,7 @@ public class XCycleSpeedLimiter {
 		}
 
 		@Override
-		public T getStream() {
+		public T getInnerStream() {
 			return stream;
 		}
 

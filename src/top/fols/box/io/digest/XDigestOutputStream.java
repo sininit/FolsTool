@@ -3,13 +3,12 @@ package top.fols.box.io.digest;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
-import top.fols.box.util.encode.XHexEncoder;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 
 /**
  * @see XChecksumOutputStream
  */
-public class XDigestOutputStream<T extends OutputStream> extends OutputStream implements XInterfaceGetOriginStream<T> {
+public class XDigestOutputStream<T extends OutputStream> extends OutputStream implements XInterfaceGetInnerStream<T> {
 
 	private T stream;
 	private boolean on = true;
@@ -79,7 +78,7 @@ public class XDigestOutputStream<T extends OutputStream> extends OutputStream im
 	}
 
 	@Override
-	public T getStream() {
+	public T getInnerStream() {
 		// TODO: Implement this method
 		return this.stream;
 	}

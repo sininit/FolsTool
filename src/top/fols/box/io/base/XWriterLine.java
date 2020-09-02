@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.statics.XStaticSystem;
 
 /**
  * XWriterLine
  */
-public class XWriterLine<T extends Writer> extends Writer implements XInterfaceGetOriginStream<T> {
+public class XWriterLine<T extends Writer> extends Writer implements XInterfaceGetInnerStream<T> {
     private T stream;
 
     public XWriterLine(T stream) {
@@ -79,7 +79,7 @@ public class XWriterLine<T extends Writer> extends Writer implements XInterfaceG
     }
 
     @Override
-    public T getStream() {
+    public T getInnerStream() {
         // TODO Auto-generated method stub
         return this.stream;
     }

@@ -8,9 +8,9 @@ import java.util.Set;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.lang.XString;
 import top.fols.box.util.encode.XURLEncoder;
-import top.fols.box.util.interfaces.XInterfaceGetOriginMap;
+import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 
-public class XURLParam implements Serializable, XInterfaceGetOriginMap{
+public class XURLParam implements Serializable, XInterfaceGetInnerMap {
     private static final long serialVersionUID = 1L;
     
     
@@ -153,7 +153,7 @@ public class XURLParam implements Serializable, XInterfaceGetOriginMap{
 
     @XAnnotations("if you want to manually modify his please also manual coding")
     @Override
-    public Map<String, String> getMap() {
+    public Map<String, String> getInnerMap() {
         return this.param;
     }
 

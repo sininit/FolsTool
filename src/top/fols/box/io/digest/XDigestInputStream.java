@@ -1,16 +1,15 @@
 package top.fols.box.io.digest;
 
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
-import top.fols.box.util.encode.XHexEncoder;
-import top.fols.box.io.interfaces.XInterfaceGetOriginStream;
+
+import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 
 /** 
  * @see XChecksumInputStream
  */
-public class XDigestInputStream<T extends InputStream> extends InputStream implements XInterfaceGetOriginStream<T> {
+public class XDigestInputStream<T extends InputStream> extends InputStream implements XInterfaceGetInnerStream<T> {
 	private T stream;
 	private boolean on = true;
 
@@ -75,7 +74,7 @@ public class XDigestInputStream<T extends InputStream> extends InputStream imple
 
 
 	@Override
-	public T getStream() {
+	public T getInnerStream() {
 		// TODO: Implement this method
 		return this.stream;
 	}
