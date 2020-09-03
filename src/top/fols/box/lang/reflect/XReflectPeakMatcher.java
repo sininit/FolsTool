@@ -10,7 +10,7 @@ import top.fols.box.lang.XClass;
 import top.fols.box.lang.reflect.XReflectCache.ConstructorList;
 import top.fols.box.lang.reflect.XReflectCache.MethodList;
 import top.fols.box.lang.reflect.optdeclared.XReflectAccessible;
-import top.fols.box.statics.XStaticBaseType;
+import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XObjects;
 
@@ -91,7 +91,7 @@ public class XReflectPeakMatcher extends XReflectMatcher {
             } 
         }
         if (instanceClass.isInterface()) {
-            if (XStaticBaseType.Object_class == comparedCls) {
+            if (XStaticFixedValue.Object_class == comparedCls) {
                 /**
                  * 对比: java.lang.String >>java.lang.Object
                  * String extends Object
@@ -132,7 +132,7 @@ public class XReflectPeakMatcher extends XReflectMatcher {
                 } 
             } else {
                 //因为数组也是对象
-                if (XStaticBaseType.Object_class == comparedClsRoot) {
+                if (XStaticFixedValue.Object_class == comparedClsRoot) {
                     if (comparedClsDeep == instanceClassDeep) {
                         return getSuperLevel0(instanceClassRoot, comparedClsRoot);
                     } else {
@@ -149,7 +149,7 @@ public class XReflectPeakMatcher extends XReflectMatcher {
                 }
             }
             throw new RuntimeException("error calc: " + XClass.getCanonicalName(instanceClass) + "  compared  " + XClass.getCanonicalName(comparedCls));
-        } else if (XStaticBaseType.Object_class == comparedCls) {
+        } else if (XStaticFixedValue.Object_class == comparedCls) {
             if (instanceClass.isArray()) {
                 Object[] ms = getArrayClassMessage0(instanceClass, comparedCls);
                 Class instanceClassRoot = (Class) ms[0];

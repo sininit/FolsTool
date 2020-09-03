@@ -1,7 +1,8 @@
 package top.fols.box.lang;
 
 import java.lang.reflect.Array;
-import top.fols.box.statics.XStaticBaseType;
+
+import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XStringJoiner;
 
 public class XClass {
@@ -21,27 +22,27 @@ public class XClass {
             return nullObjectCanCastToClass && !castToClass.isPrimitive();//null can be converted to any package class ((?)null)
         }
         if (castToClass.isPrimitive()) {
-            return (castToClass == XStaticBaseType.byte_class && obj instanceof Byte)
-                || (castToClass == XStaticBaseType.long_class && obj instanceof Long)
-                || (castToClass == XStaticBaseType.double_class && obj instanceof Double)
-                || (castToClass == XStaticBaseType.char_class && obj instanceof Character)
-                || (castToClass == XStaticBaseType.int_class && obj instanceof Integer)
-                || (castToClass == XStaticBaseType.boolean_class && obj instanceof Boolean)
-                || (castToClass == XStaticBaseType.float_class && obj instanceof Float)
-                || (castToClass == XStaticBaseType.short_class && obj instanceof Short);
+            return (castToClass == XStaticFixedValue.byte_class && obj instanceof Byte)
+                || (castToClass == XStaticFixedValue.long_class && obj instanceof Long)
+                || (castToClass == XStaticFixedValue.double_class && obj instanceof Double)
+                || (castToClass == XStaticFixedValue.char_class && obj instanceof Character)
+                || (castToClass == XStaticFixedValue.int_class && obj instanceof Integer)
+                || (castToClass == XStaticFixedValue.boolean_class && obj instanceof Boolean)
+                || (castToClass == XStaticFixedValue.float_class && obj instanceof Float)
+                || (castToClass == XStaticFixedValue.short_class && obj instanceof Short);
         } else {
-            // if (instanceCls == XStaticBaseType.Byte_class) return obj instanceof Byte;
-            // if (instanceCls == XStaticBaseType.Long_class) return obj instanceof Long;
-            // if (instanceCls == XStaticBaseType.Double_class) return obj instanceof
+            // if (instanceCls == XStaticFixedValue.Byte_class) return obj instanceof Byte;
+            // if (instanceCls == XStaticFixedValue.Long_class) return obj instanceof Long;
+            // if (instanceCls == XStaticFixedValue.Double_class) return obj instanceof
             // Double;
-            // if (instanceCls == XStaticBaseType.Character_class) return obj instanceof
+            // if (instanceCls == XStaticFixedValue.Character_class) return obj instanceof
             // Character;
-            // if (instanceCls == XStaticBaseType.Integer_class) return obj instanceof
+            // if (instanceCls == XStaticFixedValue.Integer_class) return obj instanceof
             // Integer;
-            // if (instanceCls == XStaticBaseType.Boolean_class) return obj instanceof
+            // if (instanceCls == XStaticFixedValue.Boolean_class) return obj instanceof
             // Boolean;
-            // if (instanceCls == XStaticBaseType.Float_class) return obj instanceof Float;
-            // if (instanceCls == XStaticBaseType.Short_class) return obj instanceof Short;
+            // if (instanceCls == XStaticFixedValue.Float_class) return obj instanceof Float;
+            // if (instanceCls == XStaticFixedValue.Short_class) return obj instanceof Short;
 
             return castToClass.isInstance(obj);
         }
@@ -74,23 +75,23 @@ public class XClass {
             return nullObjectCanCastToClass && !castToClass.isPrimitive();//null can be converted to any package class ((?)null)
         }
         if (castToClass.isPrimitive()) {
-            return (castToClass == XStaticBaseType.byte_class && objcls == XStaticBaseType.Byte_class)
-                || (castToClass == XStaticBaseType.long_class && objcls == XStaticBaseType.Long_class)
-                || (castToClass == XStaticBaseType.double_class && objcls == XStaticBaseType.Double_class)
-                || (castToClass == XStaticBaseType.char_class && objcls == XStaticBaseType.Character_class)
-                || (castToClass == XStaticBaseType.int_class && objcls == XStaticBaseType.Integer_class)
-                || (castToClass == XStaticBaseType.boolean_class && objcls == XStaticBaseType.Boolean_class)
-                || (castToClass == XStaticBaseType.float_class && objcls == XStaticBaseType.Float_class)
-                || (castToClass == XStaticBaseType.short_class && objcls == XStaticBaseType.Short_class);
+            return (castToClass == XStaticFixedValue.byte_class         && objcls == XStaticFixedValue.Byte_class)
+                || (castToClass == XStaticFixedValue.long_class         && objcls == XStaticFixedValue.Long_class)
+                || (castToClass == XStaticFixedValue.double_class       && objcls == XStaticFixedValue.Double_class)
+                || (castToClass == XStaticFixedValue.char_class         && objcls == XStaticFixedValue.Character_class)
+                || (castToClass == XStaticFixedValue.int_class          && objcls == XStaticFixedValue.Integer_class)
+                || (castToClass == XStaticFixedValue.boolean_class      && objcls == XStaticFixedValue.Boolean_class)
+                || (castToClass == XStaticFixedValue.float_class        && objcls == XStaticFixedValue.Float_class)
+                || (castToClass == XStaticFixedValue.short_class        && objcls == XStaticFixedValue.Short_class);
         } else {
-            if ((castToClass == XStaticBaseType.Byte_class && objcls == XStaticBaseType.byte_class)
-                || (castToClass == XStaticBaseType.Long_class && objcls == XStaticBaseType.long_class)
-                || (castToClass == XStaticBaseType.Double_class && objcls == XStaticBaseType.double_class)
-                || (castToClass == XStaticBaseType.Character_class && objcls == XStaticBaseType.char_class)
-                || (castToClass == XStaticBaseType.Integer_class && objcls == XStaticBaseType.int_class)
-                || (castToClass == XStaticBaseType.Boolean_class && objcls == XStaticBaseType.boolean_class)
-                || (castToClass == XStaticBaseType.Float_class && objcls == XStaticBaseType.float_class)
-                || (castToClass == XStaticBaseType.Short_class && objcls == XStaticBaseType.short_class)) {
+            if ((castToClass == XStaticFixedValue.Byte_class            && objcls == XStaticFixedValue.byte_class)
+                || (castToClass == XStaticFixedValue.Long_class         && objcls == XStaticFixedValue.long_class)
+                || (castToClass == XStaticFixedValue.Double_class       && objcls == XStaticFixedValue.double_class)
+                || (castToClass == XStaticFixedValue.Character_class    && objcls == XStaticFixedValue.char_class)
+                || (castToClass == XStaticFixedValue.Integer_class      && objcls == XStaticFixedValue.int_class)
+                || (castToClass == XStaticFixedValue.Boolean_class      && objcls == XStaticFixedValue.boolean_class)
+                || (castToClass == XStaticFixedValue.Float_class        && objcls == XStaticFixedValue.float_class)
+                || (castToClass == XStaticFixedValue.Short_class        && objcls == XStaticFixedValue.short_class)) {
                 return true;
             } else {
                 return castToClass.isAssignableFrom(objcls);
@@ -114,15 +115,15 @@ public class XClass {
 
 
     public static boolean isPrimitiveClassName(String classCanonicalName) {
-        if (classCanonicalName.equals(XStaticBaseType.byte_classcanonicalname)
-            || classCanonicalName.equals(XStaticBaseType.char_classcanonicalname)
-            || classCanonicalName.equals(XStaticBaseType.double_classcanonicalname)
-            || classCanonicalName.equals(XStaticBaseType.float_classcanonicalname)
-            || classCanonicalName.equals(XStaticBaseType.int_classcanonicalname)
-            || classCanonicalName.equals(XStaticBaseType.long_classcanonicalname)
-            || classCanonicalName.equals(XStaticBaseType.short_classcanonicalname)
-            || classCanonicalName.equals(XStaticBaseType.boolean_classcanonicalname)
-            || classCanonicalName.equals(XStaticBaseType.void_classcanonicalname)) {
+        if (classCanonicalName.equals(XStaticFixedValue.byte_classcanonicalname)
+            || classCanonicalName.equals(XStaticFixedValue.char_classcanonicalname)
+            || classCanonicalName.equals(XStaticFixedValue.double_classcanonicalname)
+            || classCanonicalName.equals(XStaticFixedValue.float_classcanonicalname)
+            || classCanonicalName.equals(XStaticFixedValue.int_classcanonicalname)
+            || classCanonicalName.equals(XStaticFixedValue.long_classcanonicalname)
+            || classCanonicalName.equals(XStaticFixedValue.short_classcanonicalname)
+            || classCanonicalName.equals(XStaticFixedValue.boolean_classcanonicalname)
+            || classCanonicalName.equals(XStaticFixedValue.void_classcanonicalname)) {
             return true;
         } else {
             return false;
@@ -132,24 +133,24 @@ public class XClass {
 
     
     public static Class primitiveClassForName(String classCanonicalName) {
-        if (classCanonicalName.equals(XStaticBaseType.byte_classcanonicalname)) {
-            return XStaticBaseType.byte_class;
-        } else if (classCanonicalName.equals(XStaticBaseType.char_classcanonicalname)) {
-            return XStaticBaseType.char_class;
-        } else if (classCanonicalName.equals(XStaticBaseType.double_classcanonicalname)) {
-            return XStaticBaseType.double_class;
-        } else if (classCanonicalName.equals(XStaticBaseType.float_classcanonicalname)) {
-            return XStaticBaseType.float_class;
-        } else if (classCanonicalName.equals(XStaticBaseType.int_classcanonicalname)) {
-            return XStaticBaseType.int_class;
-        } else if (classCanonicalName.equals(XStaticBaseType.long_classcanonicalname)) {
-            return XStaticBaseType.long_class;
-        } else if (classCanonicalName.equals(XStaticBaseType.short_classcanonicalname)) {
-            return XStaticBaseType.short_class;
-        } else if (classCanonicalName.equals(XStaticBaseType.boolean_classcanonicalname)) {
-            return XStaticBaseType.boolean_class;
-        } else if (classCanonicalName.equals(XStaticBaseType.void_classcanonicalname)) {
-            return XStaticBaseType.void_class;
+        if (classCanonicalName.equals(XStaticFixedValue.byte_classcanonicalname)) {
+            return XStaticFixedValue.byte_class;
+        } else if (classCanonicalName.equals(XStaticFixedValue.char_classcanonicalname)) {
+            return XStaticFixedValue.char_class;
+        } else if (classCanonicalName.equals(XStaticFixedValue.double_classcanonicalname)) {
+            return XStaticFixedValue.double_class;
+        } else if (classCanonicalName.equals(XStaticFixedValue.float_classcanonicalname)) {
+            return XStaticFixedValue.float_class;
+        } else if (classCanonicalName.equals(XStaticFixedValue.int_classcanonicalname)) {
+            return XStaticFixedValue.int_class;
+        } else if (classCanonicalName.equals(XStaticFixedValue.long_classcanonicalname)) {
+            return XStaticFixedValue.long_class;
+        } else if (classCanonicalName.equals(XStaticFixedValue.short_classcanonicalname)) {
+            return XStaticFixedValue.short_class;
+        } else if (classCanonicalName.equals(XStaticFixedValue.boolean_classcanonicalname)) {
+            return XStaticFixedValue.boolean_class;
+        } else if (classCanonicalName.equals(XStaticFixedValue.void_classcanonicalname)) {
+            return XStaticFixedValue.void_class;
         }
         return null;
     }
@@ -161,47 +162,47 @@ public class XClass {
 
     //基础数据类型转换为包装类
     public static Class primitiveClassToPackageClass(Class baseClass) {
-        if (baseClass == XStaticBaseType.boolean_class) {
-            return XStaticBaseType.Boolean_class;
-        } else if (baseClass == XStaticBaseType.byte_class) {
-            return XStaticBaseType.Byte_class;
-        } else if (baseClass == XStaticBaseType.char_class) {
-            return XStaticBaseType.Character_class;
-        } else if (baseClass == XStaticBaseType.double_class) {
-            return XStaticBaseType.Double_class;
-        } else if (baseClass == XStaticBaseType.float_class) {
-            return XStaticBaseType.Float_class;
-        } else if (baseClass == XStaticBaseType.int_class) {
-            return XStaticBaseType.Integer_class;
-        } else if (baseClass == XStaticBaseType.long_class) {
-            return XStaticBaseType.Long_class;
-        } else if (baseClass == XStaticBaseType.short_class) {
-            return XStaticBaseType.Short_class;
-        } else if (baseClass == XStaticBaseType.void_class) {
-            return XStaticBaseType.Void_class;
+        if (baseClass == XStaticFixedValue.boolean_class) {
+            return XStaticFixedValue.Boolean_class;
+        } else if (baseClass == XStaticFixedValue.byte_class) {
+            return XStaticFixedValue.Byte_class;
+        } else if (baseClass == XStaticFixedValue.char_class) {
+            return XStaticFixedValue.Character_class;
+        } else if (baseClass == XStaticFixedValue.double_class) {
+            return XStaticFixedValue.Double_class;
+        } else if (baseClass == XStaticFixedValue.float_class) {
+            return XStaticFixedValue.Float_class;
+        } else if (baseClass == XStaticFixedValue.int_class) {
+            return XStaticFixedValue.Integer_class;
+        } else if (baseClass == XStaticFixedValue.long_class) {
+            return XStaticFixedValue.Long_class;
+        } else if (baseClass == XStaticFixedValue.short_class) {
+            return XStaticFixedValue.Short_class;
+        } else if (baseClass == XStaticFixedValue.void_class) {
+            return XStaticFixedValue.Void_class;
         }
         return baseClass;
     }
     //将包装类转换成基础数据类型的类
     public static Class packageClassToPrimitiveClass(Class baseClass) {
-        if (baseClass == XStaticBaseType.Boolean_class) {
-            return XStaticBaseType.boolean_class;
-        } else if (baseClass == XStaticBaseType.Byte_class) {
-            return XStaticBaseType.byte_class;
-        } else if (baseClass == XStaticBaseType.Character_class) {
-            return XStaticBaseType.char_class;
-        } else if (baseClass == XStaticBaseType.Double_class) {
-            return XStaticBaseType.double_class;
-        } else if (baseClass == XStaticBaseType.Float_class) {
-            return XStaticBaseType.float_class;
-        } else if (baseClass == XStaticBaseType.Integer_class) {
-            return XStaticBaseType.int_class;
-        } else if (baseClass == XStaticBaseType.Long_class) {
-            return XStaticBaseType.long_class;
-        } else if (baseClass == XStaticBaseType.Short_class) {
-            return XStaticBaseType.short_class;
-        } else if (baseClass == XStaticBaseType.Void_class) {
-            return XStaticBaseType.void_class;
+        if (baseClass == XStaticFixedValue.Boolean_class) {
+            return XStaticFixedValue.boolean_class;
+        } else if (baseClass == XStaticFixedValue.Byte_class) {
+            return XStaticFixedValue.byte_class;
+        } else if (baseClass == XStaticFixedValue.Character_class) {
+            return XStaticFixedValue.char_class;
+        } else if (baseClass == XStaticFixedValue.Double_class) {
+            return XStaticFixedValue.double_class;
+        } else if (baseClass == XStaticFixedValue.Float_class) {
+            return XStaticFixedValue.float_class;
+        } else if (baseClass == XStaticFixedValue.Integer_class) {
+            return XStaticFixedValue.int_class;
+        } else if (baseClass == XStaticFixedValue.Long_class) {
+            return XStaticFixedValue.long_class;
+        } else if (baseClass == XStaticFixedValue.Short_class) {
+            return XStaticFixedValue.short_class;
+        } else if (baseClass == XStaticFixedValue.Void_class) {
+            return XStaticFixedValue.void_class;
         }
         return baseClass;
     }

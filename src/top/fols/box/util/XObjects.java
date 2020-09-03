@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Comparator;
 
-import top.fols.box.statics.XStaticBaseType;
 import top.fols.box.statics.XStaticFixedValue;
 
 public class XObjects {
@@ -123,220 +122,243 @@ public class XObjects {
 		return null == obj || obj.length == 0;
 	}
 
-	/**
-	 * will data cast to String toString(char[]); toString(byte[]);
-	 * toString(byte[],String coding); toString(Object);
-	 * 
-	 * @param objArr
-	 * @return
-	 */
-	public static String toString(Object objArr) {
-		return XObjects.toString(objArr, null);
-	}
 
-	public static String toString(Object objArr, String codeing) {
-		if (null == objArr) {
+
+
+
+
+	public static String toString(Object obj) {
+		if (null == obj) {
 			return null;
 		}
-		if (objArr instanceof String) {
-			return (String) objArr;
-		} else if (objArr instanceof char[]) {
-			return new String((char[]) objArr);
-		} else if (objArr instanceof byte[]) {
-			byte[] bytes = (byte[]) objArr;
-			return null == codeing ? new String(bytes) : new String(bytes, Charset.forName(codeing));
+		if (obj instanceof char[]) {
+			return new String((char[]) obj);
 		} else {
-			return objArr.toString();
+			return obj.toString();
 		}
 	}
 
-	public static char tochar(Object objArr) {
-		if (null == objArr) {
-			return 0;
+	public static char tochar(Object obj) {
+		if (null == obj) {
+			return (char)0;
 		}
-		if (objArr instanceof Character) {
-			return ((Character) objArr).charValue();
+		if (obj instanceof Character) {
+			return ((Character) obj).charValue();
 		}
-		throw new ClassCastException(String.format("%s not can cast to array", objArr.getClass().getName()));
+		String str = obj.toString();
+		return 0 == str.length() ?(char)0: str.charAt(0);
 	}
 
-	public static boolean toboolean(Object objArr) {
-		if (null == objArr) {
+	public static boolean toboolean(Object obj) {
+		if (null == obj) {
 			return false;
 		}
-		if (objArr instanceof Boolean) {
-			return ((Boolean) objArr).booleanValue();
+		if (obj instanceof Boolean) {
+			return ((Boolean) obj).booleanValue();
 		}
-		return Boolean.parseBoolean(objArr.toString().trim());
+		return Boolean.parseBoolean(obj.toString().trim());
 	}
 
-	public static byte tobyte(Object objArr) {
-		if (null == objArr) {
+	public static byte tobyte(Object obj) {
+		if (null == obj) {
 			return 0;
 		}
-		if (objArr instanceof Byte) {
-			return ((Byte) objArr).byteValue();
+		if (obj instanceof Byte) {
+			return ((Byte) obj).byteValue();
 		}
-		return Byte.parseByte(objArr.toString().trim());
+		return Byte.parseByte(obj.toString().trim());
 	}
 
-	public static int toint(Object objArr) {
-		if (null == objArr) {
+	public static int toint(Object obj) {
+		if (null == obj) {
 			return 0;
 		}
-		if (objArr instanceof Integer) {
-			return ((Integer) objArr).intValue();
+		if (obj instanceof Integer) {
+			return ((Integer) obj).intValue();
 		}
-		return Integer.parseInt(objArr.toString().trim());
+		return Integer.parseInt(obj.toString().trim());
 	}
 
-	public static long tolong(Object objArr) {
-		if (null == objArr) {
+	public static long tolong(Object obj) {
+		if (null == obj) {
 			return 0;
 		}
-		if (objArr instanceof Long) {
-			return ((Long) objArr).longValue();
+		if (obj instanceof Long) {
+			return ((Long) obj).longValue();
 		}
-		return Long.parseLong(objArr.toString().trim());
+		return Long.parseLong(obj.toString().trim());
 	}
 
-	public static short toshort(Object objArr) {
-		if (null == objArr) {
+	public static short toshort(Object obj) {
+		if (null == obj) {
 			return 0;
 		}
-		if (objArr instanceof Short) {
-			return ((Short) objArr).shortValue();
+		if (obj instanceof Short) {
+			return ((Short) obj).shortValue();
 		}
-		return Short.parseShort(objArr.toString().trim());
+		return Short.parseShort(obj.toString().trim());
 	}
 
 	/**
 	 * xx.xxx
 	 **/
-	public static double todouble(Object objArr) {
-		if (null == objArr) {
+	public static double todouble(Object obj) {
+		if (null == obj) {
 			return 0;
-		} else if (objArr instanceof Double) {
-			return ((Double) objArr).doubleValue();
+		} else if (obj instanceof Double) {
+			return ((Double) obj).doubleValue();
 		}
-		return Double.parseDouble(objArr.toString().trim());
+		return Double.parseDouble(obj.toString().trim());
 	}
 
 	/**
 	 * xx.xxx
 	 **/
-	public static float tofloat(Object objArr) {
-		if (null == objArr) {
+	public static float tofloat(Object obj) {
+		if (null == obj) {
 			return 0;
 		}
-		if (objArr instanceof Float) {
-			return ((Float) objArr).floatValue();
+		if (obj instanceof Float) {
+			return ((Float) obj).floatValue();
 		}
-		return Float.parseFloat(objArr.toString().trim());
+		return Float.parseFloat(obj.toString().trim());
 	}
 
-	@SuppressWarnings("unchecked")
-	public static byte[] tobyteArray(Object originArray) {
-		return (byte[]) XArray.copyOfConversion(originArray, XStaticBaseType.byte_class);
-	}
 
-	@SuppressWarnings("unchecked")
-	public static long[] tolongArray(Object originArray) {
-		return (long[]) XArray.copyOfConversion(originArray, XStaticBaseType.long_class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static double[] todoubleArray(Object originArray) {
-		return (double[]) XArray.copyOfConversion(originArray, XStaticBaseType.double_class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static char[] tocharArray(Object originArray) {
-		return (char[]) XArray.copyOfConversion(originArray, XStaticBaseType.char_class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static int[] tointArray(Object originArray) {
-		return (int[]) XArray.copyOfConversion(originArray, XStaticBaseType.int_class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static boolean[] tobooleanArray(Object originArray) {
-		return (boolean[]) XArray.copyOfConversion(originArray, XStaticBaseType.boolean_class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static float[] tofloatArray(Object originArray) {
-		return (float[]) XArray.copyOfConversion(originArray, XStaticBaseType.float_class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static short[] toshortArray(Object originArray) {
-		return (short[]) XArray.copyOfConversion(originArray, XStaticBaseType.short_class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static String[] toStringArray(Object originArray) {
-		return (String[]) XArray.copyOfConversion(originArray, XStaticBaseType.String_class);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static Object[] toObjectArray(Object originArray) {
-		return (Object[]) XArray.copyOfConversion(originArray, XStaticBaseType.Object_class);
-	}
 
 	/**
 	 * parse value Object[] byte[] long[] double[] char[] int[] boolean[] float[]
 	 * short[]
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 */
 
-	public static byte parseByte(String str) {
-		String newstr = retainNum(str, 0, str.length());
-		return newstr.length() == 0 ? 0 : Byte.parseByte(newstr);
+
+
+	public static boolean parseBoolean(Object value) {
+		return null != value && "true".equalsIgnoreCase(value.toString().trim());
 	}
 
-	public static long parseLong(String str) {
-		String newstr = retainNum(str, 0, str.length());
-		return newstr.length() == 0 ? 0L : Long.parseLong(newstr);
+	public static byte parseByte(Object value) {
+		if (null == value) { return 0; }
+		String st = XObjects.retainNum(st = value.toString(), 0, st.length());
+		return st.length() == 0 ? 0 : Byte.parseByte(st);
 	}
 
-	public static double parseDouble(String str) {
-		String newstr = retainDouble(str, 0, str.length());
-		return newstr.length() == 0 ? 0D : Double.parseDouble(newstr);
+	public static char parseChar(Object value) {
+		String st;
+		return (null != value && (st = value.toString()).length() > 0) ?st.charAt(0): (char)0;
 	}
 
-	public static char parseChar(String str) {
-		String newstr = retainNum(str, 0, str.length());
-		return newstr.length() == 0 ? 0 : newstr.charAt(0);
+	public static short parseShort(Object value) {
+		if (null == value) { return 0; }
+		String st = XObjects.retainNum(st = value.toString(), 0, st.length());
+		return st.length() == 0 ? 0 : Short.parseShort(st);
 	}
 
-	public static int parseInt(String str) {
-		String newstr = retainNum(str, 0, str.length());
-		return newstr.length() == 0 ? 0 : Integer.parseInt(newstr);
+	public static int parseInt(Object value) {
+		if (null == value) { return 0; }
+		String st = XObjects.retainNum(st = value.toString(), 0, st.length());
+		return st.length() == 0 ? 0 : Integer.parseInt(st);
 	}
 
-	/**
-	 * Get the first boolean value
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static boolean parseBoolean(String str) {
-		return null == str ? false : str.equalsIgnoreCase("true");
+
+	public static long parseLong(Object value) {
+		if (null == value) { return 0; }
+		String st = XObjects.retainNum(st = value.toString(), 0, st.length());
+		return st.length() == 0 ? 0 : Long.parseLong(st);
 	}
 
-	public static float parseFloat(String str) {
-		String newstr = retainDouble(str, 0, str.length());
-		return newstr.length() == 0 ? 0F : Float.parseFloat(newstr);
+
+	public static float parseFloat(Object value) {
+		if (null == value) { return 0; }
+		String st = XObjects.retainDouble(st = value.toString(), 0, st.length());
+		return st.length() == 0 ? 0 : Float.parseFloat(st);
 	}
 
-	public static short parseShort(String str) {
-		String newstr = retainNum(str, 0, str.length());
-		return newstr.length() == 0 ? 0 : Short.parseShort(newstr);
+	public static double parseDouble(Object value) {
+		if (null == value) { return 0; }
+		String st = XObjects.retainDouble(st = value.toString(), 0, st.length());
+		return st.length() == 0 ? 0 : Double.parseDouble(st);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@SuppressWarnings("unchecked")
+	public static byte[] tobyteArray(Object originArray) {
+		return (byte[]) XArray.copyOfConversion(originArray, XStaticFixedValue.byte_class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static long[] tolongArray(Object originArray) {
+		return (long[]) XArray.copyOfConversion(originArray, XStaticFixedValue.long_class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static double[] todoubleArray(Object originArray) {
+		return (double[]) XArray.copyOfConversion(originArray, XStaticFixedValue.double_class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static char[] tocharArray(Object originArray) {
+		return (char[]) XArray.copyOfConversion(originArray, XStaticFixedValue.char_class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static int[] tointArray(Object originArray) {
+		return (int[]) XArray.copyOfConversion(originArray, XStaticFixedValue.int_class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static boolean[] tobooleanArray(Object originArray) {
+		return (boolean[]) XArray.copyOfConversion(originArray, XStaticFixedValue.boolean_class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static float[] tofloatArray(Object originArray) {
+		return (float[]) XArray.copyOfConversion(originArray, XStaticFixedValue.float_class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static short[] toshortArray(Object originArray) {
+		return (short[]) XArray.copyOfConversion(originArray, XStaticFixedValue.short_class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static String[] toStringArray(Object originArray) {
+		return (String[]) XArray.copyOfConversion(originArray, XStaticFixedValue.String_class);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Object[] toObjectArray(Object originArray) {
+		return (Object[]) XArray.copyOfConversion(originArray, XStaticFixedValue.Object_class);
+	}
+
+
 
 	/**
 	 * 

@@ -2,7 +2,8 @@ package top.fols.box.util;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
-import top.fols.box.statics.XStaticBaseType;
+
+import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XObjects;
 
 
@@ -21,7 +22,7 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
     public abstract XBlurryKey<T> clone();
     public XBlurryKey<T> newKey(T okey) {
         try {
-            Constructor con = this.getClass().getDeclaredConstructor(XStaticBaseType.Object_class);
+            Constructor con = this.getClass().getDeclaredConstructor(XStaticFixedValue.Object_class);
             return (XBlurryKey<T>) con.newInstance(okey);
         } catch (Throwable e) {
             throw new UnsupportedOperationException(e);

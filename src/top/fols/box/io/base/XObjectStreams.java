@@ -20,7 +20,6 @@ import top.fols.box.io.XStream;
 import top.fols.box.lang.abstracts.XBitsOptionAbstract;
 import top.fols.box.lang.reflect.optdeclared.XReflectAccessible;
 import top.fols.box.lang.reflect.safety.XReflect;
-import top.fols.box.statics.XStaticBaseType;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XByteEncode;
 
@@ -98,7 +97,7 @@ public final class XObjectStreams implements Flushable {
     private static Field[] cacheGetFields(Class cls) {
         Field[]  fs = GET_FIELDS_CACHE.get(cls);
         if (null == fs) {
-            Field[] newFields = cls == XStaticBaseType.Object_class ?XStaticFixedValue.nullFieldArray: 
+            Field[] newFields = cls == XStaticFixedValue.Object_class ?XStaticFixedValue.nullFieldArray:
                 getAllFields(cls);
             List<Field> newFieldsList = new ArrayList<>(newFields.length);
             for (int i = 0;i < newFields.length;i++) {
@@ -123,7 +122,7 @@ public final class XObjectStreams implements Flushable {
         Map<String, Field> fm = GET_FIELD_CACHE.get(cls);
         if (null == fm) {
             Map<String, Field> newFm = new WeakHashMap<>();
-            Field[] newFields = cls == XStaticBaseType.Object_class ?XStaticFixedValue.nullFieldArray: 
+            Field[] newFields = cls == XStaticFixedValue.Object_class ?XStaticFixedValue.nullFieldArray:
                 getAllFields(cls);
             for (Field f: newFields) {
                 newFm.put(f.getName(), f);
@@ -1663,7 +1662,7 @@ public final class XObjectStreams implements Flushable {
 
         IOException readClassException = null;
         String elementClassName = this.readChars();
-        Class elementClass = XStaticBaseType.Object_class;
+        Class elementClass = XStaticFixedValue.Object_class;
         try {
             elementClass = cacheForName(this.getReadObjectInClassLoader(), elementClassName);
         } catch (ClassNotFoundException e) {

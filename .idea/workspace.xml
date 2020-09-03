@@ -21,31 +21,15 @@
   <component name="ChangeListManager">
     <list default="true" id="bb100163-b7ba-4468-947d-05f834c493a7" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XInputStreamFixedLength.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XInputStreamFixedLength.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XInputStreamLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XInputStreamLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XOutputStreamFixedLength.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XOutputStreamFixedLength.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XOutputStreamLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XOutputStreamLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XReaderFixedLength.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XReaderFixedLength.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XReaderLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XReaderLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XWriterFixedLength.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XWriterFixedLength.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XWriterLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XWriterLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/digest/XChecksumInputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/digest/XChecksumInputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/digest/XChecksumOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/digest/XChecksumOutputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/digest/XDigestInputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/digest/XDigestInputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/digest/XDigestOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/digest/XDigestOutputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/interfaces/XInterfaceGetOriginStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/interfaces/XInterfaceGetInnerStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/lang/reflect/safety/XReflect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/lang/reflect/safety/XReflect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/net/XCookie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/net/XCookie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/net/XURLConnectionMessageHeader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/net/XURLConnectionMessageHeader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/net/XURLParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/net/XURLParam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XBlurryKeyMap.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XCollections.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XCollections.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XCycleSpeedLimiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XCycleSpeedLimiter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XKeyMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XKeyMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/folsTool-If-AddDataType.txt" beforeDir="false" afterPath="$PROJECT_DIR$/folsTool-If-AddDataType.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/base/XObjectStreams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/base/XObjectStreams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/lang/XClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/lang/XClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/lang/reflect/XReflectPeakMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/lang/reflect/XReflectPeakMatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/lang/reflect/optdeclared/XReflectAccessible.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/lang/reflect/optdeclared/XReflectAccessible.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/statics/XStaticBaseType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/statics/XStaticFixedValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/statics/XStaticFixedValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XBlurryKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XBlurryKey.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XObjects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XObjects.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/XProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/XProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/interfaces/XInterfaceGetOriginMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/interfaces/XInterfaceGetInnerMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/util/thread/XFixedThreadPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/util/thread/XFixedThreadPool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/top.fols.box.jar" beforeDir="false" afterPath="$PROJECT_DIR$/top.fols.box.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -237,22 +221,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="167" width="438" height="486" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1598033394997" />
-    <state width="1478" height="431" key="GridCell.Tab.0.bottom" timestamp="1599078205540">
+    <state width="1478" height="431" key="GridCell.Tab.0.bottom" timestamp="1599136685922">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="431" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1599078205540" />
-    <state width="1478" height="431" key="GridCell.Tab.0.center" timestamp="1599078205540">
+    <state width="1478" height="431" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1599136685922" />
+    <state width="1478" height="431" key="GridCell.Tab.0.center" timestamp="1599136685921">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="431" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1599078205540" />
-    <state width="1478" height="431" key="GridCell.Tab.0.left" timestamp="1599078205540">
+    <state width="1478" height="431" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1599136685921" />
+    <state width="1478" height="431" key="GridCell.Tab.0.left" timestamp="1599136685921">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="431" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1599078205540" />
-    <state width="1478" height="431" key="GridCell.Tab.0.right" timestamp="1599078205540">
+    <state width="1478" height="431" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1599136685921" />
+    <state width="1478" height="431" key="GridCell.Tab.0.right" timestamp="1599136685922">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1478" height="431" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1599078205540" />
+    <state width="1478" height="431" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1599136685922" />
     <state width="1478" height="257" key="GridCell.Tab.1.bottom" timestamp="1598644123577">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -277,10 +261,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1598523482488" />
-    <state x="467" y="10" width="834" height="804" key="find.popup" timestamp="1599077662593">
+    <state x="286" y="20" width="879" height="804" key="find.popup" timestamp="1599135665755">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="467" y="10" width="834" height="804" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1599077662593" />
+    <state x="286" y="20" width="879" height="804" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1599135665755" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1599078126024">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

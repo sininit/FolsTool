@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import top.fols.box.lang.XClass;
 import top.fols.box.lang.reflect.safety.XReflect;
-import top.fols.box.statics.XStaticBaseType;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XKeyMap;
 
@@ -332,7 +331,7 @@ public class XReflectAccessible {
 	public static Field setFinalFieldAccessAble(Field f) throws IllegalAccessException, IllegalArgumentException {
 		int modifier = f.getModifiers();
 		if (Modifier.isStatic(modifier)) {
-			Field[] fs = XReflectAccessible.setAccessibleTrue(XStaticBaseType.Field_class.getDeclaredFields());
+			Field[] fs = XReflectAccessible.setAccessibleTrue(XStaticFixedValue.Field_class.getDeclaredFields());
 			Field accessFlags;
 			Object value;
 			int intValue;
