@@ -17,21 +17,15 @@ public final class XStaticFixedValue {
 		public static final String r() {
 			return "r";
 		}
-
 		public static final String rw() {
 			return "rw";
 		}
-
 		public static final String rws() {
 			return "rws";
 		}
 	}
 
 
-
-	public static final String TRUE_STRING = String.valueOf(true);
-	public static final String FALSE_STRING = String.valueOf(false);
-	public static final String NULL_STRING = String.valueOf(null);
 
 
 	public static final String[] nullStringArray = new String[0];
@@ -170,8 +164,7 @@ public final class XStaticFixedValue {
 	public static final String boolean_array_classcanonicalname = boolean[].class.getCanonicalName();
 	public static final String float_array_classcanonicalname = float[].class.getCanonicalName();
 	public static final String short_array_classcanonicalname = short[].class.getCanonicalName();
-	// public static final String void_array_classcanonicalname =
-	// void[].class.getCanonicalName();
+	// public static final String void_array_classcanonicalname = void[].class.getCanonicalName();
 
 	public static final String Byte_classcanonicalname = Byte.class.getCanonicalName();
 	public static final String Long_classcanonicalname = Long.class.getCanonicalName();
@@ -211,6 +204,10 @@ public final class XStaticFixedValue {
 	public static final Float Float_defaultValue = 0F;
 	public static final Short Short_defaultValue = 0;
 
+
+
+
+
 	public static final Object NULL = null;
 
 	public static final boolean boolean_true = true;
@@ -220,6 +217,10 @@ public final class XStaticFixedValue {
 	public static final Boolean Boolean_FALSE = false;
 
 
+
+	public static final String TRUE_STRING = String.valueOf(true);
+	public static final String FALSE_STRING = String.valueOf(false);
+	public static final String NULL_STRING = String.valueOf((Object) null);
 
 
 
