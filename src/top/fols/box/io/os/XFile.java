@@ -330,265 +330,6 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		return fileUnit1024.format(new XUnitConversion.Num(bytelength), scale);
 	}
 
-	
-	
-
- /**
-     * Normalize all system separators and modify them to target separators
-     * 归一化所有系统分隔符修改为目标分隔符 并且将路径转换为标准路径
-     */
-    public static String normalizePathSeparator(String path, char separator) {
-        StringBuilder sb = new StringBuilder(path.length());
-        for (int i = 0;i < path.length();i++) {
-            char ch = path.charAt(i);
-            if (ch == WINDOWS_FILE_SEPARATOR_CHAR ||
-                ch == UNIX_FILE_SEPARATOR_CHAR) {
-                ch = separator;
-            }
-            sb.append(ch);
-        }
-        return normalizePath(sb, separator);
-    }
-
-
-
-
-    /**
-     * Handling relative path jumps ../ or ./
-     * 处理相对路径跳转 ../ 或者 ./
-     */
-    public static String dealRelativePath(String path, char separator) {
-        String separatorString = String.valueOf(separator);
-        int length = path.length();
-        if (length == 0) {
-            return "";
-        }
-
-        XDoubleLinked<String> p = new XDoubleLinked<>(null);
-        XDoubleLinked bottom = p;
-        XDoubleLinked top = p;
-
-        int lastIndex = 0;
-        for (int i = 0; i < length; i++) {
-            char ch = path.charAt(i);
-            if (ch == separator) {
-                String t = path.substring(lastIndex, i);
-                XDoubleLinked<String> element;
-
-                if (i > 0) {
-                    element = new XDoubleLinked<String>(t);
-                    top.addNext(element);
-                    top = element;
-                }
-
-                element = new XDoubleLinked<String>(separatorString);
-                top.addNext(element);
-                top = element;
-
-                lastIndex = i + 1;
-            }
-        }
-        if (lastIndex != length) {
-            String t = path.substring(lastIndex, length);
-            XDoubleLinked<String> element = new XDoubleLinked<String>(t);
-            top.addNext(element);
-            top = element;
-        }
-
-
-        // "/a/b/ff/3/3/7/" >> {/,a,b,ff,3,3,7}
-
-        /*
-         * ../a/b/c ./a/b/c /../a/b/c /a/../c
-         * 
-         * /a/b/c/.. /a/b/c/. /a/b/c
-         * 
-         * ...
-         * 
-         */
-        XDoubleLinked now = bottom.getNext();
-        while (true) {
-            if (XDoubleLinked.equalsContent(".", now)) {
-                // 处理 ./
-
-                XDoubleLinked next = now.getNext();
-                XDoubleLinked last = now.getPrev();
-                now.remove();
-                now = last;
-
-                if (XDoubleLinked.equalsContent(separatorString, next)) {
-                    next.remove();
-                }
-            } else if (XDoubleLinked.equalsContent("..", now)) {
-                // 处理 ../
-                XDoubleLinked last1 = now.getPrev();
-                last1 = last1 == bottom ? null : last1;
-                XDoubleLinked last2 = null == last1 ? null : last1.getPrev();
-                last2 = last2 == bottom ? null : last2;
-                if (null != last1) {
-                    last1.remove();
-                }
-                if (null != last2) {
-                    last2.remove();
-                }
-
-                XDoubleLinked next = now.getNext();
-                XDoubleLinked last = now.getPrev();
-                now.remove();
-                now = last;
-
-                if (XDoubleLinked.equalsContent(separatorString, next)) {
-                    next.remove();
-                }
-            }
-
-            if (!(null != now && null != (now = now.getNext()))) {
-                break;
-            }
-        }
-
-        XDoubleLinked absbottom = bottom.getNext();
-        bottom.remove();
-
-        if (null == absbottom) {
-            return "";
-        } else {
-            StringBuilder right = new StringBuilder();
-            XDoubleLinked x = absbottom;
-            do {
-                right.append(x);
-            } while (null != (x = x.getNext()));
-            return right.toString();
-        }
-    }
-
-
-
-    /**
-     * Convert path to standard path
-     * 将路径转换为标准路径
-     */
-    public static String normalizePath(CharSequence path, char separatorChar) {
-        StringBuilder ppath = new StringBuilder(path.length());
-
-        int plen = path.length();
-        if (plen > 0) {
-            Character plast = null;
-            for (int i = 0;i < plen;i++) {
-                char ch = path.charAt(i);
-                if (ch == separatorChar) {
-                    if (null != plast && plast.charValue() == separatorChar) {
-                        continue;
-                    }
-                }
-                ppath.append(plast = ch);
-            }
-            if (plast == separatorChar) {
-                ppath.setLength(ppath.length() - 1);
-            }
-        }
-        return ppath.toString();
-    }
-    /**
-     * Convert path to standard path
-     * 将路径转换为标准路径
-     */
-    public static String normalizePath(CharSequence parent, CharSequence subfilepath, char separatorChar) {
-        StringBuilder ppath = new StringBuilder(parent.length());
-
-        int plen = parent.length();
-        if (plen > 0) {
-            Character plast = null;
-            for (int i = 0;i < plen;i++) {
-                char ch = parent.charAt(i);
-                if (ch == separatorChar) {
-                    if (null != plast && plast.charValue() == separatorChar) {
-                        continue;
-                    }
-                }
-                ppath.append(plast = ch);
-            }
-            if (plast == separatorChar) {
-                ppath.setLength(ppath.length() - 1);
-            }
-        }
-
-
-        int sstart = 0;
-        int slen = subfilepath.length();
-        while (sstart < slen && subfilepath.charAt(sstart) == separatorChar) {
-            sstart++;
-        }
-        if (slen - sstart > 0) {
-            ppath.append(separatorChar);
-
-            char slast = subfilepath.charAt(sstart);
-            for (int i = sstart;i < slen;i++) {
-                char ch = subfilepath.charAt(i);
-                if (ch == separatorChar) {
-                    if (slast == separatorChar) {
-                        continue;
-                    }
-                }
-                ppath.append(slast = ch);
-            }
-        }
-
-        return ppath.toString();
-    }
-
-
-    /**
-     * Nothing to do with the file system
-     * 与文件系统无关
-     */
-    public static String getCanonicalPath(String path) {
-        return getCanonicalPath(path, false, File.separatorChar);
-    }
-
-    public static String getCanonicalPath(String path, char separator) {
-        return getCanonicalPath(path, false, separator);
-    }
-
-    /**
-     * 
-     * 
-     * @param path
-     * @param noFormatPath if ture noFormatPath, flase format @param path file
-     *                     separator to @param separator
-     * @param separator
-     * @return
-     */
-    public static String getCanonicalPath(String path, boolean noFormatPath, char separator) {
-        String separatorString = String.valueOf(separator);
-        String dealPath = !noFormatPath ? normalizePathSeparator(path, separator) : path;
-        String newPath = dealRelativePath(dealPath, separator);
-        if (!newPath.startsWith(separatorString)) {
-            return new StringBuilder(separatorString).append(newPath).toString();
-        } else {
-            return newPath;
-        }
-    }
-
-    public static String getCanonicalPath(String dir, String path) {
-        return getCanonicalPath(dir, path, false, File.separatorChar);
-    }
-
-    public static String getCanonicalPath(String dir, String path, char separator) {
-        return getCanonicalPath(dir, path, false, separator);
-    }
-
-    public static String getCanonicalPath(String dir, String path, boolean noFormatPath, char separator) {
-        StringBuilder newPath = new StringBuilder();
-        newPath.append(getCanonicalPath(dir, noFormatPath, separator));
-        newPath.append(getCanonicalPath(path, noFormatPath, separator));
-        if (!noFormatPath) {
-            return normalizePathSeparator(newPath.toString(), separator);
-        } else {
-            return newPath.toString();
-        }
-    }
-    
 
 
 
@@ -597,12 +338,292 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 
 
 
-
-
-
-	public static String getRunningDir() {
-		return getCanonicalPath(new File(".").getAbsolutePath());
+	/**
+	 * Normalize all system separators
+	 * 归一化所有系统分隔符修改为目标分隔符
+	 */
+	public static String toFileSystemSeparator(String path, char separator) {
+		StringBuilder sb = new StringBuilder(path.length());
+		for (int i = 0;i < path.length();i++) {
+			char ch = path.charAt(i);
+			if (ch == XFile.WINDOWS_FILE_SEPARATOR_CHAR ||
+					ch == XFile.UNIX_FILE_SEPARATOR_CHAR) {
+				ch = separator;
+			}
+			sb.append(ch);
+		}
+		return sb.toString();
 	}
+
+
+
+	/**
+	 * Convert path to standard path
+	 * 将路径转换为标准路径
+	 */
+	public static String normalizePath(CharSequence path, char separatorChar) {
+		StringBuilder ppath = new StringBuilder(path.length());
+
+		int plen = path.length();
+		if (plen > 0) {
+			char plast = path.charAt(0);
+			ppath.append(plast);
+			int i;
+			for (i = 1;i < plen;i++) {
+				char ch = path.charAt(i);
+				if (ch == separatorChar) {
+					if (plast == separatorChar) {
+						continue;
+					}
+				}
+				ppath.append(plast = ch);
+			}
+			if (plast == separatorChar) {
+				ppath.setLength(ppath.length() - 1);
+			}
+		}
+		return ppath.toString();
+	}
+	/**
+	 * Convert path to standard path
+	 * 将路径转换为标准路径
+	 */
+	public static String normalizePath(CharSequence parent, CharSequence subfilepath, char separatorChar) {
+		StringBuilder ppath = new StringBuilder(parent.length());
+
+		int plen = parent.length();
+		if (plen > 0) {
+			char plast = parent.charAt(0);
+			ppath.append(plast);
+			int i;
+			for (i = 1;i < plen;i++) {
+				char ch = parent.charAt(i);
+				if (ch == separatorChar) {
+					if (plast == separatorChar) {
+						continue;
+					}
+				}
+				ppath.append(plast = ch);
+			}
+			if (plast == separatorChar) {
+				ppath.setLength(ppath.length() - 1);
+			}
+		}
+
+
+		int sstart = 0;
+		int slen = subfilepath.length();
+		while (sstart < slen && subfilepath.charAt(sstart) == separatorChar) {
+			sstart++;
+		}
+		if (slen - sstart > 0) {
+			ppath.append(separatorChar);
+
+			char slast = subfilepath.charAt(sstart);
+			for (int i = sstart;i < slen;i++) {
+				char ch = subfilepath.charAt(i);
+				if (ch == separatorChar) {
+					if (slast == separatorChar) {
+						continue;
+					}
+				}
+				ppath.append(slast = ch);
+			}
+			if (slast == separatorChar) {
+				ppath.setLength(ppath.length() - 1);
+			}
+		}
+
+		return ppath.toString();
+	}
+
+
+	/**
+	 * Handling relative path jumps ../ or ./
+	 * 处理相对路径跳转 ../ 或者 ./
+	 */
+	public static String dealRelativePath(String path, char separator) {
+		String separatorString = String.valueOf(separator);
+		int length = path.length();
+		if (length == 0) {
+			return "";
+		}
+
+		XDoubleLinked<String> p = new XDoubleLinked<>(null);
+		XDoubleLinked bottom = p;
+		XDoubleLinked top = p;
+
+		int lastIndex = 0;
+		for (int i = 0; i < length; i++) {
+			char ch = path.charAt(i);
+			if (ch == separator) {
+				String t = path.substring(lastIndex, i);
+				XDoubleLinked<String> element;
+
+				if (i > 0) {
+					element = new XDoubleLinked<String>(t);
+					top.addNext(element);
+					top = element;
+				}
+
+				element = new XDoubleLinked<String>(separatorString);
+				top.addNext(element);
+				top = element;
+
+				lastIndex = i + 1;
+			}
+		}
+		if (lastIndex != length) {
+			String t = path.substring(lastIndex, length);
+			XDoubleLinked<String> element = new XDoubleLinked<String>(t);
+			top.addNext(element);
+			top = element;
+		}
+
+
+		// "/a/b/ff/3/3/7/" >> {/,a,b,ff,3,3,7}
+
+		/*
+		 * ../a/b/c ./a/b/c /../a/b/c /a/../c
+		 *
+		 * /a/b/c/.. /a/b/c/. /a/b/c
+		 *
+		 * ...
+		 *
+		 */
+		XDoubleLinked now = bottom.getNext();
+		while (true) {
+			if (XDoubleLinked.equalsContent(".", now)) {
+				// 处理 ./
+
+				XDoubleLinked next = now.getNext();
+				XDoubleLinked last = now.getPrev();
+				now.remove();
+				now = last;
+
+				if (XDoubleLinked.equalsContent(separatorString, next)) {
+					next.remove();
+				}
+			} else if (XDoubleLinked.equalsContent("..", now)) {
+				// 处理 ../
+				XDoubleLinked last1 = now.getPrev();
+				last1 = last1 == bottom ? null : last1;
+				XDoubleLinked last2 = null == last1 ? null : last1.getPrev();
+				last2 = last2 == bottom ? null : last2;
+				if (null != last1) {
+					last1.remove();
+				}
+				if (null != last2) {
+					last2.remove();
+				}
+
+				XDoubleLinked next = now.getNext();
+				XDoubleLinked last = now.getPrev();
+				now.remove();
+				now = last;
+
+				if (XDoubleLinked.equalsContent(separatorString, next)) {
+					next.remove();
+				}
+			}
+
+			if (!(null != now && null != (now = now.getNext()))) {
+				break;
+			}
+		}
+
+		XDoubleLinked absbottom = bottom.getNext();
+		bottom.remove();
+
+		if (null == absbottom) {
+			return "";
+		} else {
+			StringBuilder right = new StringBuilder();
+			XDoubleLinked x = absbottom;
+			do {
+				right.append(x);
+			} while (null != (x = x.getNext()));
+			if (right.charAt(right.length() - 1) == separator) {
+				right.setLength(right.length() - 1);
+			}
+			return right.toString();
+		}
+	}
+
+
+
+
+
+
+	/**
+	 * Nothing to do with the file system
+	 * 与文件系统无关
+	 */
+	public static String getCanonicalRelativePath(String path) {
+		return getCanonicalRelativePath(path, true, File.separatorChar);
+	}
+
+	public static String getCanonicalRelativePath(String path, char separator) {
+		return getCanonicalRelativePath(path, true, separator);
+	}
+
+	/**
+	 *
+	 *
+	 * @param path
+	 * @param changeAllFileSystemSeparator if ture will format @param path file
+	 *                     separator to @param separator
+	 * @param separator
+	 * @return
+	 */
+	public static String getCanonicalRelativePath(String path, boolean changeAllFileSystemSeparator, char separator) {
+		String separatorString = String.valueOf(separator);
+
+		String dealPath = changeAllFileSystemSeparator ?
+				normalizePath(toFileSystemSeparator(path, separator), separator):
+				normalizePath(path, separator);
+
+		String newPath = dealRelativePath(dealPath, separator);
+		if (newPath.startsWith(separatorString) == false) {
+			newPath = new StringBuilder(separatorString).append(newPath).toString();
+		}
+		return newPath;
+	}
+
+
+
+
+	public static String getCanonicalRelativePath(String dir, String subpath) {
+		return getCanonicalRelativePath(dir, subpath, true, File.separatorChar);
+	}
+
+	public static String getCanonicalRelativePath(String dir, String subpath, char separator) {
+		return getCanonicalRelativePath(dir, subpath, true, separator);
+	}
+
+	public static String getCanonicalRelativePath(String dir, String subpath, boolean changeAllFileSystemSeparator, char separator) {
+		String separatorString = String.valueOf(separator);
+
+		String dealPath = changeAllFileSystemSeparator ?
+				normalizePath(toFileSystemSeparator(dir, separator), toFileSystemSeparator(subpath, separator), separator):
+				normalizePath(dir, subpath, separator);
+
+		String newPath = dealRelativePath(dealPath, separator);
+		if (newPath.startsWith(separatorString) == false) {
+			newPath = new StringBuilder(separatorString).append(newPath).toString();
+		}
+		return newPath;
+	}
+
+
+
+
+
+
+
+
+
+	public static String getRunningDir() { return getCanonicalRelativePath(new File(".").getAbsolutePath()); }
 
 	/*
 	 * 获得 文件名 带后缀

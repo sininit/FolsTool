@@ -544,7 +544,7 @@ public class XURL implements Serializable {
     }
 
     public static String formatPath(String path) {
-        return XFile.getCanonicalPath(path, PATH_SEPARATOR_CHAR);
+        return XFile.getCanonicalRelativePath(path, PATH_SEPARATOR_CHAR);
     }
 
 }
