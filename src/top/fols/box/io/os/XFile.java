@@ -1,12 +1,6 @@
 package top.fols.box.io.os;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.Collator;
@@ -17,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.io.XStream;
-import top.fols.box.io.abstracts.XAbstractRandomAccessOutputStream;
 import top.fols.box.io.base.XInputStreamFixedLength;
 import top.fols.box.io.base.XOutputStreamFixedLength;
 import top.fols.box.lang.XUnitConversion;
@@ -25,7 +18,8 @@ import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XByteEncodeDetect;
 import top.fols.box.util.XDoubleLinked;
 
-public class XFile extends XAbstractRandomAccessOutputStream implements Closeable {
+public class XFile implements Closeable, Serializable {
+	private static final long serialVersionUID = 1L;
 
 
 	public static final char        UNIX_FILE_SEPARATOR_CHAR = '/';
@@ -48,8 +42,8 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 
 	private String path;
 
-	private File file0;
-	private XRandomAccessFileOutputStream raf0;
+	private transient File file0;
+	private transient XRandomAccessFileOutputStream raf0;
 
 	public XFile(CharSequence path) {
 		this.path = XFile.normalizePath(path, File.separatorChar);
@@ -57,7 +51,6 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 	public XFile(CharSequence parent, CharSequence subfilepath) {
         this.path = XFile.normalizePath(parent, subfilepath, File.separatorChar);
 	}
-	
 	public XFile(File file) {
 		this(file.getPath());
 	}
@@ -65,16 +58,9 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		this(file.getPath(), subfilepath);
 	}
 
-	private void openStream() throws IOException {
-		if (null == this.raf0) {
-			this.raf0 = new XRandomAccessFileOutputStream(this.getFile());
-		}
-	}
 
 
-	public File getFile() {
-		return null == this.file0 ? this.file0 = new File(this.getPath()) : this.file0;
-	}
+
 
 	public String getExtensionName() {
 		return XFile.getExtensionName(path);
@@ -96,6 +82,25 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		return this.path;
 	}
 
+
+
+
+
+
+	private XRandomAccessFileOutputStream openStream() throws IOException {
+		if (null == this.raf0) {
+			/* seek end index*/
+			XRandomAccessFileOutputStream newStream = new XRandomAccessFileOutputStream(this.getFile(), this.getFile().length());
+			return this.raf0 = newStream;
+		}
+		return this.raf0;
+	}
+	public File getFile() {
+		return null == this.file0 ? this.file0 = new File(this.getPath()) : this.file0;
+	}
+
+
+
 	public XFile append(String bytes) throws IOException {
 		byte[] bytes2 = bytes.getBytes();
 		return this.append(bytes2, 0, bytes2.length);
@@ -110,8 +115,12 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		return this.append(bytes, 0, bytes.length);
 	}
 
+
+
+
+
 	public XFile append(byte[] bytes, int off, int len) throws IOException {
-		this.write(bytes, off, len);
+		this.openStream().write(bytes, off, len);
 		return this;
 	}
 
@@ -119,64 +128,34 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 		if (len < 0) {
 			return this;
 		}
-		XStream.copyFixedLength(in, this, len);
+		XStream.copyFixedLength(in, this.openStream(), len);
 		return this;
 	}
 
-	//
-	@Override
-	public void write(int p1) throws FileNotFoundException, IOException {
-		this.openStream();
-		this.raf0.write(p1);
-	}
-
-	@Override
-	public void write(byte[] bytes, int off, int len) throws IOException {
-		this.openStream();
-		this.raf0.write(bytes, off, len);
-	}
-
-	//
 	public XFile empty() throws IOException {
-		this.openStream();
-		this.raf0.empty();
+		this.openStream().empty();
 		return this;
 	}
 
-	@Override
-	public long getIndex() {
-		return this.raf0.getIndex();
-	}
-
-	@Override
-	public void seekIndex(long index) throws IOException {
-		this.raf0.seekIndex(index);
-	}
-
-	@Override
-	public void setLength(long newLength) throws IOException {
-		this.raf0.setLength(newLength);
-	}
-
-	@Override
 	public long length() {
 		return this.getFile().length();
-	}
-
-	@Override
-	public void flush() throws IOException {
-		super.flush();
 	}
 
 	@Override
 	public void close() {
 		// TODO: Implement this method
 		try {
-			this.raf0.close();
-		} catch (IOException e) {
+			this.openStream().close();
 			this.raf0 = null;
+		} catch (IOException e) {
 		}
 	}
+
+
+
+
+
+
 
 	public String detectEncoding() throws IOException, RuntimeException {
 		return XByteEncodeDetect.getJavaEncode(this.getFile());
@@ -734,175 +713,6 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 
 
 
-	public static File setFilePermission(File file, Boolean readable, Boolean writeable, Boolean executeable,
-                                         Boolean ownerOnly) {
-		if (null == ownerOnly) {
-			if (null != readable) {
-				file.setReadable(readable);
-			}
-			if (null != writeable) {
-				file.setWritable(writeable);
-			}
-			if (null != executeable) {
-				file.setExecutable(executeable);
-			}
-		} else {
-			if (null != readable) {
-				file.setReadable(readable, ownerOnly);
-			}
-			if (null != writeable) {
-				file.setWritable(writeable, ownerOnly);
-			}
-			if (null != executeable) {
-				file.setExecutable(executeable, ownerOnly);
-			}
-		}
-		return file;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static File setFilePermissions(File file, Boolean readable, Boolean writeable, Boolean executeable,
-                                          Boolean ownerOnly) {
-		file = file.getAbsoluteFile();
-
-		XDoubleLinked<File> files = new XDoubleLinked<>(null);
-		File pn = file;
-		while (null != (pn = pn.getParentFile())) {
-			files.addNext(new XDoubleLinked<>(pn));
-		}
-		XDoubleLinked<File> now = files;
-		while (null != now && null != (now = (XDoubleLinked<File>) now.getNext())) {
-			File f = now.content();
-			setFilePermission(f, readable, writeable, executeable, ownerOnly);
-		}
-		setFilePermission(file, readable, writeable, executeable, ownerOnly);
-		return file;
-	}
-
-	public static boolean mkdirs(File file) {
-		return XFile.mkdirs(file, true);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static boolean mkdirs(File file, Boolean ownerOnly) {
-		file = file.getAbsoluteFile();
-		if (file.exists()) {
-			XFile.setFilePermissions(file, true, true, true, ownerOnly);
-			return true;
-		} else {
-			boolean b = false;
-			XDoubleLinked<File> files = new XDoubleLinked<>(null);
-			files.addNext(new XDoubleLinked<>(file));
-
-			File pn = file;
-			while (null != (pn = pn.getParentFile())) {
-				files.addNext(new XDoubleLinked<>(pn));
-			}
-			XDoubleLinked<File> now = files;
-			while (null != now && null != (now = (XDoubleLinked<File>) now.getNext())) {
-				File dir = now.content();
-				if (!dir.exists()) {
-					boolean result = dir.mkdir();
-					b = b & result;
-				}
-				XFile.setFilePermission(dir, true, true, true, ownerOnly);
-			}
-			return b;
-		}
-	}
-
-	public static File openFile(File file) {
-		return XFile.openFile(file, true);
-	}
-
-	public static File openFile(File file, Boolean ownerOnly) {
-		return XFile.setFilePermissions(file, true, true, true, ownerOnly);
-	}
-
-	public static boolean createNewFile(File file) throws IOException {
-		return XFile.createNewFile(file, true);
-	}
-
-	public static boolean createNewFile(File file, Boolean ownerOnly) throws IOException {
-		file = file.getAbsoluteFile();
-		try {
-			boolean b0 = false;
-			try {
-				b0 = file.createNewFile();
-			} catch (IOException e) {
-				b0 = false;
-			}
-			if (b0) {
-				return true;
-			} else {
-				File parent = file.getParentFile();
-				if (null != parent) {
-					XFile.mkdirs(parent, ownerOnly);
-					return new File(parent, file.getName()).createNewFile();
-				} else {
-					return file.createNewFile();
-				}
-			}
-		} finally {
-			XFile.setFilePermission(file, true, true, true, ownerOnly);
-		}
-	}
-
-	public static boolean delete(File file) {
-		return XFile.delete(file, true);
-	}
-
-	public static boolean delete(File file, Boolean ownerOnly) {
-		boolean b0 = file.delete();
-		if (b0) {
-			return true;
-		} else {
-			XFile.setFilePermissions(file, true, true, true, ownerOnly);
-			if (!file.exists()) {
-				return false;
-			} else {
-				if (file.isFile()) {
-					boolean result = file.delete();
-					return result;
-				} else {
-					boolean b1 = file.delete();
-					if (b1) {
-						return true;
-					}
-					boolean b = delete0(file, ownerOnly) & file.delete();
-					return b;
-				}
-			}
-		}
-	}
-
-	private static boolean delete0(File file, Boolean ownerOnly) {
-		boolean b = true;
-		File[] files = file.listFiles();
-		if (null != files) {
-			for (File f : files) {
-				XFile.setFilePermission(f, true, true, true, ownerOnly);
-				if (f.isFile()) {
-					b = b & f.delete();
-				} else if (f.isDirectory()) {
-					b = b & delete0(f, ownerOnly) & f.delete();
-				} else {
-					b = false;
-				}
-			}
-		}
-		return b;
-	}
-
-
-
-
-
-
-
-
-
-
 	
 
 	public static long indexOf(File file, byte b, long startIndex, long indexRange) throws IOException {
@@ -942,11 +752,10 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 	 */
 	public static List<String> listRelativeFilePath(String filePath, boolean recursion, boolean adddir) {
 		List<String> List = new ArrayList<String>();
-		return listRelativeFilePath(List, new File(filePath), recursion, adddir, new StringBuilder());
+		return listRelativeFilePath0(List, new File(filePath), recursion, adddir, new StringBuilder());
 	}
-
-	private static List<String> listRelativeFilePath(List<String> list, File filePath, boolean recursion, boolean adddir,
-                                             StringBuilder baseDir) {
+	private static List<String> listRelativeFilePath0(List<String> list, File filePath, boolean recursion, boolean adddir,
+													  StringBuilder baseDir) {
 		File[] files = filePath.listFiles();
 		if (null != files) {
 			for (File file : files) {
@@ -955,7 +764,7 @@ public class XFile extends XAbstractRandomAccessOutputStream implements Closeabl
 				String name = file.getName();
 				if (file.isDirectory()) {
 					if (recursion) {
-						listRelativeFilePath(list, file, true, adddir,
+						listRelativeFilePath0(list, file, true, adddir,
                             new StringBuilder(baseDir).append(name).append(File.separator));
 					}
 					if (adddir) {

@@ -88,7 +88,7 @@ public class XStream {
 				tmpbufflen = bufflen;
 			} else {
 				tmpbufflen = copyLength - already < bufflen ? (int) (copyLength - already) : bufflen;
-				if (tmpbufflen == 0) {
+				if (tmpbufflen <= 0) {
 					break;
 				}
 			}
@@ -97,12 +97,11 @@ public class XStream {
 			}
 			already += read;
 
-			if (null == output) {
-				continue;
-			}
-			output.write(buff, 0, read);
-			if (autoflush) {
-				output.flush();
+			if (null != output) {
+				output.write(buff, 0, read);
+				if (autoflush) {
+					output.flush();
+				}
 			}
 		}
 		buff = null;
@@ -175,7 +174,7 @@ public class XStream {
 				tmpbufflen = bufflen;
 			} else {
 				tmpbufflen = copyLength - already < bufflen ? (int) (copyLength - already) : bufflen;
-				if (tmpbufflen == 0) {
+				if (tmpbufflen <= 0) {
 					break;
 				}
 			}
@@ -184,12 +183,11 @@ public class XStream {
 			}
 			already += read;
 
-			if (null == output) {
-				continue;
-			}
-			output.write(buff, 0, read);
-			if (autoflush) {
-				output.flush();
+			if (null != output) {
+				output.write(buff, 0, read);
+				if (autoflush) {
+					output.flush();
+				}
 			}
 		}
 		buff = null;
