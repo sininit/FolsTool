@@ -20,14 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb100163-b7ba-4468-947d-05f834c493a7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/folsTool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/folsTool.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/XStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/XStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/os/XFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/os/XFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/os/XRandomAccessFileInputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/os/XRandomAccessFileInputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/top/fols/box/io/os/XRandomAccessFileOutputStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/io/os/XRandomAccessFileOutputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/top.fols.box.jar" beforeDir="false" afterPath="$PROJECT_DIR$/top.fols.box.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/top/fols/box/net/XURL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/top/fols/box/net/XURL.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

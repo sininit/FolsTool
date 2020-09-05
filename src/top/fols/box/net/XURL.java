@@ -540,8 +540,9 @@ public class XURL implements Serializable {
 
     public XURLParam param() {
         String param = this.getParam();
-        return null == param ? null : new XURLParam();
+        return null == param ? null : new XURLParam(param);
     }
+
 
     public static String formatPath(String path) {
         return XFile.getCanonicalRelativePath(path, PATH_SEPARATOR_CHAR);
