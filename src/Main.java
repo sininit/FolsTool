@@ -16,7 +16,7 @@ import top.fols.box.lang.reflect.XReflectMatcher;
 import top.fols.box.lang.reflect.XReflectPeakMatcher;
 import top.fols.box.lang.reflect.optdeclared.XReflectAccessible;
 import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.time.XTiming;
+import top.fols.box.time.XTimeConsum;
 import top.fols.box.util.XArrayPieceIndexManager;
 import top.fols.box.util.json.JSONObject;
 
@@ -514,7 +514,7 @@ public class Main extends k {
 		Class returnType = void.class;
 		Class mcc = Main.class;
 		Class[] pcc = new Class[] { String[].class };
-		XTiming jsq00 = XTiming.newAndStart();
+		XTimeConsum jsq00 = XTimeConsum.newAndStart();
 		for (int i = 0; i < 100 * 10000; i++) {
 			XReflectPeakMatcher.defaultInstance.getConstructor(mcc, pcc);
 		}
@@ -543,7 +543,7 @@ public class Main extends k {
 			XReflectMatcher.defaultInstance.getMethod(mainclass, "main", new Object[] { new String[] {} });
 			System.out.println(XReflectMatcher.defaultInstance.getField(mainclass, "k"));
 
-			XTiming jsq0 = XTiming.newAndStart();
+			XTimeConsum jsq0 = XTimeConsum.newAndStart();
 			for (int i = 0; i < 1000000; i++) {
 				XReflectMatcher.defaultInstance.getConstructor(mainclass, new String[] {}, new Main(), "", 1,
 						new XStaticFixedValue());

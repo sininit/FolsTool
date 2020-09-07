@@ -2,7 +2,7 @@ package top.fols.box.lang;
 
 import top.fols.box.lang.impl.sequences.XIntSequenceImpl;
 import top.fols.box.lang.impl.sequences.XLongSequenceImpl;
-import top.fols.box.time.XTiming;
+import top.fols.box.time.XTimeConsum;
 import top.fols.box.util.XArray;
 import top.fols.box.util.XArrays;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class XSequencesTest {
                 new Object[] { new int[] { 4, 7, 9 } }, 0, 1));
         System.out.println("_____");
 
-        XTiming ff0 = XTiming.newAndStart();
+        XTimeConsum ff0 = XTimeConsum.newAndStart();
 
         System.out.println(XSequences.deepIndexOf(
                 XSequences.wrapArr(new Object[] { 0, new Object[] { null, new int[] { 8 } }, new int[] { 123 },
@@ -56,11 +56,11 @@ public class XSequencesTest {
         int[] testObjArr = (int[]) XArray.newInstanceFill(int.class, testlength, 0);
         long[] testLongArr = new long[testlength];
 
-        XTiming ff1 = XTiming.newAndStart();
+        XTimeConsum ff1 = XTimeConsum.newAndStart();
         XArrays.arraycopyTraverse(testLongArr, 0, testObjArr, 0, testObjArr.length);
         System.out.println("&" + ff1.endAndGetEndLessStart());
 
-        XTiming ff2 = XTiming.newAndStart();
+        XTimeConsum ff2 = XTimeConsum.newAndStart();
         XIntSequenceImpl testObjArrS = new XIntSequenceImpl(testObjArr);
         XLongSequenceImpl testLongArrS = new XLongSequenceImpl(testLongArr);
         XArrays.arraycopyTraverse(testObjArrS.getArray(), 0, testLongArrS.getArray(), 0, testObjArrS.length());

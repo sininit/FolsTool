@@ -4,7 +4,7 @@ package top.fols.box.io.base;
 import top.fols.box.io.digest.XDigestOutputStream;
 import top.fols.box.io.os.XFile;
 import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.time.XTiming;
+import top.fols.box.time.XTimeConsum;
 import top.fols.box.util.XMessageDigest;
 import top.fols.box.util.XObjects;
 
@@ -20,7 +20,7 @@ public class XInputStreamLineTest {
             XInputStreamLine testStream = new XInputStreamLine(testStream0, 8192);
             FileOutputStream foss = new FileOutputStream("/sdcard/k");
             XDigestOutputStream md5 = XMessageDigest.wrapToStream(XMessageDigest.getMessageDigest("md5"));
-            XTiming linejsq = XTiming.newAndStart();
+            XTimeConsum linejsq = XTimeConsum.newAndStart();
             byte[] line;
             int linecount = 0;
             while (null != (line = testStream.readLine(new byte[][]{
