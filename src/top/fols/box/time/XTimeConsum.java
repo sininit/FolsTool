@@ -55,7 +55,7 @@ public class XTimeConsum implements Serializable {
 		return tc;
 	}
 	public static XTimeConsum newAndStart(String id) {
-		return newInstance(id);
+		return newInstance(id).start();
 	}
 	public static XTimeConsum newAndStart() {
 		return newAndStart(null);
