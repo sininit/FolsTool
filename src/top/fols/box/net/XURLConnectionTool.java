@@ -24,8 +24,8 @@ public class XURLConnectionTool {
 	public static final String HTTP_REQUEST_METHOD_DELETE = "DELETE";
 	public static final String HTTP_REQUEST_METHOD_TRACE = "TRACE";
 
-	public static final int DEFAULT_CONNECT_TIMEOUT = 12 * XTimeTool.time_1s;
-	public static final int DEFAULT_READ_TIMEOUT = 6 * XTimeTool.time_1s;
+	public static final int DEFAULT_CONNECT_TIMEOUT = 12 * (int)XTimeTool.time_1s;
+	public static final int DEFAULT_READ_TIMEOUT = 6 * (int)XTimeTool.time_1s;
 
 	public static class URLConnectionUtil implements Closeable {
 

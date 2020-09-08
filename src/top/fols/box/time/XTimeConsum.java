@@ -20,7 +20,7 @@ public class XTimeConsum implements Serializable {
 
 
 	public XTimeConsum start() {
-		this.start = XTimeTool.currentTimeMillis();
+		this.start = XTimeTool.getSystemCurrentTimeMillis();
 		return this;
 	}
 	public long getStartTime() {
@@ -29,7 +29,7 @@ public class XTimeConsum implements Serializable {
 
 
 	public XTimeConsum end() {
-		this.end = XTimeTool.currentTimeMillis();
+		this.end = XTimeTool.getSystemCurrentTimeMillis();
 		return this;
 	}
 	public long getEndTime() {
