@@ -19,10 +19,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-
 import top.fols.box.io.XStream;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.io.base.XStringWriter;
+import top.fols.box.util.XDoubleLinked;
+import top.fols.box.util.XObjects;
 import top.fols.box.util.encode.XHexEncoder;
 import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 import top.fols.box.util.interfaces.XInterfaceSetInnerMap;
@@ -125,33 +126,6 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
     private static final char valueSeparatorChar = '=';
     private static final char lineSeparatorChar = '\n';
 
-    static char escapeCodeToContent(char code) {
-        switch (code) {
-//			case '=':
-//			case '\\':
-//				return code;
-            case 'n':
-                return '\n';
-        }
-//		throw new IOException(String.format("data read error, escape=%s index=%s, datalength=%s",
-//										    (escapeChar + (index + 1 < length ? String.valueOf(chars[index + 1]) : "")),
-//										    index, olength));
-        return code;
-    }
-
-    static char contentToEscapeCode(char content) {
-        switch (content) {
-//			case '=':
-//			case '\\':
-//				return content;
-            case '\n':
-                return 'n';
-        }
-//		throw new IOException(String.format("data read error, escape=%s index=%s, datalength=%s",
-//										    (escapeChar + (index + 1 < length ? String.valueOf(chars[index + 1]) : "")),
-//										    index, olength));
-        return content;
-    }
 
 
     private void readChars0(char[] chars, int off, int len) {
@@ -168,13 +142,24 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
                 if (ch == escapeChar) {
                     if (fori + 1 < length) {
                         char next = chars[fori + 1];
-                        nowbuffered.write(escapeCodeToContent(next));
+                        switch (next) {
+                            case '\\':
+                            case '=':
+                                nowbuffered.write(next);
+                                break;
+                            case 'n':
+                                nowbuffered.write('\n');
+                                break;
+                            default:
+                                nowbuffered.write(escapeChar);
+                                nowbuffered.write(next);
+                                break;
+                        }
                         fori++;
                         continue;
+                    } else {
+                        nowbuffered.write(escapeChar);
                     }
-//					else {
-//						nowbuffered.write(ch);
-//					}
                 } else if (ch == valueSeparatorChar) {
                     nowbuffered = valbuffered;
                 } else if (ch == lineSeparatorChar) {
@@ -223,13 +208,24 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
                 if (ch == escapeChar) {
                     if (fori + 1 < length) {
                         char next = chars.charAt(fori + 1);
-                        nowbuffered.write(escapeCodeToContent(next));
+                        switch (next) {
+                            case '\\':
+                            case '=':
+                                nowbuffered.write(next);
+                                break;
+                            case 'n':
+                                nowbuffered.write('\n');
+                                break;
+                            default:
+                                nowbuffered.write(escapeChar);
+                                nowbuffered.write(next);
+                                break;
+                        }
                         fori++;
                         continue;
+                    } else {
+                        nowbuffered.write(escapeChar);
                     }
-//					else {
-//						nowbuffered.write(ch);
-//					}
                 } else if (ch == valueSeparatorChar) {
                     nowbuffered = valbuffered;
                 } else if (ch == lineSeparatorChar) {
@@ -363,7 +359,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
     public String saveToString() throws NullPointerException, RuntimeException {
         XStringWriter writer = new XStringWriter();
         try {
-            this.save(writer);
+            this.writeTo0(writer);
             writer.flush();
         } catch (NullPointerException e) {
             throw e;
@@ -399,25 +395,22 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
             new File(path).renameTo(new File(backupPath));// 将原文件重命名为备份文件
         }
         Writer fos = new OutputStreamWriter(new FileOutputStream(file), charset);
-        this.save(fos);
+        this.writeTo0(fos);
         fos.flush();
         fos.close();
         return this;
     }
 
     public XProperties save(OutputStream out, String charsetName) throws IOException {
-        return this.save(new OutputStreamWriter(out, charsetName));
+        return this.writeTo0(new OutputStreamWriter(out, charsetName));
     }
 
-    public XProperties save(Writer out) throws IOException, NullPointerException {
+    public XProperties writeTo0(Writer out) throws IOException, NullPointerException {
         if (this.properties.size() == 0) {
             return this;
         }
-
         BufferedWriter bufferedWriter = new BufferedWriter(out);
-
-        XCharArrayWriter keybuffered = new XCharArrayWriter();
-        XCharArrayWriter valbuffered = new XCharArrayWriter();
+        XCharArrayWriter nowbuffered = new XCharArrayWriter();
         try {
             Iterator<String> keyIterator = this.properties.keySet().iterator();
             while (keyIterator.hasNext()) {
@@ -427,43 +420,10 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
                 }
                 String value = this.properties.get(key);
 
-                {
-                    int length = key.length();
-                    for (int i = 0; i < length; i++) {
-                        char ch = key.charAt(i);
-                        if (ch == escapeChar ||
-                                ch == valueSeparatorChar ||
-                                ch == lineSeparatorChar) {
-                            keybuffered.append(escapeChar);
-                            keybuffered.append(contentToEscapeCode(ch));
-                        } else {
-                            keybuffered.append(ch);
-                        }
-                    }
-                    bufferedWriter.write(keybuffered.getBuff(), 0, keybuffered.size());
-                    keybuffered.releaseBuffer();
-                }
-
+                XProperties.writeTo0(bufferedWriter, key, nowbuffered);
                 if (null != value) {
                     bufferedWriter.write(valueSeparatorChar);
-
-                    {
-                        int length = value.length();
-                        for (int i = 0; i < length; i++) {
-                            char ch = value.charAt(i);
-                            if (ch == escapeChar ||
-                                    ch == valueSeparatorChar ||
-                                    ch == lineSeparatorChar) {
-                                valbuffered.append(escapeChar);
-                                valbuffered.append(contentToEscapeCode(ch));
-                            } else {
-                                valbuffered.append(ch);
-                            }
-                        }
-                        bufferedWriter.write(valbuffered.getBuff(), 0, valbuffered.size());
-                        valbuffered.releaseBuffer();
-                    }
-
+                    XProperties.writeTo0(bufferedWriter, value, nowbuffered);
                 }
 
                 if (keyIterator.hasNext()) {
@@ -472,11 +432,37 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
             }
             bufferedWriter.flush();
         } finally {
-            keybuffered.close();
-            valbuffered.close();
+            nowbuffered.close();
         }
         return this;
     }
+    private static void writeTo0(BufferedWriter writeTo,
+                                 String value, XCharArrayWriter valuebuffered) throws IOException {
+        valuebuffered.releaseBuffer();
+        int length = value.length();
+        for (int i = 0; i < length; i++) {
+            char ch = value.charAt(i);
+            switch(ch){
+                case '\\':
+                case '=':
+                    valuebuffered.append(escapeChar);
+                    valuebuffered.append(ch);
+                    break;
+                case '\n':
+                    valuebuffered.append(escapeChar);
+                    valuebuffered.append('n');
+                    break;
+                default:
+                    valuebuffered.append(ch);
+                    break;
+            }
+        }
+        writeTo.write(valuebuffered.getBuff(), 0, valuebuffered.size());
+    }
+
+
+
+
 
 
     // Object[] byte[] long[] double[] char[] int[] boolean[] float[] short[]
@@ -578,6 +564,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
 
 }
+
 
 
 
