@@ -1,6 +1,7 @@
 package top.fols.box.net;
 
 
+import java.net.CookieManager;
 import java.net.URLConnection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,7 +36,7 @@ public class XCookie {
             return val;
         }
         List<String> s = XString.split(
-            (cookie.endsWith(XCookie.PROJECT_SEPARATOR) == true) ? cookie : (cookie + XCookie.PROJECT_SEPARATOR),
+            (cookie.endsWith(XCookie.PROJECT_SEPARATOR)) ? cookie : (cookie + XCookie.PROJECT_SEPARATOR),
             XCookie.PROJECT_SEPARATOR);
         for (String str2 : s) {
             str2 = str2.trim();

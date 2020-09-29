@@ -42,7 +42,6 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
 
     private Map<String, String> properties = new LinkedHashMap<>();
-
     public XProperties() {
         super();
     }
@@ -60,16 +59,19 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
         this.readCharSequence0(text, 0, text.length());
         return this;
     }
-
     public XProperties loadChars(char[] text) {
         this.readChars0(text, 0, text.length);
         return this;
     }
 
     public boolean loadFileTry(File file, Charset charsetName) {
-        return loadFileTry(file, charsetName);
+        try {
+            this.loadFile(file, charsetName);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
-
     public XProperties loadFile(File file, Charset charsetName) throws IOException {
         XProperties newProperties;
         top:
@@ -86,6 +88,9 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
         return this;
     }
 
+
+
+
     public boolean loadTry(InputStream is, Charset charsetName) {
         try {
             this.load(is, charsetName);
@@ -94,7 +99,6 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
             return false;
         }
     }
-
     public XProperties load(InputStream is, Charset charsetName) throws IOException {
         this.load(new InputStreamReader(is, charsetName));
         return this;
@@ -108,7 +112,6 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
             return false;
         }
     }
-
     public XProperties load(Reader isr) throws IOException {
         XCharArrayWriter charstream = new XCharArrayWriter();
         XStream.copy(isr, charstream);
