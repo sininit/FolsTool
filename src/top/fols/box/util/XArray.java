@@ -360,7 +360,7 @@ public class XArray {
 
 	public static String toString(boolean addCanonicalName, Object originalArray) {
 		if (null == originalArray) {
-			throw new NullPointerException("array");
+			return null;
 		}
 		if (!originalArray.getClass().isArray()) {
 			throw new ClassCastException(String.format("%s not can cast to array", originalArray.getClass().getName()));
@@ -373,7 +373,6 @@ public class XArray {
 		}
 		return result.toString();
 	}
-
 	private static StringBuilder toString0(boolean addCanonicalName, String canonicalName,
 			XAbstractSequence originalArray) {
 		StringBuilder result = new StringBuilder();
@@ -399,6 +398,10 @@ public class XArray {
 		result.append(',');
 		return result;
 	}
+
+
+
+
 
 	/*
 	 * get Array Element Class 获取数组元素类

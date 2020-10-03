@@ -230,58 +230,56 @@ public class XClass {
     }
 
     /**
-     * 把简单的类地址转为真的类地址
-     * <p>
-     * Main[] >> [LMain;
-     * <p>
-     * String[] >> [Ljava.lang.String;
-     * <p>
-     * byte[] >> [B
-     * 
-     * @param className
-     * @return
+     * Examples:
+     * toAbsClassName(String.class.getCanonicalName())
+     *     java.lang.String 	returns "java.lang.String"
+     * toAbsClassName(byte.class.getCanonicalName())
+     *     byte 				returns "byte"
+     * toAbsClassName((new Object[3]).getClass().getCanonicalName())
+     *     java.lang.Object[]   returns "[Ljava.lang.Object;"
+     * toAbsClassName((new int[3][4][5][6][7][8][9]).getClass().getCanonicalName())
+     *     int[][][][][][][]    returns "[[[[[[[I"
      */
-    // 把简单的类地址转换为真实的类地址
     public static String toAbsClassName(String className) {
-        // 没有这些地址
         if (XClass.isPrimitiveClassName(className)) {
             return className;
-        }
-        // 判断数组纬度
-        int dimensional = getArrayDimensionalFromClassCanonicalName(className);
-        StringBuilder dimensionalPrefix = new StringBuilder();
-        for (int i = 0; i < dimensional; i++) {
-            dimensionalPrefix.append('[');
-        }
-        String e;
-        if (dimensional > 0) {
-            className = className.substring(0, className.indexOf(CLASS_CANONICAL_NAME_ARRAY_STATEMENT));
-            if (className.equals("byte")) {
-                e = "B";
-            } else if (className.equals("char")) {
-                e = "C";
-            } else if (className.equals("double")) {
-                e = "D";
-            } else if (className.equals("float")) {
-                e = "F";
-            } else if (className.equals("int")) {
-                e = "I";
-            } else if (className.equals("long")) {
-                e = "J";
-            } else if (className.equals("short")) {
-                e = "S";
-            } else if (className.equals("boolean")) {
-                e = "Z";
-            } else if (className.equals("void")) {
-                e = "V";
-            } else {
-                e = new StringBuilder().append('L').append(className).append(';').toString();
-            }
-            return dimensionalPrefix.append(e).toString();
         } else {
-            return className;
+            int dimensional = XClass.getArrayDimensionalFromClassCanonicalName(className);
+            String c;
+            if (dimensional > 0) {
+                StringBuilder prefix = new StringBuilder();
+                for (int i = 0; i < dimensional; i++) {
+                    prefix.append('[');
+                }
+                className = className.substring(0, className.length() - (dimensional * CLASS_CANONICAL_NAME_ARRAY_STATEMENT.length()));
+                if (className.equals("byte")) {
+                    c = "B";
+                } else if (className.equals("char")) {
+                    c = "C";
+                } else if (className.equals("double")) {
+                    c = "D";
+                } else if (className.equals("float")) {
+                    c = "F";
+                } else if (className.equals("int")) {
+                    c = "I";
+                } else if (className.equals("long")) {
+                    c = "J";
+                } else if (className.equals("short")) {
+                    c = "S";
+                } else if (className.equals("boolean")) {
+                    c = "Z";
+                } else if (className.equals("void")) {
+                    c = "V";
+                } else {
+                    return c = prefix.append('L').append(className).append(';').toString();
+                }
+                return prefix.append(c).toString();
+            } else {
+                return className;
+            }
         }
     }
+
 
     public static String[] toAbsClassName(String... classNames) {
         if (null == classNames || classNames.length == 0) {
