@@ -527,7 +527,7 @@ public class XReflectMatcher {
     public static RuntimeException newThrowNoSuchMatchException(Member[] list, Class returnClass, String name,
             Object... paramInstanceArr) {
         StringBuilder strbuf = new StringBuilder();
-        strbuf.append("cannot found: ").append(null == returnClass ? "" : returnClass.getCanonicalName()).append(" ")
+        strbuf.append("cannot found: ").append(null == returnClass ? "" : XClass.toAbsCanonicalName(returnClass)).append(" ")
                 .append(name).append(null == list ? "" : XClass.joinParamJavaClassCanonicalName(paramInstanceArr))
                 .append("    ");
         strbuf.append("matching list: ");
@@ -546,7 +546,7 @@ public class XReflectMatcher {
     public static RuntimeException newThrowNoSuchMatchException(Member[] list, Class returnClass, String name,
             Class... paramClassArr) {
         StringBuilder strbuf = new StringBuilder();
-        strbuf.append("cannot found: ").append(null == returnClass ? "" : returnClass.getCanonicalName()).append(" ")
+        strbuf.append("cannot found: ").append(null == returnClass ? "" : XClass.toAbsCanonicalName(returnClass)).append(" ")
                 .append(name).append(null == list ? "" : XClass.joinParamJavaClassCanonicalName(paramClassArr))
                 .append("    ");
         strbuf.append("matching list: ");

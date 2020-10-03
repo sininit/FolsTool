@@ -1,6 +1,7 @@
 package top.fols.box.lang;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import top.fols.box.io.base.XCharArrayWriter;
@@ -54,11 +55,13 @@ public class XStringFormat {
 			private Map<String, Field> fields;
 
 			private Field getField(String name) {
-				if (null == this.fields) {
-					this.fields = new HashMap<>();
+				Map<String, Field> cache = this.fields;
+				if (null == cache) {
+					cache = new HashMap<>();
 					for (Field field : thisClass.getDeclaredFields()) {
-						this.fields.put(field.getName(), XReflectAccessible.setAccessibleTrueOne(field));
+						cache.put(field.getName(), XReflectAccessible.setAccessibleTrueOne(field));
 					}
+					this.fields = cache;
 				}
 				return this.fields.get(name);
 			}
@@ -77,16 +80,20 @@ public class XStringFormat {
 		return vm;
 	}
 
-	public static VarManager wrapObjectStaticField(final Class thisClass) {
+	public static VarManager wrapClassStaticField(final Class thisClass) {
 		VarManager vm = new VarManager() {
 			private Map<String, Field> fields;
 
 			private Field getField(String name) {
-				if (null == this.fields) {
-					this.fields = new HashMap<>();
+				Map<String, Field> cache = this.fields;
+				if (null == cache) {
+					cache = new HashMap<>();
 					for (Field field : thisClass.getDeclaredFields()) {
-						this.fields.put(field.getName(), XReflectAccessible.setAccessibleTrueOne(field));
+						if (Modifier.isStatic(field.getModifiers())) {
+							cache.put(field.getName(), XReflectAccessible.setAccessibleTrueOne(field));
+						}
 					}
+					this.fields = cache;
 				}
 				return this.fields.get(name);
 			}

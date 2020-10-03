@@ -72,7 +72,7 @@ public class XSequences {
 	public static <A, E> XAbstractSequence<A, E> wrap(A Array, E ArrayElementType) {
 		Class<?> arrCls = Array.getClass();
 		if (null == arrCls || !arrCls.isArray()) {
-			throw new ClassCastException("cannot convert " + arrCls.getCanonicalName() + " to array");
+			throw new ClassCastException("cannot convert " + arrCls.getName() + " to array");
 		}
 		if (Array instanceof byte[]) {
 			return (XAbstractSequence<A, E>) wrapArr((byte[]) Array);

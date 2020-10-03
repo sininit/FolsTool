@@ -23,13 +23,13 @@ public class XClass {
         }
         if (castToClass.isPrimitive()) {
             return (castToClass == XStaticFixedValue.byte_class && obj instanceof Byte)
-                || (castToClass == XStaticFixedValue.long_class && obj instanceof Long)
-                || (castToClass == XStaticFixedValue.double_class && obj instanceof Double)
-                || (castToClass == XStaticFixedValue.char_class && obj instanceof Character)
-                || (castToClass == XStaticFixedValue.int_class && obj instanceof Integer)
-                || (castToClass == XStaticFixedValue.boolean_class && obj instanceof Boolean)
-                || (castToClass == XStaticFixedValue.float_class && obj instanceof Float)
-                || (castToClass == XStaticFixedValue.short_class && obj instanceof Short);
+                    || (castToClass == XStaticFixedValue.long_class && obj instanceof Long)
+                    || (castToClass == XStaticFixedValue.double_class && obj instanceof Double)
+                    || (castToClass == XStaticFixedValue.char_class && obj instanceof Character)
+                    || (castToClass == XStaticFixedValue.int_class && obj instanceof Integer)
+                    || (castToClass == XStaticFixedValue.boolean_class && obj instanceof Boolean)
+                    || (castToClass == XStaticFixedValue.float_class && obj instanceof Float)
+                    || (castToClass == XStaticFixedValue.short_class && obj instanceof Short);
         } else {
             // if (instanceCls == XStaticFixedValue.Byte_class) return obj instanceof Byte;
             // if (instanceCls == XStaticFixedValue.Long_class) return obj instanceof Long;
@@ -76,22 +76,22 @@ public class XClass {
         }
         if (castToClass.isPrimitive()) {
             return (castToClass == XStaticFixedValue.byte_class         && objcls == XStaticFixedValue.Byte_class)
-                || (castToClass == XStaticFixedValue.long_class         && objcls == XStaticFixedValue.Long_class)
-                || (castToClass == XStaticFixedValue.double_class       && objcls == XStaticFixedValue.Double_class)
-                || (castToClass == XStaticFixedValue.char_class         && objcls == XStaticFixedValue.Character_class)
-                || (castToClass == XStaticFixedValue.int_class          && objcls == XStaticFixedValue.Integer_class)
-                || (castToClass == XStaticFixedValue.boolean_class      && objcls == XStaticFixedValue.Boolean_class)
-                || (castToClass == XStaticFixedValue.float_class        && objcls == XStaticFixedValue.Float_class)
-                || (castToClass == XStaticFixedValue.short_class        && objcls == XStaticFixedValue.Short_class);
+                    || (castToClass == XStaticFixedValue.long_class         && objcls == XStaticFixedValue.Long_class)
+                    || (castToClass == XStaticFixedValue.double_class       && objcls == XStaticFixedValue.Double_class)
+                    || (castToClass == XStaticFixedValue.char_class         && objcls == XStaticFixedValue.Character_class)
+                    || (castToClass == XStaticFixedValue.int_class          && objcls == XStaticFixedValue.Integer_class)
+                    || (castToClass == XStaticFixedValue.boolean_class      && objcls == XStaticFixedValue.Boolean_class)
+                    || (castToClass == XStaticFixedValue.float_class        && objcls == XStaticFixedValue.Float_class)
+                    || (castToClass == XStaticFixedValue.short_class        && objcls == XStaticFixedValue.Short_class);
         } else {
             if ((castToClass == XStaticFixedValue.Byte_class            && objcls == XStaticFixedValue.byte_class)
-                || (castToClass == XStaticFixedValue.Long_class         && objcls == XStaticFixedValue.long_class)
-                || (castToClass == XStaticFixedValue.Double_class       && objcls == XStaticFixedValue.double_class)
-                || (castToClass == XStaticFixedValue.Character_class    && objcls == XStaticFixedValue.char_class)
-                || (castToClass == XStaticFixedValue.Integer_class      && objcls == XStaticFixedValue.int_class)
-                || (castToClass == XStaticFixedValue.Boolean_class      && objcls == XStaticFixedValue.boolean_class)
-                || (castToClass == XStaticFixedValue.Float_class        && objcls == XStaticFixedValue.float_class)
-                || (castToClass == XStaticFixedValue.Short_class        && objcls == XStaticFixedValue.short_class)) {
+                    || (castToClass == XStaticFixedValue.Long_class         && objcls == XStaticFixedValue.long_class)
+                    || (castToClass == XStaticFixedValue.Double_class       && objcls == XStaticFixedValue.double_class)
+                    || (castToClass == XStaticFixedValue.Character_class    && objcls == XStaticFixedValue.char_class)
+                    || (castToClass == XStaticFixedValue.Integer_class      && objcls == XStaticFixedValue.int_class)
+                    || (castToClass == XStaticFixedValue.Boolean_class      && objcls == XStaticFixedValue.boolean_class)
+                    || (castToClass == XStaticFixedValue.Float_class        && objcls == XStaticFixedValue.float_class)
+                    || (castToClass == XStaticFixedValue.Short_class        && objcls == XStaticFixedValue.short_class)) {
                 return true;
             } else {
                 return castToClass.isAssignableFrom(objcls);
@@ -116,14 +116,14 @@ public class XClass {
 
     public static boolean isPrimitiveClassName(String classCanonicalName) {
         if (classCanonicalName.equals(XStaticFixedValue.byte_classcanonicalname)
-            || classCanonicalName.equals(XStaticFixedValue.char_classcanonicalname)
-            || classCanonicalName.equals(XStaticFixedValue.double_classcanonicalname)
-            || classCanonicalName.equals(XStaticFixedValue.float_classcanonicalname)
-            || classCanonicalName.equals(XStaticFixedValue.int_classcanonicalname)
-            || classCanonicalName.equals(XStaticFixedValue.long_classcanonicalname)
-            || classCanonicalName.equals(XStaticFixedValue.short_classcanonicalname)
-            || classCanonicalName.equals(XStaticFixedValue.boolean_classcanonicalname)
-            || classCanonicalName.equals(XStaticFixedValue.void_classcanonicalname)) {
+                || classCanonicalName.equals(XStaticFixedValue.char_classcanonicalname)
+                || classCanonicalName.equals(XStaticFixedValue.double_classcanonicalname)
+                || classCanonicalName.equals(XStaticFixedValue.float_classcanonicalname)
+                || classCanonicalName.equals(XStaticFixedValue.int_classcanonicalname)
+                || classCanonicalName.equals(XStaticFixedValue.long_classcanonicalname)
+                || classCanonicalName.equals(XStaticFixedValue.short_classcanonicalname)
+                || classCanonicalName.equals(XStaticFixedValue.boolean_classcanonicalname)
+                || classCanonicalName.equals(XStaticFixedValue.void_classcanonicalname)) {
             return true;
         } else {
             return false;
@@ -131,7 +131,7 @@ public class XClass {
     }
 
 
-    
+
     public static Class primitiveClassForName(String classCanonicalName) {
         if (classCanonicalName.equals(XStaticFixedValue.byte_classcanonicalname)) {
             return XStaticFixedValue.byte_class;
@@ -214,7 +214,6 @@ public class XClass {
 
 
     private static final String CLASS_CANONICAL_NAME_ARRAY_STATEMENT = "[]";
-
     public static int getArrayDimensionalFromClassCanonicalName(String name) {
         if (null == name) {
             return 0;
@@ -229,7 +228,25 @@ public class XClass {
         return (name.length() - index) / CLASS_CANONICAL_NAME_ARRAY_STATEMENT.length();// [][]
     }
 
+    private static final String CLASS_NAME_ARRAY_STATEMENT = "[";
+    public static int getArrayDimensionalFromClassName(String name) {
+        if (null == name || name.length() == 0) {
+            return 0;
+        }
+        if (name.startsWith(CLASS_NAME_ARRAY_STATEMENT)) {
+            return (name.lastIndexOf(CLASS_NAME_ARRAY_STATEMENT) + CLASS_NAME_ARRAY_STATEMENT.length()) / CLASS_NAME_ARRAY_STATEMENT.length();
+        } else {
+            return getArrayDimensionalFromClassCanonicalName(name);
+        }
+    }
+
+
+
     /**
+     * You need to pay attention to anonymous classes! And inner class '$' !
+     * You need to pay attention to anonymous classes! And inner class '$' !
+     * You need to pay attention to anonymous classes! And inner class '$' !
+     *
      * Examples:
      * toAbsClassName(String.class.getCanonicalName())
      *     java.lang.String 	returns "java.lang.String"
@@ -240,54 +257,138 @@ public class XClass {
      * toAbsClassName((new int[3][4][5][6][7][8][9]).getClass().getCanonicalName())
      *     int[][][][][][][]    returns "[[[[[[[I"
      */
-    public static String toAbsClassName(String className) {
-        if (XClass.isPrimitiveClassName(className)) {
-            return className;
+    public static String toAbsClassName(String absCanonicalName) {
+        if (XClass.isPrimitiveClassName(absCanonicalName)) {
+            return absCanonicalName;
         } else {
-            int dimensional = XClass.getArrayDimensionalFromClassCanonicalName(className);
+            int dimensional = XClass.getArrayDimensionalFromClassCanonicalName(absCanonicalName);
             String c;
             if (dimensional > 0) {
                 StringBuilder prefix = new StringBuilder();
                 for (int i = 0; i < dimensional; i++) {
                     prefix.append('[');
                 }
-                className = className.substring(0, className.length() - (dimensional * CLASS_CANONICAL_NAME_ARRAY_STATEMENT.length()));
-                if (className.equals("byte")) {
+                absCanonicalName = absCanonicalName.substring(0, absCanonicalName.length() - (dimensional * CLASS_CANONICAL_NAME_ARRAY_STATEMENT.length()));
+                if (absCanonicalName.equals("byte")) {
                     c = "B";
-                } else if (className.equals("char")) {
+                } else if (absCanonicalName.equals("char")) {
                     c = "C";
-                } else if (className.equals("double")) {
+                } else if (absCanonicalName.equals("double")) {
                     c = "D";
-                } else if (className.equals("float")) {
+                } else if (absCanonicalName.equals("float")) {
                     c = "F";
-                } else if (className.equals("int")) {
+                } else if (absCanonicalName.equals("int")) {
                     c = "I";
-                } else if (className.equals("long")) {
+                } else if (absCanonicalName.equals("long")) {
                     c = "J";
-                } else if (className.equals("short")) {
+                } else if (absCanonicalName.equals("short")) {
                     c = "S";
-                } else if (className.equals("boolean")) {
+                } else if (absCanonicalName.equals("boolean")) {
                     c = "Z";
-                } else if (className.equals("void")) {
+                } else if (absCanonicalName.equals("void")) {
                     c = "V";
                 } else {
-                    return c = prefix.append('L').append(className).append(';').toString();
+                    return c = prefix.append('L').append(absCanonicalName).append(';').toString();
                 }
                 return prefix.append(c).toString();
             } else {
-                return className;
+                return absCanonicalName;
             }
         }
     }
 
 
-    public static String[] toAbsClassName(String... classNames) {
-        if (null == classNames || classNames.length == 0) {
+    public static String toAbsCanonicalName(String classGetName) throws RuntimeException {
+        if (null == classGetName) {
             return null;
         }
-        String c[] = new String[classNames.length];
-        for (int i = 0; i < classNames.length; i++) {
-            c[i] = null == classNames[i] ? null : toAbsClassName(classNames[i]);
+        if (0 == classGetName.length()) {
+            return "";
+        }
+        if (classGetName.startsWith(CLASS_NAME_ARRAY_STATEMENT)) {
+            int typeSt = classGetName.lastIndexOf(CLASS_NAME_ARRAY_STATEMENT) + CLASS_NAME_ARRAY_STATEMENT.length();
+            int dimensional = typeSt / CLASS_NAME_ARRAY_STATEMENT.length();
+            char type = classGetName.charAt(typeSt);
+            StringBuilder sb = new StringBuilder();
+            if (type == 'B') {
+                sb.append("byte");
+            } else if (type == 'C') {
+                sb.append("char");
+            } else if (type == 'D') {
+                sb.append("double");
+            } else if (type == 'F') {
+                sb.append("float");
+            } else if (type == 'I') {
+                sb.append("int");
+            } else if (type == 'J') {
+                sb.append("long");
+            } else if (type == 'S') {
+                sb.append("short");
+            } else if (type == 'Z') {
+                sb.append("boolean");
+            } else if (type == 'V') {
+                sb.append("void");
+            } else if (type == 'L') {
+                sb.append(classGetName.substring(typeSt + 1, classGetName.indexOf(";", typeSt + 1)));
+            } else {
+                throw new RuntimeException("unknown type: " + type);
+            }
+            for (int i = 0; i < dimensional; i++) {
+                sb.append(CLASS_CANONICAL_NAME_ARRAY_STATEMENT);
+            }
+            return sb.toString();
+        } else {
+            return classGetName;
+        }
+    }
+
+
+
+
+    public static String[] toAbsClassName(String... absCanonicalNames) {
+        if (null == absCanonicalNames || absCanonicalNames.length == 0) {
+            return null;
+        }
+        String c[] = new String[absCanonicalNames.length];
+        for (int i = 0; i < absCanonicalNames.length; i++) {
+            c[i] = null == absCanonicalNames[i] ? null : toAbsClassName(absCanonicalNames[i]);
+        }
+        return c;
+    }
+    public static String[] toAbsClassName(Class... absCanonicalNames) {
+        if (null == absCanonicalNames || absCanonicalNames.length == 0) {
+            return null;
+        }
+        String c[] = new String[absCanonicalNames.length];
+        for (int i = 0; i < absCanonicalNames.length; i++) {
+            c[i] = null == absCanonicalNames[i] ? null : absCanonicalNames[i].getName();
+        }
+        return c;
+    }
+
+
+    public static String[] toAbsCanonicalNames(String... classGetName) throws RuntimeException {
+        if (null == classGetName || classGetName.length == 0) {
+            return null;
+        }
+        String c[] = new String[classGetName.length];
+        for (int i = 0; i < classGetName.length; i++) {
+            c[i] = null == classGetName[i] ? null : toAbsCanonicalName(classGetName[i]);
+        }
+        return c;
+    }
+
+
+    public static String toAbsCanonicalName(Class classGetName) throws RuntimeException{
+        return toAbsCanonicalName(classGetName.getName());
+    }
+    public static String[] toAbsCanonicalNames(Class... classGetName) throws RuntimeException{
+        if (null == classGetName || classGetName.length == 0) {
+            return null;
+        }
+        String c[] = new String[classGetName.length];
+        for (int i = 0; i < classGetName.length; i++) {
+            c[i] = null == classGetName[i] ? null : toAbsCanonicalName(classGetName[i]);
         }
         return c;
     }
@@ -309,8 +410,8 @@ public class XClass {
 
 
 
-    public static Class forName(String name, boolean initialize, java.lang.ClassLoader loader)
-    throws ClassNotFoundException {
+    public static Class forName(String name, boolean initialize, ClassLoader loader)
+            throws ClassNotFoundException {
         String addres = toAbsClassName(name);
         Class c = XClass.primitiveClassForName(addres);
         if (null != c) {
@@ -320,12 +421,15 @@ public class XClass {
     }
 
     /**
-     * 根据类名获取Class
+     * You need to pay attention to anonymous classes! And inner class '$' !
+     * You need to pay attention to anonymous classes! And inner class '$' !
+     * You need to pay attention to anonymous classes! And inner class '$' !
+     *
      * <p>
      * byte[] >> byte[].class([B)
      * <p>
      * java.lang.String[] >> [Ljava.lang.String(String[].class);
-     * 
+     *
      * @param name
      * @return
      * @throws ClassNotFoundException
@@ -340,15 +444,15 @@ public class XClass {
     }
 
     public static Class forName(ClassLoader cl, String name) throws ClassNotFoundException {
-        String absClassName = toAbsClassName(name);
-        Class cls = XClass.primitiveClassForName(absClassName);
+        String addres = toAbsClassName(name);
+        Class cls = XClass.primitiveClassForName(addres);
         if (null != cls) {
             return cls;
         }
         if (null == cl) {
-            cls = Class.forName(absClassName);
+            cls = Class.forName(addres);
         } else {
-            cls = Class.forName(absClassName, true, cl);
+            cls = Class.forName(addres, true, cl);
         }
         return cls;
     }
@@ -358,10 +462,6 @@ public class XClass {
     public static Class getClass(Object obj) {
         return null == obj ? null : obj.getClass();
     }
-
-    public static String getCanonicalName(Class cls) {
-        return null == cls ?null: cls.getCanonicalName();
-    }
     public static String getName(Class cls) {
         return null == cls ?null: cls.getName();
     }
@@ -369,26 +469,48 @@ public class XClass {
         return null == cls ?null: cls.getSimpleName();
     }
 
+
+
+
+    public static String joinParamJavaClassName(Object[] objs) {
+        XStringJoiner sb = new XStringJoiner(", ", "(", ")");
+        if (null != objs) {
+            for (Object obj : objs) {
+                sb.add(null == obj ? null : obj.getClass().getName());
+            }
+        }
+        return sb.toString();
+    }
     public static String joinParamJavaClassCanonicalName(Object[] objs) {
         XStringJoiner sb = new XStringJoiner(", ", "(", ")");
         if (null != objs) {
             for (Object obj : objs) {
-                sb.add(null == obj ? null : obj.getClass().getCanonicalName());
+                sb.add(null == obj ? null : toAbsCanonicalName(obj.getClass()));
             }
         }
         return sb.toString();
     }
 
+    public static String joinParamJavaClassName(Class[] objs) {
+        XStringJoiner sb = new XStringJoiner(", ", "(", ")");
+        if (null != objs) {
+            for (Class cls : objs) {
+                sb.add(null == cls ? null : cls.getName());
+            }
+        }
+        return sb.toString();
+    }
     public static String joinParamJavaClassCanonicalName(Class[] objs) {
         XStringJoiner sb = new XStringJoiner(", ", "(", ")");
         if (null != objs) {
             for (Class cls : objs) {
-                sb.add(null == cls ? null : cls.getCanonicalName());
+                sb.add(null == cls ? null : toAbsCanonicalName(cls));
             }
         }
         return sb.toString();
-	}
+    }
 
 
 }
+
 

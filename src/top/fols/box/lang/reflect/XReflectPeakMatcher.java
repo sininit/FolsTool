@@ -74,20 +74,20 @@ public class XReflectPeakMatcher extends XReflectMatcher {
                 return SL_NULLINSTANCE;
             }
 //            return SL_UNKNOWN;
-            throw new RuntimeException("error calc: " + XClass.getCanonicalName(instanceClass) + "  compared  " + XClass.getCanonicalName(comparedCls));
+            throw new RuntimeException("error calc: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
         }
         if (instanceClass == comparedCls) { return SL_EQUALS; }
         if (comparedCls.isPrimitive()) {
             if (XClass.packageClassToPrimitiveClass(instanceClass) == comparedCls) {
                 return SL_PRIMITIVE_AND_PACKAGECLASS_EQUALS;
             }
-            throw new RuntimeException("error calc: " + XClass.getCanonicalName(instanceClass) + "  compared  " + XClass.getCanonicalName(comparedCls));
+            throw new RuntimeException("error calc: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
         } else {
             if (instanceClass.isPrimitive()) {
                 if (XClass.primitiveClassToPackageClass(instanceClass) == comparedCls) {
                     return SL_PRIMITIVE_AND_PACKAGECLASS_EQUALS;
                 }
-                throw new RuntimeException("error calc: " + XClass.getCanonicalName(instanceClass) + "  compared  " + XClass.getCanonicalName(comparedCls));
+                throw new RuntimeException("error calc: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
             } 
         }
         if (instanceClass.isInterface()) {
@@ -105,7 +105,7 @@ public class XReflectPeakMatcher extends XReflectMatcher {
                     - 1;//
             }
             //接口不能实例化只可以继承
-            throw new RuntimeException("instanceClass cannot be an interface: " + XClass.getCanonicalName(instanceClass) + "  compared  " + XClass.getCanonicalName(comparedCls));
+            throw new RuntimeException("instanceClass cannot be an interface: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
         }
 
 
@@ -148,7 +148,7 @@ public class XReflectPeakMatcher extends XReflectMatcher {
                     return getSuperLevel0(instanceClassRoot, comparedClsRoot);
                 }
             }
-            throw new RuntimeException("error calc: " + XClass.getCanonicalName(instanceClass) + "  compared  " + XClass.getCanonicalName(comparedCls));
+            throw new RuntimeException("error calc: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
         } else if (XStaticFixedValue.Object_class == comparedCls) {
             if (instanceClass.isArray()) {
                 Object[] ms = getArrayClassMessage0(instanceClass, comparedCls);
@@ -185,7 +185,7 @@ public class XReflectPeakMatcher extends XReflectMatcher {
                 now = now.getSuperclass();
             }
 //            return SL_UNKNOWN;
-            throw new RuntimeException("error calc: " + XClass.getCanonicalName(instanceClass) + "  compared  " + XClass.getCanonicalName(comparedCls));
+            throw new RuntimeException("error calc: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
         } else {
             /**
              * fuck: now: null/0
@@ -204,11 +204,11 @@ public class XReflectPeakMatcher extends XReflectMatcher {
                 now = now.getSuperclass();
             }
 //            return SL_UNKNOWN;
-            throw new RuntimeException("error calc: " + XClass.getCanonicalName(instanceClass) + "  compared  " + XClass.getCanonicalName(comparedCls));
+            throw new RuntimeException("error calc: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
         }
     }
     private static long getSuperLevel(Class instanceClass, Class comparedCls) throws RuntimeException {
-        // System.out.println("对比: " + XClass.getCanonicalName(instanceClass) + " >>" + XClass.getCanonicalName(comparedCls));
+        // System.out.println("对比: " + XClass.toAbsCanonicalName(instanceClass) + " >>" + XClass.toAbsCanonicalName(comparedCls));
         long pm = getSuperLevel0(instanceClass, comparedCls);
         // System.out.println("对比结果: " + pm);
         return pm;

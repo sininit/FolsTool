@@ -11,3 +11,7 @@ XObjects
 XStaticFixedValue
 
 XObjectStreams
+
+XProperties
+JSON
+

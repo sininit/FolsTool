@@ -367,7 +367,7 @@ public class XArray {
 		}
 		XAbstractSequence as = XSequences.wrap(originalArray);
 		StringBuilder result = new StringBuilder(toString0(addCanonicalName,
-				originalArray.getClass().getCanonicalName(), XSequences.wrap(originalArray)));
+				XClass.toAbsCanonicalName(originalArray.getClass()), XSequences.wrap(originalArray)));
 		if (XArrays.CharSequenceUtil.endWith(result, ",")) {
 			result.setLength(result.length() - 1);
 		}
@@ -384,7 +384,7 @@ public class XArray {
 			Object object = originalArray.get(i);
 			if (originalArray.isArray(i)) {
 				result.append(
-						toString0(addCanonicalName, object.getClass().getCanonicalName(), XSequences.wrap(object)));
+						toString0(addCanonicalName, XClass.toAbsCanonicalName(object.getClass()), XSequences.wrap(object)));
 			} else {
 				result.append(object);
 				result.append(',');
