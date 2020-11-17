@@ -1,25 +1,28 @@
 package top.fols.box.util.thread;
 
+import top.fols.box.time.XTimeTool;
+import top.fols.box.util.XDoubleLinked;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import top.fols.box.time.XTimeTool;
-import top.fols.box.util.XDoubleLinked;
 
 public class XFixedThreadPool {
 
 	private static class RunInterfaceMessage {
 		private volatile SinglyLinked linkedRoot;
 		private volatile XDoubleLinked<Run> element;
-		private volatile int status = STATUS_NO_OPTION;
+		private volatile int status = STATUS_UNKNOWN;
 		private volatile XFixedThreadPool.SubThread subThread;
 
-		private static final int STATUS_NO_OPTION = 0;
+		private static final int STATUS_UNKNOWN = 0;//null
+
 		private static final int STATUS_WAIT = 1;
 		private static final int STATUS_RUNNING = 2;
+		private static final int STATUS_STOPPING = 3;
 
-		private static final int STATUS_START_EXCEPTION = 3;
-		private static final int STATUS_END = 4;
+		private static final int STATUS_START_EXCEPTION = 4;
+		private static final int STATUS_END = 5;
 	}
 	public static abstract class Run implements Runnable {
 		private final RunInterfaceMessage _message = new RunInterfaceMessage();
@@ -34,17 +37,34 @@ public class XFixedThreadPool {
 
 
 
+		private static final void _completeBefore(Run runinterface) {
+			try { runinterface.complete(); } catch (Throwable e) { e = null; }
+		}
+		/**
+		 * Run() has finished executing or stopped while executing run()
+		 */
+		public abstract void complete();
+
 
 
 
 		private static final void _removeBefore(Run runinterface) {
 			//mark end
-			try { runinterface.remove = true; } catch (Throwable e) { e = null; }
+			try {
+				runinterface.remove = true;
+				runinterface._message.status = RunInterfaceMessage.STATUS_STOPPING;
+			} catch (Throwable e) { e = null; }
+
 			//current thread interrupt
 			try { runinterface._message.subThread.interrupt(); } catch (Throwable e) { e = null; }
+
 			//interrupt
 			try { runinterface.remove(); } catch (Throwable e) { e = null; }
 		}
+
+		/**
+		 * This method only attempts to end the process running, and will not be executed after pool remove is successful
+		 */
 		public void remove() { }
 
 
@@ -185,8 +205,8 @@ public class XFixedThreadPool {
 	}
 
 
-	public boolean isStatusNoOption(Run runinterface) {
-		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_NO_OPTION;
+	public boolean isStatusNull(Run runinterface) {
+		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_UNKNOWN;
 	}
 	public boolean isStatusWait(Run runinterface) {
 		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_WAIT;
@@ -194,13 +214,18 @@ public class XFixedThreadPool {
 	public boolean isStatusRunning(Run runinterface) {
 		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_RUNNING;
 	}
+	public boolean isStatusStopping(Run runinterface) {
+		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_STOPPING;
+	}
 	public boolean isStatusEnd(Run runinterface) {
 		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_END;
 	}
 	public boolean isStatusException(Run runinterface) {
 		return null != runinterface && runinterface._message.status == RunInterfaceMessage.STATUS_START_EXCEPTION;
 	}
-
+	public int getStatus(Run runinterface) {
+		return null != runinterface ?  runinterface._message.status: RunInterfaceMessage.STATUS_UNKNOWN;
+	}
 
 
 
@@ -227,7 +252,6 @@ public class XFixedThreadPool {
 			if (!this.isDealThreadRunning) {
 				this.isDealThreadRunning = true;
 				this.isDealThreadWait = false;
-
 				new DealThread().start();
 			}
 		}
@@ -244,12 +268,11 @@ public class XFixedThreadPool {
 			if (null != runinterface._message.linkedRoot || null != runinterface._message.element) {
 				throw new RuntimeException("already add to thread pool");
 			}
-
+			runinterface.remove = false;
 			runinterface._message.status = RunInterfaceMessage.STATUS_WAIT;
 			runinterface._message.element = new XDoubleLinked<Run>(runinterface);
 			runinterface._message.subThread = null;
-			runinterface._message.linkedRoot = null;
-
+			runinterface._message.linkedRoot = this.list;
 			this.waitCount++;
 			this.list.addToTop(runinterface._message.element);
 
@@ -270,11 +293,7 @@ public class XFixedThreadPool {
 		@Override
 		public void run() {
 
-			try {
-				Run._runBefore(this.runinterface);
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
+			try { Run._runBefore(this.runinterface); } catch (Throwable e) { e.printStackTrace(); }
 
 			try {
 				XFixedThreadPool pool = XFixedThreadPool.this;
@@ -282,7 +301,6 @@ public class XFixedThreadPool {
 //				System.out.println("--*+");
 
 				synchronized (pool.lock) {
-
 					pool.runningCount--;
 					pool.list.remove(runinterface._message.element);
 
@@ -290,9 +308,11 @@ public class XFixedThreadPool {
 					runinterface._message.element = null;
 					runinterface._message.subThread = null;
 					runinterface._message.linkedRoot = null;
+				}
 
-//					System.out.println("--*-");
+				try { Run._completeBefore(this.runinterface); } catch (Throwable e) { e.printStackTrace(); }
 
+				synchronized (pool.lock) {
 					pool.heartbeatDealThread0();
 				}
 			} catch (Throwable e) {
@@ -400,28 +420,31 @@ public class XFixedThreadPool {
 	public boolean remove(Run runinterface) throws RuntimeException {
 		synchronized (this.lock) {
 			if (null == runinterface._message.linkedRoot) {
+				//not in list
 				return false;
 			}
 			if (runinterface._message.linkedRoot != this.list) {
 //				throw new RuntimeException("the thread is not on this thread pool");
-				return false;
+				//not in list
+				// return false;
 			}
 			XDoubleLinked<Run> now = runinterface._message.element;
 			if (runinterface._message.status == RunInterfaceMessage.STATUS_WAIT) {
 				this.waitCount--;
 				this.list.remove(now);
-
-				runinterface._message.status = RunInterfaceMessage.STATUS_NO_OPTION;
+				Run._removeBefore(runinterface);
+				runinterface._message.status = RunInterfaceMessage.STATUS_UNKNOWN;
 				runinterface._message.element = null;
 				runinterface._message.subThread = null;
 				runinterface._message.linkedRoot = null;
 				return true;
-			} else if (runinterface._message.status == RunInterfaceMessage.STATUS_RUNNING) {
-				this.list.remove(now);
-
+			} else if (
+					runinterface._message.status == RunInterfaceMessage.STATUS_RUNNING ||
+							runinterface._message.status == RunInterfaceMessage.STATUS_STOPPING) {
 				Run._removeBefore(runinterface);
 				return true;
-			} else {
+			}  else {
+				//not in list
 				return false;
 			}
 		}
@@ -462,9 +485,7 @@ public class XFixedThreadPool {
 
 
 
-	public XFixedThreadPool removeAllAndWaitEnd() {
-		return this.removeAllAndWaitEnd(this.list());
-	}
+	public XFixedThreadPool removeAllAndWaitEnd() { return this.removeAllAndWaitEnd(this.list()); }
 	public XFixedThreadPool removeAllAndWaitEnd(Collection<Run> tasks) {
 		synchronized (this.lock) {
 			for (Run task : tasks) {
