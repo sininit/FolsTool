@@ -66,24 +66,16 @@ public class XObjects {
 		}
 	}
 
-	public static boolean isEmpty(StringBuffer obj) {
-		return null == obj || obj.length() == 0;
-	}
-
-	public static boolean isEmpty(StringBuilder obj) {
+	public static boolean isEmpty(CharSequence obj) {
 		return null == obj || obj.length() == 0;
 	}
 
 	public static boolean isEmpty(Object obj) {
 		return null == obj;
 	}
-
+	
 	public static boolean isEmpty(Collection<?> obj) {
 		return null == obj || obj.size() == 0;
-	}
-
-	public static boolean isEmpty(String obj) {
-		return null == obj || obj.length() == 0;
 	}
 
 	public static boolean isEmpty(Object[] obj) {

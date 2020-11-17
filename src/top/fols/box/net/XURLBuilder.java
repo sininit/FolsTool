@@ -94,14 +94,13 @@ public class XURLBuilder implements Serializable{
     }
 
     public XURLBuilder port(String port) {
-        this.port = String.valueOf(Integer.parseInt(port));
+        this.port = port;
         return this;
     }
 
     public int portInt() {
         return Integer.parseInt(port);
     }
-
     public String port() {
         return port;
     }

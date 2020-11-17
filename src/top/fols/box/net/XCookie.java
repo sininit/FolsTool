@@ -1,12 +1,13 @@
 package top.fols.box.net;
 
 
-import java.net.CookieManager;
+import top.fols.box.lang.XString;
+import top.fols.box.net.XURLConnectionMessageHeader;
+
 import java.net.URLConnection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import top.fols.box.lang.XString;
 
 public class XCookie {
     public static final String HEADER_KEY_COOKIE = "Cookie";
@@ -17,27 +18,23 @@ public class XCookie {
 
     public static Map<String, String> getHeaderCookieToMap(URLConnection urlc) {
         Map<String, String> val = new LinkedHashMap<>();
-
         XURLConnectionMessageHeader hm = new XURLConnectionMessageHeader(urlc.getHeaderFields());
-
-
-
-        val.putAll(XCookie.cookieValueToMap(hm.get(XCookie.HEADER_KEY_COOKIE)));
-        val.putAll(XCookie.cookieValueToMap(hm.get(XCookie.HEADER_KEY_SET_COOKIE)));
+        val.putAll(XCookie.cookieValueToMap(hm.getInnerValueList(XCookie.HEADER_KEY_COOKIE)));
+        val.putAll(XCookie.cookieValueToMap(hm.getInnerValueList(XCookie.HEADER_KEY_SET_COOKIE)));
         return val;
     }
 
 
 
-    // qrsig=1;Path=/;Domain=google.com;
+    // qrsig=1; Path=/; Domain=google.com;
     public static Map<String, String> cookieValueToMap(String cookie) {
         Map<String, String> val = new LinkedHashMap<>();
         if (null == cookie) {
             return val;
         }
         List<String> s = XString.split(
-            (cookie.endsWith(XCookie.PROJECT_SEPARATOR)) ? cookie : (cookie + XCookie.PROJECT_SEPARATOR),
-            XCookie.PROJECT_SEPARATOR);
+                (cookie.endsWith(XCookie.PROJECT_SEPARATOR)) ? cookie : (cookie + XCookie.PROJECT_SEPARATOR),
+                XCookie.PROJECT_SEPARATOR);
         for (String str2 : s) {
             str2 = str2.trim();
 
@@ -47,13 +44,14 @@ public class XCookie {
                 String v = str2.substring(valTag + XCookie.ASSIGNMENT_SYMBOL.length(), str2.length());
                 val.put(k, v);
             } else {
-                val.put(str2, null);
+                String k = str2;
+                val.put(k, null);
             }
         }
         return val;
     }
 
-    // getHeaderFields()
+
     public static Map<String, String> cookieValueToMap(List<String> setCookie) {
         Map<String, String> val = new LinkedHashMap<>();
         if (null != setCookie) {
@@ -63,9 +61,7 @@ public class XCookie {
         }
         return val;
     }
-
     // ----
-
     public static String cookieMapToString(Map<String, String> val) {
         StringBuilder sb = new StringBuilder();
         for (String key : val.keySet()) {
@@ -80,4 +76,3 @@ public class XCookie {
     }
 
 }
-

@@ -77,6 +77,20 @@ public class XURL implements Serializable {
 
         return sb.toString();
     }
+    public XURLBuilder toBuilder() {
+        //protocol://user@host:port/dir/filename?param=value&multiplyParam=value#ref
+        XURLBuilder xurlBuilder = new XURLBuilder();
+        xurlBuilder.protocol(this.getProtocol());
+        xurlBuilder.user(this.getUser());
+        xurlBuilder.host(this.getHost());
+        xurlBuilder.port(this.getPort());
+        xurlBuilder.path(this.getFilePath());
+        xurlBuilder.param(this.getParam());
+        xurlBuilder.ref(this.getRef());
+        return xurlBuilder;
+    }
+
+
 
     public static final String PROTOCOL_SYMBOL = "://";
 

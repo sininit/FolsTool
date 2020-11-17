@@ -6,7 +6,7 @@ public class XFixedThreadPoolTest {
     public static void main(String[] args) throws  Throwable{
 
 
-        final XFixedThreadPool pool = new XFixedThreadPool().setMaxRuningCount(Integer.MAX_VALUE);
+        final XFixedThreadPool pool = new XFixedThreadPool().setMaxRunningCount(Integer.MAX_VALUE);
         for (int fori = 0;fori < 100;fori++) {
             final int i = fori;
             XFixedThreadPool.Run runable = new XFixedThreadPool.Run(){
@@ -27,9 +27,9 @@ public class XFixedThreadPoolTest {
             };
             pool.post(runable);
         }
-        System.out.println(XStringFormat.strf("wait:{0}, running:{1}, max:{2}", pool.getWaitCount(), pool.getNowRuningCount(), pool.getMaxRuningCount()));
+        System.out.println(XStringFormat.strf("wait:{0}, running:{1}, max:{2}", pool.getWaitCount(), pool.getNowRunningCount(), pool.getMaxRunningCount()));
         pool.removeAllAndWaitEnd(pool.list());
-        System.out.println(XStringFormat.strf("wait:{0}, running:{1}, max:{2}", pool.getWaitCount(), pool.getNowRuningCount(), pool.getMaxRuningCount()));
+        System.out.println(XStringFormat.strf("wait:{0}, running:{1}, max:{2}", pool.getWaitCount(), pool.getNowRunningCount(), pool.getMaxRunningCount()));
 
 
         System.out.println("----------------------");
@@ -46,8 +46,8 @@ public class XFixedThreadPoolTest {
                             + "isDealThreadRunning:{3}, isDealThreadWait:{4}"
 
                     , pool.getWaitCount()
-                    , pool.getNowRuningCount()
-                    , pool.getMaxRuningCount()
+                    , pool.getNowRunningCount()
+                    , pool.getMaxRunningCount()
 
                     , pool.is_deal_thread_running()
                     , pool.is_deal_thread_running_wait()
@@ -79,8 +79,8 @@ public class XFixedThreadPoolTest {
                                 + "isDealThreadRunning:{3}, isDealThreadWait:{4}"
 
                         , pool.getWaitCount()
-                        , pool.getNowRuningCount()
-                        , pool.getMaxRuningCount()
+                        , pool.getNowRunningCount()
+                        , pool.getMaxRunningCount()
 
                         , pool.is_deal_thread_running()
                         , pool.is_deal_thread_running_wait()
