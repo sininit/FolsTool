@@ -21,19 +21,9 @@ public final class XTimeTool {
 
 
 
-	/**
-	 * @see ConcurrencyCurrentTimeMillis#currentTimeMillis()
-	 */
-	public static long currentTimeMillis() {
-		return ConcurrencyCurrentTimeMillis.currentTimeMillis();
-	}
-	/**
-	 * @see ConcurrencyCurrentTimeMillis#nanoTime()
-	 */
-	public static long nanoTime() {
-		return ConcurrencyCurrentTimeMillis.nanoTime();
-	}
 
+	public static long currentTimeMillis() { return System.currentTimeMillis(); }
+	public static long nanoTime() { return System.nanoTime(); }
 
 
 
@@ -46,17 +36,16 @@ public final class XTimeTool {
 	 * It is not too precise
 	 *
 	 * 使用nanoTime的差 来计算时间 实现currentTimeMillis, 解决currentTimeMillis 高并发，低效率的问题
-	 * 在数据溢出内必须读取一次时间
+	 * 在数据溢出内必须读取一次时间, 同时设备不可以是休眠状态
 	 *
 	 * @hide
 	 */
-	final static class ConcurrencyCurrentTimeMillis {
+	public final static class ConcurrencyCurrentTimeMillis {
 
 		/**
 		 * Guarantee only one instance
 		 */
 		private static final ConcurrencyCurrentTimeMillis DEFAULT_INSTANCE = new ConcurrencyCurrentTimeMillis();
-
 		public static long currentTimeMillis() {
 			return DEFAULT_INSTANCE.getCurrentTimeMillis();
 		}
@@ -76,7 +65,7 @@ public final class XTimeTool {
 				this.nanotime = nanotime;
 			}
 		}
-		private ConcurrencyCurrentTimeMillis() {
+		protected ConcurrencyCurrentTimeMillis() {
 			this.timeRecording = new TimeRecording(
 					System.currentTimeMillis(),
 					System.nanoTime()
@@ -90,7 +79,7 @@ public final class XTimeTool {
 		/**
 		 * Because there may be unforeseen problems without synchronized, I don't know.
 		 */
-		private long getCurrentTimeMillis() {
+		protected long getCurrentTimeMillis() {
 
 			/**
 			 * We don’t need to know how it is achieved
@@ -140,12 +129,11 @@ public final class XTimeTool {
 			 */
 			return lastTime + (nanotimeDifference / NANO_TO_MILLISECONDS);
 		}
-		private long getNanoTime() {
+		protected long getNanoTime() {
 			return System.nanoTime();
 		}
 
-		private static final long NANO_TO_MILLISECONDS 	= 1000000L;
-
+		protected static final long NANO_TO_MILLISECONDS 	= 1000000L;
 
 		/**
 		 * Prevent data overflow twice
@@ -155,7 +143,7 @@ public final class XTimeTool {
 				new Heartbeat().start();
 			} catch (Throwable e) { throw new Error(e); }
 		}
-		static private class Heartbeat extends Thread {
+		static protected class Heartbeat extends Thread {
 			private static final long HEARTBEAT_TIME = XTimeTool.time_1d;
 			private Heartbeat() {
 				try {
@@ -194,30 +182,33 @@ public final class XTimeTool {
 	public static final long time_1h = 60L * time_1m;// 一小时
 	public static final long time_1d = 24L * time_1h;// 一天
 
+
+	public static long millis(long day, long hour, long minute, long second, long millis) {
+		return day * time_1d
+				+ hour * time_1h
+				+ minute * time_1m
+				+ second * time_1s
+				+ millis * time_1millisecond;
+	}
+
 	public static long getNextSecondStartTime(long nowTime, long s) {
 		return time_1s * ((nowTime / time_1s) + s);
 	}
-
 	public static long getNextMinuteStartTime(long nowTime, long m) {
 		return time_1m * ((nowTime / time_1m) + m);
 	}
-
 	public static long getNextHourStartTime(long nowTime, long h) {
 		return time_1h * ((nowTime / time_1h) + h);
 	}
-
 	public static long getNextSecondTime(long nowTime, long s) {
 		return nowTime + time_1s * s;
 	}
-
 	public static long getNextMinuteTime(long nowTime, long m) {
 		return nowTime + time_1m * m;
 	}
-
 	public static long getNextHourTime(long nowTime, long h) {
 		return nowTime + time_1h * h;
 	}
-
 	public static long getNextDayTime(long nowTime, long d) {
 		return nowTime + time_1d * d;
 	}

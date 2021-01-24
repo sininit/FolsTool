@@ -1,5 +1,7 @@
 package top.fols.box.statics;
 
+import top.fols.atri.lang.Finals;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -11,6 +13,10 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @see Finals
+ */
+@Deprecated
 public final class XStaticFixedValue {
 
 	public static final class FileOptMode {
@@ -26,15 +32,13 @@ public final class XStaticFixedValue {
 	}
 
 
-
-
 	public static final String[] nullStringArray = new String[0];
-	public static final Object[] nullObjectArray = new Object[0];
+	public static final Object[] nullObjectArray = Finals.EMPTY_OBJECT_ARRAY;
 
-	public static final byte[] nullbyteArray = new byte[0];
+	public static final byte[] nullbyteArray = Finals.EMPTY_BYTE_BUFFER;;
 	public static final long[] nulllongArray = new long[0];
 	public static final double[] nulldoubleArray = new double[0];
-	public static final char[] nullcharArray = new char[0];
+	public static final char[] nullcharArray = Finals.EMPTY_CHAR_BUFFER;;
 	public static final int[] nullintArray = new int[0];
 	public static final boolean[] nullbooleanArray = new boolean[0];
 	public static final float[] nullfloatArray = new float[0];
@@ -51,15 +55,15 @@ public final class XStaticFixedValue {
 
 	public static final Iterator nullIterator = Collections.emptyIterator();
 	public static final List nullList = Collections.emptyList();
-	public static final ListIterator nullListIterator = Collections.emptyListIterator();;
-	public static final Enumeration nullEnumeration = Collections.emptyEnumeration();;
-	public static final Set nullSet = Collections.emptySet();;
-	public static final Map nullMap = Collections.emptyMap();;
+	public static final ListIterator nullListIterator = Collections.emptyListIterator();
+	public static final Enumeration nullEnumeration = Collections.emptyEnumeration();
+	public static final Set nullSet = Collections.emptySet();
+	public static final Map nullMap = Collections.emptyMap();
 
-	public static final Class[] nullClassArray = new Class[0];
-	public static final Method[] nullMethodArray = new Method[0];
-	public static final Constructor[] nullConstructorArray = new Constructor[0];
-	public static final Field[] nullFieldArray = new Field[0];
+	public static final Class[] nullClassArray = Finals.EMPTY_CLASS_ARRAY;
+	public static final Method[] nullMethodArray = Finals.EMPTY_METHOD_ARRAY;
+	public static final Constructor[] nullConstructorArray = Finals.EMPTY_CONSTRUCTOR_ARRAY;
+	public static final Field[] nullFieldArray = Finals.EMPTY_FIELD_ARRAY;
 	public static final StackTraceElement[] nullStack = new StackTraceElement[0];
 
 	public static final byte Byte_NextLineR = '\r';
@@ -186,42 +190,38 @@ public final class XStaticFixedValue {
 	public static final String Short_array_classcanonicalname = Short[].class.getCanonicalName();
 	public static final String Void_array_classcanonicalname = Void[].class.getCanonicalName();
 
-	public static final byte byte_defaultValue = 0;
-	public static final long long_defaultValue = 0L;
-	public static final double double_defaultValue = 0D;
-	public static final char char_defaultValue = 0;
-	public static final int int_defaultValue = 0;
-	public static final boolean boolean_defaultValue = false;
-	public static final float float_defaultValue = 0F;
-	public static final short short_defaultValue = 0;
+	public static final byte 		byte_defaultValue = Finals.BYTE_DEFAULT_VALUE;
+	public static final long 		long_defaultValue = Finals.LONG_DEFAULT_VALUE;
+	public static final double 		double_defaultValue = Finals.DOUBLE_DEFAULT_VALUE;
+	public static final char 		char_defaultValue = Finals.CHAR_DEFAULT_VALUE;
+	public static final int 		int_defaultValue = Finals.INT_DEFAULT_VALUE;
+	public static final boolean 	boolean_defaultValue = Finals.BOOLEAN_DEFAULT_VALUE;
+	public static final float	 	float_defaultValue = Finals.FLOAT_DEFAULT_VALUE;
+	public static final short 		short_defaultValue = Finals.SHORT_DEFAULT_VALUE;
 
-	public static final Byte Byte_defaultValue = 0;
-	public static final Long Long_defaultValue = 0L;
-	public static final Double Double_defaultValue = 0D;
-	public static final Character Character_defaultValue = 0;
-	public static final Integer Integer_defaultValue = 0;
-	public static final Boolean Boolean_defaultValue = false;
-	public static final Float Float_defaultValue = 0F;
-	public static final Short Short_defaultValue = 0;
-
-
+	public static final Byte 		Byte_defaultValue = Finals.BYTE_DEFAULT_VALUE;
+	public static final Long 		Long_defaultValue = Finals.LONG_DEFAULT_VALUE;
+	public static final Double 		Double_defaultValue = Finals.DOUBLE_DEFAULT_VALUE;
+	public static final Character 	Character_defaultValue = Finals.CHAR_DEFAULT_VALUE;
+	public static final Integer 	Integer_defaultValue = Finals.INT_DEFAULT_VALUE;
+	public static final Boolean 	Boolean_defaultValue = Finals.BOOLEAN_DEFAULT_VALUE;
+	public static final Float 		Float_defaultValue = Finals.FLOAT_DEFAULT_VALUE;
+	public static final Short 		Short_defaultValue = Finals.SHORT_DEFAULT_VALUE;
 
 
 
-	public static final Object NULL = null;
-
-	public static final boolean boolean_true = true;
-	public static final boolean boolean_false = false;
-
-	public static final Boolean Boolean_TRUE = true;
-	public static final Boolean Boolean_FALSE = false;
 
 
+	public static final Object NULL = Finals.NULL;
 
-	public static final String TRUE_STRING = String.valueOf(true);
-	public static final String FALSE_STRING = String.valueOf(false);
-	public static final String NULL_STRING = String.valueOf((Object) null);
+	public static final boolean boolean_true = Finals.BOOLEAN_TRUE;
+	public static final boolean boolean_false = Finals.BOOLEAN_FALSE;
+
+	public static final Boolean Boolean_TRUE = Finals.BOOLEAN_PACKAGE_TRUE;
+	public static final Boolean Boolean_FALSE = Finals.BOOLEAN_PACKAGE_FALSE;
 
 
-
+	public static final String TRUE_STRING = Finals.TRUE_STRING;
+	public static final String FALSE_STRING = Finals.FALSE_STRING;
+	public static final String NULL_STRING = Finals.NULL_STRING;
 }

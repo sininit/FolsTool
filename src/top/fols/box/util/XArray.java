@@ -3,6 +3,7 @@ package top.fols.box.util;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import top.fols.atri.buffer.BufferOption;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.lang.XClass;
 import top.fols.box.lang.XSequences;
@@ -181,7 +182,7 @@ public class XArray {
 			index = originalArrayLength;
 		}
 		int addElementLength = null == Array ? 0 : getLength(Array);
-		Object object = copyOutsideScope(originalArray, index, addElementLength, originalArrayElementClass);
+		Object object = insert(originalArray, index, addElementLength, originalArrayElementClass);
 		if (addElementLength != 0) {
 			XArrays.arraycopyTraverse(Array, 0, object, index, addElementLength);
 		}
@@ -204,28 +205,30 @@ public class XArray {
 			index = originalArrayLength;
 		}
 		int addElementLength = null == Array ? 0 : getLength(Array);
-		Object object = copyOutsideScope(originalArray, index, addElementLength, originalArrayElementClass);
+		Object object = insert(originalArray, index, addElementLength, originalArrayElementClass);
 		if (addElementLength != 0) {
 			System.arraycopy(Array, 0, object, index, addElementLength);
 		}
 		return object;
 	}
 
-	// Insert null data
-	private static Object copyOutsideScope(Object originalArray, int needAddDataIndexOf, int needAddLength,
-			Class originalArrayElementClass) {
-		if (null == originalArrayElementClass) {
-			throw new NullPointerException("attempt to read to null class type");
-		}
-		int originalArrayLength = getLength(originalArray);
-		Object object = newInstance(originalArrayElementClass, originalArrayLength + needAddLength);
-		if (originalArrayLength != 0) {
-			System.arraycopy(originalArray, 0, object, 0, originalArrayLength);
-		}
-		if (!(needAddDataIndexOf == originalArrayLength) && needAddLength != 0) {
-			System.arraycopy(object, needAddDataIndexOf, object, needAddDataIndexOf + needAddLength,
-					originalArrayLength - needAddDataIndexOf);
-		}
+	/**
+	 * Insert data in the array
+	 *
+	 * @param oldArray array
+	 * @param offset insert index, >= 0 or >= array.length
+	 * @param len insert len
+	 * @param oldArrayEleClass originalArrayElementClass
+	 */
+	public static Object insert(Object oldArray, int offset, int len,  Class oldArrayEleClass) throws ArrayIndexOutOfBoundsException {
+		if (null == oldArrayEleClass) { throw new NullPointerException("attempt to read to null class type"); }
+		int oldArrayLength = XArray.getLength(oldArray);
+		if (offset < 0) { throw new ArrayIndexOutOfBoundsException(String.format("offset=%s, len=%s", offset, len)); }
+		if (offset > oldArrayLength) { len += (offset - oldArrayLength); offset = oldArrayLength; }
+
+		Object object = XArray.newInstance(oldArrayEleClass, oldArrayLength + len);
+		if (offset > 0) { System.arraycopy(oldArray, 0, object, 0, offset);}
+		if (offset < oldArrayLength) {	System.arraycopy(oldArray, offset, object, offset + len, oldArrayLength - offset); }
 		return object;
 	}
 
@@ -251,7 +254,7 @@ public class XArray {
 			index = originalArrayLength;
 		}
 		int addElementLength = 1;
-		Object object = copyOutsideScope(originalArray, index, addElementLength, originalArrayElementClass);
+		Object object = insert(originalArray, index, addElementLength, originalArrayElementClass);
 		set(object, index, Element);
 		return object;
 	}

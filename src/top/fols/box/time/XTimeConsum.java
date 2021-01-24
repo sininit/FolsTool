@@ -23,30 +23,22 @@ public class XTimeConsum implements Serializable {
 		this.start = XTimeTool.getSystemCurrentTimeMillis();
 		return this;
 	}
-	public long getStartTime() {
-		return start;
-	}
 
 
 	public XTimeConsum end() {
 		this.end = XTimeTool.getSystemCurrentTimeMillis();
 		return this;
 	}
-	public long getEndTime() {
-		return this.end;
-	}
-
-
 
 	public long getEndLessStart() {
 		return this.end - this.start;
 	}
-
 	public long endAndGetEndLessStart() {
 		return this.end().getEndLessStart();
 	}
 
-
+	public long startTime() { return this.start; }
+	public long endTime() { return this.end; }
 
 
 	public static XTimeConsum newInstance(String id) {
@@ -68,7 +60,7 @@ public class XTimeConsum implements Serializable {
 	@Override
 	public String toString() {
 		// TODO: Implement this method
-		return String.format("[%s]time consum: %s", this.getID(), this.getEndLessStart());
+		return String.format("[%s]time consum: %s", this.getID(), XTimeTool.getSystemCurrentTimeMillis() - this.startTime());
 	}
 
 
