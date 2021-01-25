@@ -18,8 +18,8 @@ public abstract class ByteBufferOption extends BufferOption<byte[]> {
 	public ByteBufferOption(byte[] datas) {
 		this(datas, 0, datas.length);
 	}
-	public ByteBufferOption(byte[] datas, int position, int size) throws ArrayIndexOutOfBoundsException {
-		super(datas, position, size);
+	public ByteBufferOption(byte[] datas, int position, int limit) throws ArrayIndexOutOfBoundsException {
+		super(datas, position, limit);
 	}
 	
 	
@@ -32,7 +32,7 @@ public abstract class ByteBufferOption extends BufferOption<byte[]> {
 
 	@Override public int hashCode() {
 		// TODO: Implement this method
-		return Arrays.hashCode(this.buffer) + this.position + this.size;
+		return Arrays.hashCode(this.buffer) + this.position + this.limit;
 	}
 
 	@Override public boolean equals(Object obj) {
@@ -42,7 +42,7 @@ public abstract class ByteBufferOption extends BufferOption<byte[]> {
 		return 
 			Arrays.equals(this.buffer, object.buffer) &&
 			this.position == object.position &&
-			this.size == object.size;
+			this.limit == object.limit;
 	}
 
 	@Override public String toString() {
@@ -67,13 +67,13 @@ public abstract class ByteBufferOption extends BufferOption<byte[]> {
 			this.positionSkip(1);
 			return result & 0xff;
 		} else {
-			this.buffer_grow(this.size + this.stream_buffer_size);
-			int read = stream_read(this.buffer, this.size, this.stream_buffer_size);
+			this.buffer_grow(this.limit + this.stream_buffer_size);
+			int read = stream_read(this.buffer, this.limit, this.stream_buffer_size);
 			if (read == 0) {
 				return 0;
 			} else if (read > 0) {
-				int result = this.buffer[this.size];
-				this.size += read;
+				int result = this.buffer[this.limit];
+				this.limit += read;
 				this.positionSkip(1);
 				return result;
 			} else {
@@ -93,19 +93,19 @@ public abstract class ByteBufferOption extends BufferOption<byte[]> {
 	}
 
 	public void 			append(byte ch) { 
-		this.buffer_grow(this.size + 1);
-		this.buffer[this.size++] = ch;
+		this.buffer_grow(this.limit + 1);
+		this.buffer[this.limit++] = ch;
 	}
 
 
 	public int append_from_stream_read(InputStream reader, int len) throws IOException {
-		return this.insert_from_stream_read(this.size, reader, len);
+		return this.insert_from_stream_read(this.limit, reader, len);
 	}
 	public int insert_from_stream_read(int position, InputStream reader, int len) throws IOException {
-		if (position < 0 || position > this.size) { throw new ArrayIndexOutOfBoundsException(
-				String.format("position=%s, buffer.size=%s"
+		if (position < 0 || position > this.limit) { throw new ArrayIndexOutOfBoundsException(
+				String.format("position=%s, buffer.limit=%s"
 							  , position  
-							  , this.size)); }
+							  , this.limit)); }
 		if (len <  0) { throw new ArrayIndexOutOfBoundsException(
 				String.format("length=%s"
 							  , len)); }
@@ -118,10 +118,10 @@ public abstract class ByteBufferOption extends BufferOption<byte[]> {
 	
 	public void writeTo(OutputStream stream) throws IOException{ this.writeTo(stream, this.position, this.available()); }
 	public void writeTo(OutputStream stream, int position, int len) throws IOException {
-		if (position < 0 || len < 0 || position + len > this.size) { throw new ArrayIndexOutOfBoundsException(
-				String.format("buffer.length=%s, buffer.size=%s, position=%s, length=%s"
+		if (position < 0 || len < 0 || position + len > this.limit) { throw new ArrayIndexOutOfBoundsException(
+				String.format("buffer.length=%s, buffer.limit=%s, position=%s, length=%s"
 							  , this.buffer_length()
-							  , this.size
+							  , this.limit
 							  , position
 							  , len)); }
 		stream.write(this.buffer, position, len);

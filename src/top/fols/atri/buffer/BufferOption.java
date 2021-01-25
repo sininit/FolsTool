@@ -43,22 +43,22 @@ public abstract class BufferOption<A extends Object> {
 
 	protected A buffer; //array
 	protected int position;
-	protected int size;
+	protected int limit;
 
-	protected BufferOption() {}
-	public BufferOption(A buffer, int position, int size) throws NullPointerException {
+	protected BufferOption() { super(); }
+	public BufferOption(A buffer, int position, int limit) throws NullPointerException {
 		if (null == buffer) {				throw new NullPointerException("buffer");}
 
 		this.buffer = buffer;
 		this.position = position;
-		this.size = size;
+		this.limit = limit;
 
-		if (position + size > sizeof(buffer)) {
+		if (position < 0 || position > limit || limit > sizeof(buffer)) {
 			throw new ArrayIndexOutOfBoundsException(
-				String.format("data.length=%s, position=%s, size=%s"
+				String.format("data.length=%s, position=%s, limit=%s"
 							  , sizeof(buffer)
 							  , position
-							  , size));
+							  , limit));
 		}
 	}
 
@@ -89,28 +89,27 @@ public abstract class BufferOption<A extends Object> {
 
 
 
-	public int 						size() { return this.size; }
-	public void 					size(int size) {
-		if (size < 0) {
-			throw new ArrayIndexOutOfBoundsException("buffer.length=" + sizeof(this.buffer) + ", set.size=" + size);
-		} else if (size <= sizeof(this.buffer)) {
-			if (this.position > size) {
-				throw new ArrayIndexOutOfBoundsException("buffer.length=" + sizeof(this.buffer) + ", position=" + this.position + ", set.size=" + size);
+	public int limit() { return this.limit; }
+	public void limit(int limit) {
+		if (limit < 0) {
+			throw new ArrayIndexOutOfBoundsException("buffer.length=" + sizeof(this.buffer) + ", set.limit=" + limit);
+		} else if (limit <= sizeof(this.buffer)) {
+			if (this.position > limit) {
+				throw new ArrayIndexOutOfBoundsException("buffer.length=" + sizeof(this.buffer) + ", position=" + this.position + ", set.limit=" + limit);
 			} else {
-				this.size = size;
+				this.limit = limit;
 			}
 		} else {
-			this.insert(this.size, size - this.size);
+			this.insert(this.limit, limit - this.limit);
 		}
 	}
 
-
 	public int 					position() { return this.position; }
 	public void 				position(int position) { 
-		if (position < 0 || position > this.size) { throw new ArrayIndexOutOfBoundsException(
-				String.format("buffer.length=%s, buffer.size=%s, position=%s"
+		if (position < 0 || position > this.limit) { throw new ArrayIndexOutOfBoundsException(
+				String.format("buffer.length=%s, buffer.limit=%s, position=%s"
 							  , this.buffer_length()
-							  , this.size
+							  , this.limit
 							  , position)); }
 		this.position = position;
 	}
@@ -119,7 +118,7 @@ public abstract class BufferOption<A extends Object> {
 
 
 
-	public int 				available() { return this.size - this.position; }
+	public int 				available() { return this.limit - this.position; }
 
 
 	public int 			calculateGrowSize(int minCapacity) {
@@ -146,7 +145,7 @@ public abstract class BufferOption<A extends Object> {
 			int newCapacity = calculateGrowSize(minCapacity);
 //			System.out.println(minCapacity +", "+newCapacity);
 			A array = array(newCapacity);
-			System.arraycopy(this.buffer, 0, array, 0, this.size);
+			System.arraycopy(this.buffer, 0, array, 0, this.limit);
 			this.buffer = array;
 		}
 		return this.buffer;
@@ -155,19 +154,19 @@ public abstract class BufferOption<A extends Object> {
 
 
 	public int append_from_stream_read(int len) throws IOException {
-		if (len < 0 || len + this.size < 0) { throw new ArrayIndexOutOfBoundsException(
-				String.format("buffer.length=%s, buffer.size=%s, length=%s"
+		if (len < 0 || len + this.limit < 0) { throw new ArrayIndexOutOfBoundsException(
+				String.format("buffer.length=%s, buffer.limit=%s, length=%s"
 							  , this.buffer_length()
-							  , this.size
+							  , this.limit
 							  , len));
 		}
 		BufferOption buffer = this;
-		buffer.buffer_grow(buffer.size + len);
-		int read = buffer.stream_read(buffer.buffer, buffer.size, len);
+		buffer.buffer_grow(buffer.limit + len);
+		int read = buffer.stream_read(buffer.buffer, buffer.limit, len);
 		if (read == 0) {
 			return 0;
 		} else if (read > 0) {
-			buffer.size += read;
+			buffer.limit += read;
 			return Math.min(len, read);
 		} else {
 			return -1;
@@ -181,30 +180,30 @@ public abstract class BufferOption<A extends Object> {
 	 */
 	public void insert(int position, int len) {
 		if (len == 0) { return; }
-		if (position < 0 || len < 0 || position > this.size) {
+		if (position < 0 || len < 0 || position > this.limit) {
 			throw new ArrayIndexOutOfBoundsException(
-				String.format("buffer.length=%s, buffer.size=%s, position=%s, length=%s"
+				String.format("buffer.length=%s, buffer.limit=%s, position=%s, length=%s"
 							  , this.buffer_length()
-							  , this.size
+							  , this.limit
 							  , position
 							  , len));
 		}
-		if (position == this.size) {
-			if (this.buffer_length() - this.size > len) {
-				this.size += len;
+		if (position == this.limit) {
+			if (this.buffer_length() - this.limit > len) {
+				this.limit += len;
 			} else {
-				this.buffer = buffer_grow(this.size + len);
-				this.size += len;
+				this.buffer = buffer_grow(this.limit + len);
+				this.limit += len;
 			}
 		} else {
 			A array = this.buffer;
-			if (this.size + len > this.buffer_length()) {
-				array = array(calculateGrowSize(this.size + len));
+			if (this.limit + len > this.buffer_length()) {
+				array = array(calculateGrowSize(this.limit + len));
 			}
 			if (position > 0) { System.arraycopy(this.buffer, 0, array, 0, position);}
-			if (position < this.size) {System.arraycopy(this.buffer, position, array, position + len, this.size - position); }
+			if (position < this.limit) {System.arraycopy(this.buffer, position, array, position + len, this.limit - position); }
 			this.buffer = array;
-			this.size += len;
+			this.limit += len;
 			if (position < this.position) { this.position += len; }
 		}
 	}
@@ -214,7 +213,7 @@ public abstract class BufferOption<A extends Object> {
 	 * 删除数据, 计算 size
 	 */
 	public void 		remove(int position, int len) {
-		if (position + len == this.size) { // remove tail
+		if (position + len == this.limit) { // remove tail
 			if (len <  0 || position < 0) { throw new ArrayIndexOutOfBoundsException(
 					String.format("position=%s, length=%s"
 								  , position
@@ -222,18 +221,18 @@ public abstract class BufferOption<A extends Object> {
 			if (position == 0) {
 				this.buffer = null;
 				this.buffer = array_empty();
-				this.size = this.position = 0;
+				this.limit = this.position = 0;
 			} else {
 				this.buffer = (this.buffer);
-				this.size -= len;
+				this.limit -= len;
 				if (position < this.position)   { this.position = position; }
 			}
 		} else {
 			if (len == 0) { return; }
-			if (len <  0 || position < 0 || position + len > this.size) { throw new ArrayIndexOutOfBoundsException(
-					String.format("buffer.length=%s, buffer.size=%s, position=%s, length=%s"
+			if (len <  0 || position < 0 || position + len > this.limit) { throw new ArrayIndexOutOfBoundsException(
+					String.format("buffer.length=%s, buffer.limit=%s, position=%s, length=%s"
 								  , this.buffer_length()
-								  , this.size
+								  , this.limit
 								  , position
 								  , len)); }
 			A oldArray = this.buffer;
@@ -246,13 +245,13 @@ public abstract class BufferOption<A extends Object> {
 				System.arraycopy(oldArray, (position + len), newArray, position, (newLength) - position);
 			}
 			this.buffer = (newArray);
-			this.size -= len;
+			this.limit -= len;
 			if (position < this.position)   { this.position = (this.position - len < 0 ?0: this.position - len); }
 		}
 	}
-	public void 			remove() { this.remove(0, this.size); }
+	public void 			remove() { this.remove(0, this.limit); }
 	public void 			removeBefore(int position) { this.remove(0, position); }
-	public void 			removeAfter(int position) { this.remove(position, this.size - position); }
+	public void 			removeAfter(int position) { this.remove(position, this.limit - position); }
 	public boolean 			removeIfOverflow(int positionLimit) {
 		if (this.overflow(positionLimit)) {
 			this.remove(0, positionLimit);
@@ -266,14 +265,14 @@ public abstract class BufferOption<A extends Object> {
 
 
 	public boolean 			overflow(int positionLimit) { return this.position >= positionLimit; }
-	public boolean 			end() { return this.position == this.size; }
+
 
 
 	public A subArray(int st, int len) {
-		if (len <  0 || st < 0 || st + len > this.size) { throw new ArrayIndexOutOfBoundsException(
-				String.format("buffer.length=%s, buffer.size=%s, position=%s, length=%s"
+		if (len <  0 || st < 0 || st + len > this.limit) { throw new ArrayIndexOutOfBoundsException(
+				String.format("buffer.length=%s, buffer.limit=%s, position=%s, length=%s"
 							  , this.buffer_length()
-							  , this.size
+							  , this.limit
 							  , st
 							  , len)); }
 		A array = array(len); 
@@ -282,10 +281,10 @@ public abstract class BufferOption<A extends Object> {
 	}
 
 	public int 			arraycopy(int position, Object toArray, int toArrayPosition, int len) {
-		if (position < 0 || len < 0 || position + len > this.size) { throw new ArrayIndexOutOfBoundsException(
-				String.format("buffer.length=%s, buffer.size=%s, position=%s, length=%s"
+		if (position < 0 || len < 0 || position + len > this.limit) { throw new ArrayIndexOutOfBoundsException(
+				String.format("buffer.length=%s, buffer.limit=%s, position=%s, length=%s"
 							  , this.buffer_length()
-							  , this.size
+							  , this.limit
 							  , position
 							  , len)); }
 		System.arraycopy(this.buffer, position, toArray, toArrayPosition, len);
@@ -298,16 +297,18 @@ public abstract class BufferOption<A extends Object> {
 	public int 					buffer_length() { return sizeof(this.buffer); }
 
 
-	public A toArray() { 
-		A array = this.array(this.size);
-		System.arraycopy(this.buffer, 0, array, 0, this.size);
+	public A toArray() {
+		A array = this.array(this.limit);
+		System.arraycopy(this.buffer, 0, array, 0, this.limit);
 		return array;
 	}
 
 
 	public int read(A array) throws IOException { return this.read(array, 0, sizeof(array)); }
 	public int read(A array, int off, int len) throws IOException {
-		if (off + len > sizeof(array) || off < 0 || len < 0) { throw new ArrayIndexOutOfBoundsException(String.format("array.length=%s, offset=%s, read.length=%s", sizeof(array), off, len)); }
+		if (off + len > sizeof(array) || off < 0 || len < 0) {
+			throw new ArrayIndexOutOfBoundsException(String.format("array.length=%s, offset=%s, read.length=%s", sizeof(array), off, len));
+		}
 
 		int avail = this.available();
 		if (avail >= len) {
@@ -322,13 +323,13 @@ public abstract class BufferOption<A extends Object> {
 			off += avail; len -= avail;
 
 			int readMax = Math.max(len, this.stream_buffer_size);
-			this.buffer_grow(this.size + readMax);
-			int read = stream_read(this.buffer, this.size, readMax);
+			this.buffer_grow(this.limit + readMax);
+			int read = stream_read(this.buffer, this.limit, readMax);
 			if (read == 0) {
 				return 0;
 			} else if (read > 0) {
 				int readv = Math.min(len, read);
-				this.size += read;
+				this.limit += read;
 
 				this.arraycopy(this.position, array, off, readv);
 				this.positionSkip(readv);
@@ -358,14 +359,14 @@ public abstract class BufferOption<A extends Object> {
 		A[] separators = filter.getSeparators();
 		A: while (true) {
 			B: {
-				if (lastFind + minSize <= this.size) {
+				if (lastFind + minSize <= this.limit) {
 					boolean isFind = false;
 					for (int i = 0;i < separators.length;i++) {
 						A separator = separators[i];
-						if (this.position + sizeof(separator) <= this.size) {
+						if (this.position + sizeof(separator) <= this.limit) {
 							//System.out.println(lastFind);
 							//System.out.println(last);
-							int search = this.indexOfBuffer(separator, lastFind, this.size());
+							int search = this.indexOfBuffer(separator, lastFind, this.limit());
 							if (search != -1) {
 								boolean accept = filter.accept(this.position, search, separator, false);
 								lastFind = search + sizeof(separator);
@@ -380,7 +381,7 @@ public abstract class BufferOption<A extends Object> {
 						}
 					}
 					if (!isFind) {
-						lastFind = this.size - maxSize + 1;
+						lastFind = this.limit - maxSize + 1;
 						if (lastRead == -1) {
 							filter.finded(this, 0, 0, null, true);
 							break A;
@@ -394,11 +395,11 @@ public abstract class BufferOption<A extends Object> {
 				}
 			} 
 		}
-		if (this.position != this.size) {
-			boolean accept = filter.accept(this.position, this.size, null, true);
+		if (this.position != this.limit) {
+			boolean accept = filter.accept(this.position, this.limit, null, true);
 			if (accept) { 
-				filter.finded(this, this.position, this.size, null, true);
-				this.position(this.size);
+				filter.finded(this, this.position, this.limit, null, true);
+				this.position(this.limit);
 				return false;
 			}
 		}
@@ -414,7 +415,9 @@ public abstract class BufferOption<A extends Object> {
 
 	public int 			readAvailable(A array) { return this.readAvailable(array, 0, sizeof(array)); }
 	public int 			readAvailable(A array, int off, int len) {
-		if (off + len > sizeof(array) || off < 0 || len < 0) { throw new ArrayIndexOutOfBoundsException(String.format("array.length=%s, offset=%s, read.length=%s", sizeof(array), off, len)); }
+		if (off + len > sizeof(array) || off < 0 || len < 0) {
+			throw new ArrayIndexOutOfBoundsException(String.format("array.length=%s, offset=%s, read.length=%s", sizeof(array), off, len));
+		}
 
 		len = Math.min(len, this.available());
 		System.arraycopy(this.buffer, this.position, array, off, len);
@@ -432,7 +435,7 @@ public abstract class BufferOption<A extends Object> {
 							  , offset
 							  , len)); }
 		if (len == 0) { return; }
-		int index = this.size;
+		int index = this.limit;
 		this.insert(index, len);
 		System.arraycopy(array, offset, this.buffer, index, len); 
 	}
@@ -442,9 +445,9 @@ public abstract class BufferOption<A extends Object> {
 	public void insert(int position, A array) {	this.insert(position, array, 0, sizeof(array));	}
 	public void insert(int position, A array, int offset, int len) {
 		if (len <  0 || offset < 0 || offset + len > sizeof(array)) { throw new ArrayIndexOutOfBoundsException(
-				String.format("buffer.length=%s, buffer.size=%s, position=%s, array.length=%s, array.position=%s, length=%s"
+				String.format("buffer.length=%s, buffer.limit=%s, position=%s, array.length=%s, array.position=%s, length=%s"
 							  , buffer_length()
-							  , size()
+							  , this.limit
 							  , position
 							  , sizeof(array)
 							  , offset

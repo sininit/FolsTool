@@ -8,8 +8,8 @@ public class CharArrayBuffer extends CharBufferOption {
 	public CharArrayBuffer(char[] array) {
 		this(array, 0, array.length);
 	}
-	public CharArrayBuffer(char[] buffer, int position, int size) {
-		super(buffer, position, size);
+	public CharArrayBuffer(char[] buffer, int position, int limit) {
+		super(buffer, position, limit);
 	}
 
 	@Override public int stream_read(char[] buf, int off, int len) { 

@@ -17,9 +17,7 @@ public class ByteBufferOutputStream extends OutputStream {
 	public ByteBufferOutputStream(byte[] array) {
 		this(array, 0, array.length);
 	}
-	public ByteBufferOutputStream(byte[] array, int offset, int length) {
-		this.buffer = new ByteArrayBuffer(array, offset, length);
-	}
+	public ByteBufferOutputStream(byte[] array, int offset, int limit) { this.buffer = new ByteArrayBuffer(array, offset, limit); }
 
 
 	@Override
@@ -59,7 +57,7 @@ public class ByteBufferOutputStream extends OutputStream {
 	
 	
 	public void writeTo(OutputStream out) throws IOException {
-		out.write(this.buffer.buffer, this.buffer.position, this.size());
+		out.write(this.buffer.buffer, this.buffer.position, this.limit());
 	}
 
 	public byte[] toByteArray() {
@@ -78,10 +76,10 @@ public class ByteBufferOutputStream extends OutputStream {
 	
 	public int available() { return this.buffer.available(); }
 	
-	public int  size() { return this.buffer.size; }
-	public void size(int size) throws ArrayIndexOutOfBoundsException {
-		this.buffer.size(size);
-		this.position(this.position() > size?size:this.position());
+	public int 	limit() { return this.buffer.limit; }
+	public void limit(int limit) throws ArrayIndexOutOfBoundsException {
+		this.buffer.limit(limit);
+		this.position(this.position() > limit?limit:this.position());
 	}
 
 	public ByteArrayBuffer buffer() { return this.buffer; }

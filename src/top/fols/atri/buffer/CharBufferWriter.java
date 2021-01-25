@@ -16,8 +16,8 @@ public class CharBufferWriter extends Writer {
 	public CharBufferWriter(char[] array) {
 		this(array, 0, array.length);
 	}
-	public CharBufferWriter(char[] array, int offset, int length) {
-		this.buffer = new CharArrayBuffer(array, offset, length);
+	public CharBufferWriter(char[] array, int offset, int limit) {
+		this.buffer = new CharArrayBuffer(array, offset, limit);
 	}
 
 
@@ -82,7 +82,7 @@ public class CharBufferWriter extends Writer {
 
 
 	public void writeTo(Writer out) throws IOException {
-		out.write(this.buffer.buffer, this.buffer.position, this.size());
+		out.write(this.buffer.buffer, this.buffer.position, this.limit());
 	}
 
 	public char[] toCharArray() {
@@ -99,10 +99,10 @@ public class CharBufferWriter extends Writer {
 	
 	public int available() { return this.buffer.available(); }
 	
-	public int  size() { return this.buffer.available(); }
-	public void size(int size) throws ArrayIndexOutOfBoundsException {
-		this.buffer.size(size);
-		this.position(this.position() > size?size:this.position());
+	public int 	limit() { return this.buffer.available(); }
+	public void limit(int limit) throws ArrayIndexOutOfBoundsException {
+		this.buffer.limit(limit);
+		this.position(this.position() > limit?limit:this.position());
 	}
 	
 	public CharArrayBuffer buffer() { return this.buffer; }

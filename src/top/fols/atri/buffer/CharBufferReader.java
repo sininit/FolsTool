@@ -10,9 +10,7 @@ public class CharBufferReader extends Reader {
 	public CharBufferReader(char[] array) {
 		this(array, 0, array.length);
 	}
-	public CharBufferReader(char[] array, int offset, int length) {
-		this.buffer = new CharArrayBuffer(array, offset, length);
-	}
+	public CharBufferReader(char[] array, int offset, int limit) { this.buffer = new CharArrayBuffer(array, offset, limit); }
 	
     public int read(java.nio.CharBuffer target) throws java.io.IOException {
 		return super.read(target);
@@ -28,7 +26,7 @@ public class CharBufferReader extends Reader {
 	}
 
     public long skip(long n) {
-		long k = this.buffer.size - this.buffer.position;
+		long k = this.buffer.limit - this.buffer.position;
 		if (n < k) {
 			k = n < 0 ? 0 : n;
 		}
@@ -48,10 +46,10 @@ public class CharBufferReader extends Reader {
 	
 	public int available() { return this.buffer.available(); }
 	
-	public int  size() { return this.buffer.size; }
-	public void size(int size) throws ArrayIndexOutOfBoundsException {
-		this.buffer.size(size);
-		this.position(this.position() > size?size:this.position());
+	public int 	limit() { return this.buffer.limit; }
+	public void limit(int limit) throws ArrayIndexOutOfBoundsException {
+		this.buffer.limit(limit);
+		this.position(this.position() > limit?limit:this.position());
 	}
 
 	public CharArrayBuffer buffer() { return this.buffer; }
