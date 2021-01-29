@@ -50,21 +50,21 @@ public abstract class BufferFilter<A extends Object> {
 		return true;
 	}
 
-	BufferOption<A> buffer;
+	BufferOperate<A> buffer;
 	int  last, search;
 	A    seachSeparator;
 	boolean readEnd;
 	void chk() {
 		if (null == buffer) { throw new RuntimeException("not found"); }
 	}
-	void finded(BufferOption<A> buffer, int last, int search, A separator, boolean readEnd) {
+	void finded(BufferOperate<A> buffer, int last, int search, A separator, boolean readEnd) {
 		this.buffer = buffer;
 		this.last = last;
 		this.search = search;
 		this.seachSeparator = separator;
 		this.readEnd = readEnd;
 	}
-	public BufferOption<A> buffer() { return this.buffer; }
+	public BufferOperate<A> buffer() { return this.buffer; }
 	public int 		contentOffset() { return last; }
 	public int 		contentLength() { return search - last; }
 	public A 		contentSeparator() { return this.seachSeparator; }

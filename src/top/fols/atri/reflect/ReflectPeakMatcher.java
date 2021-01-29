@@ -913,43 +913,51 @@ public class ReflectPeakMatcher extends ReflectMatcher{
         throw new RuntimeException(throwNoSuchMatch(cache.getMethodsList(cls).list(), returnClass, name,
 													paramClass));
     }
-	
-	
-	
-	
-	
-	public Object invoke(Class  cls, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException { return this.invoke(cls, null, name, args); }
-	public Object invoke(Object object, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException { if (null == object) { throw new NullPointerException("object"); } return this.invoke(object.getClass(), object, null, name, args); }
-	public Object invoke(Class cls, Object object, Class returnClass, String name, Object... args) throws NullPointerException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		Method invoke = this.getMethod(null == cls ?cls = object.getClass(): cls, returnClass, name, args);
-		return invoke.invoke(object, args);
-	}
-
-	public Object get(Class cls, Class returnClass, String name) throws IllegalArgumentException, IllegalAccessException { return this.get(cls, null, returnClass, name); }
-	public Object get(Class cls, String name) throws IllegalArgumentException, IllegalAccessException { return this.get(cls, null, null, name); }
-	public Object get(Object object, Class returnClass, String name) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } return this.get(null, object, returnClass, name); }
-	public Object get(Object object, String name) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } return this.get(null, object, null, name); }
-	public Object get(Class cls, Object object, Class returnClass, String name) throws IllegalArgumentException, IllegalAccessException {
-		Field invoke = this.getField(null == cls ?cls = object.getClass(): cls, returnClass, name);
-		return invoke.get(object);
-	}
-
-	public void set(Class cls, Class returnClass, String name, Object value) throws IllegalArgumentException, IllegalAccessException { this.set(cls, null, returnClass, name, value); }
-	public void set(Class cls, String name, Object value) throws IllegalArgumentException, IllegalAccessException { this.set(cls, null, null, name, value); }
-	public void set(Object object, Class returnClass, String name, Object value) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } this.set(null, object, returnClass, name, value); }
-	public void set(Object object, String name, Object value) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } this.set(null, object, null, name, value); }
-	public void set(Class cls, Object object, Class returnClass, String name, Object value) throws IllegalArgumentException, IllegalAccessException {
-		Field invoke = this.getField(null == cls ?cls = object.getClass(): cls, returnClass, name);
-		invoke.set(object, value);
-	} 
 
 
-	public Object newInstance(Object object, Object... args) throws IllegalArgumentException, InstantiationException, NullPointerException, IllegalAccessException, InvocationTargetException  { if (null == object) { throw new NullPointerException("object"); } return this.newInstance(object.getClass(), args); }
-	public Object newInstance(Class cls, Object... args) throws NullPointerException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
-		if (null == cls) { throw new NullPointerException("class"); }
-		Constructor invoke = this.getConstructor(cls, args);
-		return invoke.newInstance(args);
-	}
+
+
+
+    public Object invoke(Class  cls, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        return this.invoke(cls, null, null, name, args);
+    }
+    public Object invoke(Object object, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        if (null == object) { throw new NullPointerException("object"); }
+        return this.invoke(object.getClass(), object, null, name, args);
+    }
+    public Object invoke(Class cls, Object object, Class returnClass, String name, Object... args) throws NullPointerException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        Method invoke = this.getMethod(null == cls ?object.getClass():cls, returnClass, name, args);
+        return invoke.invoke(object, args);
+    }
+
+    public Object get(Class cls, Class returnClass, String name) throws IllegalArgumentException, IllegalAccessException { return this.get(cls, null, returnClass, name); }
+    public Object get(Class cls, String name) throws IllegalArgumentException, IllegalAccessException { return this.get(cls, null, null, name); }
+    public Object get(Object object, Class returnClass, String name) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } return this.get(null, object, returnClass, name); }
+    public Object get(Object object, String name) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } return this.get(null, object, null, name); }
+    public Object get(Class cls, Object object, Class returnClass, String name) throws IllegalArgumentException, IllegalAccessException {
+        Field invoke = this.getField(null == cls ?cls = object.getClass(): cls, returnClass, name);
+        return invoke.get(object);
+    }
+
+    public void set(Class cls, Class returnClass, String name, Object value) throws IllegalArgumentException, IllegalAccessException { this.set(cls, null, returnClass, name, value); }
+    public void set(Class cls, String name, Object value) throws IllegalArgumentException, IllegalAccessException { this.set(cls, null, null, name, value); }
+    public void set(Object object, Class returnClass, String name, Object value) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } this.set(null, object, returnClass, name, value); }
+    public void set(Object object, String name, Object value) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } this.set(null, object, null, name, value); }
+    public void set(Class cls, Object object, Class returnClass, String name, Object value) throws IllegalArgumentException, IllegalAccessException {
+        Field invoke = this.getField(null == cls ?cls = object.getClass(): cls, returnClass, name);
+        invoke.set(object, value);
+    }
+
+
+    public Object newInstance(Object object, Object... args) throws IllegalArgumentException, InstantiationException, NullPointerException, IllegalAccessException, InvocationTargetException  {
+        if (null == object) { throw new NullPointerException("object"); }
+        return this.newInstance(object.getClass(), args);
+    }
+    public Object newInstance(Class cls, Object... args) throws NullPointerException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        if (null == cls) { throw new NullPointerException("class"); }
+        Constructor invoke = this.getConstructor(cls, args);
+        return invoke.newInstance(args);
+    }
 
 
 	public ReflectPoint point(Object object) 	{ return ReflectPoint.wrapObjectOption(this, object); }

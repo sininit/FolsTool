@@ -3,6 +3,8 @@ package top.fols.atri.lang;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 public class Finals {
 
@@ -116,4 +118,48 @@ public class Finals {
     public static final Class<Field[]>          FIELD_ARRAY_CLASS = Field[].class;
     public static final Class<Constructor[]>    CONSTRUCTOR_ARRAY_CLASS = Constructor[].class;
 
+
+
+
+    public static final String SYSTEM_LINE_SEPARATOR = System.lineSeparator(); //write command line spearator
+
+
+    public static String[] getOperateSystemEnvironment() {
+        Map<String, String> env = System.getenv();
+        String[] environments = new String[env.size()];
+        int environmentsIndex = 0;
+        for (String key: env.keySet()) {
+            environments[environmentsIndex++] = key + '=' + env.get(key);
+        }
+        return environments;
+    }
+
+
+
+    /**
+     * Operating system default encoding
+     * sun.jnu.encoding refers to the default encoding of the operating system, and file.encoding refers to the encoding of JAVA files (remember, not class files, all class files are encoded in UTF-8), so, in the same operating system The sun.jnu.encoding of the JAVA application running on the computer is exactly the same, and even if the file.encoding is in the same JAVA application, the encoding of the JAVA file can be different.
+     *       * In most cases, sun.jnu.encoding is transparent to us.
+     *
+     * LINUX 系统默认编码utf-8
+     * WINDOWS 默认编码GBK
+     * @return
+     */
+    public static String getOperateSystemCharset() {
+        String charset = System.getProperty("sun.jnu.encoding");
+        return charset;
+    }
+    public static String getOperateSystemCharsetOrDefaultCharset() {
+        String charset = Finals.getOperateSystemCharset();
+        return null != charset ? charset
+                : Finals.defaultCharsetName();
+    }
+
+
+    public static String defaultCharsetName() {
+        return Finals.defaultCharset().name();
+    }
+    public static Charset defaultCharset() {
+        return Charset.defaultCharset();
+    }
 }

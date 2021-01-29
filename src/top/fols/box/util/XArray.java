@@ -3,7 +3,6 @@ package top.fols.box.util;
 import java.lang.reflect.Array;
 import java.util.*;
 
-import top.fols.atri.buffer.BufferOption;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.lang.XClass;
 import top.fols.box.lang.XSequences;

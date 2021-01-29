@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import static top.fols.atri.lang.Finals.*;
 
-public class CharFileBuffer extends CharBufferOption {
+public class CharFileBuffer extends CharBufferOperate {
 	public CharFileBuffer(File file) throws FileNotFoundException {
 		this(file, null);
 	}

@@ -6,16 +6,16 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import top.fols.atri.buffer.bytes.ByteArrayBuffer;
-import top.fols.atri.buffer.bytes.ByteBufferOption;
+import top.fols.atri.buffer.bytes.ByteBufferOperate;
 import top.fols.atri.buffer.bytes.ByteFileBuffer;
 import top.fols.atri.buffer.chars.CharArrayBuffer;
-import top.fols.atri.buffer.chars.CharBufferOption;
+import top.fols.atri.buffer.chars.CharBufferOperate;
 import top.fols.atri.buffer.chars.CharFileBuffer;
 
 import static top.fols.atri.lang.Finals.MAX_ARRAY_SIZE;
 
 
-public abstract class BufferOption<A extends Object> {
+public abstract class BufferOperate<A extends Object> {
     public static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) {
 			throw new OutOfMemoryError();// overflow
@@ -27,15 +27,15 @@ public abstract class BufferOption<A extends Object> {
 
 
 
-	public static CharBufferOption wrapCharBuffer(char[] content) { return new CharArrayBuffer(content); }
-	public static CharBufferOption wrapCharBuffer(File file) throws FileNotFoundException { return new CharFileBuffer(file); }
-	public static CharBufferOption wrapCharBuffer(File file, Charset charset) throws FileNotFoundException { return new CharFileBuffer(file, charset); }
+	public static CharBufferOperate wrapCharBuffer(char[] content) { return new CharArrayBuffer(content); }
+	public static CharBufferOperate wrapCharBuffer(File file) throws FileNotFoundException { return new CharFileBuffer(file); }
+	public static CharBufferOperate wrapCharBuffer(File file, Charset charset) throws FileNotFoundException { return new CharFileBuffer(file, charset); }
 
 	/**
 	 * If you want to read the file byte, it is recommended that you read the entire file directly
 	 */
-	public static ByteBufferOption wrapByteBuffer(byte[] content) { return new ByteArrayBuffer(content); }
-	public static ByteBufferOption wrapByteBuffer(File file) throws FileNotFoundException { return new ByteFileBuffer(file); }
+	public static ByteBufferOperate wrapByteBuffer(byte[] content) { return new ByteArrayBuffer(content); }
+	public static ByteBufferOperate wrapByteBuffer(File file) throws FileNotFoundException { return new ByteFileBuffer(file); }
 
 
 	protected Class elementType;
@@ -45,8 +45,8 @@ public abstract class BufferOption<A extends Object> {
 	protected int position;
 	protected int limit;
 
-	protected BufferOption() { super(); }
-	public BufferOption(A buffer, int position, int limit) throws NullPointerException {
+	protected BufferOperate() { super(); }
+	public BufferOperate(A buffer, int position, int limit) throws NullPointerException {
 		if (null == buffer) {				throw new NullPointerException("buffer");}
 
 		this.buffer = buffer;
@@ -160,7 +160,7 @@ public abstract class BufferOption<A extends Object> {
 							  , this.limit
 							  , len));
 		}
-		BufferOption buffer = this;
+		BufferOperate buffer = this;
 		buffer.buffer_grow(buffer.limit + len);
 		int read = buffer.stream_read(buffer.buffer, buffer.limit, len);
 		if (read == 0) {

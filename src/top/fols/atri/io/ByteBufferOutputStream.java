@@ -1,4 +1,4 @@
-package top.fols.atri.buffer;
+package top.fols.atri.io;
 
 import top.fols.atri.buffer.bytes.ByteArrayBuffer;
 import top.fols.atri.lang.Finals;
@@ -49,7 +49,7 @@ public class ByteBufferOutputStream extends OutputStream {
 	}
 
 	public void mark(int readlimit) {
-		this.mark = this.buffer.position;
+		this.mark = this.buffer.position();
 	}
     public void reset() {
 		this.buffer.position(this.mark);
@@ -57,7 +57,7 @@ public class ByteBufferOutputStream extends OutputStream {
 	
 	
 	public void writeTo(OutputStream out) throws IOException {
-		out.write(this.buffer.buffer, this.buffer.position, this.limit());
+		out.write(this.buffer.buffer_inner(), this.buffer.position(), this.limit());
 	}
 
 	public byte[] toByteArray() {
@@ -67,19 +67,19 @@ public class ByteBufferOutputStream extends OutputStream {
 	
 	@Override
 	public String toString() {
-		return new String(this.buffer.buffer, this.buffer.position, this.buffer.available());
+		return new String(this.buffer.buffer_inner(), this.buffer.position(), this.buffer.available());
 	}
 	public String toString(String charsetName) throws UnsupportedEncodingException {
-		return new String(this.buffer.buffer, this.buffer.position, this.buffer.available(), charsetName);
+		return new String(this.buffer.buffer_inner(), this.buffer.position(), this.buffer.available(), charsetName);
 	}
 	
 	
 	public int available() { return this.buffer.available(); }
 	
-	public int 	limit() { return this.buffer.limit; }
+	public int 	limit() { return this.buffer.limit(); }
 	public void limit(int limit) throws ArrayIndexOutOfBoundsException {
 		this.buffer.limit(limit);
-		this.position(this.position() > limit?limit:this.position());
+		this.position(Math.min(this.position(), limit));
 	}
 
 	public ByteArrayBuffer buffer() { return this.buffer; }
@@ -88,6 +88,6 @@ public class ByteBufferOutputStream extends OutputStream {
 		this.buffer.remove();
 	}
 
-	public int  position() { return this.buffer.position; }
+	public int  position() { return this.buffer.position(); }
 	public void position(int position) { this.buffer.position(position); }
 }

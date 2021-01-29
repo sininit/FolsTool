@@ -1,7 +1,7 @@
 package top.fols.atri.buffer.chars;
 
 import static top.fols.atri.lang.Finals.*;
-public class CharArrayBuffer extends CharBufferOption {
+public class CharArrayBuffer extends CharBufferOperate {
 	public CharArrayBuffer() {
 		this(EMPTY_CHAR_BUFFER, 0, 0);
 	}

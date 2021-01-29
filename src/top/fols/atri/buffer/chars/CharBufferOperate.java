@@ -6,18 +6,18 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
 
-import top.fols.atri.buffer.BufferOption;
+import top.fols.atri.buffer.BufferOperate;
 import top.fols.box.util.XArrays;
 import static top.fols.atri.lang.Finals.*;
 
-public abstract class CharBufferOption extends BufferOption<char[]> {
-	public CharBufferOption() {
+public abstract class CharBufferOperate extends BufferOperate<char[]> {
+	public CharBufferOperate() {
 		this(EMPTY_CHAR_BUFFER);
 	}
-	public CharBufferOption(char[] datas) {
+	public CharBufferOperate(char[] datas) {
 		this(datas, 0, datas.length);
 	}
-	public CharBufferOption(char[] datas, int position, int limit) {
+	public CharBufferOperate(char[] datas, int position, int limit) {
 		super(datas, position, limit);
 	}
 	
@@ -39,8 +39,8 @@ public abstract class CharBufferOption extends BufferOption<char[]> {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO: Implement this method
-		if (!(obj instanceof CharBufferOption)) { return false; }
-		CharBufferOption object = (CharBufferOption)obj;
+		if (!(obj instanceof CharBufferOperate)) { return false; }
+		CharBufferOperate object = (CharBufferOperate)obj;
 		return 
 			Arrays.equals(this.buffer, object.buffer) &&
 			this.position == object.position &&

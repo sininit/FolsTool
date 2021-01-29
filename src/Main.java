@@ -1,19 +1,18 @@
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
+import top.fols.atri.lang.Finals;
+import top.fols.atri.lang.ProcessExecutor;
 import top.fols.atri.reflect.ReflectPeakMatcher;
 import top.fols.atri.reflect.Reflects;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.io.os.XFile;
 import top.fols.box.lang.XClass;
+import top.fols.box.lang.XProcess;
 import top.fols.box.lang.XString;
 import top.fols.box.lang.reflect.XReflectMatcher;
 import top.fols.box.lang.reflect.XReflectPeakMatcher;
@@ -22,7 +21,10 @@ import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.time.XTimeConsum;
 import top.fols.box.time.XTimeTool;
 import top.fols.box.util.XArrayPieceIndexManager;
+import top.fols.box.util.XByteEncodeDetect;
 import top.fols.box.util.json.JSONObject;
+
+import javax.annotation.processing.Processor;
 
 abstract class k {
 
@@ -199,6 +201,7 @@ public class Main extends k {
 //            System.out.println(System.currentTimeMillis());
 //            System.out.println("=============================");
 //        }
+
 
 
         Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.jar");

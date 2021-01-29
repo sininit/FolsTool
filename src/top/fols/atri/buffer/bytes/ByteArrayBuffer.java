@@ -1,7 +1,7 @@
 package top.fols.atri.buffer.bytes;
 
 import static top.fols.atri.lang.Finals.*;
-public class ByteArrayBuffer extends ByteBufferOption {
+public class ByteArrayBuffer extends ByteBufferOperate {
 	public ByteArrayBuffer() {
 		this(EMPTY_BYTE_BUFFER, 0, 0);
 	}

@@ -1,4 +1,4 @@
-package top.fols.atri.buffer;
+package top.fols.atri.io;
 
 import top.fols.atri.buffer.bytes.ByteArrayBuffer;
 
@@ -27,7 +27,7 @@ public class ByteBufferInputStream extends InputStream {
 		return this.buffer.readAvailable(b, off, len);
 	}
     public long skip(long n) {
-		long k = this.buffer.limit - this.buffer.position;
+		long k = this.buffer.limit() - this.buffer.position();
 		if (n < k) {
 			k = n < 0 ? 0 : n;
 		}
@@ -37,17 +37,17 @@ public class ByteBufferInputStream extends InputStream {
 	}
 
     public void close() { this.buffer.remove(); }
-    public void mark(int readlimit) { this.mark = this.buffer.position; }
+    public void mark(int readlimit) { this.mark = this.buffer.position(); }
     public void reset() { this.buffer.position(this.mark); }
     public boolean markSupported() { return true; }
 
 
 	public int available() { return this.buffer.available(); }
 
-	public int 	limit() { return this.buffer.limit; }
+	public int 	limit() { return this.buffer.limit(); }
 	public void limit(int limit) throws ArrayIndexOutOfBoundsException {
 		this.buffer.limit(limit);
-		this.position(this.position() > limit?limit:this.position());
+		this.position(Math.min(this.position(), limit));
 	}
 
 	public ByteArrayBuffer buffer() { return this.buffer; }
@@ -56,7 +56,7 @@ public class ByteBufferInputStream extends InputStream {
 		this.buffer.remove();
 	}
 
-	public int  position() { return this.buffer.position; }
+	public int  position() { return this.buffer.position(); }
 	public void position(int position) { this.buffer.position(position); }
 
 }

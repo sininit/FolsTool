@@ -563,10 +563,15 @@ public class ReflectMatcher {
 	
 	
 	
-	public Object invoke(Class  cls, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException { return this.invoke(cls, null, name, args); }
-	public Object invoke(Object object, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException { if (null == object) { throw new NullPointerException("object"); } return this.invoke(object.getClass(), object, null, name, args); }
+	public Object invoke(Class  cls, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        return this.invoke(cls, null, null, name, args);
+    }
+	public Object invoke(Object object, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        if (null == object) { throw new NullPointerException("object"); }
+        return this.invoke(object.getClass(), object, null, name, args);
+    }
 	public Object invoke(Class cls, Object object, Class returnClass, String name, Object... args) throws NullPointerException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		Method invoke = this.getMethod(null == cls ?cls = object.getClass(): cls, returnClass, name, args);
+		Method invoke = this.getMethod(null == cls ?object.getClass():cls, returnClass, name, args);
 		return invoke.invoke(object, args);
 	}
 
@@ -589,7 +594,10 @@ public class ReflectMatcher {
 	} 
 
 
-	public Object newInstance(Object object, Object... args) throws IllegalArgumentException, InstantiationException, NullPointerException, IllegalAccessException, InvocationTargetException  { if (null == object) { throw new NullPointerException("object"); } return this.newInstance(object.getClass(), args); }
+	public Object newInstance(Object object, Object... args) throws IllegalArgumentException, InstantiationException, NullPointerException, IllegalAccessException, InvocationTargetException  {
+        if (null == object) { throw new NullPointerException("object"); }
+        return this.newInstance(object.getClass(), args);
+    }
 	public Object newInstance(Class cls, Object... args) throws NullPointerException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		if (null == cls) { throw new NullPointerException("class"); }
 		Constructor invoke = this.getConstructor(cls, args);

@@ -5,20 +5,20 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
-import top.fols.atri.buffer.BufferOption;
+import top.fols.atri.buffer.BufferOperate;
 import top.fols.box.util.XArrays;
 import java.io.OutputStream;
 
 import static top.fols.atri.lang.Finals.*;
 
-public abstract class ByteBufferOption extends BufferOption<byte[]> {
-	public ByteBufferOption() {
+public abstract class ByteBufferOperate extends BufferOperate<byte[]> {
+	public ByteBufferOperate() {
 		this(EMPTY_BYTE_BUFFER);
 	}
-	public ByteBufferOption(byte[] datas) {
+	public ByteBufferOperate(byte[] datas) {
 		this(datas, 0, datas.length);
 	}
-	public ByteBufferOption(byte[] datas, int position, int limit) throws ArrayIndexOutOfBoundsException {
+	public ByteBufferOperate(byte[] datas, int position, int limit) throws ArrayIndexOutOfBoundsException {
 		super(datas, position, limit);
 	}
 	
@@ -37,8 +37,8 @@ public abstract class ByteBufferOption extends BufferOption<byte[]> {
 
 	@Override public boolean equals(Object obj) {
 		// TODO: Implement this method
-		if (!(obj instanceof BufferOption)) { return false; }
-		ByteBufferOption object = (ByteBufferOption)obj;
+		if (!(obj instanceof BufferOperate)) { return false; }
+		ByteBufferOperate object = (ByteBufferOperate)obj;
 		return 
 			Arrays.equals(this.buffer, object.buffer) &&
 			this.position == object.position &&

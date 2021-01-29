@@ -1,4 +1,4 @@
-package top.fols.atri.buffer;
+package top.fols.atri.io;
 
 import top.fols.atri.buffer.chars.CharArrayBuffer;
 import top.fols.atri.lang.Finals;
@@ -74,7 +74,7 @@ public class CharBufferWriter extends Writer {
 	}
 
 	public void mark(int readlimit) {
-		this.mark = this.buffer.position;
+		this.mark = this.buffer.position();
 	}
     public void reset() {
 		this.buffer.position(this.mark);
@@ -82,7 +82,7 @@ public class CharBufferWriter extends Writer {
 
 
 	public void writeTo(Writer out) throws IOException {
-		out.write(this.buffer.buffer, this.buffer.position, this.limit());
+		out.write(this.buffer.buffer_inner(), this.buffer.position(), this.limit());
 	}
 
 	public char[] toCharArray() {
@@ -92,7 +92,7 @@ public class CharBufferWriter extends Writer {
 
 	@Override
 	public String toString() {
-		return new String(this.buffer.buffer, this.buffer.position, this.buffer.available());
+		return new String(this.buffer.buffer_inner(), this.buffer.position(), this.buffer.available());
 	}
 
 	
@@ -102,7 +102,7 @@ public class CharBufferWriter extends Writer {
 	public int 	limit() { return this.buffer.available(); }
 	public void limit(int limit) throws ArrayIndexOutOfBoundsException {
 		this.buffer.limit(limit);
-		this.position(this.position() > limit?limit:this.position());
+		this.position(Math.min(this.position(), limit));
 	}
 	
 	public CharArrayBuffer buffer() { return this.buffer; }
@@ -111,7 +111,7 @@ public class CharBufferWriter extends Writer {
 		this.buffer.remove();
 	}
 
-	public int  position() { return this.buffer.position; }
+	public int  position() { return this.buffer.position(); }
 	public void position(int position) { this.buffer.position(position); }
 
 }
