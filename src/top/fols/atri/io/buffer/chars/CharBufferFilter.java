@@ -1,7 +1,7 @@
-package top.fols.atri.buffer.chars;
+package top.fols.atri.io.buffer.chars;
 
 
-import top.fols.atri.buffer.BufferFilter;
+import top.fols.atri.io.buffer.BufferFilter;
 
 public class CharBufferFilter extends BufferFilter<char[]> {
 	

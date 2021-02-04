@@ -1,7 +1,7 @@
-package top.fols.atri.buffer.bytes;
+package top.fols.atri.io.buffer.bytes;
 
 
-import top.fols.atri.buffer.BufferFilter;
+import top.fols.atri.io.buffer.BufferFilter;
 
 import java.nio.charset.Charset;
 

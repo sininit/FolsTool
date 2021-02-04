@@ -1,30 +1,18 @@
 
 import java.io.*;
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-import top.fols.atri.lang.Finals;
-import top.fols.atri.lang.ProcessExecutor;
-import top.fols.atri.reflect.ReflectPeakMatcher;
-import top.fols.atri.reflect.Reflects;
+import top.fols.atri.array.ArrayObject;
 import top.fols.box.io.base.XByteArrayInputStream;
-import top.fols.box.io.os.XFile;
 import top.fols.box.lang.XClass;
-import top.fols.box.lang.XProcess;
 import top.fols.box.lang.XString;
 import top.fols.box.lang.reflect.XReflectMatcher;
 import top.fols.box.lang.reflect.XReflectPeakMatcher;
 import top.fols.box.lang.reflect.optdeclared.XReflectAccessible;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.time.XTimeConsum;
-import top.fols.box.time.XTimeTool;
-import top.fols.box.util.XArrayPieceIndexManager;
-import top.fols.box.util.XByteEncodeDetect;
 import top.fols.box.util.json.JSONObject;
-
-import javax.annotation.processing.Processor;
 
 abstract class k {
 
@@ -195,7 +183,6 @@ public class Main extends k {
     }
 
     public static void main(String[] args) throws Throwable {
-
 //        while (0 <= System.currentTimeMillis()) {
 //            System.out.println(XTimeTool.currentTimeMillis());
 //            System.out.println(System.currentTimeMillis());
@@ -203,8 +190,12 @@ public class Main extends k {
 //        }
 
 
-
-        Compiler.start("C:\\Program Files\\Java\\jdk1.8.0_212\\bin", "src", "libs", "top.fols.box.jar");
+        Compiler.start(
+                "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"
+                , "src"
+                , "libs"
+                , "top.fols.box.jar"
+        );
         if (true) {
             return;
         }

@@ -1,7 +1,8 @@
 package top.fols.atri.reflect;
 
+
+import top.fols.atri.lang.Finals;
 import top.fols.box.lang.XClass;
-import top.fols.box.statics.XStaticFixedValue;
 
 import java.lang.reflect.*;
 import java.util.Arrays;
@@ -88,7 +89,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
             }
         }
         if (instanceClass.isInterface()) {
-            if (XStaticFixedValue.Object_class == comparedCls) {
+            if (OBJECT_CLASS == comparedCls) {
                 /**
                  * 对比: java.lang.String >>java.lang.Object
                  * String extends Object
@@ -129,7 +130,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
                 }
             } else {
                 //因为数组也是对象
-                if (XStaticFixedValue.Object_class == comparedClsRoot) {
+                if (OBJECT_CLASS == comparedClsRoot) {
                     if (comparedClsDeep == instanceClassDeep) {
                         return getSuperLevel0(instanceClassRoot, comparedClsRoot);
                     } else {
@@ -146,7 +147,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
                 }
             }
             throw new RuntimeException("error calc: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
-        } else if (XStaticFixedValue.Object_class == comparedCls) {
+        } else if (OBJECT_CLASS == comparedCls) {
             if (instanceClass.isArray()) {
                 Object[] ms = getArrayClassMessage0(instanceClass, comparedCls);
                 Class instanceClassRoot = (Class) ms[0];
@@ -315,11 +316,11 @@ public class ReflectPeakMatcher extends ReflectMatcher{
     public static Constructor[] matchConstructors(Constructor[] list, Class[][] listParameterTypes, boolean nullObjectCanCastToClass,
                                                   Class... paramClassArr) {
         if (null == list) {
-            return XStaticFixedValue.nullConstructorArray;
+            return EMPTY_CONSTRUCTOR_ARRAY;
         }
         int forlength = list.length;
         if (forlength == 0) {
-            return XStaticFixedValue.nullConstructorArray;
+            return EMPTY_CONSTRUCTOR_ARRAY;
         }
         Constructor[] peakList = null;
         long[] peakMods = null;
@@ -361,7 +362,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
             sortPeakList(peakMods, peakList, 0, index);
             return Arrays.copyOf(peakList, index);
         } else {
-            return XStaticFixedValue.nullConstructorArray;
+            return EMPTY_CONSTRUCTOR_ARRAY;
         }
     }
 
@@ -427,11 +428,11 @@ public class ReflectPeakMatcher extends ReflectMatcher{
     public static Method[] matchMethods(Method[] list, Class[][] listParameterTypes, Class returnClass, String name, boolean nullObjectCanCastToClass,
                                         Class... paramClassArr) {
         if (null == list) {
-            return XStaticFixedValue.nullMethodArray;
+            return EMPTY_METHOD_ARRAY;
         }
         int forlength = list.length;
         if (forlength == 0) {
-            return XStaticFixedValue.nullMethodArray;
+            return EMPTY_METHOD_ARRAY;
         }
         Method[] peakList = null;
         long[] peakMods = null;
@@ -476,7 +477,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
             sortPeakList(peakMods, peakList, 0, index);
             return Arrays.copyOf(peakList, index);
         } else {
-            return XStaticFixedValue.nullMethodArray;
+            return Finals.EMPTY_METHOD_ARRAY;
         }
     }
 
@@ -543,11 +544,11 @@ public class ReflectPeakMatcher extends ReflectMatcher{
     public static Constructor[] matchConstructors(Constructor[] list, Class[][] listParameterTypes, boolean nullObjectCanCastToClass,
                                                   Object... paramInstanceArr) {
         if (null == list) {
-            return XStaticFixedValue.nullConstructorArray;
+            return EMPTY_CONSTRUCTOR_ARRAY;
         }
         int forlength = list.length;
         if (forlength == 0) {
-            return XStaticFixedValue.nullConstructorArray;
+            return EMPTY_CONSTRUCTOR_ARRAY;
         }
         Constructor[] peakList = null;
         long[] peakMods = null;
@@ -589,7 +590,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
             sortPeakList(peakMods, peakList, 0, index);
             return Arrays.copyOf(peakList, index);
         } else {
-            return XStaticFixedValue.nullConstructorArray;
+            return EMPTY_CONSTRUCTOR_ARRAY;
         }
     }
 
@@ -650,11 +651,11 @@ public class ReflectPeakMatcher extends ReflectMatcher{
     public static Method[] matchMethods(Method[] list, Class[][] listParameterTypes, Class returnClass, String name, boolean nullObjectCanCastToClass,
                                         Object... paramInstanceArr) {
         if (null == list) {
-            return XStaticFixedValue.nullMethodArray;
+            return EMPTY_METHOD_ARRAY;
         }
         int forlength = list.length;
         if (forlength == 0) {
-            return XStaticFixedValue.nullMethodArray;
+            return EMPTY_METHOD_ARRAY;
         }
         Method[] peakList = null;
         long[] peakMods = null;
@@ -698,7 +699,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
             sortPeakList(peakMods, peakList, 0, index);
             return Arrays.copyOf(peakList, index);
         } else {
-            return XStaticFixedValue.nullMethodArray;
+            return EMPTY_METHOD_ARRAY;
         }
     }
 

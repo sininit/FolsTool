@@ -1,4 +1,4 @@
-package top.fols.atri.buffer;
+package top.fols.atri.io.buffer;
 
 import top.fols.box.util.XDoubleLinkedList;
 

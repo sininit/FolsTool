@@ -1,9 +1,10 @@
 package top.fols.atri.io;
-import top.fols.atri.buffer.chars.CharArrayBuffer;
+import top.fols.atri.io.buffer.chars.CharArrayBuffer;
+import top.fols.atri.util.Releasable;
 
 import java.io.Reader;
 
-public class CharBufferReader extends Reader {
+public class CharBufferReader extends Reader implements Releasable {
 	private int mark;
 	private CharArrayBuffer buffer;
 
@@ -53,12 +54,19 @@ public class CharBufferReader extends Reader {
 	}
 
 	public CharArrayBuffer buffer() { return this.buffer; }
-	public void releaseBuffer() {
-		// TODO: Implement this method
-		this.buffer.remove();
-	}
 
 	public int  position() { return this.buffer.position(); }
 	public void position(int position) { this.buffer.position(position); }
-	
+
+	@Override
+	public boolean release() {
+		this.buffer = null;
+		this.mark = -1;
+		return true;
+	}
+
+	@Override
+	public boolean released() {
+		return null == this.buffer;
+	}
 }

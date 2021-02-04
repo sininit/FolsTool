@@ -3,10 +3,9 @@ package top.fols.box.util;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import top.fols.atri.array.ArrayObject;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.lang.XClass;
-import top.fols.box.lang.XSequences;
-import top.fols.box.lang.abstracts.XAbstractSequence;
 import top.fols.box.util.XObjects.CastProcess;
 
 public class XArray {
@@ -74,31 +73,7 @@ public class XArray {
 		return dest;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <A, B> Object arraycopyConversion(Object src, int srcPos, Object dest, int destPos, int length,
-			CastProcess<A, B> cast) {
-		if (length <= 0) {
-			return dest;
-		}
-		XAbstractSequence srcWrap = XSequences.wrap(src);
-		XAbstractSequence destWrap = XSequences.wrap(dest);
-		for (int i = 0; i < length; i++) {
-			destWrap.set(destPos + i, cast.cast((A) srcWrap.get(srcPos + i)));
-		}
-		return destWrap.getArray();
-	}
 
-	public static <O extends Object, C extends Object> XAbstractSequence<?, C> arraycopyConversion(
-			XAbstractSequence<?, O> src, int srcPos, XAbstractSequence<?, C> dest, int destPos, int length,
-			XObjects.CastProcess<O, C> cast) {
-		if (length <= 0) {
-			return dest;
-		}
-		for (int i = 0; i < length; i++) {
-			dest.set(destPos + i, cast.cast(src.get(srcPos + i)));
-		}
-		return dest;
-	}
 
 	/*
 	 * equals Array type 判断数组类型是否相同
@@ -367,26 +342,26 @@ public class XArray {
 		if (!originalArray.getClass().isArray()) {
 			throw new ClassCastException(String.format("%s not can cast to array", originalArray.getClass().getName()));
 		}
-		XAbstractSequence as = XSequences.wrap(originalArray);
+		ArrayObject as = ArrayObject.wrap(originalArray);
 		StringBuilder result = new StringBuilder(toString0(addCanonicalName,
-				XClass.toAbsCanonicalName(originalArray.getClass()), XSequences.wrap(originalArray)));
+				XClass.toAbsCanonicalName(originalArray.getClass()), ArrayObject.wrap(originalArray)));
 		if (XArrays.CharSequenceUtil.endWith(result, ",")) {
 			result.setLength(result.length() - 1);
 		}
 		return result.toString();
 	}
 	private static StringBuilder toString0(boolean addCanonicalName, String canonicalName,
-			XAbstractSequence originalArray) {
+										   ArrayObject originalArray) {
 		StringBuilder result = new StringBuilder();
 		if (addCanonicalName) {
 			result.append(canonicalName);
 		}
 		result.append('{');
 		for (int i = 0; i < originalArray.length(); i++) {
-			Object object = originalArray.get(i);
-			if (originalArray.isArray(i)) {
+			Object object = originalArray.objectValue(i);
+			if (ArrayObject.wrapable(object)) {
 				result.append(
-						toString0(addCanonicalName, XClass.toAbsCanonicalName(object.getClass()), XSequences.wrap(object)));
+						toString0(addCanonicalName, XClass.toAbsCanonicalName(object.getClass()), ArrayObject.wrap(object)));
 			} else {
 				result.append(object);
 				result.append(',');

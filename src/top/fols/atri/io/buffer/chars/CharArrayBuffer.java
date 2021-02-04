@@ -1,4 +1,4 @@
-package top.fols.atri.buffer.chars;
+package top.fols.atri.io.buffer.chars;
 
 import static top.fols.atri.lang.Finals.*;
 public class CharArrayBuffer extends CharBufferOperate {

@@ -1,11 +1,13 @@
 package top.fols.atri.io;
 
-import top.fols.atri.buffer.bytes.ByteArrayBuffer;
+import top.fols.atri.io.buffer.bytes.ByteArrayBuffer;
+import top.fols.atri.util.Releasable;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 
-public class ByteBufferInputStream extends InputStream {
+public class ByteBufferInputStream extends InputStream implements Releasable {
 	private int mark;
 	private ByteArrayBuffer buffer;
 
@@ -51,12 +53,19 @@ public class ByteBufferInputStream extends InputStream {
 	}
 
 	public ByteArrayBuffer buffer() { return this.buffer; }
-	public void releaseBuffer() {
-		// TODO: Implement this method
-		this.buffer.remove();
-	}
 
 	public int  position() { return this.buffer.position(); }
 	public void position(int position) { this.buffer.position(position); }
 
+	@Override
+	public boolean release() {
+		this.buffer = null;
+		this.mark = -1;
+		return true;
+	}
+
+	@Override
+	public boolean released() {
+		return null == this.buffer;
+	}
 }

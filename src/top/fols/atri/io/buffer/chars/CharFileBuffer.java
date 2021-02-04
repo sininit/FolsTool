@@ -1,4 +1,4 @@
-package top.fols.atri.buffer.chars;
+package top.fols.atri.io.buffer.chars;
 
 import java.io.File;
 import java.io.FileInputStream;

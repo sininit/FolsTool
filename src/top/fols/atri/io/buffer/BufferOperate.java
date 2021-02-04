@@ -1,21 +1,22 @@
-package top.fols.atri.buffer;
+package top.fols.atri.io.buffer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-import top.fols.atri.buffer.bytes.ByteArrayBuffer;
-import top.fols.atri.buffer.bytes.ByteBufferOperate;
-import top.fols.atri.buffer.bytes.ByteFileBuffer;
-import top.fols.atri.buffer.chars.CharArrayBuffer;
-import top.fols.atri.buffer.chars.CharBufferOperate;
-import top.fols.atri.buffer.chars.CharFileBuffer;
+import top.fols.atri.io.buffer.bytes.ByteArrayBuffer;
+import top.fols.atri.io.buffer.bytes.ByteBufferOperate;
+import top.fols.atri.io.buffer.bytes.ByteFileBuffer;
+import top.fols.atri.io.buffer.chars.CharArrayBuffer;
+import top.fols.atri.io.buffer.chars.CharBufferOperate;
+import top.fols.atri.io.buffer.chars.CharFileBuffer;
+import top.fols.atri.util.Releasable;
 
 import static top.fols.atri.lang.Finals.MAX_ARRAY_SIZE;
 
 
-public abstract class BufferOperate<A extends Object> {
+public abstract class BufferOperate<A extends Object> implements Releasable {
     public static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) {
 			throw new OutOfMemoryError();// overflow
@@ -459,5 +460,14 @@ public abstract class BufferOperate<A extends Object> {
 	}
 
 
+	@Override
+	public boolean release() {
+		this.buffer = null;
+		return true;
+	}
 
+	@Override
+	public boolean released() {
+		return null == this.buffer;
+	}
 }

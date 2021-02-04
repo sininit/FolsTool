@@ -1,11 +1,11 @@
-package top.fols.atri.buffer.bytes;
+package top.fols.atri.io.buffer.bytes;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
-import top.fols.atri.buffer.BufferOperate;
+import top.fols.atri.io.buffer.BufferOperate;
 import top.fols.box.util.XArrays;
 import java.io.OutputStream;
 

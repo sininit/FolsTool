@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import top.fols.atri.array.ArrayObject;
 import top.fols.box.io.base.XCharArrayWriter;
-import top.fols.box.lang.abstracts.XAbstractSequence;
 import top.fols.box.util.XArray;
 import top.fols.box.util.XObjects;
 import top.fols.box.util.XRandom;
@@ -35,12 +35,12 @@ public class XString {
 		if (null == array || !array.getClass().isArray()) {
 			sb.append(array);
 		} else {
-			XAbstractSequence<?, ?> xifs = XSequences.wrap(array);
+			ArrayObject xifs = ArrayObject.wrap(array);
 			int len = xifs.length();
 			for (int i = 0; i < len; i++) {
-				sb.append(xifs.get(i)).append((i >= len - 1) ? "" : joinString);
+				sb.append(xifs.objectValue(i)).append((i >= len - 1) ? "" : joinString);
 			}
-			xifs.releaseBuffer();
+			xifs.releaseTry();
 		}
 		if (null != end) {
 			sb.append(end);

@@ -1,4 +1,4 @@
-package top.fols.atri.buffer.chars;
+package top.fols.atri.io.buffer.chars;
 
 
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
 
-import top.fols.atri.buffer.BufferOperate;
+import top.fols.atri.io.buffer.BufferOperate;
 import top.fols.box.util.XArrays;
 import static top.fols.atri.lang.Finals.*;
 

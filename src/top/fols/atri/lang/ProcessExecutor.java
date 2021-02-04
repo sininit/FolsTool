@@ -1,8 +1,8 @@
 package top.fols.atri.lang;
 
 import top.fols.atri.io.ByteBufferOutputStream;
-import top.fols.atri.buffer.bytes.ByteBufferFilter;
-import top.fols.atri.buffer.bytes.ByteBufferOperate;
+import top.fols.atri.io.buffer.bytes.ByteBufferFilter;
+import top.fols.atri.io.buffer.bytes.ByteBufferOperate;
 
 import java.io.*;
 import java.nio.charset.Charset;
