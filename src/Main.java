@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import top.fols.atri.array.ArrayObject;
+import top.fols.atri.array.ArrayObjects;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.lang.XClass;
 import top.fols.box.lang.XString;
@@ -189,16 +190,13 @@ public class Main extends k {
 //            System.out.println("=============================");
 //        }
 
-
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"
                 , "src"
                 , "libs"
                 , "top.fols.box.jar"
         );
-        if (true) {
-            return;
-        }
+        if (true) { return; }
 
 
         //

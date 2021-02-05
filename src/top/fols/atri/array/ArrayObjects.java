@@ -193,9 +193,11 @@ public class ArrayObjects {
 		if (a.innerArray() == b.innerArray()) { return true; }
 		if (b.length() > a.length()) { return false; }
 
+		int aIndex = a.length() - 1;
 		int bIndex = b.length() - 1;
-		for (int index = a.length() - 1; index > 0; index--) {
-			if (!a.equals(index, b, bIndex--)) {
+		int count = Math.min(a.length(), b.length());
+		for (int i = 0; i < count; i++) {
+			if (!a.equals(aIndex--, b, bIndex--)) {
 				return false;
 			}
 		}
