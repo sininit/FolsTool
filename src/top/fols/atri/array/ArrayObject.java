@@ -4,6 +4,7 @@ import top.fols.atri.util.Releasable;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.AbstractList;
+import java.util.List;
 
 public abstract class ArrayObject< T extends Object> implements Releasable {
 	protected T 	array;
@@ -216,7 +217,7 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 
 
 
-	public static <T extends Object> ArrayObject<AbstractList<T>> 		wrap(AbstractList<T> object) 	{ return null == object ?null: new ListArrayObject<> (object); }
+	public static <T extends Object> ArrayObject<List<T>> 		wrap(List<T> object) 	{ return null == object ?null: new ListArrayObject<> (object); }
 	public static <T extends StringBuilder> ArrayObject<StringBuilder> 	wrap(StringBuilder object) 		{ return null == object ?null: new StringBuilderObject<> (object); }
 	public static <T extends CharSequence> ArrayObject<CharSequence> 	wrap(CharSequence object) 		{ return null == object ?null: new CharSequenceObject<> (object); }
 

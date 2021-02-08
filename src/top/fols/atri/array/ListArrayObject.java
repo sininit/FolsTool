@@ -1,9 +1,8 @@
 package top.fols.atri.array;
-import java.util.AbstractList;
-import java.util.Arrays;
+import java.util.List;
 
-public class ListArrayObject<T extends Object> extends ArrayObject<AbstractList<T>> {
-	public ListArrayObject(AbstractList<T> list) {
+public class ListArrayObject<T extends Object> extends ArrayObject<List<T>> {
+	public ListArrayObject(List<T> list) {
 		super(list);
 	}
 
@@ -148,7 +147,7 @@ public class ListArrayObject<T extends Object> extends ArrayObject<AbstractList<
 	@Override public boolean isPrimitive() { return false; }
 
 	@Override
-	public int lengthOf(AbstractList<T> array) {
+	public int lengthOf(List<T> array) {
 		// TODO: Implement this method
 		return array.size();
 	}
