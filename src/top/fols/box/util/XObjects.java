@@ -13,15 +13,15 @@ import top.fols.box.statics.XStaticFixedValue;
 
 public class XObjects {
 
-	public static abstract interface CastProcess<T extends Object, C extends Object> {
+	public interface CastProcess<T extends Object, C extends Object> {
 		public C cast(T content);
 	}
 
-	public static abstract interface AcceptProcess<T extends Object> {
+	public interface AcceptProcess<T extends Object> {
 		public boolean accept(T content);
 	}
 
-	public static abstract interface ComparatorProcess<T extends Object> extends Comparator<T> {
+	public interface ComparatorProcess<T extends Object> extends Comparator<T> {
 		public abstract int compare(T o1, T o2);
 	}
 

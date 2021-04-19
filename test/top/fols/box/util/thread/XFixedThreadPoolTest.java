@@ -24,11 +24,6 @@ public class XFixedThreadPoolTest {
                     }
                     System.out.println(i);
                 }
-
-                @Override
-                public void complete() {
-
-                }
             };
             pool.post(runable);
         }
@@ -73,11 +68,6 @@ public class XFixedThreadPoolTest {
                             System.out.println("(end): " + this);
                             break;
                         }
-                    }
-
-                    @Override
-                    public void complete() {
-
                     }
                 };
                 pool.post(runable);
