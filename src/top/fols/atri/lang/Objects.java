@@ -17,16 +17,25 @@ public class Objects {
     }
 
 
-    public static void requireTrue(boolean obj) {
+    public static void requireTrue(boolean obj) throws RuntimeException {
         if (!obj) { throw new RuntimeException(); }
     }
-    public static void requireTrue(boolean obj, String errorMessage) {
+    public static void requireTrue(boolean obj, String errorMessage) throws RuntimeException {
         if (!obj) { throw new RuntimeException(errorMessage); }
     }
 
 
-    public static <T extends Object> Value<T> wrap(T v) { return new Value<>(v); }
+    public static void requireFalse(boolean obj) throws RuntimeException {
+        if (obj) { throw new RuntimeException(); }
+    }
+    public static void requireFalse(boolean obj, String errorMessage) throws RuntimeException {
+        if (obj) { throw new RuntimeException(errorMessage); }
+    }
 
+
+
+
+    public static <T extends Object> Value<T> wrap(T v) { return new Value<>(v); }
 
 
 
@@ -81,6 +90,11 @@ public class Objects {
     }
 
     public static boolean empty(Object obj) { return null == obj; }
+
+
+
+
+
 
 
 

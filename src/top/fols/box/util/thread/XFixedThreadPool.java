@@ -4,6 +4,7 @@ import top.fols.box.time.XTimeTool;
 import top.fols.box.util.XDoubleLinked;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class XFixedThreadPool {
 
@@ -25,17 +26,15 @@ public class XFixedThreadPool {
 	public static abstract class Run implements Runnable {
 		private final RunInterfaceMessage _message = new RunInterfaceMessage();
 
-
-
 		private static final void _runBefore(Run runinterface) {
-			if (null != runinterface) { runinterface.remove = false; }
+			if (null != runinterface) { runinterface.setRemove(false); }
 			try { runinterface.forStartCallback(); } catch (Throwable ignore) {}
 		}
 
 		public abstract void run();
 
 		private static final void _completeAfter(Run runinterface) {
-			try { runinterface.forEndCallback(); } catch (Throwable ignore) {}
+			try { if (!runinterface.isRemove()) runinterface.forEndCallback(); } catch (Throwable ignore) {}
 		}
 
 		/**
@@ -44,7 +43,7 @@ public class XFixedThreadPool {
 		private static void _remove(Run runinterface) {
 			//mark end
 			try {
-				runinterface.remove = true;
+				runinterface.setRemove(true);
 				runinterface._message.status = RunInterfaceMessage.STATUS_STOPPING;
 			} catch (Throwable e) { e = null; }
 
@@ -65,11 +64,11 @@ public class XFixedThreadPool {
 		 * permanent mark
 		 * this not thread status
 		 */
-		private boolean remove;
-		public final boolean isRemove() {
-			// TODO: Implement this method
-			return this.remove;
-		}
+		private AtomicBoolean remove0;
+		public final boolean isRemove() { return null != remove0 && remove0.get(); }
+		final void setRemove(boolean status) { (null == remove0?remove0= new AtomicBoolean():remove0).set(status); }
+
+
 		public final boolean requireNoRemove() throws InterruptedException {
 			if (this.isRemove()) {
 				throw new InterruptedException();
@@ -299,7 +298,7 @@ public class XFixedThreadPool {
 			if (null != runInterface._message.linkedRoot || null != runInterface._message.element) {
 				throw new RuntimeException("already add to thread pool");
 			}
-			runInterface.remove = false;
+			runInterface.setRemove(false);
 			runInterface._message.status = RunInterfaceMessage.STATUS_WAIT;
 			runInterface._message.element = new XDoubleLinked<Run>(runInterface);
 			runInterface._message.subThread = null;
@@ -325,7 +324,7 @@ public class XFixedThreadPool {
 			if (null != runInterface._message.linkedRoot || null != runInterface._message.element) {
 				throw new RuntimeException("already add to thread pool");
 			}
-			runInterface.remove = false;
+			runInterface.setRemove(false);
 			runInterface._message.status = RunInterfaceMessage.STATUS_WAIT;
 			runInterface._message.element = new XDoubleLinked<>(runInterface);
 			runInterface._message.subThread = null;
