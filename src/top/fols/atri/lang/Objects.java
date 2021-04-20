@@ -6,6 +6,9 @@ import java.util.Map;
 
 public class Objects {
 
+    public interface Callback<R, T> { R callback(T param); }
+
+
 
     public static <T> T requireNonNull(T obj) {
         if (null == obj) { throw new NullPointerException(); }
