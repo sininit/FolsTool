@@ -85,6 +85,86 @@ public class JSONTokener {
         this.in = in;
     }
 
+
+
+
+    public static JSONObject parseJSONObject(String str) throws JSONException {
+        Object object = parseJSON(str);
+        if (object instanceof JSONObject) {
+            return ((JSONObject) object);
+        } else {
+            throw JSON.typeMismatch(object, "JSONObject");
+        }
+    }
+    public static JSONArray parseJSONArray(String str) throws JSONException {
+        Object object = parseJSON(str);
+        if (object instanceof JSONArray) {
+            return ((JSONArray) object);
+        } else {
+            throw JSON.typeMismatch(object, "JSONArray");
+        }
+    }
+    public static Object parseJSON(String str) throws JSONException {
+        /*
+         * Getting the parser to populate this could get tricky. Instead, just
+         * parse to temporary JSONObject and then steal the data from that.
+         */
+        JSONTokener readFrom = new JSONTokener(str);
+        Object object = readFrom.readFirstJSONObject();
+        if (object instanceof JSONObject || object instanceof JSONArray) {
+            return object;
+        } else {
+            throw JSON.typeMismatch(object, "JSON");
+        }
+    }
+    /**
+     * Returns the next value from the input.
+     *
+     * @return a {@link JSONObject}, {@link JSONArray}, or {@link JSONObject#NULL}.
+     * @throws JSONException if the input is malformed.
+     */
+    public Object readFirstJSONObject() throws JSONException {
+        while (pos < in.length()) {
+            switch (in.charAt(pos++)) {
+                case '{':
+                    try {
+                        return readObject();
+                    } catch (JSONException ignored) {
+                        throw syntaxError("End of input");
+                    }
+
+                case '[':
+                    try {
+                        return readArray();
+                    } catch (JSONException ignored) {
+                        throw syntaxError("End of input");
+                    }
+            }
+        }
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Returns the next value from the input.
      *
