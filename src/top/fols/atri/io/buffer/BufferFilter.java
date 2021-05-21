@@ -1,25 +1,26 @@
 package top.fols.atri.io.buffer;
 
-import top.fols.box.util.XDoubleLinkedList;
+import top.fols.atri.util.DoubleLinkedList;
 
 public abstract class BufferFilter<A extends Object> {
-	protected XDoubleLinkedList<A> separators = new XDoubleLinkedList<>();
+	protected DoubleLinkedList<A> separators = new DoubleLinkedList<>();
 
 	public abstract A array(int count);
 	public abstract A[] array2(int count);
 	public abstract int sizeof(A array);
 
 	public void addSeparator(A separator) {
-		XDoubleLinkedList<A> separators = this.separators;
-		XDoubleLinkedList.Element<A> element = new XDoubleLinkedList.Element<>(separator);
+		DoubleLinkedList<A> separators = this.separators;
+		DoubleLinkedList.Element<A> element = new DoubleLinkedList.Element<>(separator);
 		if (separators.size() == 0) {
 			separators.addLast(element);
 		} else {
-			XDoubleLinkedList.Element<A> first = separators.getFirst();
+			DoubleLinkedList.Element<A> first = separators.getFirst();
 			if (sizeof(separator) > sizeof(first.content())) {
 				separators.addFirst(element);
 			} else {
-				for (XDoubleLinkedList.Element<A> now = separators.getFirst(); null != now; now = (XDoubleLinkedList.Element<A>) now.getNext()) {
+				for (DoubleLinkedList.Element<A> now = separators.getFirst(); null != now; now = (
+						DoubleLinkedList.Element<A>) now.getNext()) {
 					if (sizeof(now.content()) >= sizeof(separator) && (null == now.getNext() || sizeof(separator) >= sizeof(now.getNext().content()))) {
 						now.addNext(element);
 						break;
@@ -32,7 +33,7 @@ public abstract class BufferFilter<A extends Object> {
 	protected A[] separatorCache = null;
 	public A[] getSeparators() {
 		if (null == this.separatorCache) {
-			XDoubleLinkedList<A> list = this.separators;
+			DoubleLinkedList<A> list = this.separators;
 			return list.toArray(array2(list.size()));
 		}
 		return this.separatorCache;
@@ -94,21 +95,21 @@ public abstract class BufferFilter<A extends Object> {
 	public int getSeparatorCount() { return this.separators.size(); }
 
 	public A seekSeparator(int index) {
-		XDoubleLinkedList<A> list = this.separators;
+		DoubleLinkedList<A> list = this.separators;
 		int size = list.size();
 		if (index >= size) { return null; }
 
-		XDoubleLinkedList.Element<A> element = list.getFirst();
+		DoubleLinkedList.Element<A> element = list.getFirst();
 		for (int i = 0; i < Math.min(size, index); i++) {
-			element = (XDoubleLinkedList.Element<A>) element.getNext();
+			element = (DoubleLinkedList.Element<A>) element.getNext();
 		}
 		return element.content();
 	}
 
 
-	protected XDoubleLinkedList<A>.ListIterator iterator() {
-		XDoubleLinkedList<A> list = this.separators;
-		XDoubleLinkedList<A>.ListIterator listIterator = list.iterator();
+	protected DoubleLinkedList<A>.ListIterator iterator() {
+		DoubleLinkedList<A> list = this.separators;
+		DoubleLinkedList<A>.ListIterator listIterator = list.iterator();
 		return listIterator;
 	}
 

@@ -7,8 +7,11 @@ import java.util.Map;
 public class Objects {
 
     public interface Accept<R, T> { R callback(T param); }
+    public interface Cast<P, R> { R cast(P param); }
+
     public interface CallbackValue<T> { void callback(T param); }
     public interface Callback { void callback(); }
+
 
 
     public static <T> T requireNonNull(T obj) {
@@ -39,8 +42,7 @@ public class Objects {
 
 
 
-    public static <T extends Object> Value<T> wrap(T v) { return new Value<>(v); }
-
+    public static <T> Value<T> wrap(T v) { return new Value<>(v); }
 
 
 

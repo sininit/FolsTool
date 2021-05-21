@@ -1,15 +1,16 @@
 package top.fols.box.util.thread;
 
+import top.fols.atri.thread.FixedThreadPool;
 import top.fols.box.lang.XStringFormat;
 
-public class XFixedThreadPoolTest {
+public class FixedThreadPoolTest {
     public static void main(String[] args) throws  Throwable{
 
 
-        final XFixedThreadPool pool = new XFixedThreadPool().setMaxRunningCount(Integer.MAX_VALUE);
+        final FixedThreadPool pool = new FixedThreadPool().setMaxRunningCount(Integer.MAX_VALUE);
         for (int fori = 0;fori < 100;fori++) {
             final int i = fori;
-            XFixedThreadPool.Run runable = new XFixedThreadPool.Run(){
+            FixedThreadPool.Run runable = new FixedThreadPool.Run(){
                 @Override
                 public void run() {
                     // TODO: Implement this method
@@ -54,7 +55,7 @@ public class XFixedThreadPoolTest {
             ));
 
             if (!(pool.is_deal_thread_running() || pool.is_deal_thread_running_wait())) {
-                XFixedThreadPool.Run runable = new XFixedThreadPool.Run(){
+                FixedThreadPool.Run runable = new FixedThreadPool.Run(){
                     @Override
                     public void run() {
                         // TODO: Implement this method

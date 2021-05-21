@@ -13,7 +13,7 @@ import static top.fols.atri.lang.Finals.*;
 
 public abstract class ByteBufferOperate extends BufferOperate<byte[]> {
 	public ByteBufferOperate() {
-		this(EMPTY_BYTE_BUFFER);
+		this(EMPTY_BYTE_ARRAY);
 	}
 	public ByteBufferOperate(byte[] datas) {
 		this(datas, 0, datas.length);
@@ -55,7 +55,7 @@ public abstract class ByteBufferOperate extends BufferOperate<byte[]> {
 	}
 
 
-	@Override public byte[] array_empty() { return EMPTY_BYTE_BUFFER;}
+	@Override public byte[] array_empty() { return EMPTY_BYTE_ARRAY;}
 	@Override public byte[] array(int count) { return new byte[count]; }
 	
 	@Override public int sizeof(byte[] array) { return array.length; }

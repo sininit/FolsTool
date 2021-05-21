@@ -1,18 +1,17 @@
-package top.fols.box.util.thread;
+package top.fols.atri.thread;
 
+import top.fols.atri.util.DoubleLinked;
 import top.fols.box.time.XTimeTool;
-import top.fols.box.util.XDoubleLinked;
-
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class XFixedThreadPool {
+public class FixedThreadPool {
 
 	private static class RunInterfaceMessage {
 		private volatile SinglyLinked linkedRoot;
-		private volatile XDoubleLinked<Run> element;
+		private volatile DoubleLinked<Run> element;
 		private volatile int status = STATUS_UNKNOWN;
-		private volatile XFixedThreadPool.SubThread subThread;
+		private volatile FixedThreadPool.SubThread subThread;
 
 		private static final int STATUS_UNKNOWN = 0;//？？？ null
 
@@ -141,9 +140,9 @@ public class XFixedThreadPool {
 
 
 	private static class SinglyLinked {
-		private final XDoubleLinked<Run> linkedRoot = new XDoubleLinked<Run>(null);
-		private XDoubleLinked<Run> linkedTop = linkedRoot;
-		private void addToTop(XDoubleLinked<Run> element) {
+		private final DoubleLinked<Run> linkedRoot = new DoubleLinked<Run>(null);
+		private DoubleLinked<Run> linkedTop = linkedRoot;
+		private void addToTop(DoubleLinked<Run> element) {
 			linkedTop.addNext(element);
 			linkedTop = element;
 
@@ -151,18 +150,18 @@ public class XFixedThreadPool {
 				this.now = element;
 			}
 		}
-		private void remove(XDoubleLinked<Run> element) throws RuntimeException {
+		private void remove(DoubleLinked<Run> element) throws RuntimeException {
 			if (this.linkedRoot == element) {
 				throw new RuntimeException("cannot remove linked root");
 			}
 
 			if (element == this.now) {
-				XDoubleLinked<Run> next = this.getNext();
+				DoubleLinked<Run> next = this.getNext();
 				this.now = next;
 			}
 
 			if (this.linkedTop == element) {
-				XDoubleLinked<Run> prev = element.getPrev();
+				DoubleLinked<Run> prev = element.getPrev();
 				element.remove();
 				this.linkedTop = prev;
 			} else {
@@ -172,22 +171,22 @@ public class XFixedThreadPool {
 
 
 
-		private XDoubleLinked<Run> now = linkedRoot;
-		private XDoubleLinked<Run> getNext() {
+		private DoubleLinked<Run> now = linkedRoot;
+		private DoubleLinked<Run> getNext() {
 			return (null == now || null == now.getNext()) ?null: now.getNext();
 		}
-		private XDoubleLinked<Run> next() {
+		private DoubleLinked<Run> next() {
 			return this.now = this.getNext();
 		}
-		private XDoubleLinked<Run> now() {
+		private DoubleLinked<Run> now() {
 			return this.now;
 		}
 	}
 
-	boolean is_deal_thread_running() {
+	public boolean is_deal_thread_running() {
 		return this.isDealThreadRunning;
 	}
-	boolean is_deal_thread_running_wait() {
+	public boolean is_deal_thread_running_wait() {
 		return this.isDealThreadWait;
 	}
 
@@ -206,14 +205,14 @@ public class XFixedThreadPool {
 
 	private volatile int waitCount = 0;
 
-	public XFixedThreadPool() {
+	public FixedThreadPool() {
 		this.isDealThreadWait = false;
 		this.isDealThreadRunning = false;
 	}
 
 
 
-	public XFixedThreadPool setMaxRunningCount(int maxRuningCount) {
+	public FixedThreadPool setMaxRunningCount(int maxRuningCount) {
 		this.maxRunningCount = maxRuningCount;
 		return this;
 	}
@@ -300,7 +299,7 @@ public class XFixedThreadPool {
 			}
 			runInterface.setRemove(false);
 			runInterface._message.status = RunInterfaceMessage.STATUS_WAIT;
-			runInterface._message.element = new XDoubleLinked<Run>(runInterface);
+			runInterface._message.element = new DoubleLinked<Run>(runInterface);
 			runInterface._message.subThread = null;
 			runInterface._message.linkedRoot = this.list;
 			this.waitCount++;
@@ -326,7 +325,7 @@ public class XFixedThreadPool {
 			}
 			runInterface.setRemove(false);
 			runInterface._message.status = RunInterfaceMessage.STATUS_WAIT;
-			runInterface._message.element = new XDoubleLinked<>(runInterface);
+			runInterface._message.element = new DoubleLinked<>(runInterface);
 			runInterface._message.subThread = null;
 			runInterface._message.linkedRoot = this.list;
 			this.waitCount++;
@@ -362,7 +361,7 @@ public class XFixedThreadPool {
 			try { runInterface.run(); } catch (Throwable ignore) { }
 
 			try {
-				XFixedThreadPool pool = XFixedThreadPool.this;
+				FixedThreadPool pool = FixedThreadPool.this;
 
 //				System.out.println("--*+");
 
@@ -390,8 +389,8 @@ public class XFixedThreadPool {
 		@Override
 		public void run() {
 //				System.out.println("xt");
-			XDoubleLinked<Run> now;
-			XFixedThreadPool pool = XFixedThreadPool.this;
+			DoubleLinked<Run> now;
+			FixedThreadPool pool = FixedThreadPool.this;
 			synchronized (pool.lock) {
 //				System.out.println("startthread");
 
@@ -494,7 +493,7 @@ public class XFixedThreadPool {
 				//not in list
 				// return false;
 			}
-			XDoubleLinked<Run> now = runinterface._message.element;
+			DoubleLinked<Run> now = runinterface._message.element;
 			if (runinterface._message.status == RunInterfaceMessage.STATUS_WAIT) {
 				this.waitCount--;
 				this.list.remove(now);
@@ -522,12 +521,12 @@ public class XFixedThreadPool {
 		synchronized (this.lock) {
 			boolean result = true;
 
-			XDoubleLinked<Run> now;
+			DoubleLinked<Run> now;
 			now = this.list.linkedRoot;
 			now = now.getNext();
 			while (null != now) {
 				Run runinterface = now.content();
-				XDoubleLinked<Run> next = now.getNext();
+				DoubleLinked<Run> next = now.getNext();
 				result &= this.remove(runinterface);
 				now = next;
 			}
@@ -551,8 +550,8 @@ public class XFixedThreadPool {
 
 
 
-	public XFixedThreadPool removeAllAndWaitEnd() { return this.removeAllAndWaitEnd(this.list()); }
-	public XFixedThreadPool removeAllAndWaitEnd(Collection<Run> tasks) {
+	public FixedThreadPool removeAllAndWaitEnd() { return this.removeAllAndWaitEnd(this.list()); }
+	public FixedThreadPool removeAllAndWaitEnd(Collection<Run> tasks) {
 		synchronized (this.lock) {
 			for (Run task : tasks) {
 				if (null != task) {
@@ -576,7 +575,7 @@ public class XFixedThreadPool {
 	public List<Run> list() {
 		List<Run> list = new ArrayList<>();
 		synchronized (this.lock) {
-			XDoubleLinked<Run> now;
+			DoubleLinked<Run> now;
 
 			now = this.list.linkedRoot;
 			while (null != (now = now.getNext())) {

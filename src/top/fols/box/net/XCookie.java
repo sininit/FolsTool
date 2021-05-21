@@ -1,8 +1,7 @@
 package top.fols.box.net;
 
 
-import top.fols.box.lang.XString;
-import top.fols.box.net.XURLConnectionMessageHeader;
+import top.fols.atri.lang.Strings;
 
 import java.net.URLConnection;
 import java.util.LinkedHashMap;
@@ -32,7 +31,7 @@ public class XCookie {
         if (null == cookie) {
             return val;
         }
-        List<String> s = XString.split(
+        List<String> s = Strings.split(
                 (cookie.endsWith(XCookie.PROJECT_SEPARATOR)) ? cookie : (cookie + XCookie.PROJECT_SEPARATOR),
                 XCookie.PROJECT_SEPARATOR);
         for (String str2 : s) {

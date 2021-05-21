@@ -265,13 +265,10 @@ public class ReflectCache {
 		return this.getFieldsListProcess(values, cls, name); 
 	}
 	FieldList getFieldsListProcess(Map<Class, Map<String, FieldList>> map, Class cls, String name) {
-		Map<String, FieldList> object;
 		if (null == cls) { return null; }
 		if (null == name) { return this.getFieldsList(cls); }
-		if (null == (object = map.get(cls))) {
-			if (null == object) {
-				this.update(map, cls, this.listFieldListProcess(cls));
-			}
+		if (null == map.get(cls)) {
+			this.update(map, cls, this.listFieldListProcess(cls));
 		}
 		return map.get(cls).get(name);
 	}
@@ -288,10 +285,7 @@ public class ReflectCache {
 		Map<String, FieldList> temp2 = new LinkedHashMap<>();
 		for (String n: temp.keySet()) {
 			List<Field> tempList = temp.get(n);
-			FieldList tempValue = new FieldList();
-			tempValue.list = tempList.toArray(new Field[tempList.size()]);
-
-			temp2.put(n, tempValue);
+			temp2.put(n, FieldList.wrap(tempList.toArray(new Field[]{})));
 		}
 		temp = null;
 		Map<String, FieldList> last = map.put(cls, temp2);
@@ -321,13 +315,10 @@ public class ReflectCache {
 	protected Map<Class, Map<String, MethodList>> methodsNameListMap;
 	protected MethodList getMethodsList(Class cls, String name) { return this.getMethodsListProcess(null == this.methodsNameListMap ?this.methodsNameListMap = new IdentityHashMap<>(): this.methodsNameListMap, cls, name); }
 	MethodList getMethodsListProcess(Map<Class, Map<String, MethodList>> map, Class cls, String name) {
-		Map<String, MethodList> object;
 		if (null == cls) { return null; }
 		if (null == name) { return this.getMethodsList(cls); }
-		if (null == (object = map.get(cls))) {
-			if (null == object) {
-				this.update(map, cls, this.listMethodListProcess(cls));
-			}
+		if (null == map.get(cls)) {
+			this.update(map, cls, this.listMethodListProcess(cls));
 		}
 		return map.get(cls).get(name);
 	}
@@ -344,10 +335,7 @@ public class ReflectCache {
 		Map<String, MethodList> temp2 = new LinkedHashMap<>();
 		for (String n: temp.keySet()) {
 			List<Method> tempList = temp.get(n);
-			MethodList tempValue = new MethodList();
-			tempValue.list = tempList.toArray(new Method[tempList.size()]);
-
-			temp2.put(n, tempValue);
+			temp2.put(n, MethodList.wrap(tempList.toArray(new Method[]{})));
 		}
 		temp = null;
 		Map<String, MethodList> last = map.put(cls, temp2);

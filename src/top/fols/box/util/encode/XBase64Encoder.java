@@ -26,6 +26,8 @@ package top.fols.box.util.encode;
  * questions.
  */
 
+import top.fols.atri.lang.Objects;
+
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +35,6 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import top.fols.box.util.XObjects;
 
 /**
  * This class is for low version jdk, the author is not me
@@ -134,7 +135,7 @@ public class XBase64Encoder {
      *          RFC 2045.
      */
     public static Encoder getMimeEncoder(int lineLength, byte[] lineSeparator) {
-		XObjects.requireNonNull(lineSeparator);
+		Objects.requireNonNull(lineSeparator);
 		int[] base64 = Decoder.fromBase64;
 		for (byte b : lineSeparator) {
 			if (base64[b & 0xff] != -1)
@@ -371,7 +372,7 @@ public class XBase64Encoder {
          *          specified Base64 encoded format
          */
         public OutputStream wrap(OutputStream os) {
-            XObjects.requireNonNull(os);
+            Objects.requireNonNull(os);
             return new EncOutputStream(os, isURL ? toBase64URL : toBase64,
 				newline, linemax, doPadding);
         }
@@ -649,7 +650,7 @@ public class XBase64Encoder {
          *          byte stream
          */
         public InputStream wrap(InputStream is) {
-            XObjects.requireNonNull(is);
+            Objects.requireNonNull(is);
             return new DecInputStream(is, isURL ? fromBase64URL : fromBase64, isMIME);
         }
 

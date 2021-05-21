@@ -1,15 +1,18 @@
-package top.fols.box.util;
+package top.fols.atri.util;
+
+import top.fols.atri.lang.Objects;
+import top.fols.box.util.XStringJoiner;
 
 import java.io.Serializable;
 
-public class XDoubleLinked<T extends Object> implements Serializable {
+public class DoubleLinked<T extends Object> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	protected T content;
 	public T content() {
 		return this.content;
 	}
-	public XDoubleLinked<T> setContent(T content) {
+	public DoubleLinked<T> setContent(T content) {
 		this.content = content;
 		return this;
 	}
@@ -24,9 +27,9 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO: Implement this method
-		if (obj instanceof XDoubleLinked) {
-			return null == this.content ? null == ((XDoubleLinked<?>) obj).content
-					: this.content.equals(((XDoubleLinked<?>) obj).content);
+		if (obj instanceof DoubleLinked) {
+			return null == this.content ? null == ((DoubleLinked<?>) obj).content
+					: this.content.equals(((DoubleLinked<?>) obj).content);
 		} else {
 			return false;
 		}
@@ -48,22 +51,22 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 	 */
 	public static boolean equalsContent(Object obj1, Object obj2) {
 		// TODO: Implement this method
-		Object val1 = obj1 instanceof XDoubleLinked ? (((XDoubleLinked<?>) obj1).content) : obj1;
-		Object val2 = obj2 instanceof XDoubleLinked ? (((XDoubleLinked<?>) obj2).content) : obj2;
-		return XObjects.isEquals(val1, val2);
+		Object val1 = obj1 instanceof DoubleLinked ? (((DoubleLinked<?>) obj1).content) : obj1;
+		Object val2 = obj2 instanceof DoubleLinked ? (((DoubleLinked<?>) obj2).content) : obj2;
+		return Objects.equals(val1, val2);
 	}
 
 
 
 
 
-	private XDoubleLinked<T> prev = null, next = null;
+	private DoubleLinked<T> prev = null, next = null;
 
 
-	public XDoubleLinked() {
+	public DoubleLinked() {
 		super();
 	}
-	public XDoubleLinked(T object) {
+	public DoubleLinked(T object) {
 		this.content = object;
 	}
 
@@ -71,11 +74,11 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 
 
 	// 获取上一个item
-	public XDoubleLinked<T> getPrev() {
+	public DoubleLinked<T> getPrev() {
 		return this.prev;
 	}
 	// 获取下一个item
-	public XDoubleLinked<T> getNext() {
+	public DoubleLinked<T> getNext() {
 		return this.next;
 	}
 
@@ -94,11 +97,11 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 	/**
 	 * first >> elements >> last
 	 */
-	public void addNext(XDoubleLinked<T> element) throws NullPointerException {
-		XDoubleLinked._addNext(this, element);
+	public void addNext(DoubleLinked<T> element) throws NullPointerException {
+		DoubleLinked._addNext(this, element);
 	}
 	// 添加下一个item
-	static <T extends Object> void _addNext(XDoubleLinked<T> index, XDoubleLinked<T> element) throws NullPointerException {
+	static <T extends Object> void _addNext(DoubleLinked<T> index, DoubleLinked<T> element) throws NullPointerException {
 		if (null == index) {
 			throw new NullPointerException("index");
 		}
@@ -109,7 +112,7 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 		/*
 		 * [index, ...] 原index下个元素引索
 		 */
-		XDoubleLinked<T> indexnext = index.next;
+		DoubleLinked<T> indexnext = index.next;
 		if (indexnext == element) {
 			return;
 		}
@@ -118,7 +121,7 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 		 * unlink element
 		 * 将原来 element 两端连接 并且删除 element
 		 */
-		XDoubleLinked._remove(element);
+		DoubleLinked._remove(element);
 
 		/**
 		 * link element
@@ -132,9 +135,9 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 		element.next = indexnext;
 	}
 	public void remove() {
-		XDoubleLinked._remove(this);
+		DoubleLinked._remove(this);
 	}
-	static <T extends Object> void _remove(XDoubleLinked<T> element) {
+	static <T extends Object> void _remove(DoubleLinked<T> element) {
 		/**
 		 * 取消链接 next
 		 * index 存在下个元素，将(index.next) 的 prev 连接到 index.prev
@@ -160,10 +163,10 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 	 * @throws NullPointerException
 	 * @throws RuntimeException
 	 */
-	public void addFirst(XDoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
-		XDoubleLinked._addFirst(this, newFirst);
+	public void addFirst(DoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
+		DoubleLinked._addFirst(this, newFirst);
 	}
-	static <T extends Object> void _addFirst(XDoubleLinked<T> originalFirst, XDoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
+	static <T extends Object> void _addFirst(DoubleLinked<T> originalFirst, DoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
 		if (null == originalFirst) {
 			throw new NullPointerException("original-first for null");
 		}
@@ -176,7 +179,7 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 		if (!originalFirst.isFirst()) {
 			throw new RuntimeException("only may be added from the first");
 		}
-		XDoubleLinked._remove(newFirst);
+		DoubleLinked._remove(newFirst);
 
 //		newFirst.prev = null;
 		newFirst.next = originalFirst;
@@ -224,8 +227,8 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 
 
 	// 获取第一个元素
-	public XDoubleLinked<T> findFirst() {
-		XDoubleLinked<T> now;
+	public DoubleLinked<T> findFirst() {
+		DoubleLinked<T> now;
 		for (now = this; null != now.prev;) {
 			now = now.prev;
 		}
@@ -233,8 +236,8 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 	}
 
 	// 获取最后一个元素
-	public XDoubleLinked<T> findLast() {
-		XDoubleLinked<T> now;
+	public DoubleLinked<T> findLast() {
+		DoubleLinked<T> now;
 		for (now = this; null != now.next;) {
 			now = now.next;
 		}
@@ -244,29 +247,29 @@ public class XDoubleLinked<T extends Object> implements Serializable {
 
 
 	public <T extends Object> String toStringFromFirstStart() {
-		return         XDoubleLinked.toStringFromFirstStart(this);
+		return         DoubleLinked.toStringFromFirstStart(this);
 	}
 	public <T extends Object> String toStringFromLastStart() {
-		return         XDoubleLinked.toStringFromLastStart(this);
+		return         DoubleLinked.toStringFromLastStart(this);
 	}
-	public static <T extends Object> String toStringFromFirstStart(XDoubleLinked<T> item) {
+	public static <T extends Object> String toStringFromFirstStart(DoubleLinked<T> item) {
 		if (null == item) {
 			return String.valueOf(item);
 		} else {
 			XStringJoiner strbuf = new XStringJoiner(",", "{", "}");
-			XDoubleLinked element = item.findFirst();
+			DoubleLinked element = item.findFirst();
 			do {
 				strbuf.add(element.toString());
 			} while (null != (element = element.getNext()));
 			return strbuf.toString();
 		}
 	}
-	public static <T extends Object> String toStringFromLastStart(XDoubleLinked<T> item) {
+	public static <T extends Object> String toStringFromLastStart(DoubleLinked<T> item) {
 		if (null == item) {
 			return String.valueOf(item);
 		} else {
 			XStringJoiner strbuf = new XStringJoiner(",", "{", "}");
-			XDoubleLinked element = item.findLast();
+			DoubleLinked element = item.findLast();
 			do {
 				strbuf.add(element.toString());
 			} while (null != (element = element.getPrev()));

@@ -5,10 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
+
+import top.fols.atri.lang.Objects;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XArrays;
 import top.fols.box.util.XByteEncode;
-import top.fols.box.util.XObjects;
 
 /**
  * will chars cast To bytes, java BIG_ENDIAN Unicode Encoding
@@ -31,7 +32,7 @@ public class XRandomAccessUnicodeFileReader extends java.io.Reader {
     }
 
     public XRandomAccessUnicodeFileReader(File file) throws FileNotFoundException, IOException {
-        this.file = XObjects.requireNonNull(file);
+        this.file = Objects.requireNonNull(file);
         this.stream = new RandomAccessFile(file, XStaticFixedValue.FileOptMode.r());
         this.charPos = 0;
         this.reLoad();

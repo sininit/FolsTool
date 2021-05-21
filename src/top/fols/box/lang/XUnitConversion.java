@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import top.fols.atri.util.DoubleLinked;
 import top.fols.box.util.XCollections;
-import top.fols.box.util.XDoubleLinked;
 
 public class XUnitConversion {
 
@@ -135,8 +136,8 @@ public class XUnitConversion {
 	}
 
 	@SuppressWarnings("unchecked")
-	private XDoubleLinked<String> nextItem0(XDoubleLinked<String> now) {
-		return null == now ? null : (XDoubleLinked<String>) now.getNext();
+	private DoubleLinked<String> nextItem0(DoubleLinked<String> now) {
+		return null == now ? null : (DoubleLinked<String>) now.getNext();
 	}
 
 	/**
@@ -145,9 +146,9 @@ public class XUnitConversion {
 	 * @return base
 	 */
 	public Num parseToSum(String value) throws ArithmeticException {
-		XDoubleLinked<String> bottom = splitStringValue(value);
-		XDoubleLinked<String> num = nextItem0(bottom);
-		XDoubleLinked<String> unit = nextItem0(num);
+		DoubleLinked<String> bottom = splitStringValue(value);
+		DoubleLinked<String> num = nextItem0(bottom);
+		DoubleLinked<String> unit = nextItem0(num);
 		BigDecimal base = BigDecimal.ZERO;
 		while (null != num && null != unit) {
 			BigDecimal decimal = new BigDecimal(num.toString());
@@ -221,15 +222,15 @@ public class XUnitConversion {
 		return c == '+' || c == '-' || c >= '0' && c <= '9' || c == '.';
 	}
 
-	private XDoubleLinked<String> splitStringValue(String value) {
+	private DoubleLinked<String> splitStringValue(String value) {
 		int TYPE_START = 0, TYPE_NUMBER = 1, TYPE_OTHER = 2;
 
 		int length = value.length();
 		int lastIndex = 0;
 		int lastType = TYPE_START; // start
 
-		XDoubleLinked<String> bottom = new XDoubleLinked<String>(null);
-		XDoubleLinked<String> top = bottom;
+		DoubleLinked<String> bottom = new DoubleLinked<String>(null);
+		DoubleLinked<String> top = bottom;
 
 		for (int i = 0; i < length; i++) {
 			char ch = value.charAt(i);
@@ -237,7 +238,7 @@ public class XUnitConversion {
 				if (lastType != TYPE_NUMBER) {
 					lastType = TYPE_NUMBER;
 					if (lastIndex != i) {
-						XDoubleLinked<String> next = new XDoubleLinked<String>(
+						DoubleLinked<String> next = new DoubleLinked<String>(
                             value.substring(lastIndex, i));
 						top.addNext(next);
 						top = next;
@@ -248,7 +249,7 @@ public class XUnitConversion {
 				if (lastType != TYPE_OTHER) {
 					lastType = TYPE_OTHER;
 					if (lastIndex != i) {
-						XDoubleLinked<String> next = new XDoubleLinked<String>(
+						DoubleLinked<String> next = new DoubleLinked<String>(
                             value.substring(lastIndex, i));
 						top.addNext(next);
 						top = next;
@@ -258,7 +259,7 @@ public class XUnitConversion {
 			}
 		}
 		if (lastIndex != length) {
-			XDoubleLinked<String> next = new XDoubleLinked<String>(
+			DoubleLinked<String> next = new DoubleLinked<String>(
                 value.substring(lastIndex, length));
 			top.addNext(next);
 			top = next;

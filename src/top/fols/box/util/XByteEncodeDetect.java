@@ -27,6 +27,8 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Arrays;
+
+import top.fols.atri.lang.Objects;
 import top.fols.box.io.base.XByteArrayOutputStream;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.statics.XStaticSystem;
@@ -159,7 +161,7 @@ public class XByteEncodeDetect {
 
 	public static String newString(final byte[] bytes, final int off, final int len) {
 		try {
-			if (XObjects.isEmpty(bytes)) {
+			if (Objects.empty(bytes)) {
 				return "";
 			}
 			String encode = EncodingType

@@ -4,9 +4,9 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 import top.fols.atri.array.ArrayObject;
+import top.fols.atri.lang.Objects;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.lang.XClass;
-import top.fols.box.util.XObjects.CastProcess;
 
 public class XArray {
 	/**
@@ -62,8 +62,7 @@ public class XArray {
 		return dest;
 	}
 
-	public static <A, B> Object arraycopyConversion(A[] src, int srcPos, B[] dest, int destPos, int length,
-			CastProcess<A, B> cast) {
+	public static <A, B> Object arraycopyConversion(A[] src, int srcPos, B[] dest, int destPos, int length, Objects.Cast<A, B> cast) {
 		if (length <= 0) {
 			return dest;
 		}
@@ -543,14 +542,14 @@ public class XArray {
 			}
 		}
 	}
-	public static <T> T[] filter(T[] origin, XObjects.AcceptProcess<T> fp) {
+	public static <T> T[] filter(T[] origin, Objects.Accept<Boolean, T> fp) {
 		return XArray.filter(origin, 0, origin.length, fp);
 	}
-	public static <T> T[] filter(T[] origin, int off, int len, XObjects.AcceptProcess<T> fp) {
+	public static <T> T[] filter(T[] origin, int off, int len, Objects.Accept<Boolean, T> fp) {
 		List<T> newList = new ArrayList<T>();
 		for (int i = 0; i < len; i++) {
 			T content = origin[off + i];
-			if (fp.accept(content)) {
+			if (fp.callback(content)) {
 				newList.add(content);
 			}
 		}

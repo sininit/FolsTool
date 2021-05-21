@@ -1,20 +1,20 @@
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 
-import top.fols.atri.array.ArrayObject;
-import top.fols.atri.array.ArrayObjects;
+import com.sun.org.apache.xpath.internal.objects.XString;
+import top.fols.atri.lang.Strings;
+import top.fols.atri.reflect.ReflectMatcher;
+import top.fols.atri.reflect.ReflectPeakMatcher;
+import top.fols.atri.reflect.ReflectProxy;
+import top.fols.atri.reflect.Reflects;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.lang.XClass;
-import top.fols.box.lang.XString;
-import top.fols.box.lang.reflect.XReflectMatcher;
-import top.fols.box.lang.reflect.XReflectPeakMatcher;
-import top.fols.box.lang.reflect.optdeclared.XReflectAccessible;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.time.XTimeConsum;
-import top.fols.box.util.json.JSONObject;
-import top.fols.box.util.json.JSONTokener;
+import top.fols.atri.util.json.JSONObject;
 
 abstract class k {
 
@@ -184,12 +184,20 @@ public class Main extends k {
     public static void main1(InputStream[][] args) throws Throwable {
     }
 
+
+
+    public interface Size {
+        int size();
+    }
     public static void main(String[] args) throws Throwable {
 //        while (0 <= System.currentTimeMillis()) {
 //            System.out.println(XTimeTool.currentTimeMillis());
 //            System.out.println(System.currentTimeMillis());
 //            System.out.println("=============================");
 //        }
+
+//        System.out.println(ReflectProxy.newInstance(new ArrayList<>(), Size.class).size());
+//        if (true) { return; }
 
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"
@@ -207,10 +215,10 @@ public class Main extends k {
         // TestA.class.getMethod("a").invoke(new TestC());
         // System.out.println();
 
-        // System.out.println(XString.join(XReflectCacheFast.defaultInstance.getAllInheritMethods(TestC.class),
+        // System.out.println(Strings.join()(XReflectCacheFast.defaultInstance.getAllInheritMethods(TestC.class),
         // "\n"));
         // System.out.println();
-        // System.out.println(XString.join(XReflectCacheFast.defaultInstance.getAllInheritMethodsFast(TestC.class),
+        // System.out.println(Strings.join()(XReflectCacheFast.defaultInstance.getAllInheritMethodsFast(TestC.class),
         // "\n"));
 
         // System.out.println();
@@ -225,7 +233,7 @@ public class Main extends k {
         // }
 
 
-        System.out.println(XReflectPeakMatcher.defaultInstance.getMethod(Main.class, "main1",
+        System.out.println(ReflectPeakMatcher.DEFAULT_INSTANCE.getMethod(Main.class, null,"main1",
                 new Class[]{XByteArrayInputStream[].class}));
 
         if (true) {
@@ -235,15 +243,15 @@ public class Main extends k {
         Class[] searchConstructorClass;
 
         System.out.println("----list---");
-        System.out.println(XString
-                .join(XReflectPeakMatcher.defaultInstance.getCacher().getConstructors(searchClass).list(), "\n"));
+//        System.out.println(XString
+//                .join(ReflectPeakMatcher.DEFAULT_INSTANCE.cacher().getConstructors(searchClass).list(), "\n"));
 
         System.out.println("-------");
         System.out.println("search-list: "
                 + (XClass.joinParamJavaClassCanonicalName(
                 searchConstructorClass = new Class[]{int.class, String.class}))
                 + " result="
-                + XString.join(XReflectPeakMatcher.defaultInstance.getConstructors(searchClass, searchConstructorClass),
+                + Strings.join(ReflectPeakMatcher.DEFAULT_INSTANCE.getConstructors(searchClass, searchConstructorClass),
                 "\n"));
 
         System.out.println("-------");
@@ -251,21 +259,21 @@ public class Main extends k {
                 + (XClass.joinParamJavaClassCanonicalName(
                 searchConstructorClass = new Class[]{Integer.class, String.class}))
                 + " result="
-                + XString.join(XReflectPeakMatcher.defaultInstance.getConstructors(searchClass, searchConstructorClass),
+                + Strings.join(ReflectPeakMatcher.DEFAULT_INSTANCE.getConstructors(searchClass, searchConstructorClass),
                 "\n"));
 
         System.out.println("-------");
         System.out.println("search: "
                 + (XClass.joinParamJavaClassCanonicalName(searchConstructorClass = new Class[]{Integer.class, null}))
                 + " result="
-                + XString.join(XReflectPeakMatcher.defaultInstance.getConstructors(searchClass, searchConstructorClass),
+                + Strings.join(ReflectPeakMatcher.DEFAULT_INSTANCE.getConstructors(searchClass, searchConstructorClass),
                 "\n"));
 
         System.out.println("-------");
         System.out.println("search: "
                 + (XClass.joinParamJavaClassCanonicalName(searchConstructorClass = new Class[]{int[][].class}))
                 + " result="
-                + XString.join(XReflectPeakMatcher.defaultInstance.getConstructors(searchClass, searchConstructorClass),
+                + Strings.join(ReflectPeakMatcher.DEFAULT_INSTANCE.getConstructors(searchClass, searchConstructorClass),
                 "\n"));
 
         System.out.println("-------");
@@ -273,14 +281,14 @@ public class Main extends k {
                 + (XClass.joinParamJavaClassCanonicalName(
                 searchConstructorClass = new Class[]{int.class, CharSequence.class}))
                 + " result="
-                + XString.join(XReflectPeakMatcher.defaultInstance.getConstructors(searchClass, searchConstructorClass),
+                + Strings.join(ReflectPeakMatcher.DEFAULT_INSTANCE.getConstructors(searchClass, searchConstructorClass),
                 "\n"));
 
         System.out.println("-------");
         System.out.println("search: "
                 + (XClass.joinParamJavaClassCanonicalName(searchConstructorClass = new Class[]{String[].class}))
                 + " result="
-                + XString.join(XReflectPeakMatcher.defaultInstance.getConstructors(searchClass, searchConstructorClass),
+                + Strings.join(ReflectPeakMatcher.DEFAULT_INSTANCE.getConstructors(searchClass, searchConstructorClass),
                 "\n"));
 
         System.out.println("-------");
@@ -288,7 +296,7 @@ public class Main extends k {
                 + (XClass.joinParamJavaClassCanonicalName(
                 searchConstructorClass = new Class[]{int.class, JSONObject.class}))
                 + " result="
-                + XString.join(XReflectPeakMatcher.defaultInstance.getConstructors(searchClass, searchConstructorClass),
+                + Strings.join(ReflectPeakMatcher.DEFAULT_INSTANCE.getConstructors(searchClass, searchConstructorClass),
                 "\n"));
 
         System.out.println("-------");
@@ -296,7 +304,7 @@ public class Main extends k {
                 + (XClass.joinParamJavaClassCanonicalName(
                 searchConstructorClass = new Class[]{Integer.class, Object.class}))
                 + " result="
-                + XString.join(XReflectPeakMatcher.defaultInstance.getConstructors(searchClass, searchConstructorClass),
+                + Strings.join(ReflectPeakMatcher.DEFAULT_INSTANCE.getConstructors(searchClass, searchConstructorClass),
                 "\n"));
 
         System.out.println("-------");
@@ -307,7 +315,7 @@ public class Main extends k {
         Class[] pcc = new Class[]{String[].class};
         XTimeConsum jsq00 = XTimeConsum.newAndStart();
         for (int i = 0; i < 100 * 10000; i++) {
-            XReflectPeakMatcher.defaultInstance.getConstructor(mcc, pcc);
+            ReflectPeakMatcher.DEFAULT_INSTANCE.getConstructor(mcc, pcc);
         }
         System.out.println(jsq00.endAndGetEndLessStart());
 
@@ -323,7 +331,7 @@ public class Main extends k {
             System.out.println("______test xreflectoptdeclared start");
 
             Class<?> mainclass = Main.class;
-            Method[] ms0 = XReflectAccessible.getMethodsAll(mainclass);
+            Method[] ms0 = Reflects.methods(mainclass);
             for (Method m : ms0)
                 System.out.println(m);
             System.out.println();
@@ -331,12 +339,12 @@ public class Main extends k {
             System.out.println(Arrays.toString(mainclass.getDeclaredMethods()));
             System.out.println();
 
-            XReflectMatcher.defaultInstance.getMethod(mainclass, "main", new Object[]{new String[]{}});
-            System.out.println(XReflectMatcher.defaultInstance.getField(mainclass, "k"));
+            ReflectMatcher.DEFAULT_INSTANCE.getMethod(mainclass, null, "main", new Object[]{new String[]{}});
+            System.out.println(ReflectMatcher.DEFAULT_INSTANCE.getField(mainclass, null, "k"));
 
             XTimeConsum jsq0 = XTimeConsum.newAndStart();
             for (int i = 0; i < 1000000; i++) {
-                XReflectMatcher.defaultInstance.getConstructor(mainclass, new String[]{}, new Main(), "", 1,
+                ReflectMatcher.DEFAULT_INSTANCE.getConstructor(mainclass, new String[]{}, new Main(), "", 1,
                         new XStaticFixedValue());
             }
             System.out.println(jsq0.endAndGetEndLessStart());

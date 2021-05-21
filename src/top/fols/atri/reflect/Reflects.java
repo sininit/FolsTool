@@ -1,8 +1,7 @@
 package top.fols.atri.reflect;
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import top.fols.atri.lang.Finals;
+
+import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -253,7 +252,7 @@ public class Reflects {
 		}
 		return values.values().toArray(new Class[values.size()]);
     }
-	public static void classesPut(Map<ClassObject, Class> values, Class[] puts) {
+	private static void classesPut(Map<ClassObject, Class> values, Class[] puts) {
 		for (Class cf: puts) {
 			ClassObject cacheFieldObject = ClassObject.wrap(cf);
 			Class cacheField = values.get(cacheFieldObject);
@@ -325,7 +324,7 @@ public class Reflects {
 //		} catch (Throwable ignore) {}
         return values.values().toArray(new Constructor[values.size()]);
 	}
-	public static void constructorsPut(Map<ConstructorObject, Constructor> values, Constructor[] puts) {
+	private static void constructorsPut(Map<ConstructorObject, Constructor> values, Constructor[] puts) {
 		for (Constructor cf: puts) {
 			ConstructorObject cacheFieldObject = ConstructorObject.wrap(cf);
 			Constructor cacheField = values.get(cacheFieldObject);
@@ -413,5 +412,48 @@ public class Reflects {
 		return aos;
 	}
 
+
+
+	/**
+	 * Checks whether can control member accessible.
+	 *
+	 * @return If can control member accessible, it return {@literal true}
+	 */
+	private static final ReflectPermission suppressAccessChecksReflectPermission = new ReflectPermission(
+			"suppressAccessChecks");
+	public static boolean canSetAccessible() {
+		try {
+			SecurityManager securityManager = System.getSecurityManager();
+			if (null != securityManager) {
+				securityManager.checkPermission(suppressAccessChecksReflectPermission);
+			}
+		} catch (SecurityException e) {
+			return false;
+		}
+		return true;
+	}
+
+
+
+	/**
+	 *
+	 */
+
+	public static Field setFinalFieldAccessAble(Field f) throws IllegalAccessException, IllegalArgumentException {
+		int modifier = f.getModifiers();
+		if (Modifier.isStatic(modifier)) {
+			Field[] fs = accessible(Finals.FIELD_CLASS.getDeclaredFields());
+			Field accessFlags;
+			Object value;
+			int intValue;
+			for (Field fi : fs) {
+				if ((value = fi.get(f)) instanceof Integer && (intValue = ((Integer) value).intValue()) == modifier) {
+					accessFlags = fi;
+					accessFlags.set(f, intValue | Modifier.FINAL);
+				}
+			}
+		}
+		return f;
+	}
 
 }

@@ -1,9 +1,10 @@
 package top.fols.box.net;
 
 import java.io.Serializable;
+
+import top.fols.atri.lang.Objects;
+import top.fols.atri.lang.Value;
 import top.fols.box.io.os.XFile;
-import top.fols.box.lang.XObject;
-import top.fols.box.util.XObjects;
 
 /**
  * it does not convert absolute addresses
@@ -119,11 +120,12 @@ public class XURL implements Serializable {
     private String uPathAndParam; // /(dir/filename)(?param=value&multiplyParam=value)
     private String uRef; // null / ref
 
-    private static class Cache<T extends Object> extends XObject<T> {
+    private static class Cache<T extends Object> extends Value<T> {
         private Cache(T object) {
             super(object);
         }
-        private static <T extends Object> Cache<T> wrap(T object) {
+
+        public static <T extends Object> Cache<T> wrap(T object) {
             return new Cache<T>(object);
         }
     }
@@ -218,7 +220,7 @@ public class XURL implements Serializable {
      */
     public int getPortIntValue() {
         String portString = this.getPort();
-        int port = null == portString ? -1 : XObjects.parseInt(portString);
+        int port = null == portString ? -1 : Objects.parseInt(portString);
         return port;
     }
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import static top.fols.atri.lang.Finals.*;
 public class ByteFileBuffer extends ByteBufferOperate {
 	public ByteFileBuffer(File file) throws FileNotFoundException {
-		super(EMPTY_BYTE_BUFFER, 0, 0);
+		super(EMPTY_BYTE_ARRAY, 0, 0);
 		
 		this.file = file;
 		this.fis = new FileInputStream(file);

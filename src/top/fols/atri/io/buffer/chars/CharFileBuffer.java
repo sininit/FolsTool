@@ -7,13 +7,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import static top.fols.atri.lang.Finals.*;
+import static top.fols.atri.lang.Finals.EMPTY_CHAR_ARRAY;
 
 public class CharFileBuffer extends CharBufferOperate {
 	public CharFileBuffer(File file) throws FileNotFoundException {
 		this(file, null);
 	}
 	public CharFileBuffer(File file, Charset charset) throws FileNotFoundException {
-		super(EMPTY_CHAR_BUFFER, 0, 0);
+		super(EMPTY_CHAR_ARRAY, 0, 0);
 
 		this.file = file;
 		this.charset = charset;

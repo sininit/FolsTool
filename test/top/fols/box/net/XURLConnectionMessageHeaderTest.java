@@ -1,7 +1,7 @@
 package top.fols.box.net;
 
+import top.fols.atri.lang.Strings;
 import top.fols.box.io.XStream;
-import top.fols.box.lang.XString;
 
 import java.io.IOException;
 import java.net.URLConnection;
@@ -19,17 +19,17 @@ public class XURLConnectionMessageHeaderTest {
         //urlc.setRequestProperty("Host", "3");
 
 
-        System.out.println(XString.join(urlc.getRequestProperties(), "\n"));
+        System.out.println(Strings.join(urlc.getRequestProperties(), "\n"));
         System.out.println();
 
         urlc.setRequestProperty("   Host  ", "new");
         urlc.setRequestProperty("   host  ", "new");
-        System.out.println(XString.join(urlc.getRequestProperties(), "\n"));
+        System.out.println(Strings.join(urlc.getRequestProperties(), "\n"));
         System.out.println();
 
-        System.out.println(XString.join(new XURLConnectionTool.GetRequest("https://m.baidu.com/?from=844b&vit=fps").getURLConnection().getHeaderFields().get("set-cookie"), "\n"));
+        System.out.println(Strings.join(new XURLConnectionTool.GetRequest("https://m.baidu.com/?from=844b&vit=fps").getURLConnection().getHeaderFields().get("set-cookie"), "\n"));
         System.out.println();
-        System.out.println(XString.join(new XURLConnectionTool.GetRequest("https://m.baidu.com/?from=844b&vit=fps").getURLConnection().getHeaderField("set-cookie"), "\n"));
+        System.out.println(Strings.join(new XURLConnectionTool.GetRequest("https://m.baidu.com/?from=844b&vit=fps").getURLConnection().getHeaderField("set-cookie"), "\n"));
         System.out.println();
         System.out.println();
 

@@ -3,7 +3,7 @@ package top.fols.atri.io.buffer.bytes;
 import static top.fols.atri.lang.Finals.*;
 public class ByteArrayBuffer extends ByteBufferOperate {
 	public ByteArrayBuffer() {
-		this(EMPTY_BYTE_BUFFER, 0, 0);
+		this(EMPTY_BYTE_ARRAY, 0, 0);
 	}
 	public ByteArrayBuffer(byte[] array) {
 		this(array, 0, array.length);

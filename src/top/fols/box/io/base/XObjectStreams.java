@@ -16,10 +16,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+
+import top.fols.atri.lang.Finals;
+import top.fols.atri.reflect.Reflects;
 import top.fols.box.io.XStream;
 import top.fols.box.lang.abstracts.XBitsOptionAbstract;
-import top.fols.box.lang.reflect.optdeclared.XReflectAccessible;
-import top.fols.box.lang.reflect.safety.XReflect;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XByteEncode;
 
@@ -49,24 +50,16 @@ public final class XObjectStreams implements Flushable {
         if (null == cls) {
             return null;
         } else {
-            try {
-                Field[] fields = XReflectAccessible.getFieldsAllSetAccessible(cls);
-                return fields;
-            } catch (Throwable e) {
-                return XReflect.getFields(cls);
-            }
+            Field[] fields = Reflects.accessible(Reflects.fields(cls));
+            return fields;
         }
 	}
     private static Constructor getConstructor(Class cls) {
         if (null == cls) {
             return null;
         } else {
-            try {
-                Constructor constructor = XReflectAccessible.getConstructorSetAccessible(cls, new Class[]{});
-                return constructor;
-            } catch (Throwable e) {
-                return XReflect.getConstructor(cls, new Class[]{});
-            }
+            Constructor constructor = Reflects.accessible(Reflects.constructor(cls, Finals.EMPTY_CLASS_ARRAY));
+            return constructor;
         }
 	}
 

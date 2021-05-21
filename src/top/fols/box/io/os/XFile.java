@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+
+import top.fols.atri.util.DoubleLinked;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.io.XStream;
 import top.fols.box.io.base.XInputStreamFixedLength;
@@ -16,7 +18,6 @@ import top.fols.box.io.base.XOutputStreamFixedLength;
 import top.fols.box.lang.XUnitConversion;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XByteEncodeDetect;
-import top.fols.box.util.XDoubleLinked;
 
 public class XFile implements Closeable, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -555,24 +556,24 @@ public class XFile implements Closeable, Serializable {
 		}
 		String separatorString = String.valueOf(separator);
 
-		XDoubleLinked<String> p = new XDoubleLinked<>(null);
-		XDoubleLinked<String> bottom = p;
-		XDoubleLinked<String> top = p;
+		DoubleLinked<String> p = new DoubleLinked<>(null);
+		DoubleLinked<String> bottom = p;
+		DoubleLinked<String> top = p;
 
 		int lastIndex = 0;
 		for (int i = 0; i < length; i++) {
 			char ch = path.charAt(i);
 			if (ch == separator) {
 				String t = path.substring(lastIndex, i);
-				XDoubleLinked<String> element;
+				DoubleLinked<String> element;
 
 				if (i > 0) {
-					element = new XDoubleLinked<String>(t);
+					element = new DoubleLinked<String>(t);
 					top.addNext(element);
 					top = element;
 				}
 
-				element = new XDoubleLinked<String>(separatorString);
+				element = new DoubleLinked<String>(separatorString);
 				top.addNext(element);
 				top = element;
 
@@ -581,7 +582,7 @@ public class XFile implements Closeable, Serializable {
 		}
 		if (lastIndex != length) {
 			String t = path.substring(lastIndex, length);
-			XDoubleLinked<String> element = new XDoubleLinked<String>(t);
+			DoubleLinked<String> element = new DoubleLinked<String>(t);
 			top.addNext(element);
 			top = element;
 		}
@@ -595,44 +596,44 @@ public class XFile implements Closeable, Serializable {
 
 
 
-		XDoubleLinked now = bottom.getNext();
-		XDoubleLinked limit = null;
+		DoubleLinked now = bottom.getNext();
+		DoubleLinked limit = null;
 		while (true) {
-			if (XDoubleLinked.equalsContent(".", now)) {// 处理 .
-				XDoubleLinked next = now.getNext();
-				XDoubleLinked prev = now.getPrev();
+			if (DoubleLinked.equalsContent(".", now)) {// 处理 .
+				DoubleLinked next = now.getNext();
+				DoubleLinked prev = now.getPrev();
 				now.remove();
 				now = prev;
 
-				if (XDoubleLinked.equalsContent(separatorString, next)) {// 实际上必定为true 除非不存在下一个元素
+				if (DoubleLinked.equalsContent(separatorString, next)) {// 实际上必定为true 除非不存在下一个元素
 					next.remove();
 				}
-			} else if (XDoubleLinked.equalsContent("..", now)) {// 处理 ..
-				XDoubleLinked prev = now.getPrev();//分隔符 或者为 null
+			} else if (DoubleLinked.equalsContent("..", now)) {// 处理 ..
+				DoubleLinked prev = now.getPrev();//分隔符 或者为 null
 
-				XDoubleLinked first = bottom.getNext();
+				DoubleLinked first = bottom.getNext();
 				if (prev == bottom) { // 前面不存在分隔符
 					/*   ..   */
-					XDoubleLinked next = now.getNext();
-					limit = XDoubleLinked.equalsContent(separatorString, next) ?next: limit; // 实际上必定为true 除非不存在下一个元素
+					DoubleLinked next = now.getNext();
+					limit = DoubleLinked.equalsContent(separatorString, next) ?next: limit; // 实际上必定为true 除非不存在下一个元素
 					now = next;
 					continue;
 				} if (prev == first) { // 分隔符是在第一个元素 此为绝对路径
 					/*   /..   */
-					XDoubleLinked next = now.getNext();
-					XDoubleLinked last = now.getPrev();
+					DoubleLinked next = now.getNext();
+					DoubleLinked last = now.getPrev();
 					now.remove();
 					now = last;
 
-					if (XDoubleLinked.equalsContent(separatorString, next)) {// 实际上必定为true 除非不存在下一个元素
+					if (DoubleLinked.equalsContent(separatorString, next)) {// 实际上必定为true 除非不存在下一个元素
 						next.remove();
 					}
 					limit = first;
 					continue;
 				} else {
 					if (prev == limit) {// 无法返回上一层
-						XDoubleLinked next = now.getNext();
-						limit = XDoubleLinked.equalsContent(separatorString, next) ?next: limit;// 实际上必定为true 除非不存在下一个元素
+						DoubleLinked next = now.getNext();
+						limit = DoubleLinked.equalsContent(separatorString, next) ?next: limit;// 实际上必定为true 除非不存在下一个元素
 						now = next;
 						continue;
 					}
@@ -640,7 +641,7 @@ public class XFile implements Closeable, Serializable {
 
 				//   a/.. /a/b/../ /a/..  ../a/../ ../../  ../../a/../..
 				// 必定不是分隔符 或者为 null
-				XDoubleLinked prev_prev = null == prev ? null : prev.getPrev();
+				DoubleLinked prev_prev = null == prev ? null : prev.getPrev();
 				prev_prev = prev_prev == bottom ? null : prev_prev;
 
 				if (null != prev) {
@@ -650,12 +651,12 @@ public class XFile implements Closeable, Serializable {
 					prev_prev.remove();
 				}
 
-				XDoubleLinked next = now.getNext();
-				XDoubleLinked last = now.getPrev();
+				DoubleLinked next = now.getNext();
+				DoubleLinked last = now.getPrev();
 				now.remove();
 				now = last;
 
-				if (XDoubleLinked.equalsContent(separatorString, next)) { // 实际上必定为true 除非不存在下一个元素
+				if (DoubleLinked.equalsContent(separatorString, next)) { // 实际上必定为true 除非不存在下一个元素
 					next.remove();
 				}
 			}
@@ -665,14 +666,14 @@ public class XFile implements Closeable, Serializable {
 			}
 		}
 
-		XDoubleLinked absbottom = bottom.getNext();
+		DoubleLinked absbottom = bottom.getNext();
 		bottom.remove();
 
 		if (null == absbottom) {
 			return "";
 		} else {
 			StringBuilder right = new StringBuilder();
-			XDoubleLinked x = absbottom;
+			DoubleLinked x = absbottom;
 			do {
 				right.append(x);
 			} while (null != (x = x.getNext()));

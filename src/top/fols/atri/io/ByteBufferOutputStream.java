@@ -13,7 +13,7 @@ public class ByteBufferOutputStream extends OutputStream implements Releasable {
 	private ByteArrayBuffer buffer;
 
 	public ByteBufferOutputStream() { 
-		this(Finals.EMPTY_BYTE_BUFFER);
+		this(Finals.EMPTY_BYTE_ARRAY);
 	}
 	public ByteBufferOutputStream(byte[] array) {
 		this(array, 0, array.length);

@@ -1,9 +1,11 @@
 package top.fols.atri.io.buffer.chars;
 
 import static top.fols.atri.lang.Finals.*;
+import static top.fols.atri.lang.Finals.EMPTY_CHAR_ARRAY;
+
 public class CharArrayBuffer extends CharBufferOperate {
 	public CharArrayBuffer() {
-		this(EMPTY_CHAR_BUFFER, 0, 0);
+		this(EMPTY_CHAR_ARRAY, 0, 0);
 	}
 	public CharArrayBuffer(char[] array) {
 		this(array, 0, array.length);

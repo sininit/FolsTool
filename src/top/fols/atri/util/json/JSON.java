@@ -16,8 +16,8 @@
  * origin module @org.json
  */
 
-package top.fols.box.util.json;
-import top.fols.box.util.XObjects;
+package top.fols.atri.util.json;
+import top.fols.atri.lang.Objects;
 
 class JSON {
     /**
@@ -106,10 +106,10 @@ class JSON {
 
 
 	public static boolean isJsonObject(String str) {
-		return XObjects.isEmpty(str) ? false: str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}';
+		return !Objects.empty(str) && (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}');
 	}
 	public static boolean isJsonArray(String str) {
-		return XObjects.isEmpty(str) ? false: str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']';
+		return !Objects.empty(str) && (str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']');
 	}
 
 

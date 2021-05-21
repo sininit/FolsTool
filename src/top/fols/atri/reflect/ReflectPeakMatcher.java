@@ -1,6 +1,7 @@
 package top.fols.atri.reflect;
 
 
+import top.fols.atri.lang.Clasz;
 import top.fols.atri.lang.Finals;
 import top.fols.box.lang.XClass;
 
@@ -60,7 +61,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
     private static final int SL_PRIMITIVE_AND_PACKAGECLASS_EQUALS = SL_NULLINSTANCE - 1;// int == Integer/...
     //other
     private static final int SL_UNKNOWN = 0;
-    //使用前 XClass.isInstance()结果必须为true
+    //使用前 Clasz.isInstance()结果必须为true
     //还是使用缓存比较实在
     private static long getSuperLevel0(Class instanceClass, Class comparedCls) throws RuntimeException {
         if (null == instanceClass) {
@@ -76,13 +77,13 @@ public class ReflectPeakMatcher extends ReflectMatcher{
         }
         if (instanceClass == comparedCls) { return SL_EQUALS; }
         if (comparedCls.isPrimitive()) {
-            if (XClass.packageClassToPrimitiveClass(instanceClass) == comparedCls) {
+            if (Clasz.packageClassToPrimitiveClass(instanceClass) == comparedCls) {
                 return SL_PRIMITIVE_AND_PACKAGECLASS_EQUALS;
             }
             throw new RuntimeException("error calc: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
         } else {
             if (instanceClass.isPrimitive()) {
-                if (XClass.primitiveClassToPackageClass(instanceClass) == comparedCls) {
+                if (Clasz.primitiveClassToPackageClass(instanceClass) == comparedCls) {
                     return SL_PRIMITIVE_AND_PACKAGECLASS_EQUALS;
                 }
                 throw new RuntimeException("error calc: " + XClass.toAbsCanonicalName(instanceClass) + "  compared  " + XClass.toAbsCanonicalName(comparedCls));
@@ -156,7 +157,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
                 long level = SL_PRIMITIVE_AND_PACKAGECLASS_EQUALS - 1;// inherit level start
                 level--;//level --
                 level -= instanceClassDeep;//deep difference
-                level -= Math.abs(getSuperLevel0(instanceClassRoot.isPrimitive() ?XClass.primitiveClassToPackageClass(instanceClassRoot): instanceClassRoot, comparedCls));//element super level
+                level -= Math.abs(getSuperLevel0(instanceClassRoot.isPrimitive() ?Clasz.primitiveClassToPackageClass(instanceClassRoot): instanceClassRoot, comparedCls));//element super level
                 return level;
             }
         }
@@ -284,7 +285,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
             if (elementParameterTypes.length == paramClassArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -332,7 +333,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
             if (elementParameterTypes.length == paramClassArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -392,7 +393,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
                     (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -446,8 +447,8 @@ public class ReflectPeakMatcher extends ReflectMatcher{
                     (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    System.out.println(paramClassArr[i2]+"*"+elementParameterTypes[i2]+"="+XClass.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass));
-                    if (!XClass.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    System.out.println(paramClassArr[i2]+"*"+elementParameterTypes[i2]+"="+Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass));
+                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -511,7 +512,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
             if (elementParameterTypes.length == paramInstanceArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -560,7 +561,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
             if (elementParameterTypes.length == paramInstanceArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -616,7 +617,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
                     (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -669,7 +670,7 @@ public class ReflectPeakMatcher extends ReflectMatcher{
                     (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }

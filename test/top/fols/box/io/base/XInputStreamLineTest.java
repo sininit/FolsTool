@@ -1,12 +1,12 @@
 package top.fols.box.io.base;
 
 
+import top.fols.atri.lang.Objects;
 import top.fols.box.io.digest.XDigestOutputStream;
 import top.fols.box.io.os.XFile;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.time.XTimeConsum;
 import top.fols.box.util.XMessageDigest;
-import top.fols.box.util.XObjects;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -66,67 +66,67 @@ public class XInputStreamLineTest {
             XInputStreamLine<XByteArrayInputStream> input = new
                     XInputStreamLine<XByteArrayInputStream>(input0, 1);
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());
 
-            System.out.println("[" + XObjects.toString(new String(input.readLine(lines,
+            System.out.println("[" + Objects.toString(new String(input.readLine(lines,
                     true), "UTF-8")) + "]");
 
             System.out.println("pindex: " + input.readLineSeparatorsIndex());

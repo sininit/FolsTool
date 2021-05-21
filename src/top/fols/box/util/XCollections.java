@@ -1,5 +1,8 @@
 package top.fols.box.util;
 
+
+import top.fols.atri.lang.Objects;
+
 import java.util.*;
 
 /**
@@ -34,17 +37,17 @@ public class XCollections {
     /**
      * @see top.fols.box.util.XArray#filter
      */
-    public static <T> List<T> filter(List<T> origin, XObjects.AcceptProcess<T> fp) {
+    public static <T> List<T> filter(List<T> origin, Objects.Accept<Boolean, T> fp) {
         return XCollections.filter(origin, 0, origin.size(), fp);
     }
     /**
-     * @see top.fols.box.util.XArray#filter(Object[], int, int, XObjects.AcceptProcess)
+     * @see top.fols.box.util.XArray#filter(Object[], int, int, Objects.Accept)
      */
-    public static <T> List<T> filter(List<T> origin, int off, int len, XObjects.AcceptProcess<T> fp) {
+    public static <T> List<T> filter(List<T> origin, int off, int len, Objects.Accept<Boolean, T> fp) {
         List<T> newList = new ArrayList<T>();
         for (int i = 0; i < len; i++) {
             T content = origin.get(off + i);
-            if (fp.accept(content)) {
+            if (fp.callback(content)) {
                 newList.add(content);
             }
         }

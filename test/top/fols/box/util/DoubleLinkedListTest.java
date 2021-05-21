@@ -1,17 +1,18 @@
 package top.fols.box.util;
 
+import top.fols.atri.util.DoubleLinkedList;
 import top.fols.box.io.XStream;
 
-public class XDoubleLinkedListTest {
+public class DoubleLinkedListTest {
     public static void main(String[] args) throws Throwable {
-        XDoubleLinkedList<Object> dll = new XDoubleLinkedList<>();
+        DoubleLinkedList<Object> dll = new DoubleLinkedList<>();
 
         System.out.println(dll.getFirst() + " / " + dll.getLast() + " | " + dll.size());
-        dll.addLast(new XDoubleLinkedList.Element<Object>("1"));
+        dll.addLast(new DoubleLinkedList.Element<Object>("1"));
         System.out.println(dll.getFirst() + " / " + dll.getLast() + " | " + dll.size());
-        dll.addLast(new XDoubleLinkedList.Element<Object>("2"));
+        dll.addLast(new DoubleLinkedList.Element<Object>("2"));
         System.out.println(dll.getFirst() + " / " + dll.getLast() + " | " + dll.size());
-        dll.addLast(new XDoubleLinkedList.Element<Object>("3"));
+        dll.addLast(new DoubleLinkedList.Element<Object>("3"));
         System.out.println(dll.getFirst() + " / " + dll.getLast() + " | " + dll.size());
 
 
@@ -21,13 +22,13 @@ public class XDoubleLinkedListTest {
 
         System.out.println(dll);
 
-        XDoubleLinkedList<Object> dll2 = new XDoubleLinkedList<>();
+        DoubleLinkedList<Object> dll2 = new DoubleLinkedList<>();
 
 //		while (dll.getFirst() != null) {
 //			dll2.addLast(dll.getFirst());
 //		}
         dll2.addAll(dll2.getLast(), dll);
-        dll2.addNext(null, (new XDoubleLinkedList.Element<Object>("4")));
+        dll2.addNext(null, (new DoubleLinkedList.Element<Object>("4")));
 
         dll.clear(); dll.clear();
 
@@ -46,12 +47,12 @@ public class XDoubleLinkedListTest {
 
         System.out.println();
 
-        XDoubleLinkedList dll3=dll2.clone();
+        DoubleLinkedList dll3=dll2.clone();
         System.out.println(dll3);
 
 
 
-        XDoubleLinkedList.ListIterator it = dll2.iterator();
+        DoubleLinkedList.ListIterator it = dll2.iterator();
         while (it.hasNext()) {
             System.out.println(it.next());
             System.out.println(it.now());

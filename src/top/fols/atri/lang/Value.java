@@ -1,10 +1,9 @@
 package top.fols.atri.lang;
 
 import top.fols.atri.util.Releasable;
+import java.io.Serializable;
 
-import java.io.IOException;
-
-public class Value<T extends Object> implements Releasable {
+public class Value<T> implements Releasable, Serializable {
     private static final long serialVersionUID = 1L;
     private T obj;
 
@@ -31,7 +30,7 @@ public class Value<T extends Object> implements Releasable {
         return null == this.obj ? 0 : this.obj.hashCode();
     }
     public boolean  equals(Object obj) {
-        return null == this.obj ? null == obj : this.obj.equals(obj);
+        return Objects.equals(this.obj, obj);
     }
     public String   toString() {
         return null == this.obj ? null : this.obj.toString();
@@ -49,7 +48,7 @@ public class Value<T extends Object> implements Releasable {
         return super.toString();
     }
 
-    public static <T extends Object> Value<T> wrap(T v) {
+    public static <T> Value<T> wrap(T v) {
         return new Value<>(v);
     }
 }

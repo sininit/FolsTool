@@ -1,20 +1,13 @@
-package top.fols.box.lang;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+package top.fols.atri.lang;
 
 import top.fols.atri.array.ArrayObject;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.util.XArray;
-import top.fols.box.util.XObjects;
 import top.fols.box.util.XRandom;
 
-public class XString {
+import java.util.*;
+
+public class Strings {
 
 	/**
 	 * StringJoiner
@@ -24,7 +17,7 @@ public class XString {
 	 * @return
 	 */
 	public static String join(Object array, String joinString) {
-		return XString.join(array, null, joinString, null);
+		return Strings.join(array, null, joinString, null);
 	}
 
 	public static String join(Object array, String head, String joinString, String end) {
@@ -49,7 +42,7 @@ public class XString {
 	}
 
 	public static String join(Collection<?> array, String joinString) {
-		return XString.join(array, null, joinString, null);
+		return Strings.join(array, null, joinString, null);
 	}
 
 	public static String join(Collection<?> array, String head, String joinString, String end) {
@@ -71,11 +64,11 @@ public class XString {
 	}
 
 	public static String join(Map<?, ?> map, String joinString) {
-		return XString.join(map, null, "=", joinString, null);
+		return Strings.join(map, null, "=", joinString, null);
 	}
 
 	public static String join(Map<?, ?> map, String valSeparator, String joinString) {
-		return XString.join(map, null, valSeparator, joinString, null);
+		return Strings.join(map, null, valSeparator, joinString, null);
 	}
 
 	public static String join(Map<?, ?> map, String head, String valSeparator, String joinString, String end) {
@@ -165,7 +158,7 @@ public class XString {
 	 */
 	public static List<Integer> search(String str, String element) {
 		List<Integer> list = new ArrayList<Integer>();
-		if (XObjects.isEmpty(str) || XObjects.isEmpty(element)) {
+		if (Objects.empty(str) || Objects.empty(element)) {
 			return list;
 		}
 		int elementlen = element.length();
@@ -183,7 +176,7 @@ public class XString {
 	 * 获取str重复出现的次数
 	 */
 	public static int getRepeatCount(String str, String find) {
-		if (XObjects.isEmpty(str) || XObjects.isEmpty(find)) {
+		if (Objects.empty(str) || Objects.empty(find)) {
 			return 0;
 		}
 		int i = 0;
@@ -210,7 +203,7 @@ public class XString {
 	}
 
 	public static String submiddle(String str, String left, String right, int off) {
-		if (XObjects.isEmpty(str) || XObjects.isEmpty(left) || XObjects.isEmpty(right)) {
+		if (Objects.empty(str) || Objects.empty(left) || Objects.empty(right)) {
 			return "";
 		}
 		if (off < 0) {
@@ -315,12 +308,12 @@ public class XString {
 	 */
 	public static List<String> split(String str, String separator) {
 		List<String> list = new ArrayList<>();
-		XString.split(str, separator, list);
+		Strings.split(str, separator, list);
 		return list;
 	}
 
 	public static void split(String str, String separator, Collection<String> splits) {
-		if (XObjects.isEmpty(str) || XObjects.isEmpty(separator) || str.equals(separator)) {
+		if (Objects.empty(str) || Objects.empty(separator) || str.equals(separator)) {
 			return;
 		}
 		int end = 0;

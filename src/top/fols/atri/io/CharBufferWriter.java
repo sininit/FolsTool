@@ -12,7 +12,7 @@ public class CharBufferWriter extends Writer implements Releasable {
 	private CharArrayBuffer buffer;
 
 	public CharBufferWriter() { 
-		this(Finals.EMPTY_CHAR_BUFFER);
+		this(Finals.EMPTY_CHAR_ARRAY);
 	}
 	public CharBufferWriter(char[] array) {
 		this(array, 0, array.length);

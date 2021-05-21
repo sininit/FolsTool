@@ -35,10 +35,10 @@ public final class XStaticFixedValue {
 	public static final String[] nullStringArray = new String[0];
 	public static final Object[] nullObjectArray = Finals.EMPTY_OBJECT_ARRAY;
 
-	public static final byte[] nullbyteArray = Finals.EMPTY_BYTE_BUFFER;;
+	public static final byte[] nullbyteArray = new byte[0];
 	public static final long[] nulllongArray = new long[0];
 	public static final double[] nulldoubleArray = new double[0];
-	public static final char[] nullcharArray = Finals.EMPTY_CHAR_BUFFER;;
+	public static final char[] nullcharArray = new char[0];
 	public static final int[] nullintArray = new int[0];
 	public static final boolean[] nullbooleanArray = new boolean[0];
 	public static final float[] nullfloatArray = new float[0];

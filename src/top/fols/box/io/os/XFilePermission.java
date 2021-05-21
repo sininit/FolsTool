@@ -1,8 +1,9 @@
 package top.fols.box.io.os;
 
+import top.fols.atri.util.DoubleLinked;
+
 import java.io.File;
 import java.io.IOException;
-import top.fols.box.util.XDoubleLinked;
 
 public class XFilePermission {
 
@@ -38,13 +39,13 @@ public class XFilePermission {
                                           Boolean ownerOnly) {
         file = file.getAbsoluteFile();
 
-        XDoubleLinked<File> files = new XDoubleLinked<>(null);
+        DoubleLinked<File> files = new DoubleLinked<>(null);
         File pn = file;
         while (null != (pn = pn.getParentFile())) {
-            files.addNext(new XDoubleLinked<>(pn));
+            files.addNext(new DoubleLinked<>(pn));
         }
-        XDoubleLinked<File> now = files;
-        while (null != now && null != (now = (XDoubleLinked<File>) now.getNext())) {
+        DoubleLinked<File> now = files;
+        while (null != now && null != (now = (DoubleLinked<File>) now.getNext())) {
             File f = now.content();
             setFilePermission(f, readable, writeable, executeable, ownerOnly);
         }
@@ -69,15 +70,15 @@ public class XFilePermission {
             return true;
         } else {
             boolean b = false;
-            XDoubleLinked<File> files = new XDoubleLinked<>(null);
-            files.addNext(new XDoubleLinked<>(file));
+            DoubleLinked<File> files = new DoubleLinked<>(null);
+            files.addNext(new DoubleLinked<>(file));
 
             File pn = file;
             while (null != (pn = pn.getParentFile())) {
-                files.addNext(new XDoubleLinked<>(pn));
+                files.addNext(new DoubleLinked<>(pn));
             }
-            XDoubleLinked<File> now = files;
-            while (null != now && null != (now = (XDoubleLinked<File>) now.getNext())) {
+            DoubleLinked<File> now = files;
+            while (null != now && null != (now = (DoubleLinked<File>) now.getNext())) {
                 File dir = now.content();
                 if (!dir.exists()) {
                     boolean result = dir.mkdir();

@@ -6,6 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+
+import top.fols.atri.lang.Clasz;
 import top.fols.box.lang.XClass;
 
 import static top.fols.atri.reflect.ReflectCache.*;
@@ -49,7 +51,7 @@ public class ReflectMatcher {
             if (elementParameterTypes.length == paramClassArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -82,7 +84,7 @@ public class ReflectMatcher {
             if (elementParameterTypes.length == paramClassArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -127,7 +129,7 @@ public class ReflectMatcher {
 				&& (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -165,7 +167,7 @@ public class ReflectMatcher {
 				&& (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -214,7 +216,7 @@ public class ReflectMatcher {
             if (elementParameterTypes.length == paramInstanceArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -248,7 +250,7 @@ public class ReflectMatcher {
             if (elementParameterTypes.length == paramInstanceArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -289,7 +291,7 @@ public class ReflectMatcher {
 				&& (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -327,7 +329,7 @@ public class ReflectMatcher {
 				&& (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!XClass.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }

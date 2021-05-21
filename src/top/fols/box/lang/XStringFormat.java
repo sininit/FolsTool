@@ -4,8 +4,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+
+import top.fols.atri.reflect.Reflects;
 import top.fols.box.io.base.XCharArrayWriter;
-import top.fols.box.lang.reflect.optdeclared.XReflectAccessible;
 
 public class XStringFormat {
 
@@ -59,7 +60,7 @@ public class XStringFormat {
 				if (null == cache) {
 					cache = new HashMap<>();
 					for (Field field : thisClass.getDeclaredFields()) {
-						cache.put(field.getName(), XReflectAccessible.setAccessibleTrueOne(field));
+						cache.put(field.getName(), Reflects.accessible(field));
 					}
 					this.fields = cache;
 				}
@@ -90,7 +91,7 @@ public class XStringFormat {
 					cache = new HashMap<>();
 					for (Field field : thisClass.getDeclaredFields()) {
 						if (Modifier.isStatic(field.getModifiers())) {
-							cache.put(field.getName(), XReflectAccessible.setAccessibleTrueOne(field));
+							cache.put(field.getName(), Reflects.accessible(field));
 						}
 					}
 					this.fields = cache;

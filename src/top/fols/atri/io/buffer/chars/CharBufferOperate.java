@@ -9,10 +9,11 @@ import java.util.Arrays;
 import top.fols.atri.io.buffer.BufferOperate;
 import top.fols.box.util.XArrays;
 import static top.fols.atri.lang.Finals.*;
+import static top.fols.atri.lang.Finals.EMPTY_CHAR_ARRAY;
 
 public abstract class CharBufferOperate extends BufferOperate<char[]> {
 	public CharBufferOperate() {
-		this(EMPTY_CHAR_BUFFER);
+		this(EMPTY_CHAR_ARRAY);
 	}
 	public CharBufferOperate(char[] datas) {
 		this(datas, 0, datas.length);
@@ -53,7 +54,7 @@ public abstract class CharBufferOperate extends BufferOperate<char[]> {
 		return new String(toArray());
 	}
 
-	@Override public char[] array_empty() { return EMPTY_CHAR_BUFFER;}
+	@Override public char[] array_empty() { return EMPTY_CHAR_ARRAY;}
 	@Override public char[] array(int count) { return new char[count]; }
 	@Override public int sizeof(char[] array) { return array.length; }
 

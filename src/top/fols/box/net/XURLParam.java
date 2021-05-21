@@ -5,8 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import top.fols.atri.lang.Strings;
 import top.fols.box.annotation.XAnnotations;
-import top.fols.box.lang.XString;
 import top.fols.box.util.encode.XURLEncoder;
 import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 
@@ -26,7 +27,7 @@ public class XURLParam implements Serializable, XInterfaceGetInnerMap {
      * format: key=value&key1=value1...
      */
     private void parse0(String all) {
-        List<String> tmp = XString.split(new StringBuilder(all).append(XURL.PARAM_PROJECT_SEPARATOR).toString(),
+        List<String> tmp = Strings.split(new StringBuilder(all).append(XURL.PARAM_PROJECT_SEPARATOR).toString(),
             XURL.PARAM_PROJECT_SEPARATOR);
         for (String kv : tmp) {
             if (kv.isEmpty()) {

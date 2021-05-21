@@ -1,20 +1,24 @@
-package top.fols.box.util;
+package top.fols.atri.util;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import top.fols.box.statics.XStaticSystem;
 
-public class XExceptionTool {
-	public static String StackTraceToString(Throwable e) {
+import java.io.*;
+
+@SuppressWarnings("all")
+public class Throwables {
+	public static String toString(Throwable e) {
 		if (null == e) {
 			return "";
 		}
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
-		return sw.toString();
+		String str = sw.toString();
+		try {
+			sw.close();
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
+		}
+		return str;
 	}
 
 	public static void print(OutputStream out, Throwable e) {

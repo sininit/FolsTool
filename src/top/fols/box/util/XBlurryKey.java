@@ -3,9 +3,8 @@ package top.fols.box.util;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 
+import top.fols.atri.lang.Objects;
 import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.util.XObjects;
-
 
 public abstract class XBlurryKey<T extends Object> implements Cloneable {
 
@@ -63,7 +62,7 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
     }
 
     public static boolean equals(XBlurryKey factory, Object value1 , Object value2) {
-        return XObjects.isEquals(XBlurryKey.formatKey(factory, value1), XBlurryKey.formatKey(factory, value2));
+        return Objects.equals(XBlurryKey.formatKey(factory, value1), XBlurryKey.formatKey(factory, value2));
     }
 
     public static Object formatKey(XBlurryKey factory, Object value) {

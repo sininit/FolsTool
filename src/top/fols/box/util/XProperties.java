@@ -19,11 +19,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import top.fols.atri.lang.Objects;
+import top.fols.atri.util.DoubleLinked;
 import top.fols.box.io.XStream;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.io.base.XStringWriter;
-import top.fols.box.util.XDoubleLinked;
-import top.fols.box.util.XObjects;
 import top.fols.box.util.encode.XHexEncoder;
 import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 import top.fols.box.util.interfaces.XInterfaceSetInnerMap;
@@ -268,7 +269,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
     @Override
     public void setInnerMap(Map<String, String> innerMap) {
-        this.properties = XObjects.requireNonNull(innerMap);
+        this.properties = Objects.requireNonNull(innerMap);
     }
 
 
@@ -314,17 +315,17 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
     @SuppressWarnings("unchecked")
     public XProperties removeMatches(String regexKey) {
-        XDoubleLinked<String> list = new XDoubleLinked<String>(null);
+        DoubleLinked<String> list = new DoubleLinked<String>(null);
         for (String key : this.keySet()) {
             if (null == key) {
                 continue;
             }
             if (Pattern.matches(regexKey, key)) {
-                list.addNext(new XDoubleLinked<String>(key));
+                list.addNext(new DoubleLinked<String>(key));
             }
         }
         while (list.hasNext()) {
-            String key = ((XDoubleLinked<String>) list.getNext()).content();
+            String key = ((DoubleLinked<String>) list.getNext()).content();
             list.getNext().remove();
             this.remove(key);
         }
@@ -471,7 +472,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
     // Object[] byte[] long[] double[] char[] int[] boolean[] float[] short[]
     public byte getByte(String key) {
         String value = this.get(key);
-        return null == value ? (byte) 0 : XObjects.tobyte(value);
+        return null == value ? (byte) 0 : Objects.toByte(value);
     }
 
     public void putByte(String key, byte value) {
@@ -481,7 +482,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
     public long getLong(String key) {
         String value = this.get(key);
-        return null == value ? (long) 0 : XObjects.tolong(value);
+        return null == value ? (long) 0 : Objects.toLong(value);
     }
 
     public void putLong(String key, long value) {
@@ -490,7 +491,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
     public double getDouble(String key) {
         String value = this.get(key);
-        return null == value ? (double) 0 : XObjects.todouble(value);
+        return null == value ? (double) 0 : Objects.toDouble(value);
     }
 
     public void putDouble(String key, double value) {
@@ -500,7 +501,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
     public char getChar(String key) {
         String value = this.get(key);
-        return null == value ? (char) 0 : XObjects.tochar(value);
+        return null == value ? (char) 0 : Objects.toChar(value);
     }
 
     public void putChar(String key, char value) {
@@ -509,7 +510,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
     public int getInt(String key) {
         String value = this.get(key);
-        return null == value ? (int) 0 : XObjects.toint(value);
+        return null == value ? (int) 0 : Objects.toInt(value);
     }
 
     public void putInt(String key, int value) {
@@ -518,7 +519,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
     public boolean getBoolean(String key) {
         String value = this.get(key);
-        return null == value ? false : XObjects.toboolean(value);
+        return null == value ? false : Objects.toBoolean(value);
     }
 
     public void putBoolean(String key, boolean value) {
@@ -528,7 +529,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
     public float getFloat(String key) {
         String value = this.get(key);
-        return null == value ? (float) 0 : XObjects.tofloat(value);
+        return null == value ? (float) 0 : Objects.toFloat(value);
     }
 
     public void putFloat(String key, float value) {
@@ -537,7 +538,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
 
     public short getShort(String key) {
         String value = this.get(key);
-        return null == value ? (short) 0 : XObjects.toshort(value);
+        return null == value ? (short) 0 : Objects.toShort(value);
     }
 
     public void putShort(String key, short value) {

@@ -1,18 +1,18 @@
-package top.fols.box.util;
+package top.fols.atri.util;
 
 import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class XDoubleLinkedList<T extends Object> implements Serializable, Cloneable {
+public class DoubleLinkedList<T extends Object> implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
-    public static class Element<T extends Object> extends XDoubleLinked<T> implements Serializable {
+    public static class Element<T extends Object> extends DoubleLinked<T> implements Serializable {
         private static final long serialVersionUID = 1L;
 
 
-        private XDoubleLinkedList<T> superList;
+        private DoubleLinkedList<T> superList;
 
 
         public Element() {
@@ -23,7 +23,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
         }
 
         @Override
-        public void addNext(XDoubleLinked<T> addelement) throws NullPointerException {
+        public void addNext(DoubleLinked<T> addelement) throws NullPointerException {
             // TODO: Implement this method
             if (null == this.superList) {
                 throw new NullPointerException("this object does not exist in any list");
@@ -32,7 +32,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
         }
 
         @Override
-        public void addFirst(XDoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
+        public void addFirst(DoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
             // TODO: Implement this method
             if (null == this.superList) {
                 throw new NullPointerException("this object does not exist in any list");
@@ -51,7 +51,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
 
 
 
-        public XDoubleLinkedList<T> superList() {
+        public DoubleLinkedList<T> superList() {
             return this.superList;
         }
         public boolean superListNull() {
@@ -95,7 +95,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
     private int size;
     private Element<T> first;
     private Element<T> last;
-    public XDoubleLinkedList() {
+    public DoubleLinkedList() {
         super();
     }
 
@@ -130,13 +130,13 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
 
     public Element<T> indexOf(Object o) {
         if (null == o) {
-            for (XDoubleLinked<T> x = first; null != x; x = x.getNext()) {
+            for (DoubleLinked<T> x = first; null != x; x = x.getNext()) {
                 if (null == x.content()) {
                     return (Element<T>)x;
                 }
             }
         } else {
-            for (XDoubleLinked<T> x = first; null != x; x = x.getNext()) {
+            for (DoubleLinked<T> x = first; null != x; x = x.getNext()) {
                 if (o.equals(x.content())) {
                     return (Element<T>)x;
                 }
@@ -146,13 +146,13 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
     }
     public Element<T> lastIndexOf(Object o) {
         if (null == o) {
-            for (XDoubleLinked<T> x = last; null != x; x = x.getPrev()) {
+            for (DoubleLinked<T> x = last; null != x; x = x.getPrev()) {
                 if (null == x.content()) {
                     return (Element<T>)x;
                 }
             }
         } else {
-            for (XDoubleLinked<T> x = last; null != x; x = x.getPrev()) {
+            for (DoubleLinked<T> x = last; null != x; x = x.getPrev()) {
                 if (o.equals(x.content())) {
                     return (Element<T>)x;
                 }
@@ -179,7 +179,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
         } else {
             if (this.first == element) {
                 Element<T> next = (Element<T>) this.first.getNext();
-                XDoubleLinked._remove(element);
+                DoubleLinked._remove(element);
                 if (this.last == element) { //只有一个元素 且元素和(第一个 和 最后一个)相同
                     this.first = this.last = null;
                 } else {//有多个元素
@@ -187,7 +187,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
                 }
             } else {
                 Element<T> prev = (Element<T>) this.last.getPrev();
-                XDoubleLinked._remove(element);
+                DoubleLinked._remove(element);
                 if (this.last == element) {
                     this.last = prev;
                 }
@@ -205,7 +205,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
         if (null == this.first) {
             this.first = this.last = element;
         } else {
-            XDoubleLinked._addFirst(this.first, element);
+            DoubleLinked._addFirst(this.first, element);
             this.first = element;
         }
         this.size++;
@@ -219,7 +219,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
         if (null == this.first) { // && null == this.last
             this.first = this.last = element;
         } else {
-            XDoubleLinked._addNext(this.last, element);
+            DoubleLinked._addNext(this.last, element);
             this.last = element;
         }
         this.size++;
@@ -241,7 +241,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
                 if (null != element.superList) {
                     element.superList.remove(element);
                 }
-                XDoubleLinked._addNext(index, element);
+                DoubleLinked._addNext(index, element);
                 this.size++;
                 this.modCount++;
                 element.superList = this;
@@ -264,7 +264,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
 
 
 
-    public void addAll(Element<T> index, XDoubleLinkedList<T> element) {
+    public void addAll(Element<T> index, DoubleLinkedList<T> element) {
         while (!element.isEmpty()) {
             Element<T> next = element.getFirst();
             this.addNext(index, next);
@@ -281,7 +281,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
     public Object[] toArray() {
         Object[] result = new Object[size];
         int i = 0;
-        for (XDoubleLinked<T> x = first; null != x; x = x.getNext()) {
+        for (DoubleLinked<T> x = first; null != x; x = x.getNext()) {
             result[i++] = x.content();
         }
         return result;
@@ -293,7 +293,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
         }
         int i = 0;
         Object[] result = a;
-        for (XDoubleLinked<T> x = first; null != x; x = x.getNext()) {
+        for (DoubleLinked<T> x = first; null != x; x = x.getNext()) {
             result[i++] = x.content();
         }
 
@@ -382,7 +382,7 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
     @Override
     public String toString() {
         // TODO: Implement this method
-        return XDoubleLinked.toStringFromFirstStart(this.first);
+        return DoubleLinked.toStringFromFirstStart(this.first);
     }
 
     @Override
@@ -394,14 +394,14 @@ public class XDoubleLinkedList<T extends Object> implements Serializable, Clonea
     @Override
     public boolean equals(Object obj) {
         // TODO: Implement this method
-//		return obj instanceof XDoubleLinkedList && ((XDoubleLinkedList)obj).first == this.first;
+//		return obj instanceof DoubleLinkedList && ((DoubleLinkedList)obj).first == this.first;
         return obj == this;
     }
 
     @Override
-    public XDoubleLinkedList<T> clone() {
+    public DoubleLinkedList<T> clone() {
         // TODO: Implement this method
-        XDoubleLinkedList<T> newList = new XDoubleLinkedList<>();
+        DoubleLinkedList<T> newList = new DoubleLinkedList<>();
         ListIterator li = this.iterator(this.first);
         while (li.hasNext()) {
             newList.addLast(new Element<T>(li.next()));

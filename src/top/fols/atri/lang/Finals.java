@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
-import java.util.Map;
+import java.util.*;
 
 public class Finals {
 
@@ -25,9 +25,35 @@ public class Finals {
     public static final Object[] 		EMPTY_OBJECT_ARRAY = new Object[]{};
 
 
+    public static final String[]        EMPTY_STRING_ARRAY = new String[]{};
 
-    public static final char[] EMPTY_CHAR_BUFFER = new char[]{};
-    public static final byte[] EMPTY_BYTE_BUFFER = new byte[]{};
+    public static final byte[]          EMPTY_BYTE_ARRAY = new byte[]{};
+    public static final long[]          EMPTY_LONG_ARRAY = new long[]{};
+    public static final double[]        EMPTY_DOUBLE_ARRAY = new double[]{};
+    public static final char[]          EMPTY_CHAR_ARRAY = new char[]{};
+    public static final int[]           EMPTY_INT_ARRAY = new int[]{};
+    public static final boolean[]       EMPTY_BOOLEAN_ARRAY = new boolean[]{};
+    public static final float[]         EMPTY_FLOAT_ARRAY = new float[]{};
+    public static final short[]         EMPTY_SHORT_ARRAY = new short[]{};
+
+    public static final Byte[]          EMPTY_BYTE_P_ARRAY = new Byte[]{};
+    public static final Long[]          EMPTY_LONG_P_ARRAY = new Long[]{};
+    public static final Double[]        EMPTY_DOUBLE_P_ARRAY = new Double[]{};
+    public static final Character[]     EMPTY_CHAR_P_ARRAY = new Character[]{};
+    public static final Integer[]       EMPTY_INT_P_ARRAY = new Integer[]{};
+    public static final Boolean[]       EMPTY_BOOLEAN_P_ARRAY = new Boolean[]{};
+    public static final Float[]         EMPTY_FLOAT_P_ARRAY = new Float[]{};
+    public static final Short[]         EMPTY_SHORT_P_ARRAY = new Short[]{};
+
+    public static final Iterator        EMPTY_ITERATOR = Collections.emptyIterator();
+    public static final List            EMPTY_LIST = Collections.emptyList();
+    public static final ListIterator    EMPTY_LIST_ITERATOR = Collections.emptyListIterator();
+    public static final Enumeration     EMPTY_ENUMERATION = Collections.emptyEnumeration();
+    public static final Set             EMPTY_SET = Collections.emptySet();
+    public static final Map             EMPTY_MAP = Collections.emptyMap();
+
+    public static final StackTraceElement[] EMPTY_STACK_TRACE_ELEMENT_ARRAY = new StackTraceElement[]{};
+
 
 
     public static final String TRUE_STRING = String.valueOf(true);
