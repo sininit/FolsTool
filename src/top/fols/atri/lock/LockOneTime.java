@@ -54,8 +54,8 @@ public class LockOneTime {
 	/**
 	 * One-time lock
 	 */
-	public class Lock {
-		DoubleLinkedList.Element element;
+	public static class Lock {
+		DoubleLinkedList.Element<Lock> element;
 		AtomicBoolean lock = new AtomicBoolean(true);
 		Lock() {}
 
@@ -63,8 +63,8 @@ public class LockOneTime {
 			if (null == element) { throw new NullPointerException("release"); }
 			while (true) {
 				synchronized (this) {
-					if (null == element) { throw new NullPointerException("release"); }
-					if (!lock.get()) { return true; } //unlocked
+					if (null == element) { return true; } //unlocked
+					if (!lock.get()) { return true; }     //unlocked
 					try {
 						this.wait();
 						return true;
