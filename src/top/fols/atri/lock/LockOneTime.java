@@ -63,11 +63,12 @@ public class LockOneTime {
 			if (null == element) { throw new NullPointerException("release"); }
 			while (true) {
 				synchronized (this) {
-					if (!lock.get()) { return true; }
+					if (null == element) { throw new NullPointerException("release"); }
+					if (!lock.get()) { return true; } //unlocked
 					try {
 						this.wait();
 						return true;
-					} catch (InterruptedException e) {}
+					} catch (InterruptedException ignored) {}
 				}
 			}
 		}
