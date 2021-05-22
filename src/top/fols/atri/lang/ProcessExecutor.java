@@ -1,6 +1,5 @@
 package top.fols.atri.lang;
 
-import com.sun.org.apache.xpath.internal.objects.XString;
 import top.fols.atri.io.ByteBufferOutputStream;
 import top.fols.atri.io.buffer.bytes.ByteBufferFilter;
 import top.fols.atri.io.buffer.bytes.ByteBufferOperate;

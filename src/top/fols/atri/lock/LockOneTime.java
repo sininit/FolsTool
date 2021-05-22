@@ -25,7 +25,11 @@ public class LockOneTime {
 			LockOneTime.Lock lock = createLock();
 			try {
 				synchronized (lock) {
-					return runnable.execute();
+					if (null != this.linked) {
+						return runnable.execute();
+					} else {
+						throw new RuntimeException("lock released.");
+					}
 				}
 			} finally {
 				lock.notifyLock();
