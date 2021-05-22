@@ -14,6 +14,16 @@ public class Objects {
 
     public interface Executor<T> { T execute();}
 
+
+
+    public static void requireNull(Object obj) {
+        if (!(null == obj)) { throw new NullPointerException(); }
+    }
+    public static void requireNull(Object obj, String errorMessage) {
+        if (!(null == obj)) { throw new NullPointerException(errorMessage); }
+    }
+
+
     public static <T> T requireNonNull(T obj) {
         if (null == obj) { throw new NullPointerException(); }
         return obj;
@@ -22,6 +32,7 @@ public class Objects {
         if (null == obj) { throw new NullPointerException(errorMessage); }
         return obj;
     }
+
 
 
     public static void requireTrue(boolean obj) throws RuntimeException {
