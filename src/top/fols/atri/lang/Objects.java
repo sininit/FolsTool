@@ -14,8 +14,6 @@ public class Objects {
 
     public interface Executor<T> { T execute();}
 
-
-
     public static <T> T requireNonNull(T obj) {
         if (null == obj) { throw new NullPointerException(); }
         return obj;
