@@ -18,7 +18,9 @@ public class LockOneTime {
 		}
 	}
 
-	public <T> T execute(Objects.Executor<T> runnable) {
+	public interface Executor<T> { T execute(Lock lock); }
+
+	public <T> T execute(Executor<T> runnable) {
 		if (null == runnable) {
 			throw new NullPointerException("runnable");
 		} else {
@@ -26,7 +28,7 @@ public class LockOneTime {
 			try {
 				synchronized (lock) {
 					if (null != this.linked) {
-						return runnable.execute();
+						return runnable.execute(lock);
 					} else {
 						throw new RuntimeException("lock released.");
 					}
@@ -61,7 +63,7 @@ public class LockOneTime {
 		Lock() {}
 
 		public boolean waitLock() {
-			if (null == element) { throw new NullPointerException("release"); }
+			if (null == element) { return true; }
 			while (true) {
 				synchronized (this) {
 					if (null == element) { return true; } //unlocked
