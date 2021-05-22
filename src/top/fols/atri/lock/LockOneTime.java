@@ -1,5 +1,6 @@
 package top.fols.atri.lock;
 
+import top.fols.atri.lang.Objects;
 import top.fols.atri.util.DoubleLinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -16,8 +17,21 @@ public class LockOneTime {
 			return lock;
 		}
 	}
-	
-	
+
+	public <T> T execute(Objects.Executor<T> runnable) {
+		if (null == runnable) {
+			throw new NullPointerException("runnable");
+		} else {
+			LockOneTime.Lock lock = createLock();
+			try {
+				synchronized (lock) {
+					return runnable.execute();
+				}
+			} finally {
+				lock.notifyLock();
+			}
+		}
+	}
 	
 	public void waitLock() {
 		synchronized (linkedLock) {

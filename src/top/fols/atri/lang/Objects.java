@@ -12,6 +12,8 @@ public class Objects {
     public interface CallbackValue<T> { void callback(T param); }
     public interface Callback { void callback(); }
 
+    public interface Executor<T> { T execute();}
+
 
 
     public static <T> T requireNonNull(T obj) {
