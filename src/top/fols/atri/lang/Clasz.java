@@ -160,47 +160,47 @@ public class Clasz {
 
     //基础数据类型转换为包装类
     public static Class primitiveClassToPackageClass(Class baseClass) {
-        if (baseClass == XStaticFixedValue.boolean_class) {
-            return XStaticFixedValue.Boolean_class;
-        } else if (baseClass == XStaticFixedValue.byte_class) {
-            return XStaticFixedValue.Byte_class;
-        } else if (baseClass == XStaticFixedValue.char_class) {
-            return XStaticFixedValue.Character_class;
-        } else if (baseClass == XStaticFixedValue.double_class) {
-            return XStaticFixedValue.Double_class;
-        } else if (baseClass == XStaticFixedValue.float_class) {
-            return XStaticFixedValue.Float_class;
-        } else if (baseClass == XStaticFixedValue.int_class) {
-            return XStaticFixedValue.Integer_class;
-        } else if (baseClass == XStaticFixedValue.long_class) {
-            return XStaticFixedValue.Long_class;
-        } else if (baseClass == XStaticFixedValue.short_class) {
-            return XStaticFixedValue.Short_class;
-        } else if (baseClass == XStaticFixedValue.void_class) {
-            return XStaticFixedValue.Void_class;
+        if (baseClass == Finals.BOOLEAN_CLASS) {
+            return Finals.BOOLEAN_PACKAGE_CLASS;
+        } else if (baseClass == Finals.BYTE_CLASS) {
+            return Finals.BYTE_PACKAGE_CLASS;
+        } else if (baseClass == Finals.CHAR_CLASS) {
+            return Finals.CHAR_PACKAGE_CLASS;
+        } else if (baseClass == Finals.DOUBLE_CLASS) {
+            return Finals.DOUBLE_PACKAGE_CLASS;
+        } else if (baseClass == Finals.FLOAT_CLASS) {
+            return Finals.FLOAT_PACKAGE_CLASS;
+        } else if (baseClass == Finals.INT_CLASS) {
+            return Finals.INT_PACKAGE_CLASS;
+        } else if (baseClass == Finals.LONG_CLASS) {
+            return Finals.LONG_PACKAGE_CLASS;
+        } else if (baseClass == Finals.SHORT_CLASS) {
+            return Finals.SHORT_PACKAGE_CLASS;
+        } else if (baseClass == Finals.VOID_CLASS) {
+            return Finals.VOID_PACKAGE_CLASS;
         }
         return baseClass;
     }
     //将包装类转换成基础数据类型的类
     public static Class packageClassToPrimitiveClass(Class baseClass) {
-        if (baseClass == XStaticFixedValue.Boolean_class) {
-            return XStaticFixedValue.boolean_class;
-        } else if (baseClass == XStaticFixedValue.Byte_class) {
-            return XStaticFixedValue.byte_class;
-        } else if (baseClass == XStaticFixedValue.Character_class) {
-            return XStaticFixedValue.char_class;
-        } else if (baseClass == XStaticFixedValue.Double_class) {
-            return XStaticFixedValue.double_class;
-        } else if (baseClass == XStaticFixedValue.Float_class) {
-            return XStaticFixedValue.float_class;
-        } else if (baseClass == XStaticFixedValue.Integer_class) {
-            return XStaticFixedValue.int_class;
-        } else if (baseClass == XStaticFixedValue.Long_class) {
-            return XStaticFixedValue.long_class;
-        } else if (baseClass == XStaticFixedValue.Short_class) {
-            return XStaticFixedValue.short_class;
-        } else if (baseClass == XStaticFixedValue.Void_class) {
-            return XStaticFixedValue.void_class;
+        if (baseClass == Finals.BOOLEAN_PACKAGE_CLASS) {
+            return Finals.BOOLEAN_CLASS;
+        } else if (baseClass == Finals.BYTE_PACKAGE_CLASS) {
+            return Finals.BYTE_CLASS;
+        } else if (baseClass == Finals.CHAR_PACKAGE_CLASS) {
+            return Finals.CHAR_CLASS;
+        } else if (baseClass == Finals.DOUBLE_PACKAGE_CLASS) {
+            return Finals.DOUBLE_CLASS;
+        } else if (baseClass == Finals.FLOAT_PACKAGE_CLASS) {
+            return Finals.FLOAT_CLASS;
+        } else if (baseClass == Finals.INT_PACKAGE_CLASS) {
+            return Finals.INT_CLASS;
+        } else if (baseClass == Finals.LONG_PACKAGE_CLASS) {
+            return Finals.LONG_CLASS;
+        } else if (baseClass == Finals.SHORT_PACKAGE_CLASS) {
+            return Finals.SHORT_CLASS;
+        } else if (baseClass == Finals.VOID_PACKAGE_CLASS) {
+            return Finals.VOID_CLASS;
         }
         return baseClass;
     }
@@ -216,5 +216,14 @@ public class Clasz {
 
 
 
+    public static boolean isString(Object object)       { return object instanceof String; }
+    public static boolean isChar(Object object)         { return object instanceof Character; }
+    public static boolean isBoolean(Object object)      { return object instanceof Boolean; }
+    public static boolean isByte(Object object)         { return object instanceof Byte; }
+    public static boolean isInt(Object object)          { return object instanceof Integer; }
+    public static boolean isLong(Object object)         { return object instanceof Long; }
+    public static boolean isShort(Object object)        { return object instanceof Short; }
+    public static boolean isDouble(Object object)       { return object instanceof Double; }
+    public static boolean isFloat(Object object)        { return object instanceof Float; }
 
 }

@@ -53,6 +53,7 @@ public class Objects {
 
 
 
+
     public static <T> Value<T> wrap(T v) { return new Value<>(v); }
 
 
@@ -67,8 +68,9 @@ public class Objects {
     }
 
 
-    public static boolean empty(CharSequence obj) {
-        return null == obj || obj.length() == 0;
+
+    public static boolean empty(Map obj) {
+        return null == obj || obj.size() == 0;
     }
     public static boolean empty(Collection<?> obj) {
         return null == obj || obj.size() == 0;
@@ -76,6 +78,11 @@ public class Objects {
     public static boolean empty(Object[] obj) {
         return null == obj || obj.length == 0;
     }
+
+    public static boolean empty(CharSequence obj) {
+        return null == obj || obj.length() == 0;
+    }
+
 
     public static boolean empty(long[] obj) {
         return null == obj || obj.length == 0;
@@ -101,13 +108,7 @@ public class Objects {
     public static boolean empty(char[] obj) {
         return null == obj || obj.length == 0;
     }
-
-    public static boolean empty(Map obj) {
-        return null == obj || obj.size() == 0;
-    }
-
     public static boolean empty(Object obj) { return null == obj; }
-
 
 
 
@@ -225,9 +226,6 @@ public class Objects {
     /**
      * parse value Object[] byte[] long[] double[] char[] int[] boolean[] float[] short[]
      */
-
-
-
     public static boolean parseBoolean(Object value) {
         return null != value && "true".equalsIgnoreCase(value.toString().trim());
     }
