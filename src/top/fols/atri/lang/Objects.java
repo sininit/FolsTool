@@ -10,9 +10,18 @@ public class Objects {
     public interface Cast<P, R> { R cast(P param); }
 
     public interface CallbackValue<T> { void callback(T param); }
-    public interface Callback { void callback(); }
+    public interface Callback {
+        void callback();
+    }
 
-    public interface Executor<T> { T execute();}
+    public interface ExecutorValue<T> { void execute(T param);}
+    public interface Executor<T> {
+        T execute();
+    }
+
+    public interface Invoke<R, P> {
+        R invoke(P param);
+    }
 
 
 

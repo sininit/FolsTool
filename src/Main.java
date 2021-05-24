@@ -1,14 +1,13 @@
 
 import java.io.*;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.sun.org.apache.xpath.internal.objects.XString;
+import top.fols.atri.lang.Objects;
 import top.fols.atri.lang.Strings;
+import top.fols.atri.lock.LockThread;
 import top.fols.atri.reflect.ReflectMatcher;
 import top.fols.atri.reflect.ReflectPeakMatcher;
-import top.fols.atri.reflect.ReflectProxy;
 import top.fols.atri.reflect.Reflects;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.lang.XClass;
@@ -198,6 +197,8 @@ public class Main extends k {
 
 //        System.out.println(ReflectProxy.newInstance(new ArrayList<>(), Size.class).size());
 //        if (true) { return; }
+
+
 
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"

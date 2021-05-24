@@ -1,5 +1,7 @@
 package top.fols.atri.lock;
 
+import top.fols.atri.lang.Objects;
+import top.fols.atri.lang.Value;
 import top.fols.atri.util.DoubleLinkedList;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -7,10 +9,15 @@ public class LockThread {
 	private final Object linkedLock = new Object();
 	private DoubleLinkedList<Lock> linked = new DoubleLinkedList<>();
 
-	public final Lock execute(Runnable runnable) {
+	/**
+	 * @param runnable executor
+	 * @param <R> invalid
+	 * @return Create Lock Thread And Start()
+	 */
+	public final <R> Lock execute(Objects.Invoke<R, Lock> runnable) {
 		synchronized (linkedLock) {
-			if (null == this.linked || null == runnable) { 
-				return null; 
+			if (null == this.linked || null == runnable) {
+				return null;
 			} else {
 				Lock lock = new Lock();
 				DoubleLinkedList.Element<Lock> element = new DoubleLinkedList.Element<>(lock);
@@ -21,6 +28,27 @@ public class LockThread {
 				return lock;
 			}
 		}
+	}
+
+	/**
+	 * Create Lock Thread And Wait Execute Result
+	 *
+	 * @param runnable
+	 * @param <R> Create Lock Thread And Start()
+	 * @return Execute Result
+	 */
+	public final <R> R executeAndJoins(Objects.Invoke<R, Lock> runnable) {
+		Value<R> rt = new Value<>();
+		Objects.Invoke<R, Lock> lockExecutorValue = param -> {
+			R result = runnable.invoke(param);
+			rt.set(result);
+			return result;
+		};
+		Lock lock = execute(lockExecutorValue);
+		if (null != lock) {
+			lock.joins();
+		}
+		return rt.get();
 	}
 
 
@@ -34,7 +62,7 @@ public class LockThread {
 	 * @return If any thread is has InterruptedException, 
 	 *         it will return false
 	 */
-	public final boolean join() {
+	public final boolean joins() {
 		boolean result = true;
 		for (;;) {
 			DoubleLinkedList.Element<Lock> element;
@@ -63,7 +91,7 @@ public class LockThread {
 	 *           or
 	 *         overtime
 	 */
-	public final boolean join(long millis) {
+	public final boolean joins(long millis) {
         if (millis < 0) {
             throw new IllegalArgumentException("timeout value is negative");
         }
@@ -148,7 +176,7 @@ public class LockThread {
 
 	public class Lock extends Thread {
 		DoubleLinkedList.Element<Lock> element;
-		AtomicReference<Runnable> runnable = new AtomicReference<>();
+		AtomicReference<Objects.Invoke<?, Lock>> runnable = new AtomicReference<>();
 
 
 		public boolean effective() {
@@ -177,7 +205,7 @@ public class LockThread {
 			// TODO: Implement this method
 			if (effective()) {
 				try {
-					runnable.get().run();
+					runnable.get().invoke(this);
 				} finally {
 					runnable.set(null);
 					
@@ -189,6 +217,23 @@ public class LockThread {
 			} else {
 				throw new IllegalStateException("removed");
 			}
+		}
+
+
+		/**
+		 * Will not be interrupted when encountering InterruptedException
+		 *
+		 * @return If any thread is has InterruptedException,
+		 *         it will return false
+		 */
+		public boolean joins() {
+			boolean result = true;
+			try {
+				this.join();
+			} catch (InterruptedException e) {
+				result = false;
+			}
+			return result;
 		}
 	}
 }
