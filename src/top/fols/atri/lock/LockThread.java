@@ -37,18 +37,26 @@ public class LockThread {
 	 * @param <R> Create Lock Thread And Start()
 	 * @return Execute Result
 	 */
-	public final <R> R executeAndJoins(Objects.Invoke<R, Lock> runnable) {
+	public final <R> R executeAndJoins(Objects.Invoke<R, Lock> runnable) throws Throwable {
+		Value<Throwable> ex = new Value<>();
 		Value<R> rt = new Value<>();
 		Objects.Invoke<R, Lock> lockExecutorValue = param -> {
-			R result = runnable.invoke(param);
-			rt.set(result);
-			return result;
+			try {
+				return rt.set(runnable.invoke(param));
+			} catch (Throwable e) {
+				ex.set(e);
+				return null;
+			}
 		};
 		Lock lock = execute(lockExecutorValue);
 		if (null != lock) {
 			lock.joins();
 		}
-		return rt.get();
+		if (ex.isNull()) {
+			return rt.get();
+		} else {
+			throw ex.get();
+		}
 	}
 
 

@@ -6,7 +6,7 @@ import top.fols.atri.util.DoubleLinkedList;
 
 /**
  * It’s a pity that I found that it is similar to Thread.join.
- * @see LockThread#
+ * @see top.fols.atri.lock.LockThread#
  */
 @Deprecated()
 public class LockOneTime {
