@@ -37,15 +37,19 @@ public class LockThread {
 	 * @param <R> Create Lock Thread And Start()
 	 * @return Execute Result
 	 */
+	@SuppressWarnings("Convert2Lambda")
 	public final <R> R executeAndJoins(Objects.Invoke<R, Lock> runnable) {
 		Value<Throwable> ex = new Value<>();
 		Value<R> rt = new Value<>();
-		Objects.Invoke<R, Lock> lockExecutorValue = param -> {
-			try {
-				return rt.set(runnable.invoke(param));
-			} catch (Throwable e) {
-				ex.set(e);
-				return null;
+		Objects.Invoke<R, Lock> lockExecutorValue = new Objects.Invoke<R, Lock>() {
+			@Override
+			public R invoke(Lock param) {
+				try {
+					return rt.set(runnable.invoke(param));
+				} catch (Throwable e) {
+					ex.set(e);
+					return null;
+				}
 			}
 		};
 		Lock lock = execute(lockExecutorValue);
