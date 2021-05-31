@@ -141,7 +141,11 @@ public class ObjectArrayObject<T extends Object> extends ArrayObject<T[]> {
 		// TODO: Implement this method
 		return super.array[index];
 	}
-
+	@Override
+	public String stringValue(int index) {
+		T v = super.array[index];
+		return null == v?null:String.valueOf(v);
+	}
 
 
 	@Override public boolean isNull(int index) { return null == super.array[index]; }

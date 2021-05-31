@@ -9,6 +9,20 @@ import java.util.*;
 
 public class Strings {
 
+	public static String marge(Object... values) {
+		StringBuilder concat = new StringBuilder();
+		if (null == values || values.length == 0) {
+		} else {
+			for (Object value: values) {
+				concat.append(Objects.toString(value));
+			}
+		}
+		return concat.toString();
+	}
+
+
+
+
 	/**
 	 * StringJoiner
 	 * 

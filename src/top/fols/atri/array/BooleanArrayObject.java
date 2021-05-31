@@ -61,10 +61,10 @@ public class BooleanArrayObject extends ArrayObject<boolean[]> {
 		// TODO: Implement this method
 		return super.array[index];
 	}
-
-	
-	
-	
+	@Override
+	public String stringValue(int index) {
+		return String.valueOf(super.array[index]);
+	}
 
 	@Override public boolean isNull(int index) { return false; }
 	@Override public boolean isPrimitive() { return true; }

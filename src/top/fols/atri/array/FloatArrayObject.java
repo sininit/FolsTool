@@ -61,7 +61,10 @@ public class FloatArrayObject extends ArrayObject<float[]> {
 		// TODO: Implement this method
 		return super.array[index];
 	}
-
+	@Override
+	public String stringValue(int index) {
+		return String.valueOf(super.array[index]);
+	}
 
 
 

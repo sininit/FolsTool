@@ -35,10 +35,10 @@ public class ArrayObjects {
 	 * short[]
 	 */
 	 
-	public static <B extends Object> B arraycopy(Object oldArray, int oldArrayIndex, ArrayObject<B> writeArray, int writeIndex, int count) {
+	public static <B> B arraycopy(Object oldArray, int oldArrayIndex, ArrayObject<B> writeArray, int writeIndex, int count) {
 		return arraycopy(oldArray, oldArrayIndex, writeArray.innerArray(), writeIndex, count);
 	}
-	public static <B extends Object> B arraycopy(Object oldArray, int oldArrayIndex, B writeArray, int writeIndex, int count) {
+	public static <B> B arraycopy(Object oldArray, int oldArrayIndex, B writeArray, int writeIndex, int count) {
 		if (oldArray == writeArray && oldArrayIndex == writeIndex) { return writeArray;}
 		if (!ArrayObject.wrapable(oldArray) || !ArrayObject.wrapable(writeArray)) {
 			throw new ClassCastException(
@@ -327,6 +327,10 @@ public class ArrayObjects {
 	public static long[] 	toLongArray(Object array) 		{ return ArrayObject.toLongArrayObject(array).innerArray(); }
 	public static short[] 	toShortArray(Object array) 		{ return ArrayObject.toShortArrayObject(array).innerArray(); }
 
-	public static <T extends Object> T[] toArray(Object array, T[] array2) { return (T[]) ArrayObject.toArrayObject(array, array2).innerArray(); }
+
+	public static String[] 	toStringArray(Object array) 		{ return ArrayObject.toStringArrayObject(array).innerArray(); }
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[] toArray(Object array, T[] array2) { return (T[]) ArrayObject.toArrayObject(array, array2).innerArray(); }
 	public static Object toArray(Object array, Object array2) { return ArrayObject.toArrayObject(array, array2).innerArray(); }
 }

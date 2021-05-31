@@ -140,7 +140,11 @@ public class ListArrayObject<T extends Object> extends ArrayObject<List<T>> {
 		// TODO: Implement this method
 		return super.array.get(index);
 	}
-
+	@Override
+	public String stringValue(int index) {
+		T v = super.array.get(index);
+		return null == v?null:String.valueOf(v);
+	}
 
 
 	@Override public boolean isNull(int index) { return null == super.array.get(index); }

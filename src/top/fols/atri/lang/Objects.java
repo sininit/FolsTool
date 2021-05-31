@@ -1,5 +1,7 @@
 package top.fols.atri.lang;
 
+import top.fols.atri.util.Throwables;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -125,16 +127,7 @@ public class Objects {
 
 
 
-    public static String toString(Object obj) {
-        if (null == obj) {
-            return null;
-        }
-        if (obj instanceof char[]) {
-            return new String((char[]) obj);
-        } else {
-            return obj.toString();
-        }
-    }
+
 
     public static char toChar(Object obj) {
         if (null == obj) {
@@ -291,7 +284,7 @@ public class Objects {
     /**
      *
      * read String first num
-     * @see top.fols.box.lang.XString#retain(CharSequence, int, int, char[])
+     * @see top.fols.atri.lang.Strings#retain(CharSequence, int, int, char[])
      */
     public static String retainNum(CharSequence str, int off, int len) {
         char[] buf = new char[20];// long max string len = 20
@@ -329,7 +322,7 @@ public class Objects {
     /**
      *
      * read String first num
-     * @see top.fols.box.lang.XString#retain(CharSequence, int, int, char[])
+     * @see top.fols.atri.lang.Strings#retain(CharSequence, int, int, char[])
      */
     public static String retainDouble(CharSequence str, int off, int len) {
         char[] buf = new char[64];
@@ -364,6 +357,41 @@ public class Objects {
             }
         }
         return new String(buf, 0, bufsize);
+    }
+
+
+
+
+
+
+
+
+    public static boolean isArray(Object object) {
+        return null != object && object.getClass().isArray();
+    }
+    public static boolean isEnum(Object object) {
+        return null != object && object.getClass().isEnum();
+    }
+    public static boolean isInstance(Object object, Class<?> type) {
+        return Clasz.isInstance(object, type);
+    }
+    public static boolean isInstance(Class<?> object, Class<?> type) {
+        return Clasz.isInstance(object, type);
+    }
+
+
+
+
+
+    public static String toString(Object object) {
+        if (null == object) {
+            return String.valueOf((Object) null);
+        } else if (object instanceof char[]) {
+            return new String((char[])object);
+        } else if (object instanceof Throwable) {
+            return Throwables.toStrings((Throwable) object);
+        }
+        return object.toString();
     }
 
 }

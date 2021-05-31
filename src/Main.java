@@ -3,6 +3,7 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import top.fols.atri.lang.Arrayz;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.lang.Strings;
 import top.fols.atri.lock.LockThread;
@@ -15,16 +16,6 @@ import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.time.XTimeConsum;
 import top.fols.atri.util.json.JSONObject;
 
-abstract class k {
-
-    int df, tt, yh, dd, ghji, ttfgg, fryh, dedcvhu, rrtgv;
-
-    public abstract void v();
-
-    protected void dddd() {
-        System.out.println();
-    }
-}
 
 public class Main extends k {
 

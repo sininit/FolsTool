@@ -17,14 +17,6 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 
 
 
-
-
-//	public int verifyIndex(int index) throws ArrayIndexOutOfBoundsException {
-//		if (index >= 0 && index < (this.limit - this.offset)) 
-//			return index;
-//		throw new ArrayIndexOutOfBoundsException(String.format("array.offset=%s, array.end=%s, seek=%s", this.offset, this.limit, index));
-//	}
-
 	abstract public byte 	byteValue(int index);
 	abstract public long 	longValue(int index);
 	abstract public double 	doubleValue(int index);
@@ -35,6 +27,9 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 	abstract public short 	shortValue(int index);
 
 	abstract public Object objectValue(int index);
+
+	abstract public String stringValue(int index);
+
 
 	public T 		innerArray() { return this.array; }
 	public int 		innerArrayLength() { return Array.getLength(this.array);}
@@ -96,6 +91,10 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 		}
 		return toArray;
 	}
+
+
+
+
 
 	/**
 	 * Object[]
@@ -181,6 +180,15 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 	public ArrayObject<short[]> toShortArrayObject() { return toShortArrayObject(this); }
 
 
+	public static ArrayObject<String[]> toStringArrayObject(Object array) {
+		ArrayObject ao = ArrayObject.wrap(array);
+		ArrayObject no = ArrayObject.wrap(new String[ao.length()]);
+		ao.copy(0, no, 0, ao.length());
+		return no;
+	}
+	public ArrayObject<String[]> toStringArrayObject() { return toStringArrayObject(this); }
+
+
 	public static ArrayObject toArrayObject(Object old, Object array) {
 		ArrayObject ao = ArrayObject.wrap(old);
 		ArrayObject no = ArrayObject.wrap(array);
@@ -212,14 +220,15 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 	public static ArrayObject<int[]> 					wrap(int[] object) { return null == object ?null: new IntArrayObject(object); }
 	public static ArrayObject<long[]> 					wrap(long[] object) { return null == object ?null: new LongArrayObject(object); }
 	public static ArrayObject<short[]> 					wrap(short[] object) { return null == object ?null: new ShortArrayObject(object); }
+	public static ArrayObject<String[]> 				wrap(String[] object) { return null == object ?null: new StringArrayObject(object); }
 	public static <T extends Object> ArrayObject<T[]> 	wrap(T[] object) { return null == object ?null: new ObjectArrayObject<T> (object); }
 
 
 
 
-	public static <T extends Object> ArrayObject<List<T>> 		wrap(List<T> object) 	{ return null == object ?null: new ListArrayObject<> (object); }
+	public static <T extends Object> ArrayObject<List<T>> 				wrap(List<T> object) 			{ return null == object ?null: new ListArrayObject<> (object); }
 	public static <T extends StringBuilder> ArrayObject<StringBuilder> 	wrap(StringBuilder object) 		{ return null == object ?null: new StringBuilderObject<> (object); }
-	public static <T extends CharSequence> ArrayObject<CharSequence> 	wrap(CharSequence object) 		{ return null == object ?null: new CharSequenceObject<> (object); }
+	public static <T extends CharSequence>  ArrayObject<CharSequence> 	wrap(CharSequence object) 		{ return null == object ?null: new CharSequenceObject<> (object); }
 
 
 	public static ArrayObject 							wrap(Object object) {
@@ -242,6 +251,7 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 				if (object instanceof long[])   	{ return wrap((long[])object); }
 				if (object instanceof short[])  	{ return wrap((short[])object); }
 			} else {
+				if (object instanceof String[]) 	{ return wrap((String[])object); }
 				if (object instanceof Object[]) 	{ return wrap((Object[])object); }
 			}
 		} else {
