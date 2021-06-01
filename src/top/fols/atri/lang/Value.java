@@ -51,4 +51,41 @@ public class Value<T> implements Releasable, Serializable {
     public static <T> Value<T> wrap(T v) {
         return new Value<>(v);
     }
+
+
+
+    public Value<T> from(Value<T> from) {
+        if (null == from) {
+            this.set(null);
+        } else {
+            this.set(from.get());
+        }
+        return this;
+    }
+
+
+
+    public static <T> boolean hasValue(Value<T> value) {
+        return null != value;
+    }
+    public static <T> T get(Value<T> value) {
+        return null == value?null:value.get();
+    }
+
+
+
+
+    public static  Value<Object> NULL() {
+        return new Value<Object>();
+    }
+    public static  Value<Boolean> TRUE() {
+        Value<Boolean> result = new Value<Boolean>();
+        result.set(true);
+        return result;
+    }
+    public static  Value<Boolean> FALSE() {
+        Value<Boolean> result = new Result<>();
+        result.set(false);
+        return result;
+    }
 }

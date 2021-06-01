@@ -1,14 +1,24 @@
 package top.fols.atri.lang;
 
-import top.fols.atri.lang.Value;
-import top.fols.atri.lang.Objects;
+import java.io.Serializable;
 
-public class Result <T, EX extends Throwable> extends Value<T> {
+public class Result <T, EX extends Throwable> extends Value<T> implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+
+
+
+
+	public boolean 			isReturn() 					{ return null == error; }
 
 
 
 	EX error;
+	/**
+	 * will clear value
+	 */
 	public Result<T, EX> setError(EX exception) {
+		super.set(null);
 		this.error = exception;
 		return this;
 	}
@@ -16,9 +26,7 @@ public class Result <T, EX extends Throwable> extends Value<T> {
 	public EX            getError()   { return error; }
 	public EX    		 clearError() { return error = null; }
 
-
-
-	public void thr() throws EX {
+	public void throwError() throws EX {
 		if (isError()) {
 			throw error;
 		}
@@ -38,7 +46,7 @@ public class Result <T, EX extends Throwable> extends Value<T> {
 
 
 	/**
-	 *
+	 * contains exception will  throw
 	 */
 	public T value() throws EX {
 		if (isError()) {
@@ -48,47 +56,114 @@ public class Result <T, EX extends Throwable> extends Value<T> {
 		}
 	}
 
-
-
-
-
-
-
-
-
-	public static <T> boolean isBoolean(Value<T> value) {
-		return null != value && value.get() instanceof Boolean;
-	}
-	public static <T> boolean isTrue(Value<T> value) {
-		return Objects.parseBoolean(value);
+	@Override
+	public boolean release() {
+		// TODO: Implement this method
+		this.set(null);
+		return true;
 	}
 
 
 
-	public static final Value<Boolean> TRUE  = new Value<Boolean>(true) {
-		@Override
-		public boolean release() {
-			// TODO: Implement this method
-			throw new UnsupportedOperationException();
+
+	public Result<T, EX> from(Result<T, EX> from) {
+		if (null == from) {
+			super.set(null);
+			this.setError(null);
+		} else {
+			super.set(from.get());
+			this.setError(from.getError());
 		}
-		@Override
-		public Boolean set(Boolean p1) {
-			// TODO: Implement this method
-			throw new UnsupportedOperationException();
+		return this;
+	}
+
+	public interface Executor<T, EX extends Throwable> {
+		T execute() throws EX;
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	public void execute(Executor<T, EX> executor) {
+		if (!(null == executor)) {
+			try {
+				set(executor.execute());
+			} catch (Throwable e) {
+				setError((EX) e);
+			}
 		}
-	};
-	public static final Value<Boolean> FALSE = new Value<Boolean>(false) {
+	}
+
+
+
+
+
+
+
+
+	public static class Silent<T> extends Result<T, Throwable> implements Serializable {
+		private static final long serialVersionUID = 1L;
+
+
 		@Override
-		public boolean release() {
+		public Silent<T> from(Result<T, Throwable> from) {
 			// TODO: Implement this method
-			throw new UnsupportedOperationException();
+			super.from(from);
+			return this;
 		}
+
 		@Override
-		public Boolean set(Boolean p1) {
+		public void execute(Result.Executor<T, Throwable> executor) {
 			// TODO: Implement this method
-			throw new UnsupportedOperationException();
+			if (!(null == executor)) {
+				try {
+					set(executor.execute());
+				} catch (Throwable e) {
+					setError(e);
+				}
+			}
 		}
-	};
+	}
+
+
+
+
+
+
+
+
+
+	public static boolean isReturn(Result result) {
+		if (null == result) {
+			return false;
+		} else {
+			return result.isReturn();
+		}
+	}
+
+	public static <T> T get(Result<T, ?> result) {
+		if (null == result) {
+			return null;
+		} else {
+			return result.get();
+		}
+	}
+
+
+
+	public static  Result<Object, Throwable> NULL() {
+		return new Result<>();
+	}
+	public static  Result<Boolean, Throwable> TRUE() {
+		Result<Boolean, Throwable> result = new Result<>();
+		result.set(true);
+		return result;
+	}
+	public static  Result<Boolean, Throwable> FALSE() {
+		Result<Boolean, Throwable> result = new Result<>();
+		result.set(false);
+		return result;
+	}
 
 
 }
