@@ -22,8 +22,9 @@ public class Value<T> implements Releasable, Serializable {
     public T get() {
         return this.obj;
     }
-    public T set(T new_obj) {
-        return this.obj = new_obj;
+    public Value<T> set(T new_obj) {
+        this.obj = new_obj;
+        return this;
     }
 
     public int      hashCode() {

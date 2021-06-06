@@ -37,9 +37,10 @@ public class Result <T, EX extends Throwable> extends Value<T> implements Serial
 	 * will clear error
 	 */
 	@Override
-	public T set(T value) {
+	public Result<T, EX> set(T value) {
 		this.clearError();
-		return super.set(value);
+		super.set(value);
+		return this;
 	}
 
 

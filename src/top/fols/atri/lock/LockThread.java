@@ -45,7 +45,7 @@ public class LockThread {
 			@Override
 			public R invoke(Lock param) {
 				try {
-					return rt.set(runnable.invoke(param));
+					return rt.set(runnable.invoke(param)).get();
 				} catch (Throwable e) {
 					ex.set(e);
 					return null;
