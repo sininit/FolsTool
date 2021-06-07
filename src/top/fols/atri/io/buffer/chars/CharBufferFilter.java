@@ -2,6 +2,7 @@ package top.fols.atri.io.buffer.chars;
 
 
 import top.fols.atri.io.buffer.BufferFilter;
+import top.fols.atri.io.buffer.bytes.ByteBufferFilter;
 
 public class CharBufferFilter extends BufferFilter<char[]> {
 	
@@ -21,7 +22,29 @@ public class CharBufferFilter extends BufferFilter<char[]> {
 		// TODO: Implement this method
 		return array.length;
 	}
-	
+
+
+	@Override
+	public CharBufferFilter clone() {
+		CharBufferFilter instance = new CharBufferFilter();
+		instance.separators = separators.clone();
+		return instance;
+	}
+
+	static final CharBufferFilter READ_LINE_FILTER = new CharBufferFilter() {{
+		this.addSeparator(new char[]{'\r', '\n'});
+		this.addSeparator(new char[]{'\r'});
+		this.addSeparator(new char[]{'\n'});
+	}
+		@Override
+		protected boolean accept(int last, int search, char[] split, boolean readEnd) {
+			return super.accept(last, search, split, readEnd);
+		}
+	};
+	public static CharBufferFilter getReadLineFilter() {
+		return READ_LINE_FILTER.clone();
+	}
+
 
 	public void addSeparator(String separator) {
 		// TODO: Implement this method

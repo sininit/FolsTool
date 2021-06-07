@@ -1,6 +1,7 @@
 package top.fols.atri.lang;
 
 import top.fols.atri.io.ByteBufferOutputStream;
+import top.fols.atri.io.buffer.BufferFilter;
 import top.fols.atri.io.buffer.bytes.ByteBufferFilter;
 import top.fols.atri.io.buffer.bytes.ByteBufferOperate;
 import top.fols.box.io.base.XByteArrayOutputStream;
@@ -365,16 +366,10 @@ public class ProcessExecutor {
 
 
 
-    static final ByteBufferFilter READ_LINE_FILTER = new ByteBufferFilter() {{
-            this.addSeparator(new byte[]{'\r', '\n'});
-            this.addSeparator(new byte[]{'\r'});
-            this.addSeparator(new byte[]{'\n'});
-        }
-        @Override
-        protected boolean accept(int last, int search, byte[] split, boolean readEnd) {
-            return super.accept(last, search, split, readEnd);
-        }
-    };
+    static final ByteBufferFilter getReadLineFilter() {
+        return ByteBufferFilter.getReadLineFilter();
+    }
+
 
     public static class ProcessObject {
         ProcessExecutor processExecutor;
@@ -581,6 +576,8 @@ public class ProcessExecutor {
             private ByteBufferOperate buffer;
             private T inputStream;
 
+            BufferFilter<byte[]> READ_LINE_FILTER = getReadLineFilter();
+
             public ByteBufferInputStream(T inputStream) {
                 this.inputStream = inputStream;
                 this.buffer = new ByteBufferOperate() {
@@ -683,7 +680,9 @@ public class ProcessExecutor {
     public static boolean isErrorExit(int exitValue) { return exitValue != 0; }
 
 
-    public static int getProcessResult(java.lang.Process proc, Charset charset, OutputStream resultOutput, OutputStream errorOutput) throws IOException, InterruptedException {
+    public static int getProcessResult(java.lang.Process proc, OutputStream resultOutput, OutputStream errorOutput) throws IOException, InterruptedException {
+        BufferFilter<byte[]> READ_LINE_FILTER = getReadLineFilter();
+
         InputStream in = proc.getInputStream();
         InputStream error = proc.getErrorStream();
 
@@ -729,7 +728,7 @@ public class ProcessExecutor {
     public static byte[] getProcessResultBytes(java.lang.Process process, Charset charset) throws IOException, InterruptedException {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         ByteArrayOutputStream error = new ByteArrayOutputStream();
-        int exitValue = getProcessResult(process, charset, result, error);
+        int exitValue = getProcessResult(process, result, error);
         if (isErrorExit(exitValue) && error.size() > 0) {
             String errorMessage = new String(error.toByteArray(), charset);
             throw new RuntimeException(errorMessage);
@@ -739,7 +738,7 @@ public class ProcessExecutor {
     public static String getProcessResultString(java.lang.Process process, Charset charset) throws IOException, InterruptedException {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         ByteArrayOutputStream error = new ByteArrayOutputStream();
-        int exitValue = getProcessResult(process, charset, result, error);
+        int exitValue = getProcessResult(process, result, error);
         if (isErrorExit(exitValue) && exitValue != 0) {
             String errorMessage = new String(error.toByteArray(), charset);
             throw new RuntimeException(errorMessage);
