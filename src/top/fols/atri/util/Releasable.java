@@ -1,8 +1,9 @@
 package top.fols.atri.util;
 
-import java.io.IOException;
+public interface Releasable extends ReleasableIO {
+	@Override 
+	public boolean release();
 
-public interface Releasable {
-    boolean release() throws IOException;
-    boolean released() throws IOException;
+	@Override
+	public boolean released();
 }

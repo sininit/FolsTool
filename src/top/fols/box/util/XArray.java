@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 import top.fols.atri.array.ArrayObject;
+import top.fols.atri.lang.Arrayz;
 import top.fols.atri.lang.Objects;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.lang.XClass;
@@ -315,11 +316,7 @@ public class XArray {
 	 * getDimensional(int[0]); >> 1 getDimensional(int[0][0]); >> 2
 	 **/
 	public static int getDimensional(Object Object) {
-		Class originalArray = Object.getClass();
-		if (!originalArray.isArray()) {
-			return 0;
-		}
-		return getDimensionalFromClassCanonicalName(originalArray.getCanonicalName());
+		return Arrayz.space(Object);
 	}
 
 	public static int getDimensionalFromClassCanonicalName(String name) {

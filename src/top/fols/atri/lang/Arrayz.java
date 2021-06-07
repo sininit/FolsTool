@@ -375,5 +375,101 @@ public class Arrayz {
 
 
 
+	public static int space(Object a) {
+		if (null == a) {
+			return 0;
+		} else {
+			int space = 0;
+			Class type = a.getClass();
+			do {
+				if (type.isArray()) { space++; }
+			} while (null != (type = type.getComponentType()));
+			return space;
+		}
+	}
+
+	public boolean isArray(Object object) {
+		return null != object && object.getClass().isArray();
+	}
+	public boolean isPrimitiveArray(Object object) {
+		if (null == object) { return false; }
+		Class<?> 		 componentClass = object.getClass().getComponentType();
+		return   null != componentClass && componentClass.isPrimitive();
+	}
+	public boolean isObjectArray(Object object) {
+		if (null == object) { return false; }
+		Class<?> 		 componentClass = object.getClass().getComponentType();
+		return   null != componentClass && componentClass.isPrimitive() == false;
+	}
+
+
+
+	public static <T> T copyOf(T src) {
+		if (null == src) { return null; }
+		Class aClass = src.getClass();
+		if (aClass.isArray()) {
+			if (src instanceof byte[]) {
+				return (T) ((byte[])   src).clone();
+			} else if (src instanceof short[]) {
+				return (T) ((short[])  src).clone();
+			} else if (src instanceof int[]) {
+				return (T) ((int[])    src).clone();
+			} else if (src instanceof long[]) {
+				return (T) ((long[])   src).clone();
+			} else if (src instanceof char[]) {
+				return (T) ((char[])   src).clone();
+			} else if (src instanceof float[]) {
+				return (T) ((float[])  src).clone();
+			} else if (src instanceof double[]) {
+				return (T) ((double[]) src).clone();
+			} else if (src instanceof boolean[]) {
+				return (T) ((boolean[])src).clone();
+			} else {
+				Object[] a =  (Object[]) src;
+				Object[] na = (Object[]) Array.newInstance(aClass.getComponentType(), a.length);
+				for (int i = 0; i < a.length; i++) {
+					na[i] = copyOf(a[i]);
+				}
+				return (T) na;
+			}
+		} else {
+			return src;
+		}
+	}
+
+
+
+
+
+	public static String toString(Object a) {
+		if (a == null)
+			return "null";
+		Class aClass = a.getClass();
+		if (aClass.isArray()) {
+			if (aClass == byte[].class) {
+				return (Arrays.toString((byte[]) a));
+			} else if (aClass == short[].class) {
+				return (Arrays.toString((short[]) a));
+			} else if (aClass == int[].class) {
+				return (Arrays.toString((int[]) a));
+			} else if (aClass == long[].class) {
+				return (Arrays.toString((long[]) a));
+			} else if (aClass == char[].class) {
+				return (Arrays.toString((char[]) a));
+			} else if (aClass == float[].class) {
+				return (Arrays.toString((float[]) a));
+			} else if (aClass == double[].class) {
+				return (Arrays.toString((double[]) a));
+			} else if (aClass == boolean[].class) {
+				return (Arrays.toString((boolean[]) a));
+			} else { // a is an array of object references
+				return Arrays.deepToString((Object[])a);
+			}
+		} else {  // a is non-null and not an array
+			return String.valueOf(a);
+		}
+	}
+
+
 
 }
