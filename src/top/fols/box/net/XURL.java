@@ -1,14 +1,14 @@
 package top.fols.box.net;
 
-import java.io.Serializable;
 
+import java.io.Serializable;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.lang.Value;
 import top.fols.box.io.os.XFile;
 
 /**
  * it does not convert absolute addresses
- * 
+ *
  * @author GXin https://github.com/xiaoxinwangluo
  */
 public class XURL implements Serializable {
@@ -110,6 +110,10 @@ public class XURL implements Serializable {
 
     public static final String REF_SYMBOL = "#";
 
+
+
+
+
     private String oUrl; // origin url
 
     private String uProtocol; // null / protocol(http/https/ftp/...)
@@ -120,27 +124,20 @@ public class XURL implements Serializable {
     private String uPathAndParam; // /(dir/filename)(?param=value&multiplyParam=value)
     private String uRef; // null / ref
 
-    private static class Cache<T extends Object> extends Value<T> {
-        private Cache(T object) {
-            super(object);
-        }
 
-        public static <T extends Object> Cache<T> wrap(T object) {
-            return new Cache<T>(object);
-        }
-    }
 
-    private transient Cache<String> cAuthority = null; // (user@)host(:port)
-    private transient Cache<String> cHost = null; // host
-    private transient Cache<String> cPort = null; // null / port
-    private transient Cache<String> cFilePath = null; // /(dir/filename)
-    private transient Cache<String> cDirName = null; // dirname
-    private transient Cache<String> cFileName = null; // filename
-    private transient Cache<String> cFileNameAndParam = null; // filename(?param=value&multiplyParam=value)
-    private transient Cache<String> cParam = null; // null / param=value&multiplyParam=value
+    transient Value<String> cAuthority; // (user@)host(:port)
+    transient Value<String> cHost; // host
+    transient Value<String> cPort; // null / port
+    transient Value<String> cFilePath; // /(dir/filename)
+    transient Value<String> cDirName; // dirname
+    transient Value<String> cFileName; // filename
+    transient Value<String> cFileNameAndParam; // filename(?param=value&multiplyParam=value)
+    transient Value<String> cParam; // null / param=value&multiplyParam=value
 
-    private transient Cache<String> cAbsoluteUrl = null; // absoluteURL
-    private transient Cache<String> cFormatUrl = null; // formatURL
+    transient Value<String> cAbsoluteUrl; // absoluteURL
+    transient Value<String> cFormatUrl; // formatURL
+
 
     /**
      * "@return create the parameter URL for this instance"
@@ -156,7 +153,7 @@ public class XURL implements Serializable {
         if (null != this.cFormatUrl) {
             return this.cFormatUrl.get();
         }
-        return (this.cFormatUrl = XURL.Cache.wrap(createURL(this.getProtocol(), this.getUser(), this.getHost(),
+        return (this.cFormatUrl = Value.wrap(createURL(this.getProtocol(), this.getUser(), this.getHost(),
                 this.getPort(), this.getFilePath(), this.getParam(), this.getRef()))).get();
     }
 
@@ -167,9 +164,9 @@ public class XURL implements Serializable {
         if (null != this.cAbsoluteUrl) {
             return this.cAbsoluteUrl.get();
         }
-        return (this.cAbsoluteUrl = XURL.Cache.wrap(
-            createURL(null == this.getProtocol() ? ("" + null) : this.getProtocol(), this.getUser(), this.getHost(),
-                this.getPort(), XURL.formatPath(this.getFilePath()), this.getParam(), this.getRef()))).get();
+        return (this.cAbsoluteUrl = Value.wrap(
+                createURL(null == this.getProtocol() ? ("" + null) : this.getProtocol(), this.getUser(), this.getHost(),
+                        this.getPort(), XURL.formatPath(this.getFilePath()), this.getParam(), this.getRef()))).get();
     }
 
     /**
@@ -187,13 +184,13 @@ public class XURL implements Serializable {
             return this.cHost.get();
         }
         String newHost;
-        int start = this.getHostAndPort().indexOf(XURL.PORT_SYMBOL);
+        int start = this.getHostAndPort().lastIndexOf(XURL.PORT_SYMBOL);
         if (start > -1) {
             newHost = this.getHostAndPort().substring(0, start);
         } else {
             newHost = this.getHostAndPort();
         }
-        return (this.cHost = XURL.Cache.wrap(newHost)).get();
+        return (this.cHost = Value.wrap(newHost)).get();
     }
 
     /**
@@ -212,7 +209,7 @@ public class XURL implements Serializable {
             result = str;
         }
 
-        return (this.cPort = XURL.Cache.wrap(result)).get();
+        return (this.cPort = Value.wrap(result)).get();
     }
 
     /**
@@ -296,7 +293,7 @@ public class XURL implements Serializable {
         if ((start = tmp.indexOf(XURL.PARAM_SYMBOL)) > -1) {
             tmp = tmp.substring(0, start);
         }
-        return (this.cFilePath = XURL.Cache.wrap(tmp)).get();
+        return (this.cFilePath = Value.wrap(tmp)).get();
     }
 
     /**
@@ -321,7 +318,7 @@ public class XURL implements Serializable {
         if ((start = tmp.lastIndexOf(XURL.PATH_SEPARATOR)) > -1) {
             tmp = tmp.substring(start + XURL.PATH_SEPARATOR.length(), tmp.length());
         }
-        return (this.cFileName = XURL.Cache.wrap(tmp)).get();
+        return (this.cFileName = Value.wrap(tmp)).get();
     }
 
     /**
@@ -345,7 +342,7 @@ public class XURL implements Serializable {
                 tmp = tmp.substring(start + XURL.PATH_SEPARATOR.length(), tmp.length());
             }
         }
-        return (this.cFileNameAndParam = XURL.Cache.wrap(tmp)).get();
+        return (this.cFileNameAndParam = Value.wrap(tmp)).get();
     }
 
     /**
@@ -366,19 +363,19 @@ public class XURL implements Serializable {
         } else {
             dirname = "";
         }
-        return (this.cDirName = XURL.Cache.wrap(dirname)).get();
+        return (this.cDirName = Value.wrap(dirname)).get();
     }
 
     /**
      * get parent dir
-     * 
+     *
      * example: "http://test:80/gvv/e/ec/cc/gg/sss/",
      * "http://test:80/gvv/e/ec/cc/gg/"
      * <p>
      * example: "http://test:80/a", "http://test:80/"
      * <p>
      * example: "http://test:80", "http://test:80/"
-     * 
+     *
      * @return #ref
      */
     public XURL getParent() {
@@ -419,7 +416,7 @@ public class XURL implements Serializable {
             buf.append(this.getUser()).append(XURL.USER_SYMBOL);
         }
         buf.append(this.getHostAndPort());
-        return (this.cAuthority = XURL.Cache.wrap(buf.toString())).get();
+        return (this.cAuthority = Value.wrap(buf.toString())).get();
     }
 
     /**
@@ -441,7 +438,7 @@ public class XURL implements Serializable {
         } else {
             param = null;
         }
-        return (this.cParam = XURL.Cache.wrap(param)).get();
+        return (this.cParam = Value.wrap(param)).get();
     }
 
     /**
@@ -488,7 +485,7 @@ public class XURL implements Serializable {
         int paramSplitCharIndex = spec.indexOf(XURL.PARAM_SYMBOL);
         if (paramSplitCharIndex > -1 && (paramSplitCharIndex < split || split <= -1)) {
             spec = new StringBuilder(spec.substring(0, paramSplitCharIndex)).append(XURL.PATH_SEPARATOR_CHAR)
-                .append(spec.substring(paramSplitCharIndex, spec.length())).toString();
+                    .append(spec.substring(paramSplitCharIndex, spec.length())).toString();
         } else {
             if (split <= -1) {
                 spec = new StringBuilder(spec).append(XURL.PATH_SEPARATOR).toString();
@@ -504,7 +501,7 @@ public class XURL implements Serializable {
 
         // deal host and port
         this.uHostAndPort = spec.substring(userIndex <= -1 ? 0 : userIndex + XURL.USER_SYMBOL.length(),
-            pathSeparatorIndex);// >>ip.cn:8080
+                pathSeparatorIndex);// >>ip.cn:8080
 
         StringBuilder buf = new StringBuilder();
         if (null != this.uProtocol) {
@@ -529,17 +526,17 @@ public class XURL implements Serializable {
         // deal dir
         this.uDir = spec.substring(0, spec.lastIndexOf(XURL.PATH_SEPARATOR) + XURL.PATH_SEPARATOR.length()); // /a/b/c/
 
-        this.cHost = null;
-        this.cPort = null;
-        this.cFilePath = null;
-        this.cFileNameAndParam = null;
-        this.cFileName = null;
-        this.cDirName = null;
-        this.cAuthority = null;
-        this.cParam = null;
-
-        this.cFormatUrl = null;
-        this.cAbsoluteUrl = null;
+//        this.cHost = null;
+//        this.cPort = null;
+//        this.cFilePath = null;
+//        this.cFileNameAndParam = null;
+//        this.cFileName = null;
+//        this.cDirName = null;
+//        this.cAuthority = null;
+//        this.cParam = null;
+//
+//        this.cFormatUrl = null;
+//        this.cAbsoluteUrl = null;
 
         spec = null;
     }
@@ -560,9 +557,10 @@ public class XURL implements Serializable {
     }
 
 
+
+
     public static String formatPath(String path) {
         return XFile.getCanonicalRelativePath(path, PATH_SEPARATOR_CHAR);
     }
 
 }
-
