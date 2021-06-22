@@ -1,6 +1,8 @@
 package top.fols.box.net;
 
 import top.fols.atri.lang.Strings;
+import top.fols.atri.net.MessageHeader;
+import top.fols.atri.net.URLConnections;
 import top.fols.box.io.XStream;
 
 import java.io.IOException;
@@ -12,7 +14,7 @@ import java.util.List;
 public class XURLConnectionMessageHeaderTest {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         URLConnection urlc =
-                new XURLConnectionTool.GetRequest("http://www.baidu.com").getURLConnection();
+                new URLConnections.GetRequest("http://www.baidu.com").getURLConnection();
 
         urlc.addRequestProperty("Host", "1");
         urlc.addRequestProperty("Host", "2");
@@ -27,9 +29,9 @@ public class XURLConnectionMessageHeaderTest {
         System.out.println(Strings.join(urlc.getRequestProperties(), "\n"));
         System.out.println();
 
-        System.out.println(Strings.join(new XURLConnectionTool.GetRequest("https://m.baidu.com/?from=844b&vit=fps").getURLConnection().getHeaderFields().get("set-cookie"), "\n"));
+        System.out.println(Strings.join(new URLConnections.GetRequest("https://m.baidu.com/?from=844b&vit=fps").getURLConnection().getHeaderFields().get("set-cookie"), "\n"));
         System.out.println();
-        System.out.println(Strings.join(new XURLConnectionTool.GetRequest("https://m.baidu.com/?from=844b&vit=fps").getURLConnection().getHeaderField("set-cookie"), "\n"));
+        System.out.println(Strings.join(new URLConnections.GetRequest("https://m.baidu.com/?from=844b&vit=fps").getURLConnection().getHeaderField("set-cookie"), "\n"));
         System.out.println();
         System.out.println();
 
@@ -40,9 +42,9 @@ public class XURLConnectionMessageHeaderTest {
 
 
 
-        XURLConnectionMessageHeader xbk = (XURLConnectionMessageHeader) XStream.ObjectTool.toObject(
+        MessageHeader xbk = (MessageHeader) XStream.ObjectTool.toObject(
                 XStream.ObjectTool.toByteArray(
-                        new XURLConnectionMessageHeader()
+                        new MessageHeader()
                                 .putAll(
                                         "Aaaa : 1" + "\n"
                                                 + "aaa: 2" + "\n"

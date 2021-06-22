@@ -7,10 +7,15 @@ import java.util.Map;
 import java.util.Set;
 
 import top.fols.atri.lang.Strings;
+import top.fols.atri.net.URLParams;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.util.encode.XURLEncoder;
 import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 
+/**
+ * @see URLParams
+ */
+@Deprecated()
 public class XURLParam implements Serializable, XInterfaceGetInnerMap {
     private static final long serialVersionUID = 1L;
     

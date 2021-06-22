@@ -26,7 +26,7 @@ import top.fols.box.io.XStream;
  * simple socket tool
  */
 public class XSocket {
-	public static final String SSLCONTEXT_PROTOCOL_SSL = "SSL";
+	public static final String SSL_CONTEXT_PROTOCOL_SSL = "SSL";
 	
 	
 	
@@ -63,7 +63,7 @@ public class XSocket {
 	 * 获取上下文
 	 */
 	public static SSLContext createSSLContext() throws NoSuchAlgorithmException, KeyManagementException {
-		return createSSLContext(XSocket.SSLCONTEXT_PROTOCOL_SSL);
+		return createSSLContext(XSocket.SSL_CONTEXT_PROTOCOL_SSL);
 	}
 	public static SSLContext createSSLContext(String protocol) throws NoSuchAlgorithmException, KeyManagementException {
 		TrustManager myTrustManager[] = { new MySimpleTrustManager() };
@@ -72,7 +72,7 @@ public class XSocket {
 
 
 	public static SSLContext createSSLContext(KeyManager[] km, TrustManager[] tm) throws NoSuchAlgorithmException, KeyManagementException {
-		return createSSLContext(XSocket.SSLCONTEXT_PROTOCOL_SSL, km, tm);
+		return createSSLContext(XSocket.SSL_CONTEXT_PROTOCOL_SSL, km, tm);
 	}
 	public static SSLContext createSSLContext(String protocol, KeyManager[] km, TrustManager[] tm) throws NoSuchAlgorithmException, KeyManagementException {
 //		File keystore = new File("/root/IdeaProjects/JohnTest/keys/https.keystore");
@@ -182,27 +182,27 @@ public class XSocket {
 		try {
 			s.shutdownInput();
 		} catch (Throwable e) {
-			b = b & false;
+			b = false;
 		}
 		try {
 			s.shutdownOutput();
 		} catch (Throwable e) {
-			b = b & false;
+			b = false;
 		}
 		try {
 			XStream.tryClose(s.getInputStream());
 		} catch (Throwable e) {
-			b = b & false;
+			b = false;
 		}
 		try {
 			XStream.tryClose(s.getOutputStream());
 		} catch (Throwable e) {
-			b = b & false;
+			b = false;
 		}
 		try {
 			XStream.tryClose(s);
 		} catch (Throwable e) {
-			b = b & false;
+			b = false;
 		}
 		return b;
 	}

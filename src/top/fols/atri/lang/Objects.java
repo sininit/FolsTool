@@ -386,12 +386,19 @@ public class Objects {
     public static String toString(Object object) {
         if (null == object) {
             return String.valueOf((Object) null);
-        } else if (object instanceof char[]) {
-            return new String((char[])object);
-        } else if (object instanceof Throwable) {
+        }
+//        else if (object instanceof char[]) {
+//            return new String((char[])object);
+//        }
+        else if (object instanceof Throwable) {
             return Throwables.toStrings((Throwable) object);
         }
         return object.toString();
     }
 
+
+
+    public static int hashCode(Object object) {
+        return null == object?0:object.hashCode();
+    }
 }

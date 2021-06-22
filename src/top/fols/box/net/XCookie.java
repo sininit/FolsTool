@@ -2,6 +2,7 @@ package top.fols.box.net;
 
 
 import top.fols.atri.lang.Strings;
+import top.fols.atri.net.MessageHeader;
 
 import java.net.URLConnection;
 import java.util.LinkedHashMap;
@@ -17,7 +18,7 @@ public class XCookie {
 
     public static Map<String, String> getHeaderCookieToMap(URLConnection urlc) {
         Map<String, String> val = new LinkedHashMap<>();
-        XURLConnectionMessageHeader hm = new XURLConnectionMessageHeader(urlc.getHeaderFields());
+        MessageHeader hm = new MessageHeader(urlc.getHeaderFields());
         val.putAll(XCookie.cookieValueToMap(hm.getInnerValueList(XCookie.HEADER_KEY_COOKIE)));
         val.putAll(XCookie.cookieValueToMap(hm.getInnerValueList(XCookie.HEADER_KEY_SET_COOKIE)));
         return val;

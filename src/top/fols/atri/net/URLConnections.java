@@ -1,4 +1,4 @@
-package top.fols.box.net;
+package top.fols.atri.net;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -14,18 +14,18 @@ import top.fols.box.io.base.XByteArrayOutputStream;
 import top.fols.box.io.base.XInputStreamFixedLength;
 import top.fols.box.time.XTimeTool;
 
-public class XURLConnectionTool {
+public class URLConnections {
 
-	public static final String HTTP_REQUEST_METHOD_GET = "GET";
-	public static final String HTTP_REQUEST_METHOD_POST = "POST";
-	public static final String HTTP_REQUEST_METHOD_HEAD = "HEAD";
-	public static final String HTTP_REQUEST_METHOD_OPTIONS = "OPTIONS";
-	public static final String HTTP_REQUEST_METHOD_PUT = "PUT";
-	public static final String HTTP_REQUEST_METHOD_DELETE = "DELETE";
-	public static final String HTTP_REQUEST_METHOD_TRACE = "TRACE";
+	public static final String HTTP_REQUEST_METHOD_GET 		= "GET";
+	public static final String HTTP_REQUEST_METHOD_POST 	= "POST";
+	public static final String HTTP_REQUEST_METHOD_HEAD 	= "HEAD";
+	public static final String HTTP_REQUEST_METHOD_OPTIONS 	= "OPTIONS";
+	public static final String HTTP_REQUEST_METHOD_PUT 		= "PUT";
+	public static final String HTTP_REQUEST_METHOD_DELETE 	= "DELETE";
+	public static final String HTTP_REQUEST_METHOD_TRACE 	= "TRACE";
 
 	public static final int DEFAULT_CONNECT_TIMEOUT = 12 * (int)XTimeTool.time_1s;
-	public static final int DEFAULT_READ_TIMEOUT = 6 * (int)XTimeTool.time_1s;
+	public static final int DEFAULT_READ_TIMEOUT 	= 6 *  (int)XTimeTool.time_1s;
 
 	public static class URLConnectionUtil implements Closeable {
 
@@ -64,10 +64,10 @@ public class XURLConnectionTool {
 		}
 
 		public URLConnectionUtil messageHeader(String Content) {
-			return this.messageHeader(new XURLConnectionMessageHeader(Content));
+			return this.messageHeader(new MessageHeader(Content));
 		}
 
-		public URLConnectionUtil messageHeader(XURLConnectionMessageHeader a) {
+		public URLConnectionUtil messageHeader(MessageHeader a) {
 			a.setToURLConnection(this.con);
 			return this;
 		}
@@ -208,7 +208,7 @@ public class XURLConnectionTool {
 
 		public GetRequest(HttpURLConnection con) throws ProtocolException {
 			super(con);
-			super.setRequestMethod(XURLConnectionTool.HTTP_REQUEST_METHOD_GET);
+			super.setRequestMethod(URLConnections.HTTP_REQUEST_METHOD_GET);
 		}
 	}
 
@@ -219,7 +219,7 @@ public class XURLConnectionTool {
 
 		public PostRequest(HttpURLConnection con) throws ProtocolException {
 			super(con);
-			super.setRequestMethod(XURLConnectionTool.HTTP_REQUEST_METHOD_POST);
+			super.setRequestMethod(URLConnections.HTTP_REQUEST_METHOD_POST);
 			super.con.setDoInput(true);
 			super.con.setDoOutput(true);
 		}

@@ -1,4 +1,4 @@
-package top.fols.box.net;
+package top.fols.atri.net;
 
 import java.io.Serializable;
 import java.net.URLConnection;
@@ -23,8 +23,15 @@ import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
  *
  */
 
-public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetInnerMap {
+@SuppressWarnings("unchecked")
+public class MessageHeader implements Serializable, XInterfaceGetInnerMap<IgnoreCaseKey<String>, List<String>> {
     private static final long serialVersionUID = 1L;
+
+
+
+    public static final XBlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_COOKIE = XBlurryKey.IgnoreCaseKey.getDefaultFactory().newKey("Cookie");
+    public static final XBlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_SET_COOKIE = XBlurryKey.IgnoreCaseKey.getDefaultFactory().newKey("Set-Cookie");
+
 
 
     /**
@@ -37,7 +44,7 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
     public 	static final String 		LINE_SEPARATOR = new String(XStaticFixedValue.Chars_NextLineRN());
     public 	static final char 			ASSIGNMENT_SYMBOL_CHAR = ':';
 
-    private static final IgnoreCaseKey KeyFactory = XBlurryKey.IGNORE_CASE_KEY_FACTORY;
+    private static final IgnoreCaseKey<String> KeyFactory = XBlurryKey.IGNORE_CASE_KEY_FACTORY;
 
 
 
@@ -153,15 +160,15 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
         return this.headerValue.keySet();
     }
 
-    public XURLConnectionMessageHeader reset() {
+    public MessageHeader reset() {
         this.headerValue.clear();
         return this;
     }
 
-    public XURLConnectionMessageHeader remove(String key) {
+    public MessageHeader remove(String key) {
         return this.remove(KeyFactory.newKey(key));
     }
-    public XURLConnectionMessageHeader remove(IgnoreCaseKey<String> key) {
+    public MessageHeader remove(IgnoreCaseKey<String> key) {
         this.headerValue.remove(key);
         return this;
     }
@@ -210,13 +217,13 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
      * ^key: value\n ^key2: value2\n ^...
      */
     private static final char[][] LINE_SEPARATOR_ALL = new char[][]{XStaticFixedValue.Chars_NextLineRN(), XStaticFixedValue.Chars_NextLineR(), XStaticFixedValue.Chars_NextLineN()};
-    private static void dealMultiLineMessage0(XURLConnectionMessageHeader m, String headerMessage, boolean putValue) {
+    private static void dealMultiLineMessage0(MessageHeader m, String headerMessage, boolean putValue) {
         XStringReader rowStreanm = new XStringReader(headerMessage);
         char lines[];
-        char splitchar = XURLConnectionMessageHeader.ASSIGNMENT_SYMBOL_CHAR;
+        char splitchar = MessageHeader.ASSIGNMENT_SYMBOL_CHAR;
 
 
-        XURLConnectionMessageHeader properties = new XURLConnectionMessageHeader();
+        MessageHeader properties = new MessageHeader();
 
         while (null != (lines = rowStreanm.readLine(LINE_SEPARATOR_ALL, false))) {
             if (lines.length == 0) {
@@ -253,20 +260,20 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
 
 
 
-    public XURLConnectionMessageHeader() {
+    public MessageHeader() {
         this((String) null);
     }
-    public XURLConnectionMessageHeader(String ua) {
+    public MessageHeader(String ua) {
         if (null != ua) {
             this.addAll(ua);
         }
     }
-    public XURLConnectionMessageHeader(String... ua) {
+    public MessageHeader(String... ua) {
         if (null != ua) {
             this.addAll(ua);
         }
     }
-    public XURLConnectionMessageHeader(Map<String, List<String>> ua) {
+    public MessageHeader(Map<String, List<String>> ua) {
         if (null != ua) {
             this.addAll(ua);
         }
@@ -280,29 +287,29 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
 
 
     @XAnnotations("set")
-    public XURLConnectionMessageHeader put(String k, String v) {
+    public MessageHeader put(String k, String v) {
         this.setValue0(k, v);
         return this;
     }
-    public XURLConnectionMessageHeader put(IgnoreCaseKey<String> k, String v) {
+    public MessageHeader put(IgnoreCaseKey<String> k, String v) {
         this.setValue0(k, v);
         return this;
     }
 
-    public XURLConnectionMessageHeader put(String k, List<String> v) {
+    public MessageHeader put(String k, List<String> v) {
         this.setValueList0(k, null == v ?null: new ArrayList<>(v));
         return this;
     }
-    public XURLConnectionMessageHeader put(IgnoreCaseKey<String> k, List<String> v) {
+    public MessageHeader put(IgnoreCaseKey<String> k, List<String> v) {
         this.setValueList0(k, null == v ?null: new ArrayList<>(v));
         return this;
     }
 
     @XAnnotations("deal multi line able")
-    public XURLConnectionMessageHeader putAll(String... multiLineContent) {
+    public MessageHeader putAll(String... multiLineContent) {
         StringBuilder buf = new StringBuilder();
         for (String s : multiLineContent) {
-            buf.append(s).append(XURLConnectionMessageHeader.LINE_SEPARATOR);
+            buf.append(s).append(MessageHeader.LINE_SEPARATOR);
         }
         this.putAll(buf.toString());
         buf = null;
@@ -310,19 +317,19 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
     }
 
     @XAnnotations("deal multi line able")
-    public XURLConnectionMessageHeader putAll(String multiLineContent) {
-        XURLConnectionMessageHeader.dealMultiLineMessage0(this, multiLineContent, true);
+    public MessageHeader putAll(String multiLineContent) {
+        MessageHeader.dealMultiLineMessage0(this, multiLineContent, true);
         return this;
     }
 
-    public XURLConnectionMessageHeader putAll(XURLConnectionMessageHeader ua) {
+    public MessageHeader putAll(MessageHeader ua) {
         if (null != ua) {
             return this.putAllKeyMap(ua.getInnerMap());
         }
         return this;
     }
 
-    public XURLConnectionMessageHeader putAll(Map<String, List<String>> ua) {
+    public MessageHeader putAll(Map<String, List<String>> ua) {
         if (null != ua) {
             for (String key : ua.keySet()) {
                 String k = key;
@@ -332,7 +339,7 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
         }
         return this;
     }
-    public XURLConnectionMessageHeader putAllKeyMap(Map<IgnoreCaseKey<String>, List<String>> ua) {
+    public MessageHeader putAllKeyMap(Map<IgnoreCaseKey<String>, List<String>> ua) {
         if (null != ua) {
             for (IgnoreCaseKey<String> key : ua.keySet()) {
                 List<String> values = ua.get(key);
@@ -348,48 +355,48 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
 
 
     @XAnnotations("add")
-    public XURLConnectionMessageHeader add(String k, String v) {
+    public MessageHeader add(String k, String v) {
         this.addValue0(k, v);
         return this;
     }
-    public XURLConnectionMessageHeader add(IgnoreCaseKey<String> k, String v) {
+    public MessageHeader add(IgnoreCaseKey<String> k, String v) {
         this.addValue0(k, v);
         return this;
     }
 
-    public XURLConnectionMessageHeader addAll(String k, List<String> v) {
+    public MessageHeader addAll(String k, List<String> v) {
         this.addValueList0(k, v);
         return this;
     }
-    public XURLConnectionMessageHeader addAll(IgnoreCaseKey<String> k, List<String> v) {
+    public MessageHeader addAll(IgnoreCaseKey<String> k, List<String> v) {
         this.addValueList0(k, v);
         return this;
     }
 
     @XAnnotations("deal multi line able")
-    public XURLConnectionMessageHeader addAll(String... Content) {
+    public MessageHeader addAll(String... Content) {
         StringBuilder buf = new StringBuilder();
         for (String s : Content) {
-            buf.append(s).append(XURLConnectionMessageHeader.LINE_SEPARATOR);
+            buf.append(s).append(MessageHeader.LINE_SEPARATOR);
         }
         this.addAll(buf.toString());
         return this;
     }
 
     @XAnnotations("deal multi line able")
-    public XURLConnectionMessageHeader addAll(String Content) {
-        XURLConnectionMessageHeader.dealMultiLineMessage0(this, Content, false);
+    public MessageHeader addAll(String Content) {
+        MessageHeader.dealMultiLineMessage0(this, Content, false);
         return this;
     }
 
-    public XURLConnectionMessageHeader addAll(XURLConnectionMessageHeader ua) {
+    public MessageHeader addAll(MessageHeader ua) {
         if (null != ua) {
             return this.addAllKeyMap(ua.getInnerMap());
         }
         return this;
     }
 
-    public XURLConnectionMessageHeader addAll(Map<String, List<String>> ua) {
+    public MessageHeader addAll(Map<String, List<String>> ua) {
         if (null != ua) {
             for (String key : ua.keySet()) {
                 String k = key;
@@ -399,7 +406,7 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
         }
         return this;
     }
-    public XURLConnectionMessageHeader addAllKeyMap(Map<IgnoreCaseKey<String>, List<String>> ua) {
+    public MessageHeader addAllKeyMap(Map<IgnoreCaseKey<String>, List<String>> ua) {
         if (null != ua) {
             for (IgnoreCaseKey<String> key : ua.keySet()) {
                 List<String> values = ua.get(key);
@@ -452,10 +459,10 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
 
 
 
-    public XURLConnectionMessageHeader removeValue(String key, String value) {
+    public MessageHeader removeValue(String key, String value) {
         return this.removeValue(KeyFactory.newKey(key), value);
     }
-    public XURLConnectionMessageHeader removeValue(IgnoreCaseKey<String> key, String value) {
+    public MessageHeader removeValue(IgnoreCaseKey<String> key, String value) {
         List<String> newValues = this.getValueList0(key);
         if (null != newValues) {
             newValues.remove(value);
@@ -491,6 +498,26 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
 
 
 
+    public Cookies getCookies(String key)                   { return this.getCookies(KeyFactory.newKey(key)); }
+    public Cookies getCookies(IgnoreCaseKey<String> key)    { return new Cookies(this.getValue0(key)); }
+
+
+    public MessageHeader setCookies(String key, Cookies cookies) {
+        return this.setCookies(KeyFactory.newKey(key), cookies);
+    }
+    public MessageHeader setCookies(IgnoreCaseKey<String> key, Cookies cookies) {
+        if (null == cookies || cookies.isEmpty()) { return this; }
+
+        String value = cookies.toString();
+        this.setValue0(key, value);
+
+        return this;
+    }
+
+
+
+
+
 
 
 
@@ -511,17 +538,17 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
             if (null == values || values.size() == 0) {
                 strbuf
                         .append(oks)
-                        .append(XURLConnectionMessageHeader.ASSIGNMENT_SYMBOL_CHAR)
+                        .append(MessageHeader.ASSIGNMENT_SYMBOL_CHAR)
                         .append(' ')
-                        .append(XURLConnectionMessageHeader.LINE_SEPARATOR);
+                        .append(MessageHeader.LINE_SEPARATOR);
             } else {
                 for (String v : values) {
                     strbuf
                             .append(oks)
-                            .append(XURLConnectionMessageHeader.ASSIGNMENT_SYMBOL_CHAR)
+                            .append(MessageHeader.ASSIGNMENT_SYMBOL_CHAR)
                             .append(' ')
                             .append(v)
-                            .append(XURLConnectionMessageHeader.LINE_SEPARATOR);
+                            .append(MessageHeader.LINE_SEPARATOR);
                 }
             }
         }
@@ -543,7 +570,7 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
         if (null != requestOrReturnLine && requestOrReturnLine.length() > 0) {
             strbuf
                     .append(requestOrReturnLine)
-                    .append(XURLConnectionMessageHeader.LINE_SEPARATOR);
+                    .append(MessageHeader.LINE_SEPARATOR);
         }
         if (this.size() != 0) {
             for (IgnoreCaseKey<String> fk : this.keySet()) {
@@ -553,22 +580,22 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
                 if (null == values || values.size() == 0) {
                     strbuf
                             .append(oks)
-                            .append(XURLConnectionMessageHeader.ASSIGNMENT_SYMBOL_CHAR)
+                            .append(MessageHeader.ASSIGNMENT_SYMBOL_CHAR)
                             .append(' ')
-                            .append(XURLConnectionMessageHeader.LINE_SEPARATOR);
+                            .append(MessageHeader.LINE_SEPARATOR);
                 } else {
                     for (String v : values) {
                         strbuf
                                 .append(oks)
-                                .append(XURLConnectionMessageHeader.ASSIGNMENT_SYMBOL_CHAR)
+                                .append(MessageHeader.ASSIGNMENT_SYMBOL_CHAR)
                                 .append(' ')
                                 .append(v)
-                                .append(XURLConnectionMessageHeader.LINE_SEPARATOR);
+                                .append(MessageHeader.LINE_SEPARATOR);
                     }
                 }
             }
         }
-        strbuf.append(XURLConnectionMessageHeader.LINE_SEPARATOR);
+        strbuf.append(MessageHeader.LINE_SEPARATOR);
         String result = strbuf.toString(); strbuf = null;
         return result;
     }
@@ -585,7 +612,7 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
      * 不会设置key为空的字段
      */
     @XAnnotations("the empty key won't be set")
-    public XURLConnectionMessageHeader setToURLConnection(URLConnection con) {
+    public MessageHeader setToURLConnection(URLConnection con) {
         for (IgnoreCaseKey<String> fk : this.keySet()) {
             String ok = fk.getOriginKey();
             String oks = null == ok ?null: String.valueOf(ok);
@@ -593,7 +620,7 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
                 continue;
             }
             List<String> vs = this.getValueList0(fk);
-            XURLConnectionMessageHeader.setToURLConnection(con, oks, vs);
+            MessageHeader.setToURLConnection(con, oks, vs);
         }
         return this;
     }
@@ -624,7 +651,7 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
      * 不会添加key为空的字段
      */
     @XAnnotations("the empty key won't be add")
-    public XURLConnectionMessageHeader addToURLConnection(URLConnection con) {
+    public MessageHeader addToURLConnection(URLConnection con) {
         for (IgnoreCaseKey<String> fk : this.keySet()) {
             String ok = fk.getOriginKey();
             String oks = null == ok ?null: String.valueOf(ok);
@@ -632,7 +659,7 @@ public class XURLConnectionMessageHeader implements Serializable, XInterfaceGetI
                 continue;
             }
             List<String> vs = this.getValueList0(fk);
-            XURLConnectionMessageHeader.addToURLConnection(con, oks, vs);
+            MessageHeader.addToURLConnection(con, oks, vs);
         }
         return this;
     }

@@ -192,6 +192,10 @@ public class Main extends k {
 //        if (true) { return; }
 
 
+
+        System.out.println(Strings.reverse("w", 0 ,1));
+        System.out.println(Strings.reverse("ws", 0 ,2));
+
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"
                 , "src"

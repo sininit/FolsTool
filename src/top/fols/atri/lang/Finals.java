@@ -78,6 +78,7 @@ public class Finals {
     public static final boolean BOOLEAN_DEFAULT_VALUE = false;
     public static final float   FLOAT_DEFAULT_VALUE = 0F;
     public static final short   SHORT_DEFAULT_VALUE = 0;
+    public static final String  STRING_EMPTY_VALUE = "";
 
     public static final Byte        BYTE_PACKAGE_DEFAULT_VALUE = BYTE_DEFAULT_VALUE;
     public static final Long        LONG_PACKAGE_DEFAULT_VALUE = LONG_DEFAULT_VALUE;
@@ -143,6 +144,25 @@ public class Finals {
     public static final Class<Method[]>         METHOD_ARRAY_CLASS = Method[].class;
     public static final Class<Field[]>          FIELD_ARRAY_CLASS = Field[].class;
     public static final Class<Constructor[]>    CONSTRUCTOR_ARRAY_CLASS = Constructor[].class;
+
+
+
+    public static final byte LINE_SEPARATOR_BYTE_R = '\r';
+    public static final byte LINE_SEPARATOR_BYTE_N = '\n';
+    public static byte[] getBytesLineSeparatorN()  { return new byte[] { '\n' }; }
+    public static byte[] getBytesLineSeparatorR()  { return new byte[] { '\r' }; }
+    public static byte[] getBytesLineSeparatorRN() { return new byte[] { '\r', '\n' }; }
+
+    public static final char LINE_SEPARATOR_CHAR_R = '\r';
+    public static final char LINE_SEPARATOR_CHAR_N = '\n';
+    public static char[]    getCharsLineSeparatorN()  { return new char[] { '\n' }; }
+    public static char[]    getCharsLineSeparatorR()  { return new char[] { '\r' }; }
+    public static char[]    getCharsLineSeparatorRN() { return new char[] { '\r', '\n' }; }
+
+    public static final String LINE_SEPARATOR_STRING_R = "\r";
+    public static final String LINE_SEPARATOR_STRING_N = "\n";
+    public static final String LINE_SEPARATOR_STRING_RN = "\r\n";
+
 
 
 

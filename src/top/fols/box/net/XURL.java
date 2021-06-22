@@ -4,6 +4,8 @@ package top.fols.box.net;
 import java.io.Serializable;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.lang.Value;
+import top.fols.atri.net.URLBuilder;
+import top.fols.atri.net.URLParams;
 import top.fols.box.io.os.XFile;
 
 /**
@@ -78,9 +80,9 @@ public class XURL implements Serializable {
 
         return sb.toString();
     }
-    public XURLBuilder toBuilder() {
+    public URLBuilder toBuilder() {
         //protocol://user@host:port/dir/filename?param=value&multiplyParam=value#ref
-        XURLBuilder xurlBuilder = new XURLBuilder();
+        URLBuilder xurlBuilder = new URLBuilder();
         xurlBuilder.protocol(this.getProtocol());
         xurlBuilder.user(this.getUser());
         xurlBuilder.host(this.getHost());
@@ -105,8 +107,11 @@ public class XURL implements Serializable {
     public static final String PARAM_SYMBOL = "?";
     public static final char PARAM_SYMBOL_CHAR = '?';
 
-    public static final String PARAM_PROJECT_SEPARATOR = "&";
+    public static final String  PARAM_PROJECT_SEPARATOR = "&";
+    public static final char    PARAM_PROJECT_SEPARATOR_CHAR = '&';
+
     public static final String PARAM_PROJECT_ASSIGNMENT_SYMBOL = "=";
+    public static final char    PARAM_PROJECT_ASSIGNMENT_SYMBOL_CHAR = '=';
 
     public static final String REF_SYMBOL = "#";
 
@@ -525,20 +530,6 @@ public class XURL implements Serializable {
 
         // deal dir
         this.uDir = spec.substring(0, spec.lastIndexOf(XURL.PATH_SEPARATOR) + XURL.PATH_SEPARATOR.length()); // /a/b/c/
-
-//        this.cHost = null;
-//        this.cPort = null;
-//        this.cFilePath = null;
-//        this.cFileNameAndParam = null;
-//        this.cFileName = null;
-//        this.cDirName = null;
-//        this.cAuthority = null;
-//        this.cParam = null;
-//
-//        this.cFormatUrl = null;
-//        this.cAbsoluteUrl = null;
-
-        spec = null;
     }
 
     @Override
@@ -547,17 +538,17 @@ public class XURL implements Serializable {
         return this.getUrlFormat();
     }
 
+    public URLParams param() {
+        String param = this.getParam();
+        return null == param ? null : new URLParams(param);
+    }
+
+
+
+
     public XURL absoluteUrl() {
         return new XURL(this.getAbsoluteUrl());
     }
-
-    public XURLParam param() {
-        String param = this.getParam();
-        return null == param ? null : new XURLParam(param);
-    }
-
-
-
 
     public static String formatPath(String path) {
         return XFile.getCanonicalRelativePath(path, PATH_SEPARATOR_CHAR);

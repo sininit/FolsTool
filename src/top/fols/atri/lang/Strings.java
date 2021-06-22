@@ -7,18 +7,9 @@ import top.fols.box.util.XRandom;
 
 import java.util.*;
 
-public class Strings {
 
-	public static String marge(Object... values) {
-		StringBuilder concat = new StringBuilder();
-		if (null == values || values.length == 0) {
-		} else {
-			for (Object value: values) {
-				concat.append(Objects.toString(value));
-			}
-		}
-		return concat.toString();
-	}
+@SuppressWarnings("SpellCheckingInspection")
+public class Strings {
 
 
 
@@ -107,10 +98,28 @@ public class Strings {
 		return sb.toString();
 	}
 
-	public static String getRandomString(char[] str, int length) {
-		if (length == 0) {
-			return "";
+
+
+
+	public static String marge(Object... values) {
+		StringBuilder concat = new StringBuilder();
+		if (null == values || values.length == 0) {
+		} else {
+			for (Object value: values) {
+				concat.append(Objects.toString(value));
+			}
 		}
+		return concat.toString();
+	}
+
+
+
+
+
+	public static String random(char[] str, int length) {
+		if (null == str) { return  null; }
+		if (length == 0) { return Finals.STRING_EMPTY_VALUE; }
+
 		XRandom random = new XRandom();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
@@ -119,10 +128,10 @@ public class Strings {
 		return sb.toString();
 	}
 
-	public static String getRandomString(CharSequence str, int length) {
-		if (length == 0) {
-			return "";
-		}
+	public static String random(CharSequence str, int length) {
+		if (null == str) { return  null; }
+		if (length == 0) { return Finals.STRING_EMPTY_VALUE; }
+
 		XRandom random = new XRandom();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
@@ -139,6 +148,9 @@ public class Strings {
 	}
 
 	public static String replace(String str, CharSequence target, CharSequence replacement, int limiter) {
+		if (null == str || null == target || target.length() == 0) { return  str; }
+		if (null == replacement) { replacement = Finals.STRING_EMPTY_VALUE; }
+
 		String tgtStr = target.toString();
 		String replStr = replacement.toString();
 		int j = str.indexOf(tgtStr);
@@ -190,101 +202,94 @@ public class Strings {
 	 * 获取str重复出现的次数
 	 */
 	public static int getRepeatCount(String str, String find) {
-		if (Objects.empty(str) || Objects.empty(find)) {
-			return 0;
-		}
+		if (Objects.empty(str) || Objects.empty(find)) { return 0; }
+
 		int i = 0;
 		int elementlen = find.length();
 		int indexOf = str.indexOf(find);
-		if (indexOf <= -1) {
-			return 0;
-		}
+		if (indexOf <= -1) { return 0; }
 		do {
 			i++;
 		} while ((indexOf = str.indexOf(find, indexOf + elementlen)) > -1);
 		return i;
 	}
 
+
+
 	/**
 	 * 取文本长度
 	 */
-	public static int length(String str) {
-		return null == str ? 0 : str.length();
-	}
+	public static int length(String str) { return null == str ? 0 : str.length(); }
 
-	public static String submiddle(String str, String left, String right) {
-		return submiddle(str, left, right, 0);
-	}
 
-	public static String submiddle(String str, String left, String right, int off) {
-		if (Objects.empty(str) || Objects.empty(left) || Objects.empty(right)) {
-			return "";
-		}
-		if (off < 0) {
-			off = 0;
-		}
-		int start = str.indexOf(left, off);
-		int end = str.indexOf(right, start + left.length());
-		if (start > -1 && end > -1) {
-			return str.substring(start + left.length(), end);
-		}
-		return "";
-	}
 
-	public static String subleft(String str, String text, int off) {
-		int index = str.indexOf(text, off);
-		if (index > -1) {
-			return subleft(str, index);
-		} else {
-			return "";
-		}
-	}
+//	public static String submiddle(String str, String left, String right) {
+//		return submiddle(str, left, right, 0);
+//	}
+//	public static String submiddle(String str, String left, String right, int off) {
+//		if (Objects.empty(str) || Objects.empty(left) || Objects.empty(right)) { return ""; }
+//		if (off < 0) { off = 0; }
+//		int start = str.indexOf(left, off);
+//		int end = str.indexOf(right, start + left.length());
+//		if (start > -1 && end > -1) {
+//			return str.substring(start + left.length(), end);
+//		}
+//		return "";
+//	}
+//
+//	public static String subleft(String str, String text, int off) {
+//		int index = str.indexOf(text, off);
+//		if (index > -1) {
+//			return subleft(str, index);
+//		} else {
+//			return "";
+//		}
+//	}
+//
+//	public static String subright(String str, String text, int off) {
+//		int index = str.indexOf(text, off);
+//		if (index > -1) {
+//			return subright(str, index + text.length());
+//		} else {
+//			return "";
+//		}
+//	}
+//
+//	/**
+//	 * 取文本左边
+//	 */
+//	public static String subleft(String str, int endIndex) {
+//		return null == str ? null : str.substring(0, endIndex);
+//	}
+//
+//	/**
+//	 * 取文本右边
+//	 */
+//	public static String subright(String str, int startIndex) {
+//		return null == str ? null : str.substring(startIndex, str.length());
+//	}
 
-	public static String subright(String str, String text, int off) {
-		int index = str.indexOf(text, off);
-		if (index > -1) {
-			return subright(str, index + text.length());
-		} else {
-			return "";
-		}
-	}
 
-	/**
-	 * 取文本左边
-	 */
-	public static String subleft(String str, int endIndex) {
-		return null == str ? null : str.substring(0, endIndex);
-	}
 
-	/**
-	 * 取文本右边
-	 */
-	public static String subright(String str, int startIndex) {
-		return null == str ? null : str.substring(startIndex, str.length());
-	}
 
 	/**
 	 * 取文本中间
 	 */
-	public static String substring(String str, int startIndex, int endIndex) throws NullPointerException {
-		if (null == str) {
-			throw new NullPointerException("string");
-		} else {
-			if (endIndex == startIndex) {
-				return "";
-			}
-			int strlen = str.length();
-			if (startIndex <= -1 || endIndex <= -1 || startIndex > strlen || endIndex > strlen) {
-				throw new ArrayIndexOutOfBoundsException(
-						String.format("length=%s, off=%s, end=%s", str.length(), startIndex, endIndex));
-			}
-			if (endIndex > startIndex) {// 正序文本
-				return str.substring(startIndex, endIndex);
-			} else {// 倒序文本
-				return reverse(str, endIndex, startIndex);
-			}
-		}
+	public static String substring(String str, int startIndex, int endIndex) {
+		if (null == str || (startIndex < 0 || endIndex < 0)) { return null; }
+
+		return str.substring(startIndex, endIndex);
 	}
+	public static String subtrim(String spec, int start, int limit) {
+		if (null == spec || (start < 0 || limit < 0)) { return null; }
+
+		while ((limit > 0) && (spec.charAt(limit - 1) <= ' ')) limit--;
+		while ((start < limit) && (spec.charAt(start) <= ' ')) start++;
+		return spec.substring(start, limit);
+	}
+
+
+
 
 	/**
 	 * 寻找文本
@@ -313,6 +318,10 @@ public class Strings {
 		return (null == str) ? -1 : str.lastIndexOf(find, off);
 	}
 
+
+
+
+
 	/**
 	 * split String
 	 * <p>
@@ -327,9 +336,8 @@ public class Strings {
 	}
 
 	public static void split(String str, String separator, Collection<String> splits) {
-		if (Objects.empty(str) || Objects.empty(separator) || str.equals(separator)) {
-			return;
-		}
+		if (Objects.empty(str) || Objects.empty(separator) || str.equals(separator) || null == splits) { return; }
+
 		int end = 0;
 		int off = -separator.length();
 
@@ -362,10 +370,10 @@ public class Strings {
 	 * 取重复字符串
 	 */
 	public static String repeat(String str, int repeatLength) {
-		if (str.length() == 0) {
-			return "";
-		}
-		char newChar[] = XArray.repeat(str.toCharArray(), repeatLength);
+		if (null == str) { return null; }
+		if (str.length() == 0 || repeatLength == 0) { return Finals.STRING_EMPTY_VALUE; }
+
+		char[] newChar = XArray.repeat(str.toCharArray(), repeatLength);
 		return new String(newChar);
 	}
 
@@ -379,26 +387,30 @@ public class Strings {
 	 * fillLeft("123456",'0',8)); >> "00123456"
 	 */
 	public static String fillLeft(String str, char fillstr, int newLength) {
-		char newChar[] = new char[newLength];
+		if (null == str)    { str = Finals.STRING_EMPTY_VALUE;  }
+		if (newLength <= 0) { return Finals.STRING_EMPTY_VALUE; }
+
+		char[] newChar = new char[newLength];
 		fillLeft(str.toCharArray(), fillstr, newChar);
 		return new String(newChar);
 	}
 
-	public static void fillLeft(char[] str, char fillstr, char newChar[]) {
+	public static void fillLeft(char[] str, char fillstr, char[] newChar) {
+		if (null == newChar) { return; }
+		if (null == str)     { str = Finals.EMPTY_CHAR_ARRAY; }
+
 		if (newChar.length == str.length) {
 			if (str == newChar) {
 				return;
 			}
 			System.arraycopy(str, 0, newChar, 0, str.length);
 			return;
-		} else if (str.length == 0 && newChar.length == 0) {
-			return;
 		} else if (newChar.length == 0) {
 			return;
 		}
 		if (newChar.length < str.length) {
 			int strart = str.length - newChar.length;
-			int end = str.length > newChar.length ? newChar.length : str.length;
+			int end = newChar.length;
 			System.arraycopy(str, strart, newChar, 0, end);
 		} else {
 			int strart = newChar.length - str.length;
@@ -406,6 +418,14 @@ public class Strings {
 			Arrays.fill(newChar, 0, strart, fillstr);
 		}
 	}
+
+
+
+
+
+
+
+
 
 	/**
 	 * fill String Last
@@ -417,19 +437,23 @@ public class Strings {
 	 * fillRight("123456",'0',8)); >> "12345600"
 	 */
 	public static String fillRight(String str, char fillstr, int newLength) {
-		char newChar[] = new char[newLength];
+		if (null == str)    { str =  Finals.STRING_EMPTY_VALUE; }
+		if (newLength <= 0) { return Finals.STRING_EMPTY_VALUE; }
+
+		char[] newChar = new char[newLength];
 		fillRight(str.toCharArray(), fillstr, newChar);
 		return new String(newChar);
 	}
 
-	public static void fillRight(char[] str, char fillstr, char newChar[]) {
-		if (newChar.length == str.length || (str.length == 0 && newChar.length == 0)) {
+	public static void fillRight(char[] str, char fillstr, char[] newChar) {
+		if (null == newChar) { return; }
+		if (null == str)     { str = Finals.EMPTY_CHAR_ARRAY; }
+
+		if (newChar.length == str.length) {
 			if (str == newChar) {
 				return;
 			}
 			System.arraycopy(str, 0, newChar, 0, str.length);
-			return;
-		} else if (str.length == 0 && newChar.length == 0) {
 			return;
 		} else if (newChar.length == 0) {
 			return;
@@ -449,18 +473,15 @@ public class Strings {
 	 * 
 	 */
 	public static String reverse(String str, int off, int end) throws NullPointerException {
-		int len = end - off;
-		if (len <= 0) {
-			return "";
-		}
+		if (null == str)     		{ return null; }
+		if (off < 0 || end < 0)     { return null; }
+
 		if (end > off) {
-			XCharArrayWriter write = new XCharArrayWriter(len);
-			for (int i = end - 1; i >= off; i--) {
-				write.write(str.charAt(i));
+			char[] chars = new char[str.length()];
+			for (int i = end - 1, chi = 0; i >= off; i--) {
+				chars[chi++] = (str.charAt(i));
 			}
-			String r = new String(write.toCharArray());
-			write.close();
-			return r;
+			return new String(chars);
 		} else {
 			return str.substring(off, end);
 		}
@@ -475,23 +496,22 @@ public class Strings {
 	 * @return if @param str exist @param @retain element will return these exist
 	 * @example retain("123123123321", 0, 12, new char[]{'1','2'}) >> 12121221
 	 */
-	public static String retain(CharSequence str, int off, int len, char[] retain) throws NullPointerException {
+	public static String retain(CharSequence str, int off, int len, char[] retain) {
+		if (null == str)     								  { return null; }
+		if (null == retain)     							  { return null; }
+		if (off < 0 || len < 0)     						  { return null; }
+
 		XCharArrayWriter retains = new XCharArrayWriter();
-		try {
-			for (int i = off; i < off + len; i++) {
-				char ch = str.charAt(i);
-				for (char c : retain) {
-					if (c == ch) {
-						retains.write(c);
-						break;
-					}
+		for (int i = off; i < off + len; i++) {
+			char ch = str.charAt(i);
+			for (char c : retain) {
+				if (c == ch) {
+					retains.write(c);
+					break;
 				}
 			}
-			return retains.toString();
-		} finally {
-			retains.releaseBuffer();
-			retains.close();
 		}
+		return retains.toString();
 	}
 
 
@@ -505,8 +525,8 @@ public class Strings {
 	 * @param replacement replacement
 	 */
 	public static CharSequence replace(CharSequence str, CharSequence[] target, CharSequence replacement) {
-		if (null == str) { return null; }
-		if (str.equals("")) { return ""; }
+		if (null == str) 			{ return null; }
+		if (str.length() == 0) 		{ return Finals.STRING_EMPTY_VALUE; }
 		if (null == target || target.length == 0) { return str; }
 
 		StringBuilder sb = new StringBuilder();
@@ -539,9 +559,7 @@ public class Strings {
 			}
 		}
 		if (lastIndex != len) {
-			int st = lastIndex;
-			int et = len;
-			sb.append(str, st, et);
+			sb.append(str, lastIndex, len);
 		}
 		return sb.toString();
 	}
@@ -554,9 +572,9 @@ public class Strings {
 	 * @param replacement correspond@param target
 	 */
 	public static CharSequence replace(CharSequence str, CharSequence[] target, CharSequence[] replacement) {
-		if (null == str) { return null; }
-		if (str.equals("")) { return ""; }
-		if (null == target || target.length == 0) { return str; }
+		if (null == str) 							{ return null; }
+		if (str.length() == 0) 						{ return Finals.STRING_EMPTY_VALUE; }
+		if (null == target || target.length == 0) 	{ return str; }
 
 		StringBuilder sb = new StringBuilder();
 
@@ -588,9 +606,7 @@ public class Strings {
 			}
 		}
 		if (lastIndex != len) {
-			int st = lastIndex;
-			int et = len;
-			sb.append(str, st, et);
+			sb.append(str, lastIndex, len);
 		}
 		return sb.toString();
 	}
