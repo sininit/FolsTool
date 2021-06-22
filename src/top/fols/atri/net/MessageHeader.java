@@ -29,10 +29,6 @@ public class MessageHeader implements Serializable, XInterfaceGetInnerMap<Ignore
 
 
 
-    public static final XBlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_COOKIE = XBlurryKey.IgnoreCaseKey.getDefaultFactory().newKey("Cookie");
-    public static final XBlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_SET_COOKIE = XBlurryKey.IgnoreCaseKey.getDefaultFactory().newKey("Set-Cookie");
-
-
 
     /**
      * HTTP 的规范中如此描述（3.2.4. Field Parsing）：
@@ -44,7 +40,11 @@ public class MessageHeader implements Serializable, XInterfaceGetInnerMap<Ignore
     public 	static final String 		LINE_SEPARATOR = new String(XStaticFixedValue.Chars_NextLineRN());
     public 	static final char 			ASSIGNMENT_SYMBOL_CHAR = ':';
 
-    private static final IgnoreCaseKey<String> KeyFactory = XBlurryKey.IGNORE_CASE_KEY_FACTORY;
+    private static final IgnoreCaseKey KeyFactory = XBlurryKey.IgnoreCaseKey.getDefaultFactory();
+
+    public static final XBlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_COOKIE      = KeyFactory.newKey("Cookie");
+    public static final XBlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_SET_COOKIE  = KeyFactory.newKey("Set-Cookie");
+
 
 
 

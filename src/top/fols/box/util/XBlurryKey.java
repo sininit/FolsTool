@@ -6,6 +6,7 @@ import java.lang.reflect.Constructor;
 import top.fols.atri.lang.Objects;
 import top.fols.box.statics.XStaticFixedValue;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class XBlurryKey<T extends Object> implements Cloneable {
 
 
@@ -87,8 +88,8 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
 
 
 
-    public static final IgnoreCaseKey IGNORE_CASE_KEY_FACTORY = IgnoreCaseKey.getDefaultFactory();
-    public static class IgnoreCaseKey<T extends Object> extends XBlurryKey<T> implements Serializable {
+//    public static final IgnoreCaseKey IGNORE_CASE_KEY_FACTORY = IgnoreCaseKey.getDefaultFactory();
+    public static class IgnoreCaseKey<T> extends XBlurryKey<T> implements Serializable {
         private static final long serialVersionUID = 1L;
 
 
