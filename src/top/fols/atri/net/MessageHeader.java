@@ -8,6 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import top.fols.atri.util.interfaces.InnerMap;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.io.base.XStringReader;
 import top.fols.box.statics.XStaticFixedValue;
@@ -24,7 +26,7 @@ import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
  */
 
 @SuppressWarnings("unchecked")
-public class MessageHeader implements Serializable, XInterfaceGetInnerMap<IgnoreCaseKey<String>, List<String>> {
+public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<String>, List<String>> {
     private static final long serialVersionUID = 1L;
 
 
@@ -216,7 +218,11 @@ public class MessageHeader implements Serializable, XInterfaceGetInnerMap<Ignore
      *
      * ^key: value\n ^key2: value2\n ^...
      */
-    private static final char[][] LINE_SEPARATOR_ALL = new char[][]{XStaticFixedValue.Chars_NextLineRN(), XStaticFixedValue.Chars_NextLineR(), XStaticFixedValue.Chars_NextLineN()};
+    private static final char[][] LINE_SEPARATOR_ALL = new char[][]{
+            XStaticFixedValue.Chars_NextLineRN(),
+            XStaticFixedValue.Chars_NextLineR(),
+            XStaticFixedValue.Chars_NextLineN()
+    };
     private static void dealMultiLineMessage0(MessageHeader m, String headerMessage, boolean putValue) {
         XStringReader rowStreanm = new XStringReader(headerMessage);
         char lines[];

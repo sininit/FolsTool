@@ -27,6 +27,9 @@ public class Objects {
 
 
 
+
+
+
     public static void requireNull(Object obj) {
         if (!(null == obj)) { throw new NullPointerException(); }
     }
@@ -387,7 +390,7 @@ public class Objects {
         if (null == object) {
             return String.valueOf((Object) null);
         }
-//        else if (object instanceof char[]) {
+//      else if (object instanceof char[]) {
 //            return new String((char[])object);
 //        }
         else if (object instanceof Throwable) {
@@ -399,6 +402,8 @@ public class Objects {
 
 
     public static int hashCode(Object object) {
-        return null == object?0:object.hashCode();
+        return null == object ? 0 : object.hashCode();
     }
+
+
 }

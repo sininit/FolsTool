@@ -18,6 +18,8 @@
 
 package top.fols.atri.util.json;
 
+import top.fols.atri.util.interfaces.InnerList;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,7 +50,7 @@ import java.util.List;
  * <i>Effective Java</i> Item 17, "Design and Document or inheritance or else
  * prohibit it" for further information.
  */
-public class JSONArray {
+public class JSONArray implements InnerList {
     private List<Object> values = new ArrayList<Object>();
 
     /**
@@ -630,5 +632,10 @@ public class JSONArray {
     @Override public int hashCode() {
         // diverge from the original, which doesn't implement hashCode
         return values.hashCode();
+    }
+
+    @Override
+    public List<Object> getInnerList() {
+        return this.values;
     }
 }

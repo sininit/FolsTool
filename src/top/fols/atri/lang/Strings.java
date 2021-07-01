@@ -1,6 +1,8 @@
 package top.fols.atri.lang;
 
 import top.fols.atri.array.ArrayObject;
+import top.fols.atri.io.buffer.chars.CharArrayBuffer;
+import top.fols.atri.io.buffer.chars.CharBufferFilter;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.util.XArray;
 import top.fols.box.util.XRandom;
@@ -10,6 +12,34 @@ import java.util.*;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class Strings {
+
+
+	public static String tabs(String lines) {
+		return tabs(lines, "\t");
+	}
+	public static String tabs(String lines, String tabs) {
+		if (null == lines) {
+			return null;
+		}
+		StringBuilder result = new StringBuilder();
+		StringLineReader reader = new StringLineReader(lines);
+		while (reader.hasNext()) {
+			result.append(tabs).append(reader.next(true));
+		}
+		return result.toString();
+	}
+	public static String line(String... lines) {
+		if (null == lines) { return null; }
+		StringBuilder result = new StringBuilder();
+		for (String line: lines) {
+			result.append(line).append(Finals.LINE_SEPARATOR_CHAR_N);
+		}
+		if (result.length() > 1) {
+			result.setLength(result.length() - 1);
+		}
+		return result.toString();
+	}
+
 
 
 
@@ -27,9 +57,7 @@ public class Strings {
 
 	public static String join(Object array, String head, String joinString, String end) {
 		StringBuilder sb = new StringBuilder();
-		if (null != head) {
-			sb.append(head);
-		}
+		if (null != head) { sb.append(head); }
 		if (null == array || !array.getClass().isArray()) {
 			sb.append(array);
 		} else {
@@ -40,11 +68,35 @@ public class Strings {
 			}
 			xifs.releaseTry();
 		}
-		if (null != end) {
-			sb.append(end);
-		}
+		if (null != end) { sb.append(end); }
 		return sb.toString();
 	}
+
+
+	public static String join(Object[] array, String joinString) {
+		return Strings.join(array, null, joinString, null);
+	}
+
+	public static String join(Object[] array, String head, String joinString, String end) {
+		StringBuilder sb = new StringBuilder();
+		if (null != head) { sb.append(head); }
+		if (null == array) {
+			sb.append(array);
+		} else {
+			if (array.length > 0) {
+				for (Object o : array) {
+					sb.append(o).append(joinString);
+				}
+				if (sb.length() > joinString.length()) {
+					sb.setLength(sb.length() - joinString.length());
+				}
+			}
+		}
+		if (null != end) { sb.append(end); }
+		return sb.toString();
+	}
+
+
 
 	public static String join(Collection<?> array, String joinString) {
 		return Strings.join(array, null, joinString, null);
@@ -52,9 +104,7 @@ public class Strings {
 
 	public static String join(Collection<?> array, String head, String joinString, String end) {
 		StringBuilder sb = new StringBuilder();
-		if (null != head) {
-			sb.append(head);
-		}
+		if (null != head) { sb.append(head); }
 		int len = array.size();
 		Iterator<?> iterator = array.iterator();
 		int i = 0;
@@ -62,9 +112,7 @@ public class Strings {
 			sb.append(iterator.next()).append((i >= len - 1) ? "" : joinString);
 			i++;
 		}
-		if (null != end) {
-			sb.append(end);
-		}
+		if (null != end) { sb.append(end); }
 		return sb.toString();
 	}
 
@@ -78,9 +126,7 @@ public class Strings {
 
 	public static String join(Map<?, ?> map, String head, String valSeparator, String joinString, String end) {
 		StringBuilder sb = new StringBuilder();
-		if (null != head) {
-			sb.append(head);
-		}
+		if (null != head) { sb.append(head); }
 		if (null == map) {
 			sb.append(map);
 		} else {
@@ -92,9 +138,7 @@ public class Strings {
 				i++;
 			}
 		}
-		if (null != end) {
-			sb.append(end);
-		}
+		if (null != end) { sb.append(end); }
 		return sb.toString();
 	}
 

@@ -41,7 +41,7 @@ public class DoubleLinkedListTest {
 
 
         System.out.println(dll2);
-        System.out.println(XStream.ObjectTool.toObject(XStream.ObjectTool.toByteArray(dll2)));
+        System.out.println(XStream.ObjectTool.toObject(XStream.ObjectTool.toBytes(dll2)));
 
 
 

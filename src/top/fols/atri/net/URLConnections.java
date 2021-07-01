@@ -63,10 +63,11 @@ public class URLConnections {
 			return this;
 		}
 
+
+
 		public URLConnectionUtil messageHeader(String Content) {
 			return this.messageHeader(new MessageHeader(Content));
 		}
-
 		public URLConnectionUtil messageHeader(MessageHeader a) {
 			a.setToURLConnection(this.con);
 			return this;
@@ -137,13 +138,13 @@ public class URLConnections {
 			return this;
 		}
 
-		public URLConnectionUtil write(InputStream backoutput) throws IOException {
-			XStream.copy(backoutput, this.getOutputStream());
+		public URLConnectionUtil write(InputStream stream) throws IOException {
+			XStream.copy(stream, this.getOutputStream());
 			return this;
 		}
 
-		public URLConnectionUtil write(InputStream backoutput, long length) throws IOException {
-			XStream.copy(new XInputStreamFixedLength<InputStream>(backoutput, length), this.getOutputStream());
+		public URLConnectionUtil write(InputStream stream, long length) throws IOException {
+			XStream.copy(new XInputStreamFixedLength<>(stream, length), this.getOutputStream());
 			return this;
 		}
 
@@ -152,21 +153,14 @@ public class URLConnections {
 			return this;
 		}
 
-		public String toString() {
-			return this.toString(null);
-		}
+		public String toString() 				{ return this.readString(); }
+		public String toString(String encoding) { return this.readString(encoding); }
 
-		public String toString(String encoding) {
-			XByteArrayOutputStream bytearrout = new XByteArrayOutputStream();
-			try {
-				this.readTo(bytearrout);
-				return null == encoding ? bytearrout.toString() : bytearrout.toString(encoding);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
 
-		public byte[] toBytes() {
+
+
+
+		public byte[] readBytes() {
 			XByteArrayOutputStream bytearrout = new XByteArrayOutputStream();
 			try {
 				this.readTo(bytearrout);
@@ -177,7 +171,26 @@ public class URLConnections {
 				throw new RuntimeException(e);
 			}
 		}
+
+
+		public String readString() {
+			return this.readString(null);
+		}
+		public String readString(String encoding) {
+			XByteArrayOutputStream stream = new XByteArrayOutputStream();
+			try {
+				this.readTo(stream);
+				return null == encoding ? stream.toString() : stream.toString(encoding);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+
 	}
+
+
+
 
 	public static class HttpURLConnectionUtil extends URLConnectionUtil {
 		private HttpURLConnection con;

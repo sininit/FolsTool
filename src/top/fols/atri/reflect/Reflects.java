@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@SuppressWarnings("UnnecessaryLocalVariable")
 public class Reflects {
 
 	public static boolean parameterTypesEquals(Class[] parameterTypes, Class[] parameterTypes2) {
@@ -19,6 +20,15 @@ public class Reflects {
 		}
 		return true;
 	}
+
+
+
+
+
+
+	public ReflectPoint point(Object object) 	{ return ReflectPoint.wrapObjectOption(ReflectMatcher.DEFAULT_INSTANCE, object); }
+	public ReflectPoint point(Class<?> object) 	{ return ReflectPoint.wrapStaticOption(ReflectMatcher.DEFAULT_INSTANCE, object); }
+
 
 
 
@@ -289,7 +299,7 @@ public class Reflects {
 			} 
 		}
 	}
-	public static Field field(Class clazz, String name) {
+	public static Field field(Class<?> clazz, String name) {
         try {
             Field declaredField = clazz.getField(name);
             return declaredField;
@@ -306,6 +316,28 @@ public class Reflects {
         }
         return null;
     }
+	public static Field field(Class<?> clazz, Class<?> returnType, String name) {
+		if (null == returnType) { return field(clazz, name); }
+		try {
+			Field declaredField = clazz.getField(name);
+			if (returnType == declaredField.getType()) {
+				return declaredField;
+			}
+		} catch (NoSuchFieldException e) {
+			e = null;
+		}
+		while (null != clazz) {
+			try {
+				Field declaredField = clazz.getDeclaredField(name);
+				if (returnType == declaredField.getType()) {
+					return declaredField;
+				}
+			} catch (NoSuchFieldException ex) {
+				clazz = clazz.getSuperclass();
+			}
+		}
+		return null;
+	}
 
 
 
@@ -392,6 +424,35 @@ public class Reflects {
         }
         return null;
     }
+	public static Method method(Class<?> clazz, Class<?> returnType, String name, Class<?>... array) {
+		if (null == returnType) { return method(clazz, name, array); }
+		try {
+			Method declaredMethod = clazz.getMethod(name, array);
+			if (returnType == declaredMethod.getReturnType()){
+				return declaredMethod;
+			}
+		} catch (NoSuchMethodException e) {
+			e = null;
+		}
+		while (null != clazz) {
+			try {
+				Method declaredMethod = clazz.getDeclaredMethod(name, array);
+				if (returnType == declaredMethod.getReturnType()) {
+					return declaredMethod;
+				}
+			} catch (NoSuchMethodException ex) {
+				clazz = clazz.getSuperclass();
+			}
+		}
+		return null;
+	}
+
+
+
+
+
+
+
 
 
 

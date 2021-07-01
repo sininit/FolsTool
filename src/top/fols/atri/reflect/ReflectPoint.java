@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+@SuppressWarnings("PointlessBooleanExpression")
 public class ReflectPoint implements Cloneable {
 
 	public static class StaticOption implements Cloneable {
@@ -67,13 +68,25 @@ public class ReflectPoint implements Cloneable {
 	 * join new instance
 	 */
 	public ReflectPoint newInstance(Object... args) throws InvocationTargetException, InstantiationException, IllegalAccessException, IllegalArgumentException {
-        Constructor c = this.matcher().getConstructor(this.valueClass(), args);
+        Constructor c = constructor(args);
         return wrapObjectOption(this.matcher, c.newInstance(args));
     }
 	public ReflectPoint newInstance(Class[] argsTypes, Object... args) throws InvocationTargetException, InstantiationException, IllegalAccessException, IllegalArgumentException {
-        Constructor c = this.matcher().getConstructor(this.valueClass(), argsTypes);
+        Constructor c = constructor(argsTypes);
 		return wrapObjectOption(this.matcher, c.newInstance(args));
     }
+
+
+    public Constructor constructor(Object... args) {
+		Constructor c = this.matcher().getConstructor(this.valueClass(), args);
+		return c;
+	}
+	public Constructor constructor(Class[] argsTypes) {
+		Constructor c = this.matcher().getConstructor(this.valueClass(), argsTypes);
+		return c;
+	}
+
+
 
 
 	/**
@@ -83,9 +96,20 @@ public class ReflectPoint implements Cloneable {
         return this.get(null, name);
     }
 	public ReflectPoint get(Class returnClass, String name) throws IllegalAccessException, IllegalArgumentException {
-        Field f = this.matcher().getField(this.valueClass(), returnClass, name);
+        Field f = field(returnClass, name);
         return wrapObjectOption(this.matcher, f.get(this.value()));
     }
+
+
+    public Field field(String name) {
+		return field(null, name);
+	}
+	public Field field(Class returnClass, String name) {
+		Field  f = this.matcher().getField(this.valueClass(), returnClass, name);
+		return f;
+	}
+
+
 
 
 	/*
@@ -109,13 +133,30 @@ public class ReflectPoint implements Cloneable {
         return this.invoke(null, name, args);
     }
     public ReflectPoint invoke(Class returnClass, String name, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
-        Method m = this.matcher().getMethod(this.valueClass(), returnClass, name, args);
+        Method m = method(returnClass, name, args);
 		return wrapObjectOption(this.matcher, m.invoke(this.value(), args));
     }
 	public ReflectPoint invoke(Class returnClass, String name, Class[] argsTypes, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
-        Method m = this.matcher().getMethod(this.valueClass(), returnClass, name, argsTypes);
+        Method m = method(returnClass, name, argsTypes);
         return wrapObjectOption(this.matcher, m.invoke(this.value(), args));
     }
+
+
+	public Method method(String name, Object... args) {
+		return method(null, name, args);
+	}
+	public Method method(Class returnClass, String name, Object... args) {
+		Method m = this.matcher().getMethod(this.valueClass(), returnClass, name, args);
+		return m;
+	}
+    public Method method(Class returnClass, String name, Class[] argsTypes) {
+		Method m = this.matcher().getMethod(this.valueClass(), returnClass, name, argsTypes);
+		return m;
+	}
+
+
+
+
 
 
 
@@ -138,9 +179,11 @@ public class ReflectPoint implements Cloneable {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO: Implement this method
-		if (obj instanceof ReflectPoint == false) { return false; }
+		if (null  == (obj)) { return false; }
+		if (false == (obj instanceof ReflectPoint)) { return false; }
+
 		ReflectPoint value = (ReflectPoint)obj;
-		return null == this.object ?null == value: this.object.equals(value);
+		return null != this.object && this.object.equals(value);
 	}
 
 	@Override

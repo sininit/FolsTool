@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
 
+import top.fols.atri.io.Streams;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.io.base.XByteArrayOutputStream;
@@ -69,43 +70,7 @@ public class XStream {
 	 */
 	public static long copyFixedLength(InputStream input, OutputStream output, int bufflen, long copyLength,
 			boolean autoflush) throws IOException {
-		if (null == input) {
-			return 0;
-		}
-		if (copyLength == 0) {
-			return 0;
-		}
-		if (bufflen <= 0) {
-			throw new IOException("buffer lenth cannot <= 0");
-		}
-		byte[] buff = new byte[bufflen];
-		int read = -1;
-		int tmpbufflen;
-		long already = 0;
-		boolean nolimit = copyLength <= XStream.COPY_UNLIMIT_COPYLENGTH;
-		while (true) {
-			if (nolimit) {
-				tmpbufflen = bufflen;
-			} else {
-				tmpbufflen = copyLength - already < bufflen ? (int) (copyLength - already) : bufflen;
-				if (tmpbufflen <= 0) {
-					break;
-				}
-			}
-			if ((read = input.read(buff, 0, tmpbufflen)) == -1) {
-				break;
-			}
-			already += read;
-
-			if (null != output) {
-				output.write(buff, 0, read);
-				if (autoflush) {
-					output.flush();
-				}
-			}
-		}
-		buff = null;
-		return already;
+		return Streams.copyFixedLength(input, output, bufflen, copyLength, autoflush);
 	}
 
 	public static int copy(char[] input, Writer output) throws IOException {
@@ -155,158 +120,129 @@ public class XStream {
 	 */
 	public static long copyFixedLength(Reader input, Writer output, int bufflen, long copyLength, boolean autoflush)
 			throws IOException {
-		if (null == input) {
-			return 0;
-		}
-		if (copyLength == 0) {
-			return 0;
-		}
-		if (bufflen <= 0) {
-			throw new IOException("buffer lenth cannot <= 0");
-		}
-		char[] buff = new char[bufflen];
-		int read = -1;
-		int tmpbufflen;
-		long already = 0;
-		boolean nolimit = copyLength <= XStream.COPY_UNLIMIT_COPYLENGTH;
-		while (true) {
-			if (nolimit) {
-				tmpbufflen = bufflen;
-			} else {
-				tmpbufflen = copyLength - already < bufflen ? (int) (copyLength - already) : bufflen;
-				if (tmpbufflen <= 0) {
-					break;
-				}
-			}
-			if ((read = input.read(buff, 0, tmpbufflen)) == -1) {
-				break;
-			}
-			already += read;
-
-			if (null != output) {
-				output.write(buff, 0, read);
-				if (autoflush) {
-					output.flush();
-				}
-			}
-		}
-		buff = null;
-		return already;
+		return Streams.copyFixedLength(input, output, bufflen, copyLength, autoflush);
 	}
 
-	public static class InputStreamTool {
-		public static String toString(InputStream input, String encoding) throws IOException {
-			return new String(toByteArray(input), encoding);
-		}
 
-		public static String toString(InputStream input) throws IOException {
-			return new String(toByteArray(input));
-		}
 
-		public static byte[] toByteArray(InputStream input) throws IOException {
-			if (null != input) {
-				XByteArrayOutputStream byteArrayout = new XByteArrayOutputStream();
-				copy(input, byteArrayout);
-				byte[] bs = byteArrayout.toByteArray();
-				byteArrayout.releaseBuffer();
-				return bs;
-			}
-			return null;
-		}
 
-		public static byte[] toByteArray(InputStream input, int length) throws IOException {
-			if (null != input) {
-				XByteArrayOutputStream byteArrayout = new XByteArrayOutputStream();
-				copyFixedLength(input, byteArrayout, length);
-				byte[] bs = byteArrayout.toByteArray();
-				byteArrayout.releaseBuffer();
-				return bs;
-			}
-			return null;
-		}
 
-		@XAnnotations("this no buffered")
-		public byte[] readLine(InputStream input, byte separator) throws IOException {
-			int bufsize = XStream.DEFAULT_BYTE_BUFF_SIZE;
-			byte[] buf = new byte[bufsize];
-			int size = 0;
-			int rb;
-			do {
-				if ((rb = input.read()) == -1) {
-					if (size == 0) {
-						return null;
-					}
-					break;
-				}
-				buf[size++] = (byte) rb;
-				if (size >= buf.length) {
-					// byte[] originbuf = buf;
-					byte[] newbuf = new byte[size + bufsize];
-					System.arraycopy(buf, 0, newbuf, 0, buf.length);
-					buf = newbuf;
-					// originbuf = null;
-				}
-			} while (rb != separator);// 读取一行10代表\n
-			byte[] bytearr = Arrays.copyOfRange(buf, 0, size);
-			buf = null;
-			return bytearr.length == 0 ? null : bytearr;
-		}
-	}
+//	public static class InputStreamTool {
+//		public static String toString(InputStream input, String encoding) throws IOException {
+//			return new String(toByteArray(input), encoding);
+//		}
+//
+//		public static String toString(InputStream input) throws IOException {
+//			return new String(toByteArray(input));
+//		}
+//
+//		public static byte[] toByteArray(InputStream input) throws IOException {
+//			if (null != input) {
+//				XByteArrayOutputStream byteArrayout = new XByteArrayOutputStream();
+//				copy(input, byteArrayout);
+//				byte[] bs = byteArrayout.toByteArray();
+//				byteArrayout.releaseBuffer();
+//				return bs;
+//			}
+//			return null;
+//		}
+//
+//		public static byte[] toByteArray(InputStream input, int length) throws IOException {
+//			if (null != input) {
+//				XByteArrayOutputStream byteArrayout = new XByteArrayOutputStream();
+//				copyFixedLength(input, byteArrayout, length);
+//				byte[] bs = byteArrayout.toByteArray();
+//				byteArrayout.releaseBuffer();
+//				return bs;
+//			}
+//			return null;
+//		}
+//
+//		@XAnnotations("this no buffered")
+//		public byte[] readLine(InputStream input, byte separator) throws IOException {
+//			int bufsize = XStream.DEFAULT_BYTE_BUFF_SIZE;
+//			byte[] buf = new byte[bufsize];
+//			int size = 0;
+//			int rb;
+//			do {
+//				if ((rb = input.read()) == -1) {
+//					if (size == 0) {
+//						return null;
+//					}
+//					break;
+//				}
+//				buf[size++] = (byte) rb;
+//				if (size >= buf.length) {
+//					// byte[] originbuf = buf;
+//					byte[] newbuf = new byte[size + bufsize];
+//					System.arraycopy(buf, 0, newbuf, 0, buf.length);
+//					buf = newbuf;
+//					// originbuf = null;
+//				}
+//			} while (rb != separator);// 读取一行10代表\n
+//			byte[] bytearr = Arrays.copyOfRange(buf, 0, size);
+//			buf = null;
+//			return bytearr.length == 0 ? null : bytearr;
+//		}
+//	}
+//
+//	public static class ReaderTool {
+//		public static String toString(Reader input) throws IOException {
+//			return new String(toCharArray(input));
+//		}
+//
+//		public static char[] toCharArray(Reader input) throws IOException {
+//			if (null != input) {
+//				XCharArrayWriter Arrayout = new XCharArrayWriter();
+//				copy(input, Arrayout);
+//				char[] cs = Arrayout.toCharArray();
+//				Arrayout.releaseBuffer();
+//				return cs;
+//			}
+//			return null;
+//		}
+//
+//		public static char[] toCharArray(Reader input, int length) throws IOException {
+//			if (null != input) {
+//				XCharArrayWriter Arrayout = new XCharArrayWriter();
+//				copyFixedLength(input, Arrayout, length);
+//				char[] cs = Arrayout.toCharArray();
+//				Arrayout.releaseBuffer();
+//				return cs;
+//			}
+//			return null;
+//		}
+//
+//		@XAnnotations("this no buffered")
+//		public char[] readLine(Reader input, char separator) throws IOException {
+//			int bufsize = XStream.DEFAULT_BYTE_BUFF_SIZE;
+//			char[] buf = new char[bufsize];
+//			int size = 0;
+//			int rb;
+//			do {
+//				if ((rb = input.read()) == -1) {
+//					if (size == 0) {
+//						return null;
+//					}
+//					break;
+//				}
+//				buf[size++] = (char) rb;
+//				if (size >= buf.length) {
+//					// char[] originbuf = buf;
+//					char[] newbuf = new char[size + bufsize];
+//					System.arraycopy(buf, 0, newbuf, 0, buf.length);
+//					buf = newbuf;
+//					// originbuf = null;
+//				}
+//			} while (rb != separator);// 读取一行10代表\n
+//			char[] bytearr = Arrays.copyOfRange(buf, 0, size);
+//			buf = null;
+//			return bytearr.length == 0 ? null : bytearr;
+//		}
+//	}
 
-	public static class ReaderTool {
-		public static String toString(Reader input) throws IOException {
-			return new String(toCharArray(input));
-		}
 
-		public static char[] toCharArray(Reader input) throws IOException {
-			if (null != input) {
-				XCharArrayWriter Arrayout = new XCharArrayWriter();
-				copy(input, Arrayout);
-				char[] cs = Arrayout.toCharArray();
-				Arrayout.releaseBuffer();
-				return cs;
-			}
-			return null;
-		}
 
-		public static char[] toCharArray(Reader input, int length) throws IOException {
-			if (null != input) {
-				XCharArrayWriter Arrayout = new XCharArrayWriter();
-				copyFixedLength(input, Arrayout, length);
-				char[] cs = Arrayout.toCharArray();
-				Arrayout.releaseBuffer();
-				return cs;
-			}
-			return null;
-		}
-
-		@XAnnotations("this no buffered")
-		public char[] readLine(Reader input, char separator) throws IOException {
-			int bufsize = XStream.DEFAULT_BYTE_BUFF_SIZE;
-			char[] buf = new char[bufsize];
-			int size = 0;
-			int rb;
-			do {
-				if ((rb = input.read()) == -1) {
-					if (size == 0) {
-						return null;
-					}
-					break;
-				}
-				buf[size++] = (char) rb;
-				if (size >= buf.length) {
-					// char[] originbuf = buf;
-					char[] newbuf = new char[size + bufsize];
-					System.arraycopy(buf, 0, newbuf, 0, buf.length);
-					buf = newbuf;
-					// originbuf = null;
-				}
-			} while (rb != separator);// 读取一行10代表\n
-			char[] bytearr = Arrays.copyOfRange(buf, 0, size);
-			buf = null;
-			return bytearr.length == 0 ? null : bytearr;
-		}
-	}
 
 	public static class ObjectTool {
 		public static void writeObject(OutputStream out, Object obj) throws IOException {
@@ -317,14 +253,16 @@ public class XStream {
 			return new ObjectInputStream(in).readObject();
 		}
 
-		public static byte[] toByteArray(Object obj) throws IOException {
+
+
+
+		public static byte[] toBytes(Object obj) throws IOException {
 			XByteArrayOutputStream out = new XByteArrayOutputStream();
 			writeObject(out, obj);
 			byte[] bs = out.toByteArray();
 			out.releaseBuffer();
 			return bs;
 		}
-
 		public static Object toObject(byte[] bytes) throws ClassNotFoundException, IOException {
 			XByteArrayInputStream in = new XByteArrayInputStream(bytes);
 			return readObject(in);

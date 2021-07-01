@@ -43,7 +43,7 @@ public class XURLConnectionMessageHeaderTest {
 
 
         MessageHeader xbk = (MessageHeader) XStream.ObjectTool.toObject(
-                XStream.ObjectTool.toByteArray(
+                XStream.ObjectTool.toBytes(
                         new MessageHeader()
                                 .putAll(
                                         "Aaaa : 1" + "\n"

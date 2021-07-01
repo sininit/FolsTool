@@ -19,7 +19,7 @@ public class ReflectProxy<T> implements InvocationHandler, Serializable {
 		if (null != (this.value = object)) {
 			this.valueClass = (Class<T>) object.getClass();
 		}
-		this.interfaces = interfaces;
+		this.interfaces = null == interfaces?Finals.EMPTY_CLASS_ARRAY:interfaces;
 	}
 
 	
@@ -28,14 +28,23 @@ public class ReflectProxy<T> implements InvocationHandler, Serializable {
 	public Class<T> getValueClass() { return valueClass; }
 	public Class[]  getInterfaces() { return interfaces.clone(); }
 
-	static ProxyReflectCache cache = new ProxyReflectCache();
-	static class ProxyReflectCache extends ReflectCache {
-		@Override
-		public MethodList getMethodsList(Class p1, String p2) {
-			// TODO: Implement this method
-			return super.getMethodsList(p1, p2);
-		}
+
+
+
+	protected static ProxyReflectCache cache = new ProxyReflectCache();
+	protected static class ProxyReflectCache extends ReflectCache {
+		@Override public ClassesList 	 getClassesList(Class cls) 			 	{ return super.getClassesList(cls);      }
+		@Override public ConstructorList getConstructorsList(Class cls)  		{ return super.getConstructorsList(cls); }
+		@Override public FieldList 		 getFieldsList(Class cls)				{ return super.getFieldsList(cls);       }
+		@Override public FieldList 		 getFieldsList(Class cls, String name)  { return super.getFieldsList(cls, name); }
+		@Override public MethodList 	 getMethodsList(Class p1, String p2)    { return super.getMethodsList(p1, p2);   }
 	}
+
+
+
+
+
+
 
 	protected Method matchMethod(Method[] list,
 								 Class[][] listParameterTypes,

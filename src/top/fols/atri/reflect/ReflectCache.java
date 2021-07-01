@@ -380,6 +380,15 @@ public class ReflectCache {
 		return null;
 	}
 
+	public Field[] fields(Class cls) {
+		if (null == cls) { return null; }
+		FieldList list = this.getFieldsList(cls);
+		return list.listClone();
+	}
+
+
+
+
 	/**
 	 * Update cache if not present
 	 * @return cache
@@ -398,6 +407,13 @@ public class ReflectCache {
 		}
 		return null;
 	}
+	public Constructor[] constructors(Class cls) {
+		if (null == cls) { return null; }
+		ConstructorList list = this.getConstructorsList(cls);
+		return list.listClone();
+	}
+
+
 
 	/**
 	 * Update cache if not present
@@ -432,6 +448,17 @@ public class ReflectCache {
 		}
 		return null;
 	}
+	public Method[] methods(Class cls) {
+		if (null == cls) { return null; }
+		MethodList list = this.getMethodsList(cls);
+		return list.listClone();
+	}
+	public Method[] methods(Class cls, String name) {
+		if (null == cls) { return null; }
+		MethodList list = this.getMethodsList(cls, name);
+		return list.listClone();
+	}
+
 
 
 

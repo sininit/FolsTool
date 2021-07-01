@@ -4,10 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import com.sun.org.apache.xerces.internal.xs.StringList;
-import top.fols.atri.lang.Arrayz;
-import top.fols.atri.lang.Objects;
-import top.fols.atri.lang.Strings;
-import top.fols.atri.lang.Value;
+import top.fols.atri.lang.*;
 import top.fols.atri.lock.LockThread;
 import top.fols.atri.reflect.ReflectMatcher;
 import top.fols.atri.reflect.ReflectPeakMatcher;
@@ -191,10 +188,6 @@ public class Main extends k {
 //        System.out.println(ReflectProxy.newInstance(new ArrayList<>(), Size.class).size());
 //        if (true) { return; }
 
-
-
-        System.out.println(Strings.reverse("w", 0 ,1));
-        System.out.println(Strings.reverse("ws", 0 ,2));
 
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"

@@ -18,6 +18,8 @@
 
 package top.fols.atri.util.json;
 
+import top.fols.atri.util.interfaces.InnerMap;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -80,7 +82,7 @@ import java.util.Set;
  * <i>Effective Java</i> Item 17, "Design and Document or inheritance or else
  * prohibit it" for further information.
  */
-public class JSONObject {
+public class JSONObject implements InnerMap {
 
     private static final Double NEGATIVE_ZERO = -0d;
 
@@ -833,5 +835,10 @@ public class JSONObject {
         } catch (Exception ignored) {
         }
         return null;
+    }
+
+    @Override
+    public LinkedHashMap<String, Object> getInnerMap() {
+        return this.nameValuePairs;
     }
 }

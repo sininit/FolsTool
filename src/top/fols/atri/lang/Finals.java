@@ -17,6 +17,7 @@ public class Finals {
     public static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
 
+
     public static final Field[] 		EMPTY_FIELD_ARRAY = new Field[]{};
     public static final Constructor[] 	EMPTY_CONSTRUCTOR_ARRAY = new Constructor[]{};
     public static final Method[] 		EMPTY_METHOD_ARRAY = new Method[]{};
@@ -162,6 +163,8 @@ public class Finals {
     public static final String LINE_SEPARATOR_STRING_R = "\r";
     public static final String LINE_SEPARATOR_STRING_N = "\n";
     public static final String LINE_SEPARATOR_STRING_RN = "\r\n";
+
+
 
 
 

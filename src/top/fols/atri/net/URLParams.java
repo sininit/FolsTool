@@ -239,7 +239,7 @@ public class URLParams implements Serializable, XInterfaceGetInnerMap<String, St
 				put.put(key, val);
 			}
 
-			last = offset + 1;
+			last = offset + 1;// + char length, olny 1
 		}
 		return put;
 	}
