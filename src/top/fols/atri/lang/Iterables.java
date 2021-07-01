@@ -268,9 +268,9 @@ public abstract class Iterables<K, V> implements Iterable {
     }
 
 
-    public static <V> Iterables<Integer, V> wrap(Collection<V> object) { return wrap(object); }
-    public static <K, V> Iterables<K, V>    wrap(Map<K, V> object)     { return wrap(object); }
-    public static <V> Iterables<Integer, V> wrap(V[] object)           { return wrap(object); }
+    public static <V> Iterables<Integer, V> wrap(Collection<V> object) { return wrap((Object) object); }
+    public static <K, V> Iterables<K, V>    wrap(Map<K, V> object)     { return wrap((Object) object); }
+    public static <V> Iterables<Integer, V> wrap(V[] object)           { return wrap((Object) object); }
 
 
 
