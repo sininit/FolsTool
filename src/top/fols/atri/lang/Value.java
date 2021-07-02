@@ -3,13 +3,14 @@ package top.fols.atri.lang;
 import top.fols.atri.util.Releasable;
 import java.io.Serializable;
 
+@SuppressWarnings("ConstantConditions")
 public class Value<T> implements Releasable, Serializable {
     private static final long serialVersionUID = 1L;
     private T obj;
 
 
 
-    @Override public boolean release() { return null == (this.obj = null); }
+    @Override public boolean release()  { return null == (this.obj = null); }
     @Override public boolean released() { return null == this.obj; }
 
     public boolean isNull() { return null == this.obj; }
@@ -48,6 +49,10 @@ public class Value<T> implements Releasable, Serializable {
     public String   innerToString() {
         return super.toString();
     }
+
+
+
+
 
     public static <T> Value<T> wrap(T v) {
         return new Value<>(v);

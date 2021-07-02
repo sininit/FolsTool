@@ -1,12 +1,15 @@
 package top.fols.atri.lang;
 
+import top.fols.atri.lang.Objects.Executor;
+
 @SuppressWarnings({"UnnecessaryUnboxing", "PointlessBooleanExpression", "unused", "SpellCheckingInspection"})
-public class Where {
+public class Where<T> {
     /**
      * non null
      * non false
      * non 0
      */
+    @SuppressWarnings("rawtypes")
     public static boolean isTrue(Object object) {
         if (null == object) 			    { return false; }
 
@@ -16,23 +19,26 @@ public class Where {
 //        * non ""
 //        if (object instanceof String)       { return ((String) object).length()  != 0;          }
 
+        if (object instanceof Where)        {
+            Where  where = (Where) object;
+            return null != where.process && isTrue(where.process.execute());
+        }
+
         return true;
     }
 
 
 
 
-    public static Where execute(Executor w) { return new Where(w); }
-
-
-    public interface Executor {
-        Object execute() throws Throwable;
+    public static <T> Where<T> execute(Executor<T> w) {
+        return new Where<>(w);
     }
 
-    private Executor wo;
-    private Where(Executor wo) {
-        this.wo = wo;
+    private final Executor<T> process;
+    private Where(Executor<T> process) {
+        this.process = process;
     }
+
 
     @Override
     public final String toString() {
@@ -40,7 +46,7 @@ public class Where {
         // TODO: Implement this method
         Object     result = null;
         try {
-            result = wo.execute();
+            result = process.execute();
         } catch (Throwable e) {
         }
         return null == result ? null: String.valueOf(result);
