@@ -9,17 +9,22 @@ import java.util.Map;
 public class Objects {
 
     public interface Accept<R, T> { R callback(T param); }
-    public interface Cast<P, R> { R cast(P param); }
+    public interface Cast<P, R>   { R cast(P param);     }
 
-    public interface CallbackValue<T> { void callback(T param); }
+
+    public interface CallbackValue<T> {
+        void callback(T param);
+    }
     public interface Callback {
         void callback();
     }
 
-    public interface ExecutorValue<T> { void execute(T param);}
+
     public interface Executor<T> {
         T execute();
     }
+
+
 
     public interface Invoke<R, P> {
         R invoke(P param);
@@ -389,11 +394,7 @@ public class Objects {
     public static String toString(Object object) {
         if (null == object) {
             return String.valueOf((Object) null);
-        }
-//      else if (object instanceof char[]) {
-//            return new String((char[])object);
-//        }
-        else if (object instanceof Throwable) {
+        } else if (object instanceof Throwable) {
             return Throwables.toStrings((Throwable) object);
         }
         return object.toString();
@@ -403,6 +404,9 @@ public class Objects {
 
     public static int hashCode(Object object) {
         return null == object ? 0 : object.hashCode();
+    }
+    public static int identityHashCode(Object object) {
+        return System.identityHashCode(object);
     }
 
 

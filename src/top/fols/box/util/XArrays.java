@@ -1,6 +1,9 @@
 package top.fols.box.util;
 
+import top.fols.atri.lang.Arrayz;
 import top.fols.box.statics.XStaticFixedValue;
+
+import java.lang.reflect.Array;
 
 public class XArrays {
 
@@ -394,7 +397,7 @@ public class XArrays {
 		return true;
 	}
 	public static boolean equalsRange(Object originalArray, int originalArrayOff, Object objectArray, int objectArrayOff, int len) {
-		if (originalArray == objectArray && originalArrayOff == objectArrayOff && originalArrayOff + len <= XArray.getLength(originalArray)) return true;
+		if (originalArray == objectArray && originalArrayOff == objectArrayOff && originalArrayOff + len <= Arrayz.getLength(originalArray)) return true;
 		if (null == originalArray || 
 			null == objectArray || 
 			! XArray.equalsArrayType(originalArray, objectArray)) return false;
@@ -513,7 +516,7 @@ public class XArrays {
 	}
 
 	public static boolean deepEqualsRange(Object originalArray, int originalArrayOff, Object objectArray, int objectArrayOff, int len) {
-		if (originalArray == objectArray && originalArrayOff == objectArrayOff && originalArrayOff + len <= XArray.getLength(originalArray)) return true;
+		if (originalArray == objectArray && originalArrayOff == objectArrayOff && originalArrayOff + len <= Arrayz.getLength(originalArray)) return true;
 		if (null == originalArray ||
 			null == objectArray || 
 			! XArray.equalsArrayType(originalArray, objectArray)) return false;
@@ -616,7 +619,7 @@ public class XArrays {
 	public static boolean startsWith(float[] array, float[] b, int off) { return equalsRange(array, off, b, 0, b.length); }
 	public static boolean startsWith(Object[] array, Object[] b, int off) { return equalsRange(array, off, b, 0, b.length); }
 	public static boolean startsWith(Object originalArray, Object objectArray, int off) { 
-		if (originalArray == objectArray && off < XArray.getLength(originalArray))return true;
+		if (originalArray == objectArray && off < Arrayz.getLength(originalArray))return true;
 		if (null == originalArray ||
 			null == objectArray || 
 			! XArray.equalsArrayType(originalArray, objectArray)) return false;

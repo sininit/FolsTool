@@ -7,6 +7,45 @@ import top.fols.atri.array.ArrayObject;
 
 @SuppressWarnings({"unused", "SpellCheckingInspection", "unchecked", "StatementWithEmptyBody", "rawtypes", "UnnecessaryLocalVariable", "SuspiciousSystemArraycopy"})
 public class Arrayz {
+	/**
+	 * The maximum size of array to allocate. Some VMs reserve some header words in
+	 * an array. Attempts to allocate larger arrays may result in OutOfMemoryError:
+	 * Requested array size exceeds VM limit
+	 */
+	public static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+
+	/*
+	 * all array type:
+	 *
+	 * Object[] byte[] long[] double[] char[] int[] boolean[] float[] short[]
+	 *
+	 * void[] unrealistic
+	 */
+	public static void set(Object originalArray, int index, Object value)
+			throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+		Array.set(originalArray, index, value);
+	}
+
+	public static Object get(Object originalArray, int index)
+			throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+		return Array.get(originalArray, index);
+	}
+
+	public static int getLength(Object originalArray) {
+		return Array.getLength(originalArray);
+	}
+
+	public static Object newInstance(java.lang.Class<?> componentType, int length) {
+		return Array.newInstance(componentType, length);
+	}
+
+	public static Object newInstance(java.lang.Class<?> componentType, int... dimensions)
+			throws java.lang.IllegalArgumentException, java.lang.NegativeArraySizeException {
+		return Array.newInstance(componentType, dimensions);
+	}
+
+
+
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
     public static <L> L[] marge(L[] left, L[] right) {
@@ -355,17 +394,23 @@ public class Arrayz {
 		}
 		return dest;
 	}
-
-
-
-	public static Object newInstance(Class<?> componentType, int length) {
-		return Array.newInstance(componentType, length);
+	public static char[] arraycopy(String src, int srcPos, char[] dest, int destPos, int length) {
+		if (length <= 0) {
+			return dest;
+		}
+		src.getChars(srcPos, srcPos + length, dest, destPos);
+		return dest;
+	}
+	public static Object arraycopy(Object src, int srcPos, Object dest, int destPos, int length) {
+		if (length <= 0) {
+			return dest;
+		}
+		System.arraycopy(src, srcPos, dest, destPos, length);
+		return dest;
 	}
 
-	public static Object newInstance(Class<?> componentType, int... dimensions)
-			throws java.lang.IllegalArgumentException, java.lang.NegativeArraySizeException {
-		return Array.newInstance(componentType, dimensions);
-	}
+
+
 
 
 

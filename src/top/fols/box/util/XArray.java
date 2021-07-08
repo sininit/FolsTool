@@ -1,6 +1,6 @@
 package top.fols.box.util;
 
-import java.lang.reflect.Array;
+
 import java.util.*;
 
 import top.fols.atri.array.ArrayObject;
@@ -9,70 +9,9 @@ import top.fols.atri.lang.Objects;
 import top.fols.box.annotation.XAnnotations;
 import top.fols.box.lang.XClass;
 
+import static top.fols.atri.lang.Arrayz.*;
+
 public class XArray {
-	/**
-	 * The maximum size of array to allocate. Some VMs reserve some header words in
-	 * an array. Attempts to allocate larger arrays may result in OutOfMemoryError:
-	 * Requested array size exceeds VM limit
-	 */
-	public static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
-
-	/*
-	 * all array type:
-	 * 
-	 * Object[] byte[] long[] double[] char[] int[] boolean[] float[] short[]
-	 * 
-	 * void[] unrealistic
-	 */
-	public static void set(Object originalArray, int index, Object value)
-			throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
-		Array.set(originalArray, index, value);
-	}
-
-	public static Object get(Object originalArray, int index)
-			throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
-		return Array.get(originalArray, index);
-	}
-
-	public static int getLength(Object originalArray) {
-		return Array.getLength(originalArray);
-	}
-
-	public static Object newInstance(java.lang.Class<?> componentType, int length) {
-		return Array.newInstance(componentType, length);
-	}
-
-	public static Object newInstance(java.lang.Class<?> componentType, int... dimensions)
-			throws java.lang.IllegalArgumentException, java.lang.NegativeArraySizeException {
-		return Array.newInstance(componentType, dimensions);
-	}
-
-	public static char[] arraycopy(String src, int srcPos, char[] dest, int destPos, int length) {
-		if (length <= 0) {
-			return dest;
-		}
-		src.getChars(srcPos, srcPos + length, dest, destPos);
-		return dest;
-	}
-
-	public static Object arraycopy(Object src, int srcPos, Object dest, int destPos, int length) {
-		if (length <= 0) {
-			return dest;
-		}
-		System.arraycopy(src, srcPos, dest, destPos, length);
-		return dest;
-	}
-
-	public static <A, B> Object arraycopyConversion(A[] src, int srcPos, B[] dest, int destPos, int length, Objects.Cast<A, B> cast) {
-		if (length <= 0) {
-			return dest;
-		}
-		for (int i = 0; i < length; i++) {
-			dest[i + destPos] = cast.cast(src[i + srcPos]);
-		}
-		return dest;
-	}
-
 
 
 	/*
@@ -196,11 +135,11 @@ public class XArray {
 	 */
 	public static Object insert(Object oldArray, int offset, int len,  Class oldArrayEleClass) throws ArrayIndexOutOfBoundsException {
 		if (null == oldArrayEleClass) { throw new NullPointerException("attempt to read to null class type"); }
-		int oldArrayLength = XArray.getLength(oldArray);
+		int oldArrayLength = getLength(oldArray);
 		if (offset < 0) { throw new ArrayIndexOutOfBoundsException(String.format("offset=%s, len=%s", offset, len)); }
 		if (offset > oldArrayLength) { len += (offset - oldArrayLength); offset = oldArrayLength; }
 
-		Object object = XArray.newInstance(oldArrayEleClass, oldArrayLength + len);
+		Object object = newInstance(oldArrayEleClass, oldArrayLength + len);
 		if (offset > 0) { System.arraycopy(oldArray, 0, object, 0, offset);}
 		if (offset < oldArrayLength) {	System.arraycopy(oldArray, offset, object, offset + len, oldArrayLength - offset); }
 		return object;
@@ -550,7 +489,7 @@ public class XArray {
 				newList.add(content);
 			}
 		}
-		Object array = XArray.newInstance(XArray.getElementClass(origin), newList.size());
+		Object array = newInstance(XArray.getElementClass(origin), newList.size());
 		T[] newArray = newList.toArray((T[]) array);
 		newList = null;
 		return newArray;
@@ -573,7 +512,7 @@ public class XArray {
 		}
 		int index = 0;
 		Class elementClass = XArray.getElementClass(XArray.getElementClass(arrays));
-		T[] newArray = (T[]) XArray.newInstance(elementClass, length);
+		T[] newArray = (T[]) newInstance(elementClass, length);
 		for (int i = 0; i < len; i++) {
 			T[] array = arrays[off + i];
 			System.arraycopy(array, 0, newArray, index, array.length);
@@ -604,7 +543,7 @@ public class XArray {
 			}
 		}
 		Class elementClass = XArray.getElementClass(XArray.getElementClass(arrays));
-		T[] newArray = map.keySet().toArray((T[]) XArray.newInstance(elementClass, map.size()));
+		T[] newArray = map.keySet().toArray((T[]) newInstance(elementClass, map.size()));
 
 		return newArray;
 	}
@@ -628,7 +567,7 @@ public class XArray {
 			T element = array[off + i];
 			map.put(element, null);
 		}
-		T[] newArray = map.keySet().toArray((T[]) XArray.newInstance(XArray.getElementClass(array), map.size()));
+		T[] newArray = map.keySet().toArray((T[]) newInstance(XArray.getElementClass(array), map.size()));
 		map = null;
 		return newArray;
 	}

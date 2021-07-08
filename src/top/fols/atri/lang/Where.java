@@ -47,7 +47,7 @@ public class Where<T> {
         Object     result = null;
         try {
             result = process.execute();
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
         }
         return null == result ? null: String.valueOf(result);
     }
@@ -58,7 +58,7 @@ public class Where<T> {
 
 
     public static boolean and(Object... value) {
-        if (null == value || value.length == 0) {return false; }
+        if (null == value || value.length == 0) { return false; }
         boolean result = true;
         for (Object object: value) {
             if (!Where.isTrue(object))
@@ -67,7 +67,7 @@ public class Where<T> {
         return result;
     }
     public static boolean or(Object... value) {
-        if (null == value || value.length == 0) {return false; }
+        if (null == value || value.length == 0) { return false; }
         boolean result = false;
         for (Object object: value)
             result |= Where.isTrue(object);
@@ -80,7 +80,7 @@ public class Where<T> {
 
 
     public static boolean aand(Object... value) {
-        if (null == value || value.length == 0) {return false; }
+        if (null == value || value.length == 0) { return false; }
         for (Object object: value) {
             if (!(Where.isTrue(object))) {
                 return false;
@@ -89,7 +89,7 @@ public class Where<T> {
         return true;
     }
     public static boolean oor(Object... value) {
-        if (null == value || value.length == 0) {return false; }
+        if (null == value || value.length == 0) { return false; }
         for (Object object: value) {
             if (Where.isTrue(object)) {
                 return true;

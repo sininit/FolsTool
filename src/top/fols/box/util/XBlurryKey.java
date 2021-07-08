@@ -13,9 +13,9 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
 
 
 
-    public abstract T getOriginKey();
-    public abstract Object formatOriginKey(T okey);
-    public abstract Object getFormatKey();
+    public abstract T       getOriginKey();
+    public abstract Object  formatOriginKey(T okey);
+    public abstract Object  getFormatKey();
 
 
 
