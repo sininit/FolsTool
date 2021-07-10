@@ -1,13 +1,14 @@
 package top.fols.atri.lang;
 
 import top.fols.atri.array.ArrayObject;
-import top.fols.atri.io.buffer.chars.CharArrayBuffer;
-import top.fols.atri.io.buffer.chars.CharBufferFilter;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.util.XArray;
 import top.fols.box.util.XRandom;
 
+import javax.swing.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @SuppressWarnings("SpellCheckingInspection")
@@ -44,39 +45,58 @@ public class Strings {
 
 
 
-	/**
-	 * StringJoiner
-	 * 
-	 * @param array
-	 * @param joinString
-	 * @return
-	 */
-	public static String join(Object array, String joinString) {
-		return Strings.join(array, null, joinString, null);
+
+	public static String[][] matchs(String content, String regex) {
+		return matchs(content, regex, Pattern.MULTILINE);
+	}
+	public static String[][] matchs(String content, String regex, int mode) {
+		Pattern pattern = Pattern.compile(regex, mode);
+		return matchs(content, pattern);
+	}
+	public static String[][] matchs(String content, Pattern regex) {
+		List<String[]> results = new ArrayList<>();
+		Matcher matcher = regex.matcher(content);
+		while (matcher.find()) {
+			String[] result = new String[matcher.groupCount()];
+			for (int i = 0; i < result.length;i++) {
+				result[i] = matcher.group(i + 1);
+			}
+			results.add(result);
+		}
+		return results.toArray(new String[][]{});
 	}
 
-	public static String join(Object array, String head, String joinString, String end) {
-		StringBuilder sb = new StringBuilder();
-		if (null != head) { sb.append(head); }
-		if (null == array || !array.getClass().isArray()) {
-			sb.append(array);
-		} else {
-			ArrayObject xifs = ArrayObject.wrap(array);
-			int len = xifs.length();
-			for (int i = 0; i < len; i++) {
-				sb.append(xifs.objectValue(i)).append((i >= len - 1) ? "" : joinString);
-			}
-			xifs.releaseTry();
-		}
-		if (null != end) { sb.append(end); }
-		return sb.toString();
+	public static String[] match(String content, String regex) {
+		return match(content, regex, Pattern.MULTILINE);
 	}
+	public static String[] match(String content, String regex, int mode) {
+		Pattern pattern = Pattern.compile(regex, mode);
+		return match(content, pattern);
+	}
+	public static String[] match(String content, Pattern regex) {
+		Matcher matcher = regex.matcher(content);
+		if (matcher.find()) {
+			String[] result = new String[matcher.groupCount()];
+			for (int i = 0; i < result.length;i++) {
+				result[i] = matcher.group(i + 1);
+			}
+			return result;
+		}
+		return Finals.EMPTY_STRING_ARRAY;
+	}
+
+
+
+
+
+
+
 
 
 	public static String join(Object[] array, String joinString) {
 		return Strings.join(array, null, joinString, null);
 	}
-
+	@SuppressWarnings({"ImplicitArrayToString", "ConstantConditions"})
 	public static String join(Object[] array, String head, String joinString, String end) {
 		StringBuilder sb = new StringBuilder();
 		if (null != head) { sb.append(head); }
@@ -105,25 +125,63 @@ public class Strings {
 	public static String join(Collection<?> array, String head, String joinString, String end) {
 		StringBuilder sb = new StringBuilder();
 		if (null != head) { sb.append(head); }
-		int len = array.size();
-		Iterator<?> iterator = array.iterator();
-		int i = 0;
-		while (iterator.hasNext()) {
-			sb.append(iterator.next()).append((i >= len - 1) ? "" : joinString);
-			i++;
+		if (null == array) {
+			sb.append(array);
+		} else {
+			if (array.size() > 0) {
+				for (Object o : array) {
+					sb.append(o).append(joinString);
+				}
+				if (sb.length() > joinString.length()) {
+					sb.setLength(sb.length() - joinString.length());
+				}
+			}
 		}
 		if (null != end) { sb.append(end); }
 		return sb.toString();
 	}
 
+
+	/**
+	 * StringJoiner
+	 * 
+	 * @param array
+	 * @param joinString
+	 * @return
+	 */
+	public static String join(Object array, String joinString) {
+		return Strings.join(array, null, joinString, null);
+	}
+
+	public static String join(Object array, String head, String joinString, String end) {
+		StringBuilder sb = new StringBuilder();
+		if (null != head) { sb.append(head); }
+		if (!ArrayObject.wrapable(array)) {
+			sb.append(array);
+		} else {
+			ArrayObject<?> xifs = ArrayObject.wrap(array);
+			int len = xifs.length();
+			if (len > 0) {
+				for (int i = 0; i < len; i++) {
+					sb.append(xifs.objectValue(i)).append(joinString);
+				}
+				if (sb.length() > joinString.length()) {
+					sb.setLength(sb.length() - joinString.length());
+				}
+			}
+		}
+		if (null != end) { sb.append(end); }
+		return sb.toString();
+	}
+
+
+
 	public static String join(Map<?, ?> map, String joinString) {
 		return Strings.join(map, null, "=", joinString, null);
 	}
-
 	public static String join(Map<?, ?> map, String valSeparator, String joinString) {
 		return Strings.join(map, null, valSeparator, joinString, null);
 	}
-
 	public static String join(Map<?, ?> map, String head, String valSeparator, String joinString, String end) {
 		StringBuilder sb = new StringBuilder();
 		if (null != head) { sb.append(head); }

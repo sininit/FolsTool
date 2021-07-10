@@ -55,9 +55,6 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
     }
 
 
-//		public final KeyFormatFactory getFactory() { return this; }
-
-
     public static int hashCode(XBlurryKey factory, Object value) {
         return null == (value = XBlurryKey.formatKey(factory, value)) ? 0: value.hashCode();
     }
@@ -95,7 +92,7 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
 
 
         private static final IgnoreCaseKey DEFAULT = new IgnoreCaseKey(null);
-        public  static final IgnoreCaseKey getDefaultFactory() {
+        public  static IgnoreCaseKey getDefaultFactory() {
             return DEFAULT;
         }
 

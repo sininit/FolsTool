@@ -267,7 +267,6 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 		throw new ClassCastException(object.getClass().getName() + " cannot parsing");
 	}
 
-	public boolean releaseTry() {
-		try { return this.release(); } catch (Throwable ignore) { return false; }
-	}
+
+	public abstract boolean release();
 }
