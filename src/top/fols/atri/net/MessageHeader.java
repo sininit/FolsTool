@@ -24,7 +24,7 @@ import top.fols.atri.util.BlurryKey.IgnoreCaseKey;
  *
  */
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "UnusedReturnValue"})
 public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<String>, List<String>> {
     private static final long serialVersionUID = 1L;
 
@@ -333,13 +333,22 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
         }
         return this;
     }
-
+    public MessageHeader putAllValue(Map<String, String> ua) {
+        if (null != ua) {
+            for (String key : ua.keySet()) {
+                String k = key;
+                String value = ua.get(k);
+                this.setValue0(k, value);
+            }
+        }
+        return this;
+    }
     public MessageHeader putAll(Map<String, List<String>> ua) {
         if (null != ua) {
             for (String key : ua.keySet()) {
                 String k = key;
                 List<String> values = ua.get(k);
-                this.setValueList0(k, null == values ? null : new ArrayList<String>(values));
+                this.setValueList0(k, null == values ? null : new ArrayList<>(values));
             }
         }
         return this;
@@ -348,7 +357,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
         if (null != ua) {
             for (IgnoreCaseKey<String> key : ua.keySet()) {
                 List<String> values = ua.get(key);
-                this.setValueList0(key, null == values ? null : new ArrayList<String>(values));
+                this.setValueList0(key, null == values ? null : new ArrayList<>(values));
             }
         }
         return this;
@@ -400,7 +409,16 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
         }
         return this;
     }
-
+    public MessageHeader addAllValue(Map<String, String> ua) {
+        if (null != ua) {
+            for (String key : ua.keySet()) {
+                String k = key;
+                String values = ua.get(k);
+                this.addValue0(k, values);
+            }
+        }
+        return this;
+    }
     public MessageHeader addAll(Map<String, List<String>> ua) {
         if (null != ua) {
             for (String key : ua.keySet()) {
@@ -415,7 +433,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
         if (null != ua) {
             for (IgnoreCaseKey<String> key : ua.keySet()) {
                 List<String> values = ua.get(key);
-                this.addValueList0(key, null == values ? null : new ArrayList<String>(values));
+                this.addValueList0(key, null == values ? null : new ArrayList<>(values));
             }
         }
         return this;
@@ -459,7 +477,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
     }
     public boolean containsValue(IgnoreCaseKey<String> key, String value) {
         List<String> newValues = this.getValueList0(key);
-        return null == newValues ?false: newValues.contains(value);
+        return null != newValues && newValues.contains(value);
     }
 
 
@@ -535,20 +553,20 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
      * ...
      */
     public String toHeaderString() {
-        StringBuilder strbuf = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         for (IgnoreCaseKey<String> fk : this.keySet()) {
             String ok = fk.getOriginKey();
             String oks = null == ok ?null: String.valueOf(ok);
             List<String> values = this.getValueList0(fk);
             if (null == values || values.size() == 0) {
-                strbuf
+                stringBuilder
                         .append(oks)
                         .append(MessageHeader.ASSIGNMENT_SYMBOL_CHAR)
                         .append(' ')
                         .append(MessageHeader.LINE_SEPARATOR);
             } else {
                 for (String v : values) {
-                    strbuf
+                    stringBuilder
                             .append(oks)
                             .append(MessageHeader.ASSIGNMENT_SYMBOL_CHAR)
                             .append(' ')
@@ -557,7 +575,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
                 }
             }
         }
-        return strbuf.toString();
+        return stringBuilder.toString();
     }
 
     /**
@@ -571,9 +589,9 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
      * \n
      */
     public String toHttpHeaderString(String requestOrReturnLine) {
-        StringBuilder strbuf = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         if (null != requestOrReturnLine && requestOrReturnLine.length() > 0) {
-            strbuf
+            stringBuilder
                     .append(requestOrReturnLine)
                     .append(MessageHeader.LINE_SEPARATOR);
         }
@@ -583,14 +601,14 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
                 String oks = null == ok ?null: String.valueOf(ok);
                 List<String> values = this.getValueList0(fk);
                 if (null == values || values.size() == 0) {
-                    strbuf
+                    stringBuilder
                             .append(oks)
                             .append(MessageHeader.ASSIGNMENT_SYMBOL_CHAR)
                             .append(' ')
                             .append(MessageHeader.LINE_SEPARATOR);
                 } else {
                     for (String v : values) {
-                        strbuf
+                        stringBuilder
                                 .append(oks)
                                 .append(MessageHeader.ASSIGNMENT_SYMBOL_CHAR)
                                 .append(' ')
@@ -600,8 +618,8 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
                 }
             }
         }
-        strbuf.append(MessageHeader.LINE_SEPARATOR);
-        String result = strbuf.toString(); strbuf = null;
+        stringBuilder.append(MessageHeader.LINE_SEPARATOR);
+        String result = stringBuilder.toString(); stringBuilder = null;
         return result;
     }
 
