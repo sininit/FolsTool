@@ -10,13 +10,12 @@ import java.util.Map;
 import java.util.Set;
 
 import top.fols.atri.util.interfaces.InnerMap;
-import top.fols.box.annotation.XAnnotations;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.base.XStringReader;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XArrays;
-import top.fols.box.util.XBlurryKey;
-import top.fols.box.util.XBlurryKey.IgnoreCaseKey;
-import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
+import top.fols.atri.util.BlurryKey;
+import top.fols.atri.util.BlurryKey.IgnoreCaseKey;
 
 /**
  * HTTP/1.1和HTTP/2报头都是不区分大小写的。
@@ -42,10 +41,10 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
     public 	static final String 		LINE_SEPARATOR = new String(XStaticFixedValue.Chars_NextLineRN());
     public 	static final char 			ASSIGNMENT_SYMBOL_CHAR = ':';
 
-    private static final IgnoreCaseKey KeyFactory = XBlurryKey.IgnoreCaseKey.getDefaultFactory();
+    private static final IgnoreCaseKey KeyFactory = BlurryKey.IgnoreCaseKey.getDefaultFactory();
 
-    public static final XBlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_COOKIE      = KeyFactory.newKey("Cookie");
-    public static final XBlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_SET_COOKIE  = KeyFactory.newKey("Set-Cookie");
+    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_COOKIE      = KeyFactory.newKey("Cookie");
+    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_SET_COOKIE  = KeyFactory.newKey("Set-Cookie");
 
 
 
@@ -292,7 +291,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
 
 
 
-    @XAnnotations("set")
+    @BaseAnnotations("set")
     public MessageHeader put(String k, String v) {
         this.setValue0(k, v);
         return this;
@@ -311,7 +310,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
         return this;
     }
 
-    @XAnnotations("deal multi line able")
+    @BaseAnnotations("deal multi line able")
     public MessageHeader putAll(String... multiLineContent) {
         StringBuilder buf = new StringBuilder();
         for (String s : multiLineContent) {
@@ -322,7 +321,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
         return this;
     }
 
-    @XAnnotations("deal multi line able")
+    @BaseAnnotations("deal multi line able")
     public MessageHeader putAll(String multiLineContent) {
         MessageHeader.dealMultiLineMessage0(this, multiLineContent, true);
         return this;
@@ -360,7 +359,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
 
 
 
-    @XAnnotations("add")
+    @BaseAnnotations("add")
     public MessageHeader add(String k, String v) {
         this.addValue0(k, v);
         return this;
@@ -379,7 +378,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
         return this;
     }
 
-    @XAnnotations("deal multi line able")
+    @BaseAnnotations("deal multi line able")
     public MessageHeader addAll(String... Content) {
         StringBuilder buf = new StringBuilder();
         for (String s : Content) {
@@ -389,7 +388,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
         return this;
     }
 
-    @XAnnotations("deal multi line able")
+    @BaseAnnotations("deal multi line able")
     public MessageHeader addAll(String Content) {
         MessageHeader.dealMultiLineMessage0(this, Content, false);
         return this;
@@ -617,7 +616,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
     /*
      * 不会设置key为空的字段
      */
-    @XAnnotations("the empty key won't be set")
+    @BaseAnnotations("the empty key won't be set")
     public MessageHeader setToURLConnection(URLConnection con) {
         for (IgnoreCaseKey<String> fk : this.keySet()) {
             String ok = fk.getOriginKey();
@@ -656,7 +655,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
     /*
      * 不会添加key为空的字段
      */
-    @XAnnotations("the empty key won't be add")
+    @BaseAnnotations("the empty key won't be add")
     public MessageHeader addToURLConnection(URLConnection con) {
         for (IgnoreCaseKey<String> fk : this.keySet()) {
             String ok = fk.getOriginKey();

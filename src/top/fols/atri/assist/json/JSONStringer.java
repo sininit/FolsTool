@@ -16,7 +16,7 @@
  * origin module @org.json
  */
 
-package top.fols.atri.util.json;
+package top.fols.atri.assist.json;
 
 import java.util.ArrayList;
 import java.util.Arrays;

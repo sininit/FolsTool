@@ -3,9 +3,8 @@ package top.fols.atri.lang;
 import top.fols.atri.array.ArrayObject;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.util.XArray;
-import top.fols.box.util.XRandom;
+import top.fols.atri.util.Randoms;
 
-import javax.swing.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -222,7 +221,7 @@ public class Strings {
 		if (null == str) { return  null; }
 		if (length == 0) { return Finals.STRING_EMPTY_VALUE; }
 
-		XRandom random = new XRandom();
+		Randoms random = new Randoms();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			sb.append(str[random.randomInt(0, str.length - 1)]);
@@ -234,7 +233,7 @@ public class Strings {
 		if (null == str) { return  null; }
 		if (length == 0) { return Finals.STRING_EMPTY_VALUE; }
 
-		XRandom random = new XRandom();
+		Randoms random = new Randoms();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			sb.append(str.charAt(random.randomInt(0, str.length() - 1)));

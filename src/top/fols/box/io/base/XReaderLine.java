@@ -3,7 +3,7 @@ package top.fols.box.io.base;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Arrays;
-import top.fols.box.annotation.XAnnotations;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.XStream;
 import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.io.interfaces.XInterfaceLineReaderStream;
@@ -434,7 +434,7 @@ top: while (true) {
 		this.buf = null;
 	}
 
-	@XAnnotations("last read stream result equals -1")
+	@BaseAnnotations("last read stream result equals -1")
 	public boolean isReadComplete() {
 		return this.isReadComplete;
 	}

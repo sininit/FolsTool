@@ -1,21 +1,21 @@
-package top.fols.box.util;
+package top.fols.atri.util;
 
 import java.util.Random;
 
-public class XRandom {
+public class Randoms {
 
-    public static final XRandom defaultInstance = new XRandom();
+    public static final Randoms defaultInstance = new Randoms();
 
     public static int getRandomInt(int min, int max) {
-        return XRandom.defaultInstance.randomInt(min, max);
+        return Randoms.defaultInstance.randomInt(min, max);
     }
 
     public static long getRandomLong(long min, long max) {
-        return XRandom.defaultInstance.randomLong(min, max);
+        return Randoms.defaultInstance.randomLong(min, max);
     }
 
     public static boolean getRandomBoolean() {
-        return XRandom.defaultInstance.randomBoolean();
+        return Randoms.defaultInstance.randomBoolean();
     }
 
     /*
@@ -24,11 +24,11 @@ public class XRandom {
      */
     private final Random RANDOM;
 
-    public XRandom() {
+    public Randoms() {
         this(new Random());
     }
 
-    public XRandom(Random random) {
+    public Randoms(Random random) {
         this.RANDOM = random;
     }
 
@@ -77,7 +77,7 @@ public class XRandom {
     }
 
     public int randomInt(int min, int max) {
-        return XRandom.randomInt0(this.RANDOM, min, max);
+        return Randoms.randomInt0(this.RANDOM, min, max);
     }
 
     /*
@@ -128,10 +128,10 @@ public class XRandom {
                 throw new ArithmeticException("i don't know why will be wrong... " + "min=" + min + ", max=" + max);
             }
             // System.out.println(String.format("buf1=%s,buf2=%s,buf3=%s",buf1,buf2,buf3));
-            return min + XRandom.randomLong0(this.RANDOM, 0, buf1) + XRandom.randomLong0(this.RANDOM, 0, buf2)
-                    + XRandom.randomLong0(this.RANDOM, 0, buf3);
+            return min + Randoms.randomLong0(this.RANDOM, 0, buf1) + Randoms.randomLong0(this.RANDOM, 0, buf2)
+                    + Randoms.randomLong0(this.RANDOM, 0, buf3);
         } else {
-            return min + XRandom.randomLong0(this.RANDOM, 0, cn);
+            return min + Randoms.randomLong0(this.RANDOM, 0, cn);
         }
     }
 

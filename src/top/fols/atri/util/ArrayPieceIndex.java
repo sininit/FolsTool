@@ -1,8 +1,9 @@
-package top.fols.box.util;
+package top.fols.atri.util;
 
 import java.io.Serializable;
 
-public class XArrayPieceIndexManager implements Serializable {
+@SuppressWarnings("UnnecessaryLocalVariable")
+public class ArrayPieceIndex implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private long length;
@@ -10,23 +11,24 @@ public class XArrayPieceIndexManager implements Serializable {
 
 	private long pieceCount;
 
-	public XArrayPieceIndexManager(long eachPieceSize) {
-		this.updatepPieceInfo(Long.MAX_VALUE, eachPieceSize);
+	public ArrayPieceIndex(long eachPieceSize) {
+		this.updatePieceInfo(Long.MAX_VALUE, eachPieceSize);
+	}
+	public ArrayPieceIndex(long length, long eachPieceSize) {
+		this.updatePieceInfo(length, eachPieceSize);
 	}
 
-	public XArrayPieceIndexManager(long length, long eachPieceSize) {
-		this.updatepPieceInfo(length, eachPieceSize);
-	}
 
-	public XArrayPieceIndexManager updatepPieceInfo(long eachPieceSize) {
-		return this.updatepPieceInfo(this.length, eachPieceSize);
+
+	public ArrayPieceIndex updatePieceInfo(long eachPieceSize) {
+		return this.updatePieceInfo(this.length, eachPieceSize);
 	}
 
 	/**
 	 * @param len           array.length
 	 * @param eachPieceSize each block size
 	 */
-	public XArrayPieceIndexManager updatepPieceInfo(long len, long eachPieceSize) {
+	public ArrayPieceIndex updatePieceInfo(long len, long eachPieceSize) {
 		if (len < 0) {
 			throw new RuntimeException("length=" + len + ", min=0");
 		}
@@ -99,7 +101,7 @@ public class XArrayPieceIndexManager implements Serializable {
 	 * get the block where the pointer is, starting from 0
 	 */
 	public long getIndexPiece(long index) {
-		long newPiece = index / this.eachPieceSize;
+		long   newPiece = index / this.eachPieceSize;
 		return newPiece;
 	}
 

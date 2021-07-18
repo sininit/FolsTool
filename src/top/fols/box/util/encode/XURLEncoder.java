@@ -3,7 +3,7 @@ package top.fols.box.util.encode;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.BitSet;
-import top.fols.box.annotation.XAnnotations;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.base.XCharArrayWriter;
 
 public class XURLEncoder {
@@ -364,7 +364,7 @@ public class XURLEncoder {
         /**
          * 0-9 48>=x<=57 a-f 97>=x<=102 a-f 65>=x<=70
          */
-        @XAnnotations("%XX or +")
+        @BaseAnnotations("%XX or +")
         private int nextURLCodeLength(int start) {
             if (text.charAt(start) == '+') {
                 // System.out.println(start + "+");

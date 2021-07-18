@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import top.fols.box.annotation.XAnnotations;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 
 @SuppressWarnings("SpellCheckingInspection")
@@ -95,7 +95,7 @@ public class Cookies implements Serializable, XInterfaceGetInnerMap<String, Stri
 
 
 
-	@XAnnotations("direct return, result format:  key=value; key1=value1...")
+	@BaseAnnotations("direct return, result format:  key=value; key1=value1...")
 	@Override
 	public String toString() {
 		// TODO: Implement this method

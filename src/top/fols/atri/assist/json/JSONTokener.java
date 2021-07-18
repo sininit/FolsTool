@@ -16,7 +16,7 @@
  * origin module @org.json
  */
 
-package top.fols.atri.util.json;
+package top.fols.atri.assist.json;
 
 // Note: this class was written without inspecting the non-free org.json sourcecode.
 

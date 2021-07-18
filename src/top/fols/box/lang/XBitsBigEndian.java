@@ -6,7 +6,7 @@ package top.fols.box.lang;
  *
  * java default using big-endian byte ordering.
  */
-import top.fols.box.annotation.XAnnotations;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.lang.abstracts.XBitsOptionAbstract;
 
 public class XBitsBigEndian extends XBitsOptionAbstract {
@@ -68,13 +68,13 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 	 * Methods for unpacking primitive values from byte arrays starting at given
 	 * offsets.
 	 */
-	@XAnnotations("occupied byte length: 1")
+	@BaseAnnotations("occupied byte length: 1")
 	@Override
 	public boolean getBoolean(byte[] b, int off) {
 		return b[off] != 0;
 	}
 
-	@XAnnotations("occupied byte length: 2")
+	@BaseAnnotations("occupied byte length: 2")
 	@Override
 	public char getChar(byte[] b, int off) {
 		return (char) (
@@ -83,7 +83,7 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 			);
 	}
 
-	@XAnnotations("occupied byte length: 2")
+	@BaseAnnotations("occupied byte length: 2")
 	@Override
 	public short getShort(byte[] b, int off) {
 		return (short) (
@@ -92,7 +92,7 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 			);
 	}
 
-	@XAnnotations("occupied byte length: 4")
+	@BaseAnnotations("occupied byte length: 4")
 	@Override
 	public int getInt(byte[] b, int off) {
 		return
@@ -102,13 +102,13 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 			((b[off]) << 24);
 	}
 
-	@XAnnotations("occupied byte length: 4")
+	@BaseAnnotations("occupied byte length: 4")
 	@Override
 	public float getFloat(byte[] b, int off) {
 		return Float.intBitsToFloat(getInt(b, off));
 	}
 
-	@XAnnotations("occupied byte length: 8")
+	@BaseAnnotations("occupied byte length: 8")
 	@Override
 	public long getLong(byte[] b, int off) {
 		return 
@@ -122,7 +122,7 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 			(((long) b[off]) << 56);
 	}
 
-	@XAnnotations("occupied byte length: 8")
+	@BaseAnnotations("occupied byte length: 8")
 	@Override
 	public double getDouble(byte[] b, int off) {
 		return Double.longBitsToDouble(getLong(b, off));
@@ -137,12 +137,12 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 	 * Methods for packing primitive values into byte arrays starting at given
 	 * offsets.
 	 */
-	@XAnnotations("occupied byte length: 1")
+	@BaseAnnotations("occupied byte length: 1")
 	@Override
 	public void putBytes(byte[] b, int off, boolean val) {
 		b[off] = (byte) (val ? 1 : 0);
 	}
-	@XAnnotations("occupied byte length: 1")
+	@BaseAnnotations("occupied byte length: 1")
 	@Override
 	public byte[] getBytes(boolean val) {
 		byte[] bytes = new byte[boolean_byte_length];
@@ -151,13 +151,13 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 	}
 
 
-	@XAnnotations("occupied byte length: 2")
+	@BaseAnnotations("occupied byte length: 2")
 	@Override
 	public void putBytes(byte[] b, int off, char val) {
 		b[off + 1] = (byte) (val);
 		b[off] = (byte) (val >>> 8);
 	}
-	@XAnnotations("occupied byte length: 2")
+	@BaseAnnotations("occupied byte length: 2")
 	@Override
 	public byte[] getBytes(char val) {
 		byte[] bytes = new byte[char_byte_length];
@@ -166,13 +166,13 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 	}
 
 
-	@XAnnotations("occupied byte length: 2")
+	@BaseAnnotations("occupied byte length: 2")
 	@Override
 	public void putBytes(byte[] b, int off, short val) {
 		b[off + 1] = (byte) (val);
 		b[off] = (byte) (val >>> 8);
 	}
-	@XAnnotations("occupied byte length: 2")
+	@BaseAnnotations("occupied byte length: 2")
 	@Override
 	public byte[] getBytes(short val) {
 		byte[] bytes = new byte[short_byte_length];
@@ -181,7 +181,7 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 	}
 
 
-	@XAnnotations("occupied byte length: 4")
+	@BaseAnnotations("occupied byte length: 4")
 	@Override
 	public void putBytes(byte[] b, int off, int val) {
 		b[off + 3] = (byte) (val);
@@ -189,7 +189,7 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 		b[off + 1] = (byte) (val >>> 16);
 		b[off] = (byte) (val >>> 24);
 	}
-	@XAnnotations("occupied byte length: 4")
+	@BaseAnnotations("occupied byte length: 4")
 	@Override
 	public byte[] getBytes(int val) {
 		byte[] bytes = new byte[int_byte_length];
@@ -198,12 +198,12 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 	}
 
 
-	@XAnnotations("occupied byte length: 4")
+	@BaseAnnotations("occupied byte length: 4")
 	@Override
 	public void putBytes(byte[] b, int off, float val) {
 		putBytes(b, off, Float.floatToIntBits(val));
 	}
-	@XAnnotations("occupied byte length: 4")
+	@BaseAnnotations("occupied byte length: 4")
 	@Override
 	public byte[] getBytes(float val) {
 		byte[] bytes = new byte[float_byte_length];
@@ -212,7 +212,7 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 	}
 
 
-	@XAnnotations("occupied byte length: 8")
+	@BaseAnnotations("occupied byte length: 8")
 	@Override
 	public void putBytes(byte[] b, int off, long val) {
 		b[off + 7] = (byte) (val);
@@ -224,7 +224,7 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 		b[off + 1] = (byte) (val >>> 48);
 		b[off] = (byte) (val >>> 56);
 	}
-	@XAnnotations("occupied byte length: 8")
+	@BaseAnnotations("occupied byte length: 8")
 	@Override
 	public byte[] getBytes(long val) {
 		byte[] bytes = new byte[long_byte_length];
@@ -233,12 +233,12 @@ public class XBitsBigEndian extends XBitsOptionAbstract {
 	}
 
 
-	@XAnnotations("occupied byte length: 8")
+	@BaseAnnotations("occupied byte length: 8")
 	@Override
 	public void putBytes(byte[] b, int off, double val) {
 		putBytes(b, off, Double.doubleToLongBits(val));
 	}
-	@XAnnotations("occupied byte length: 8")
+	@BaseAnnotations("occupied byte length: 8")
 	@Override
 	public byte[] getBytes(double val) {
 		byte[] bytes = new byte[double_byte_length];

@@ -71,17 +71,23 @@ public abstract class BufferFilter<A extends Object> {
 	public A 		contentSeparator() { return this.seachSeparator; }
 	public boolean  contentReadEnd() { return this.readEnd; }
 	public boolean  contentReadToSeparator() { return null != this.seachSeparator; }
-	
-	
+
+
+	public boolean  hasResult() {
+		return null != buffer;
+	}
 	public A        result(boolean addSeparator) {
-		BufferFilter.this.chk();
-		
-		boolean readToSeparator = this.contentReadToSeparator();
-		int offset = this.contentOffset();
-		int count = this.contentLength() + (readToSeparator && addSeparator ?sizeof(seachSeparator): 0);
-		A array = array(count);
-		buffer.arraycopy(offset, array, 0, count);
-		return array;
+		BufferOperate<A> buffer = this.buffer;
+		if (null == buffer) {
+			return null;
+		} else {
+			boolean readToSeparator = this.contentReadToSeparator();
+			int offset = this.contentOffset();
+			int count = this.contentLength() + (readToSeparator && addSeparator ?sizeof(seachSeparator): 0);
+			A array = array(count);
+			buffer.arraycopy(offset, array, 0, count);
+			return array;
+		}
 	}
 	
 	

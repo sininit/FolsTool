@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.annotation.XAnnotations;
 import top.fols.box.io.abstracts.XAbstractRandomAccessOutputStream;
 
-@XAnnotations("random access file mode rw, default seek to file end index")
+@BaseAnnotations("random access file mode rw, default seek to file end index")
 public class XRandomAccessFileOutputStream extends XAbstractRandomAccessOutputStream {
 	private final RandomAccessFile innerStream;
 	private File file;

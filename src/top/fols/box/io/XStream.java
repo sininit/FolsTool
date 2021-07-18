@@ -8,13 +8,10 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.Arrays;
 
 import top.fols.atri.io.Streams;
-import top.fols.box.annotation.XAnnotations;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.io.base.XByteArrayOutputStream;
-import top.fols.box.io.base.XCharArrayWriter;
 
 public class XStream {
 	public static final int DEFAULT_BYTE_BUFF_SIZE = 8192;

@@ -3,8 +3,7 @@ package top.fols.box.lang;
 import java.lang.reflect.Array;
 
 import top.fols.atri.lang.Clasz;
-import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.util.XStringJoiner;
+import top.fols.atri.assist.StringJoiner;
 
 public class XClass {
 
@@ -12,7 +11,7 @@ public class XClass {
 
 
     public static String joinParamJavaClassName(Object[] objs) {
-        XStringJoiner sb = new XStringJoiner(", ", "(", ")");
+        StringJoiner sb = new StringJoiner(", ", "(", ")");
         if (null != objs) {
             for (Object obj : objs) {
                 sb.add(null == obj ? null : obj.getClass().getName());
@@ -21,7 +20,7 @@ public class XClass {
         return sb.toString();
     }
     public static String joinParamJavaClassCanonicalName(Object[] objs) {
-        XStringJoiner sb = new XStringJoiner(", ", "(", ")");
+        StringJoiner sb = new StringJoiner(", ", "(", ")");
         if (null != objs) {
             for (Object obj : objs) {
                 sb.add(null == obj ? null : toAbsCanonicalName(obj.getClass()));
@@ -31,7 +30,7 @@ public class XClass {
     }
 
     public static String joinParamJavaClassName(Class[] objs) {
-        XStringJoiner sb = new XStringJoiner(", ", "(", ")");
+        StringJoiner sb = new StringJoiner(", ", "(", ")");
         if (null != objs) {
             for (Class cls : objs) {
                 sb.add(null == cls ? null : cls.getName());
@@ -40,7 +39,7 @@ public class XClass {
         return sb.toString();
     }
     public static String joinParamJavaClassCanonicalName(Class[] objs) {
-        XStringJoiner sb = new XStringJoiner(", ", "(", ")");
+        StringJoiner sb = new StringJoiner(", ", "(", ")");
         if (null != objs) {
             for (Class cls : objs) {
                 sb.add(null == cls ? null : toAbsCanonicalName(cls));

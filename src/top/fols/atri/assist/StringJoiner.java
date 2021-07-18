@@ -1,4 +1,4 @@
-package top.fols.box.util;
+package top.fols.atri.assist;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -75,13 +75,13 @@ import java.util.Objects;
  *      CharSequence)
  * @since 1.8
  */
-public final class XStringJoiner {
+public final class StringJoiner {
     private final String prefix;
     private final String delimiter;
     private final String suffix;
 
     /** Contains all the string components added so far. */
-    private String[] elts;
+    private String[] element;
 
     /** The number of string components added so far. */
     private int size;
@@ -108,7 +108,7 @@ public final class XStringJoiner {
      *                  added to the {@code StringJoiner} value
      * @throws NullPointerException if {@code delimiter} is {@code null}
      */
-    public XStringJoiner(CharSequence delimiter) {
+    public StringJoiner(CharSequence delimiter) {
         this(delimiter, "", "");
     }
 
@@ -127,7 +127,7 @@ public final class XStringJoiner {
      * @throws NullPointerException if {@code prefix}, {@code delimiter}, or
      *                              {@code suffix} is {@code null}
      */
-    public XStringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
+    public StringJoiner(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
         Objects.requireNonNull(prefix, "The prefix must not be null");
         Objects.requireNonNull(delimiter, "The delimiter must not be null");
         Objects.requireNonNull(suffix, "The suffix must not be null");
@@ -151,7 +151,7 @@ public final class XStringJoiner {
      * @throws NullPointerException when the {@code emptyValue} parameter is
      *                              {@code null}
      */
-    public XStringJoiner setEmptyValue(CharSequence emptyValue) {
+    public StringJoiner setEmptyValue(CharSequence emptyValue) {
         this.emptyValue = Objects.requireNonNull(emptyValue, "The empty value must not be null").toString();
         return this;
     }
@@ -172,24 +172,24 @@ public final class XStringJoiner {
      */
     @Override
     public String toString() {
-        final String[] elts = this.elts;
-        if (null == elts && null != emptyValue) {
+        final String[] strings = this.element;
+        if (null == strings && null != emptyValue) {
             return emptyValue;
         }
         final int size = this.size;
         final int addLen = prefix.length() + suffix.length();
         if (addLen == 0) {
             compactElts();
-            return size == 0 ? "" : elts[0];
+            return size == 0 ? "" : strings[0];
         }
         final String delimiter = this.delimiter;
         final char[] chars = new char[len + addLen];
         int k = getChars(prefix, chars, 0);
         if (size > 0) {
-            k += getChars(elts[0], chars, k);
+            k += getChars(strings[0], chars, k);
             for (int i = 1; i < size; i++) {
                 k += getChars(delimiter, chars, k);
-                k += getChars(elts[i], chars, k);
+                k += getChars(strings[i], chars, k);
             }
         }
         k += getChars(suffix, chars, k);
@@ -204,17 +204,17 @@ public final class XStringJoiner {
      * @param newElement The element to add
      * @return a reference to this {@code StringJoiner}
      */
-    public XStringJoiner add(CharSequence newElement) {
+    public StringJoiner add(CharSequence newElement) {
         final String elt = String.valueOf(newElement);
-        if (null == elts) {
-            elts = new String[8];
+        if (null == element) {
+            element = new String[8];
         } else {
-            if (size == elts.length)
-                elts = Arrays.copyOf(elts, 2 * size);
+            if (size == element.length)
+                element = Arrays.copyOf(element, 2 * size);
             len += delimiter.length();
         }
         len += elt.length();
-        elts[size++] = elt;
+        element[size++] = elt;
         return this;
     }
 
@@ -239,26 +239,26 @@ public final class XStringJoiner {
      * @throws NullPointerException if the other {@code StringJoiner} is null
      * @return This {@code StringJoiner}
      */
-    public XStringJoiner merge(XStringJoiner other) {
+    public StringJoiner merge(StringJoiner other) {
         Objects.requireNonNull(other);
-        if (null == other.elts) {
+        if (null == other.element) {
             return this;
         }
         other.compactElts();
-        return add(other.elts[0]);
+        return add(other.element[0]);
     }
 
     private void compactElts() {
         if (size > 1) {
             final char[] chars = new char[len];
-            int i = 1, k = getChars(elts[0], chars, 0);
+            int i = 1, k = getChars(element[0], chars, 0);
             do {
                 k += getChars(delimiter, chars, k);
-                k += getChars(elts[i], chars, k);
-                elts[i] = null;
+                k += getChars(element[i], chars, k);
+                element[i] = null;
             } while (++i < size);
             size = 1;
-            elts[0] = new String(chars);
+            element[0] = new String(chars);
         }
     }
 

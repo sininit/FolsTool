@@ -5,8 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import top.fols.box.annotation.XAnnotations;
-import top.fols.box.net.XURL;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.util.encode.XURLEncoder;
 import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 
@@ -53,17 +52,17 @@ public class URLParams implements Serializable, XInterfaceGetInnerMap<String, St
 
 
 
-	@XAnnotations("this method will return the value after the original result is decoded.")
+	@BaseAnnotations("this method will return the value after the original result is decoded.")
 	public String get(String key) {
 		return this.get(key, true, null);
 	}
 
-	@XAnnotations("this method will return the value after the original result is decoded.")
+	@BaseAnnotations("this method will return the value after the original result is decoded.")
 	public String get(String key, String charsetName) {
 		return this.get(key, true, charsetName);
 	}
 
-	@XAnnotations("direct return value")
+	@BaseAnnotations("direct return value")
 	public String getData(String key) {
 		return this.get(key, false, null);
 	}
@@ -80,19 +79,19 @@ public class URLParams implements Serializable, XInterfaceGetInnerMap<String, St
 		return result;
 	}
 
-	@XAnnotations("direct put data")
+	@BaseAnnotations("direct put data")
 	public URLParams putData(String orginkey, String orginValue) {
 		this.put(orginkey, orginValue, false, false, null);
 		return this;
 	}
 
-	@XAnnotations("this method will put after encoding the key and Value.")
+	@BaseAnnotations("this method will put after encoding the key and Value.")
 	public URLParams put(String orginkey, String orginValue) {
 		this.put(orginkey, orginValue, true, true, null);
 		return this;
 	}
 
-	@XAnnotations("this method will put after encoding the key and Value.")
+	@BaseAnnotations("this method will put after encoding the key and Value.")
 	public URLParams put(String orginkey, String orginValue, String charsetName) {
 		this.put(orginkey, orginValue, true, true, charsetName);
 		return this;
@@ -114,19 +113,19 @@ public class URLParams implements Serializable, XInterfaceGetInnerMap<String, St
 	}
 
 
-	@XAnnotations("direct remove")
+	@BaseAnnotations("direct remove")
 	public URLParams remove(String key) {
 		this.values.remove(key);
 		return this;
 	}
 
-	@XAnnotations("direct check")
+	@BaseAnnotations("direct check")
 	public boolean containsKey(String key) {
 		return this.values.containsKey(key);
 	}
 
 
-	@XAnnotations("if you want to manually modify his please also manual coding")
+	@BaseAnnotations("if you want to manually modify his please also manual coding")
 	@Override
 	public Map<String, String> getInnerMap() {
 		return this.values;
@@ -154,7 +153,7 @@ public class URLParams implements Serializable, XInterfaceGetInnerMap<String, St
 	}
 
 
-	@XAnnotations("direct return, result format:  key=value&key1=value1...")
+	@BaseAnnotations("direct return, result format:  key=value&key1=value1...")
 	@Override
 	public String toString() {
 		// TODO: Implement this method

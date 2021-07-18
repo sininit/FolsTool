@@ -1,4 +1,4 @@
-package top.fols.box.util;
+package top.fols.atri.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +10,8 @@ import top.fols.box.statics.XStaticSystem;
 import top.fols.box.util.encode.XHexEncoder;
 import top.fols.box.io.digest.XDigestOutputStream;
 
-public class XMessageDigest {
+@SuppressWarnings({"rawtypes", "UnnecessaryLocalVariable"})
+public class MessageDigests {
 	
 	public static final String ALGORITHM_MD5 = "MD5";
 	public static final String ALGORITHM_SHA1 = "SHA1";
@@ -18,15 +19,15 @@ public class XMessageDigest {
 	/*
 	 * MD5 SHA-1 SHA-384 SHA-224 SHA-256 SHA-512
 	 */
-	public static XKeyMap<String> getMessageDigestAlgorithms() {
+	public static KeySetMap<String> getMessageDigestAlgorithms() {
 		return XStaticSystem.getMessageDigestAlgorithms();
 	}
 	
 	public static boolean contains(String name) {
-		return XMessageDigest.getMessageDigestAlgorithms().containsKey(name);
+		return MessageDigests.getMessageDigestAlgorithms().containsKey(name);
 	}
 	public static String[] list() {
-		XKeyMap<String> map = XMessageDigest.getMessageDigestAlgorithms();
+		KeySetMap<String> map = MessageDigests.getMessageDigestAlgorithms();
 		return map.toArray(new String[map.size()]);
 	}
 	
@@ -39,14 +40,15 @@ public class XMessageDigest {
 	}
 
 	public static byte[] getValue(MessageDigest d, InputStream input) throws IOException {
-		XDigestOutputStream out = XMessageDigest.wrapToStream(d);
+		XDigestOutputStream out = MessageDigests.wrapToStream(d);
 		XStream.copy(input, out);
 		return out.getValue();
 	}
 	
 	public static byte[] getValue(MessageDigest d, byte[] input) throws IOException {
-		XDigestOutputStream out = XMessageDigest.wrapToStream(d);
-		XStream.copy(input, out);
+		XDigestOutputStream out = MessageDigests.wrapToStream(d);
+		out.write(input);
+		out.flush();
 		return out.getValue();
 	}
 	
@@ -56,14 +58,46 @@ public class XMessageDigest {
 	}
 	
 	public static XDigestOutputStream<OutputStream> wrapToStream(MessageDigest d) {
-		return new XDigestOutputStream<OutputStream>(d);
+		return new XDigestOutputStream<>(d);
 	}
 	
 	
 	public static MessageDigest md5Instance() {
-		return XMessageDigest.getMessageDigest(ALGORITHM_MD5);
+		return MessageDigests.getMessageDigest(ALGORITHM_MD5);
 	}
 	public static MessageDigest sha1Instance() {
-		return XMessageDigest.getMessageDigest(ALGORITHM_SHA1);
+		return MessageDigests.getMessageDigest(ALGORITHM_SHA1);
+	}
+
+
+	public static byte[] getMD5Digest(byte[] bytes) {
+		MessageDigest messageDigest = md5Instance();
+		try {
+			byte[] digest = getValue(messageDigest, bytes);
+			return digest;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	public static String md5Hex(byte[] bytes) {
+		byte[] digest = getMD5Digest(bytes);
+		return XHexEncoder.encodeToString(digest);
+	}
+
+
+
+	public static byte[] getSha1Digest(byte[] bytes) {
+		MessageDigest messageDigest = sha1Instance();
+		try {
+			byte[] digest = getValue(messageDigest, bytes);
+			return digest;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	public static String sha1Hex(byte[] bytes) {
+		byte[] digest = getSha1Digest(bytes);
+		return XHexEncoder.encodeToString(digest);
 	}
 }

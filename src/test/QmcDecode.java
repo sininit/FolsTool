@@ -1,7 +1,7 @@
 package test;
 
 import top.fols.box.io.os.XFile;
-import top.fols.box.util.XArrayPieceIndexManager;
+import top.fols.atri.util.ArrayPieceIndex;
 
 import java.io.*;
 
@@ -79,7 +79,7 @@ public class QmcDecode {
 
         int buflen = 8192;
 
-        XArrayPieceIndexManager arrayPieceIndexManager = new XArrayPieceIndexManager(fileLength, buflen);
+        ArrayPieceIndex arrayPieceIndexManager = new ArrayPieceIndex(fileLength, buflen);
 
         byte[] buffer = new byte[buflen];
         for (int i = 0; i < arrayPieceIndexManager.getPieceCount(); i++) {

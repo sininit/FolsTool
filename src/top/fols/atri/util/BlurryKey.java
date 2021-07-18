@@ -1,4 +1,4 @@
-package top.fols.box.util;
+package top.fols.atri.util;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -6,8 +6,8 @@ import java.lang.reflect.Constructor;
 import top.fols.atri.lang.Objects;
 import top.fols.box.statics.XStaticFixedValue;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
-public abstract class XBlurryKey<T extends Object> implements Cloneable {
+@SuppressWarnings({"rawtypes", "unchecked", "EqualsWhichDoesntCheckParameterClass"})
+public abstract class BlurryKey<T extends Object> implements Cloneable {
 
 
 
@@ -19,11 +19,11 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
 
 
 
-    public abstract XBlurryKey<T> clone();
-    public XBlurryKey<T> newKey(T okey) {
+    public abstract BlurryKey<T> clone();
+    public BlurryKey<T> newKey(T okey) {
         try {
             Constructor con = this.getClass().getDeclaredConstructor(XStaticFixedValue.Object_class);
-            return (XBlurryKey<T>) con.newInstance(okey);
+            return (BlurryKey<T>) con.newInstance(okey);
         } catch (Throwable e) {
             throw new UnsupportedOperationException(e);
         }
@@ -38,13 +38,13 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
     @Override
     public int hashCode() {
         // TODO: Implement this method
-        return XBlurryKey.hashCode(this,		this);
+        return BlurryKey.hashCode(this,		this);
     }
 
     @Override
     public boolean equals(Object obj) {
         // TODO: Implement this method
-        return XBlurryKey.equals(this,		this, obj);
+        return BlurryKey.equals(this,		this, obj);
     }
 
     @Override
@@ -55,20 +55,20 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
     }
 
 
-    public static int hashCode(XBlurryKey factory, Object value) {
-        return null == (value = XBlurryKey.formatKey(factory, value)) ? 0: value.hashCode();
+    public static int hashCode(BlurryKey factory, Object value) {
+        return null == (value = BlurryKey.formatKey(factory, value)) ? 0: value.hashCode();
     }
 
-    public static boolean equals(XBlurryKey factory, Object value1 , Object value2) {
-        return Objects.equals(XBlurryKey.formatKey(factory, value1), XBlurryKey.formatKey(factory, value2));
+    public static boolean equals(BlurryKey factory, Object value1 , Object value2) {
+        return Objects.equals(BlurryKey.formatKey(factory, value1), BlurryKey.formatKey(factory, value2));
     }
 
-    public static Object formatKey(XBlurryKey factory, Object value) {
-        if (value instanceof XBlurryKey) {
+    public static Object formatKey(BlurryKey factory, Object value) {
+        if (value instanceof BlurryKey) {
             if (value.getClass() == factory.getClass()) {
-                return ((XBlurryKey)value).getFormatKey();
+                return ((BlurryKey)value).getFormatKey();
             } else {
-                return factory.formatOriginKey(((XBlurryKey)value).getOriginKey()); //套娃？
+                return factory.formatOriginKey(((BlurryKey)value).getOriginKey()); //套娃？
             }
         }
         return factory.formatOriginKey(value);
@@ -86,7 +86,8 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
 
 
 //    public static final IgnoreCaseKey IGNORE_CASE_KEY_FACTORY = IgnoreCaseKey.getDefaultFactory();
-    public static class IgnoreCaseKey<T> extends XBlurryKey<T> implements Serializable {
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    public static class IgnoreCaseKey<T> extends BlurryKey<T> implements Serializable {
         private static final long serialVersionUID = 1L;
 
 
@@ -96,20 +97,11 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
             return DEFAULT;
         }
 
-
-
-
-
-
-
-
-
-
-        T originkey;
+        T originKey;
         transient Object getFormatKeyCache0;
         IgnoreCaseKey(IgnoreCaseKey<T> key) throws UnsupportedOperationException {
             if (null != key) {
-                this.originkey = key.originkey;
+                this.originKey = key.originKey;
                 this.getFormatKeyCache0 = key.getFormatKeyCache0;
             }
         }
@@ -130,7 +122,7 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
             if (originkey instanceof IgnoreCaseKey) {
                 throw new UnsupportedOperationException("wrap key: " + originkey.getClass().getName());
             } else {
-                this.originkey = originkey;
+                this.originKey = originkey;
             }
         }
 
@@ -140,7 +132,7 @@ public abstract class XBlurryKey<T extends Object> implements Cloneable {
         @Override
         public T getOriginKey() {
             // TODO: Implement this method
-            return this.originkey;
+            return this.originKey;
         }
 
         @Override

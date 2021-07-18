@@ -8,7 +8,7 @@ import java.io.RandomAccessFile;
 import top.fols.box.io.XStream;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
 import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.util.XArrayPieceIndexManager;
+import top.fols.atri.util.ArrayPieceIndex;
 import top.fols.box.io.interfaces.XInterfaceSequenceBigByteIO;
 
 /**
@@ -46,12 +46,12 @@ public class XFileByteAt implements Closeable, XInterfaceSequenceBigByteIO, XInt
         this.raf = option;
         this.piecesize = buffsize;
         this.nowpiecebytes = new byte[this.piecesize];
-        this.xpm = new XArrayPieceIndexManager(filelength, this.piecesize);
+        this.xpm = new ArrayPieceIndex(filelength, this.piecesize);
     }
 
     private byte[] nowpiecebytes;// 块缓存
     private int piecesize;// 块缓存大小
-    private XArrayPieceIndexManager xpm;
+    private ArrayPieceIndex xpm;
 
     private long nowpiece = -1;// 当前块
     private long nowpiecestart = -1;
@@ -112,7 +112,7 @@ public class XFileByteAt implements Closeable, XInterfaceSequenceBigByteIO, XInt
         }
         this.piecesize = size;
         this.nowpiecebytes = new byte[size];
-        this.xpm.updatepPieceInfo(this.length(), size);
+        this.xpm.updatePieceInfo(this.length(), size);
         this.nowpiecestart = this.nowpieceend = -1;
         this.nowpiece = -1;
     }

@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import top.fols.box.annotation.XAnnotations;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.abstracts.XAbstractRandomAccessInputStream;
 import top.fols.box.statics.XStaticFixedValue;
 
-@XAnnotations("random access file mode r")
+@BaseAnnotations("random access file mode r")
 public class XRandomAccessFileInputStream extends XAbstractRandomAccessInputStream {
 	private final RandomAccessFile innerStream;
 	private File file;

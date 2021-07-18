@@ -1,5 +1,7 @@
 package top.fols.box.net;
 
+import top.fols.atri.net.XURL;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;

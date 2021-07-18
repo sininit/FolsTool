@@ -1,4 +1,4 @@
-package top.fols.box.util;
+package top.fols.atri.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,27 +8,30 @@ import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 import top.fols.box.io.XStream;
 import top.fols.box.io.digest.XChecksumOutputStream;
+import top.fols.box.util.encode.XHexEncoder;
 
-public class XChecksum {
+@SuppressWarnings("rawtypes")
+public class Checksums {
 	
 	public static long getValue(Checksum d, InputStream input) throws IOException {
-		XChecksumOutputStream out = XChecksum.wrapToStream(d);
+		XChecksumOutputStream out = Checksums.wrapToStream(d);
 		XStream.copy(input, out);
 		return out.getValue();
 	}
 	
 	public static long getValue(Checksum d, byte[] input) throws IOException {
-		XChecksumOutputStream out = XChecksum.wrapToStream(d);
+		XChecksumOutputStream out = Checksums.wrapToStream(d);
 		XStream.copy(input, out);
 		return out.getValue();
 	}
-	
+
+
 	public static String toHex(long value) {
         return Long.toHexString(value);
     }
 	
-	public static XChecksumOutputStream<OutputStream> wrapToStream(Checksum d){
-		return new XChecksumOutputStream<OutputStream>(d);
+	public static XChecksumOutputStream<OutputStream> wrapToStream(Checksum d) {
+		return new XChecksumOutputStream<>(d);
 	}
 	
 	public static Adler32 adler32Instance() {

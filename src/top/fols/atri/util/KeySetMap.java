@@ -1,25 +1,22 @@
-package top.fols.box.util;
+package top.fols.atri.util;
 
+import top.fols.atri.util.interfaces.InnerMap;
 import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 import top.fols.box.util.interfaces.XInterfaceSetInnerMap;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Collection;
+import java.util.*;
 
-public class XKeyMap<K extends Object> implements Serializable, XInterfaceGetInnerMap<K, Object>, XInterfaceSetInnerMap<K, Object> {
+public class KeySetMap<K> implements Serializable, InnerMap<K, Object>, XInterfaceSetInnerMap<K, Object> {
 	private static final long serialVersionUID = 1L;
 
 
 	private Map<K, Object> map = new LinkedHashMap<>();
-	public XKeyMap() {
+	public KeySetMap() {
 		super();
 	}
 
-	public XKeyMap(Map<K,  ?> putAll) throws NullPointerException {
+	public KeySetMap(Map<K,  ?> putAll) throws NullPointerException {
 		if (null == putAll) {
 			throw new NullPointerException("put map");
 		}
@@ -42,28 +39,28 @@ public class XKeyMap<K extends Object> implements Serializable, XInterfaceGetInn
 
 
 
-	public XKeyMap<K> put(K key) {
+	public KeySetMap<K> put(K key) {
 		this.map.put(key, null);
 		return this;
 	}
 
-	public XKeyMap<K> putAll(XKeyMap<K> key) {
+	public KeySetMap<K> putAll(KeySetMap<K> key) {
 		this.map.putAll((Map) key.map);
 		return this;
 	}
-	public XKeyMap<K> putAll(Map<K, ?> keys) {
+	public KeySetMap<K> putAll(Map<K, ?> keys) {
 		for (K k : keys.keySet()) {
 			this.put(k);
 		}
 		return this;
 	}
-	public XKeyMap<K> putAll(Collection<K> keys) {
+	public KeySetMap<K> putAll(Collection<K> keys) {
 		for (K k : keys) {
 			this.put(k);
 		}
 		return this;
 	}
-	public XKeyMap<K> putAll(K... keys) {
+	public KeySetMap<K> putAll(K... keys) {
 		for (K k : keys) {
 			this.put(k);
 		}
@@ -105,10 +102,10 @@ public class XKeyMap<K extends Object> implements Serializable, XInterfaceGetInn
 	@Override
 	public boolean equals(Object obj) {
 		// TODO: Implement this method
-		if (!(obj instanceof XKeyMap)) {
+		if (!(obj instanceof KeySetMap)) {
 			return false;
 		}
-		return this.map.equals(((XKeyMap) obj).map);
+		return this.map.equals(((KeySetMap) obj).map);
 	}
 
 	@Override
@@ -118,8 +115,8 @@ public class XKeyMap<K extends Object> implements Serializable, XInterfaceGetInn
 	}
 
 	@Override
-	public XKeyMap<K> clone() {
-		return new XKeyMap<K>(this.map);
+	public KeySetMap<K> clone() {
+		return new KeySetMap<K>(this.map);
 	}
 
 	@Override

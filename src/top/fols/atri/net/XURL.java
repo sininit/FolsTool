@@ -1,11 +1,9 @@
-package top.fols.box.net;
+package top.fols.atri.net;
 
 
 import java.io.Serializable;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.lang.Value;
-import top.fols.atri.net.URLBuilder;
-import top.fols.atri.net.URLParams;
 import top.fols.box.io.os.XFile;
 
 /**

@@ -2,8 +2,6 @@ package top.fols.atri.net;
 
 import java.io.Serializable;
 
-import top.fols.box.net.XURL;
-
 public class URLBuilder implements Serializable{
     private static final long serialVersionUID = 1L;
     

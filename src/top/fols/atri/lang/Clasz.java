@@ -1,8 +1,6 @@
 package top.fols.atri.lang;
 
-import top.fols.box.lang.XClass;
 import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.util.XStringJoiner;
 
 public class Clasz {
     /**

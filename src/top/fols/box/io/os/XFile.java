@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 import top.fols.atri.util.DoubleLinked;
-import top.fols.box.annotation.XAnnotations;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.XStream;
 import top.fols.box.io.base.XInputStreamFixedLength;
 import top.fols.box.io.base.XOutputStreamFixedLength;
@@ -269,7 +269,7 @@ public class XFile implements Closeable, Serializable {
 		}
 	}
 
-	@XAnnotations("1B = 8bit")
+	@BaseAnnotations("1B = 8bit")
 	private static final XUnitConversion fileUnit1024 = new XUnitConversion(new LinkedHashMap<String, BigDecimal>() {
 		/**
 		*

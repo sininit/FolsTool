@@ -16,7 +16,7 @@
  * origin module @org.json
  */
 
-package top.fols.atri.util.json;
+package top.fols.atri.assist.json;
 
 import top.fols.atri.util.interfaces.InnerList;
 

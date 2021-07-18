@@ -8,7 +8,7 @@ import java.util.Set;
 
 import top.fols.atri.lang.Strings;
 import top.fols.atri.net.URLParams;
-import top.fols.box.annotation.XAnnotations;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.util.encode.XURLEncoder;
 import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 

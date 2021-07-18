@@ -6,7 +6,7 @@ import java.util.*;
 import top.fols.atri.array.ArrayObject;
 import top.fols.atri.lang.Arrayz;
 import top.fols.atri.lang.Objects;
-import top.fols.box.annotation.XAnnotations;
+import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.lang.XClass;
 
 import static top.fols.atri.lang.Arrayz.*;
@@ -433,13 +433,13 @@ public class XArray {
 	 * copyOfConversion(new int[]{},long.class);
 	 */
 	public static <A extends Object> A copyOfConversion(Object originalArray,
-			@XAnnotations("new Class[0]") A newArrayNullObj) {
+			@BaseAnnotations("new Class[0]") A newArrayNullObj) {
 		return copyOfConversion(originalArray, getLength(originalArray), newArrayNullObj);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <A extends Object> A copyOfConversion(Object originalArray, int length,
-			@XAnnotations("new Class[0]") A newArrayNullObj) {
+			@BaseAnnotations("new Class[0]") A newArrayNullObj) {
 		return (A) copyOfConversion(originalArray, length, getElementClass(newArrayNullObj));
 	}
 

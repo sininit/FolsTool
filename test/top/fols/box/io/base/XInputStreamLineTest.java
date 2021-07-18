@@ -6,7 +6,7 @@ import top.fols.box.io.digest.XDigestOutputStream;
 import top.fols.box.io.os.XFile;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.time.XTimeConsum;
-import top.fols.box.util.XMessageDigest;
+import top.fols.atri.util.MessageDigests;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -19,7 +19,7 @@ public class XInputStreamLineTest {
             XByteArrayInputStream testStream0 = new XByteArrayInputStream(XFile.readFile(testFile));
             XInputStreamLine testStream = new XInputStreamLine(testStream0, 8192);
             FileOutputStream foss = new FileOutputStream("/sdcard/k");
-            XDigestOutputStream md5 = XMessageDigest.wrapToStream(XMessageDigest.getMessageDigest("md5"));
+            XDigestOutputStream md5 = MessageDigests.wrapToStream(MessageDigests.getMessageDigest("md5"));
             XTimeConsum linejsq = XTimeConsum.newAndStart();
             byte[] line;
             int linecount = 0;
@@ -34,7 +34,7 @@ public class XInputStreamLineTest {
                 line = null;
             }
             foss.close();
-            System.out.println(XMessageDigest.toHex(md5.getValue()));
+            System.out.println(MessageDigests.toHex(md5.getValue()));
             System.out.println("行: " + linecount);
             System.out.println("耗时: " + linejsq.endAndGetEndLessStart());
 

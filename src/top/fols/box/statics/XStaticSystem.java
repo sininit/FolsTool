@@ -4,7 +4,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.security.Security;
 
-import top.fols.box.util.XKeyMap;
+import top.fols.atri.util.KeySetMap;
 
 public final class XStaticSystem {
 
@@ -18,8 +18,8 @@ public final class XStaticSystem {
 		return new File(XStaticSystem.getTmpDir());
 	}
 
-	public static XKeyMap<String> getMessageDigestAlgorithms() {
-		XKeyMap<String> list = new XKeyMap<>();
+	public static KeySetMap<String> getMessageDigestAlgorithms() {
+		KeySetMap<String> list = new KeySetMap<>();
 		for (String Str : Security.getAlgorithms("MessageDigest")) {
 			list.put(Str);
 		}

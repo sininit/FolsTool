@@ -1,7 +1,7 @@
 package top.fols.atri.util;
 
+import top.fols.atri.assist.StringJoiner;
 import top.fols.atri.lang.Objects;
-import top.fols.box.util.XStringJoiner;
 
 import java.io.Serializable;
 
@@ -256,7 +256,7 @@ public class DoubleLinked<T extends Object> implements Serializable {
 		if (null == item) {
 			return String.valueOf(item);
 		} else {
-			XStringJoiner strbuf = new XStringJoiner(",", "{", "}");
+			StringJoiner strbuf = new StringJoiner(",", "{", "}");
 			DoubleLinked element = item.findFirst();
 			do {
 				strbuf.add(element.toString());
@@ -268,7 +268,7 @@ public class DoubleLinked<T extends Object> implements Serializable {
 		if (null == item) {
 			return String.valueOf(item);
 		} else {
-			XStringJoiner strbuf = new XStringJoiner(",", "{", "}");
+			StringJoiner strbuf = new StringJoiner(",", "{", "}");
 			DoubleLinked element = item.findLast();
 			do {
 				strbuf.add(element.toString());
