@@ -85,7 +85,21 @@ public class Strings {
 	}
 
 
-
+	public static String matchGroup(String content, String regex, int group) {
+		Pattern pattern = Pattern.compile(regex);
+		return matchGroup(content, pattern, group);
+	}
+	public static String matchGroup(String content, Pattern pattern, int group) {
+		Matcher matcher = pattern.matcher(content);
+		boolean find = matcher.find();
+		if (find) {
+			int count = matcher.groupCount();
+			if (count >= group) {
+				return matcher.group(group);
+			}
+		}
+		return null;
+	}
 
 
 
@@ -302,7 +316,7 @@ public class Strings {
 	/**
 	 * 获取str重复出现的次数
 	 */
-	public static int getRepeatCount(String str, String find) {
+	public static int 			searchRepeatCount(String str, String find) {
 		if (Objects.empty(str) || Objects.empty(find)) { return 0; }
 
 		int i = 0;
