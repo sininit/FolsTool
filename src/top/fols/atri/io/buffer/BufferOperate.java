@@ -16,7 +16,8 @@ import top.fols.atri.util.Releasable;
 import static top.fols.atri.lang.Finals.MAX_ARRAY_SIZE;
 
 
-public abstract class BufferOperate<A extends Object> implements Releasable {
+@SuppressWarnings({"rawtypes", "SuspiciousSystemArraycopy", "unchecked", "ConstantConditions", "ManualMinMaxCalculation", "SpellCheckingInspection", "BooleanMethodIsAlwaysInverted", "UnnecessaryLocalVariable", "ForLoopReplaceableByForEach", "UnusedLabel", "UnnecessaryLabelOnBreakStatement", "UnnecessaryLabelOnContinueStatement", "IfStatementWithIdenticalBranches"})
+public abstract class BufferOperate<A> implements Releasable {
     public static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) {
 			throw new OutOfMemoryError();// overflow
@@ -74,6 +75,7 @@ public abstract class BufferOperate<A extends Object> implements Releasable {
 	public abstract A 			array_empty();
 	public abstract A 			array(int count); //{ return (A) Array.newInstance(this.buffer.getClass().getComponentType(), count); }
 
+
 	public abstract int 			sizeof(A array);
 
 	//Never cross the line
@@ -85,12 +87,8 @@ public abstract class BufferOperate<A extends Object> implements Releasable {
 
 
 
-	public Class 					componentType() { return this.componentType(); }
 
-
-
-
-	public int limit() { return this.limit; }
+	public int  limit() { return this.limit; }
 	public void limit(int limit) {
 		if (limit < 0) {
 			throw new ArrayIndexOutOfBoundsException("buffer.length=" + sizeof(this.buffer) + ", set.limit=" + limit);
@@ -119,7 +117,9 @@ public abstract class BufferOperate<A extends Object> implements Releasable {
 
 
 
-	public int 				available() { return this.limit - this.position; }
+	public int 				available() {
+		return this.limit - this.position;
+	}
 
 
 	public int 			calculateGrowSize(int minCapacity) {
@@ -226,6 +226,7 @@ public abstract class BufferOperate<A extends Object> implements Releasable {
 			} else {
 				this.buffer = (this.buffer);
 				this.limit -= len;
+
 				if (position < this.position)   { this.position = position; }
 			}
 		} else {
@@ -263,9 +264,9 @@ public abstract class BufferOperate<A extends Object> implements Releasable {
 	}
 
 
-
-
-	public boolean 			overflow(int positionLimit) { return this.position >= positionLimit; }
+	public boolean 			overflow(int positionLimit) {
+		return this.position >= positionLimit;
+	}
 
 
 
@@ -293,7 +294,15 @@ public abstract class BufferOperate<A extends Object> implements Releasable {
 	}
 
 
-
+	public A 					buffer_inner_trim() {
+		if (0 != position || sizeof(buffer) != limit) {
+			int available = available();
+			A array = this.array(available);
+			System.arraycopy(buffer, position, array, 0, available);
+			this.buffer = array;
+		}
+		return this.buffer;
+	}
 	public A 					buffer_inner() { return this.buffer; }
 	public int 					buffer_length() { return sizeof(this.buffer); }
 

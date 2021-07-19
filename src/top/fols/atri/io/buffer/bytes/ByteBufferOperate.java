@@ -23,11 +23,19 @@ public abstract class ByteBufferOperate extends BufferOperate<byte[]> {
 	}
 	
 	
-	public int indexOfBuffer(byte b, int startIndex, int indexRange) { return XArrays.indexOf(buffer, b, startIndex, indexRange); }
-	public int lastIndexOfBuffer(byte b, int startIndex, int indexRange) { return XArrays.lastIndexOf(buffer, b, startIndex, indexRange); }
+	public int indexOfBuffer(byte b, int startIndex, int indexRange) {
+		return XArrays.indexOf(buffer, b, startIndex, indexRange);
+	}
+	public int lastIndexOfBuffer(byte b, int startIndex, int indexRange) {
+		return XArrays.lastIndexOf(buffer, b, startIndex, indexRange);
+	}
 
-	@Override public int indexOfBuffer(byte[] b, int startIndex, int indexRange) { return XArrays.indexOf(buffer, b, startIndex, indexRange); }
-	@Override public int lastIndexOfBuffer(byte[] b, int startIndex, int indexRange) { return XArrays.lastIndexOf(buffer, b, startIndex, indexRange); }
+	@Override public int indexOfBuffer(byte[] b, int startIndex, int indexRange) {
+		return XArrays.indexOf(buffer, b, startIndex, indexRange);
+	}
+	@Override public int lastIndexOfBuffer(byte[] b, int startIndex, int indexRange) {
+		return XArrays.lastIndexOf(buffer, b, startIndex, indexRange);
+	}
 
 
 	@Override public int hashCode() {
