@@ -9,6 +9,7 @@ import java.net.JarURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
+
 import top.fols.box.io.XStream;
 import top.fols.box.io.base.XByteArrayOutputStream;
 import top.fols.box.io.base.XInputStreamFixedLength;
@@ -237,5 +238,8 @@ public class URLConnections {
 			super.con.setDoOutput(true);
 		}
 	}
+
+
+
 
 }

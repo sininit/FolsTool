@@ -7,13 +7,13 @@ public final class XTimeTool {
 	/**
 	 * @see java.lang.System#currentTimeMillis()
 	 */
-	public static final long getSystemCurrentTimeMillis() {
+	public static long getSystemCurrentTimeMillis() {
 		return System.currentTimeMillis();
 	}
 	/**
 	 * @see java.lang.System#nanoTime()
 	 */
-	public static final long getSystemNanoTime() {
+	public static long getSystemNanoTime() {
 		return System.nanoTime();
 	}
 
