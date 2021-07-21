@@ -73,6 +73,7 @@ public class Times {
                     if (controllers.stop) { break A; }
                     result.set(v);
                 } catch (InterruptedException stop) {
+                    result.setError(stop);
                     if (!controllers.ignoredInterruptedException) {
                         throw stop;
                     }
@@ -92,6 +93,7 @@ public class Times {
                             break;
                         }
                     } catch (InterruptedException stop) {
+                        result.setError(stop);
                         if (!controllers.ignoredInterruptedException) {
                             throw stop;
                         }
