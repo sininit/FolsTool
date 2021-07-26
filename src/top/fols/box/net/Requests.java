@@ -5,12 +5,14 @@ import top.fols.atri.net.MessageHeader;
 import top.fols.atri.net.URLBuilder;
 import top.fols.atri.net.URLConnections;
 import top.fols.atri.net.XURL;
+import top.fols.atri.util.BlurryKey;
 import top.fols.box.net.header.ContentType;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-public class requests {
+public class Requests {
+
     /**
      *
      * METHOD URL HTTP_VERSION
@@ -23,10 +25,15 @@ public class requests {
     public static String request(String requestSource) throws IOException {
         StringLineReader reader = new StringLineReader(requestSource);
         String first =   reader.next();
-
         String method = first.split(" ")[0];
         String url    = first.split(" ")[1];
+        return request(method, url, requestSource);
+    }
 
+
+
+    public static String request(String method, String url, String requestSource) throws IOException {
+        StringLineReader reader = new StringLineReader(requestSource);
         MessageHeader header = new MessageHeader();
         String line;
         while (reader.hasNext()) {
@@ -36,6 +43,7 @@ public class requests {
             }
             header.putAll(line);
         }
+        header.remove((BlurryKey.IgnoreCaseKey<String>) null);
         header.put("Accept-Encoding", "identity");
 
         String charset = MessageHeader.HTTP_MESSAGE_HEADER_CHARSET_ISO_8859_1.name();
@@ -65,8 +73,12 @@ public class requests {
             URLBuilder urlBuilder;
             urlBuilder = xurl.toBuilder();
             urlBuilder.protocol("http");
-            urlBuilder.host(header.get("host"));
+            urlBuilder.host(header.get("Host"));
             xurl = new XURL(urlBuilder.build());
+        } else {
+            if (!header.containsKey("Host")) {
+                 header.put("Host", xurl.getHostAndPort());
+            }
         }
 
         URLConnections.HttpURLConnectionUtil request = new URLConnections.HttpURLConnectionUtil(xurl.getUrl());
@@ -91,5 +103,9 @@ public class requests {
         }
         return new String(bytes, response_charset);
     }
+
+
+
+
 
 }
