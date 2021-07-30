@@ -410,4 +410,26 @@ public class Objects {
     }
 
 
+
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    public static <V> V trial(Objects.Executor<V> executor) {
+        try {
+            V execute = executor.execute();
+            return execute;
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+    public static void trial(Runnable executor) {
+        try {
+            executor.run();
+        } catch (Throwable ignored) {
+        }
+    }
+    public static void thread(Runnable executor) {
+        new Thread(executor).start();
+    }
+
+
+
 }

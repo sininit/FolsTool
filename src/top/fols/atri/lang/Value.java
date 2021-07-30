@@ -81,11 +81,11 @@ public class Value<T> implements Releasable, Serializable {
 
 
 
-    public static  Value<Object> NULL() {
-        return new Value<Object>();
+    public static  Value<Object>  NULL() {
+        return new Value<>();
     }
     public static  Value<Boolean> TRUE() {
-        Value<Boolean> result = new Value<Boolean>();
+        Value<Boolean> result = new Value<>();
         result.set(true);
         return result;
     }
