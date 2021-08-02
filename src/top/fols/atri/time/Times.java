@@ -146,4 +146,14 @@ public class Times {
         }
     }
 
+
+
+    public static Timeout timeout = new Timeout();
+    public static Timeout.Control setTimeout(Objects.CallbackValue<Timeout.Control> runnable, long millisecondsLater) {
+        return timeout.setTimeout(runnable, millisecondsLater);
+    }
+
+    public static Timeout.Control setInterval(Objects.CallbackValue<Timeout.Control> runnable, long millisecondsLater) {
+        return timeout.setInterval(runnable, millisecondsLater);
+    }
 }

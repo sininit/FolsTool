@@ -1,13 +1,12 @@
 package top.fols.atri.reflect;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ReflectProxy<T> implements InvocationHandler, Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +44,83 @@ public class ReflectProxy<T> implements InvocationHandler, Serializable {
 
 
 
+	public Field field(String name) { return field(null , name); }
+	public Field field(Class type, String name) {
+		ReflectCache.FieldList fieldsList = cache.getFieldsList(valueClass, name);
+		Field field = null;
+		if (null == type) {
+			field = fieldsList.list.length <= 0?null:fieldsList.list[0];
+		} else {
+			for (Field field1 : fieldsList.list) {
+				if (field1.getType() == type) {
+					field = field1;
+					break;
+				}
+			}
+		}
+		return field;
+	}
 
+
+
+
+
+
+	public Object get(String name) throws NoSuchFieldException, IllegalAccessException {
+		return get(null, name);
+	}
+	public Object get(Class type, String name) throws IllegalAccessException, NoSuchFieldException {
+		Field field = field(type, name);
+		if (null == field) {
+			throw new NoSuchFieldException((null == type?"":type.getName()+" ") + "name");
+		}
+		return Reflects.accessible(field).get(value);
+	}
+
+
+	public Object opt(String name)  {
+		return opt((Class) null, name);
+	}
+	public Object opt(Class type, String name) {
+		Field field = field(type, name);
+		try {
+			return Reflects.accessible(field).get(value);
+		} catch (IllegalAccessException e) {
+			return null;
+		}
+	}
+
+
+
+
+	public void set(String name, Object newValue) throws NoSuchFieldException, IllegalAccessException {
+		set(null, name, newValue);
+	}
+	public void set(Class type, String name, Object newValue) throws IllegalAccessException, NoSuchFieldException {
+		Field field = field(type, name);
+		if (null == field) {
+			throw new NoSuchFieldException((null == type?"":type.getName()+" ") + "name");
+		}
+		Reflects.accessible(field).set(value, newValue);
+	}
+
+
+	public void opt(String name, Object newValue) {
+		opt(null, name, newValue);
+	}
+	public void opt(Class type, String name, Object newValue) {
+		Field field = field(type, name);
+		try {
+			Reflects.accessible(field).set(value, newValue);
+		} catch (IllegalAccessException ignored) {
+		}
+	}
+
+
+
+
+
+	@SuppressWarnings("SameParameterValue")
 	protected Method matchMethod(Method[] list,
 								 Class[][] listParameterTypes,
 								 Class returnClass,
@@ -58,7 +133,7 @@ public class ReflectProxy<T> implements InvocationHandler, Serializable {
 
 
 	Method getMethod(Class cls, String name, Object... paramInstanceArr) {
-		ProxyReflectCache cache = this.cache;
+		ProxyReflectCache cache = ReflectProxy.cache;
 		ReflectCache.MethodList gets = cache.getMethodsList(cls, name);
         if (null != gets && gets.list().length != 0) {
         	Method match = matchMethod(gets.list(), gets.parameterTypes(), null, null, true, paramInstanceArr);
@@ -75,6 +150,9 @@ public class ReflectProxy<T> implements InvocationHandler, Serializable {
 		Method match = getMethod(valueClass, p2.getName(), Objects.empty(p3)? Finals.EMPTY_OBJECT_ARRAY: p3);
 		return null == match ? null: match.invoke(value, p3);
 	}
+
+
+
 
 
 	public static <T> T newInstance(Object object, Class<T> proxy) {
