@@ -426,10 +426,6 @@ public class Objects {
         } catch (Throwable ignored) {
         }
     }
-    public static void thread(Runnable executor) {
-        new Thread(executor).start();
-    }
-
 
 
 }
