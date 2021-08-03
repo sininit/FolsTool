@@ -1,7 +1,7 @@
 package top.fols.box.util;
 
+import top.fols.atri.io.Streams;
 import top.fols.atri.util.DoubleLinkedList;
-import top.fols.box.io.XStream;
 
 public class DoubleLinkedListTest {
     public static void main(String[] args) throws Throwable {
@@ -41,7 +41,7 @@ public class DoubleLinkedListTest {
 
 
         System.out.println(dll2);
-        System.out.println(XStream.ObjectTool.toObject(XStream.ObjectTool.toBytes(dll2)));
+        System.out.println(Streams.ObjectTool.toObject(Streams.ObjectTool.toBytes(dll2)));
 
 
 

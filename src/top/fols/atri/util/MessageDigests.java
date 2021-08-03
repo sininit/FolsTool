@@ -5,7 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import top.fols.box.io.XStream;
+
+import top.fols.atri.io.Streams;
 import top.fols.box.statics.XStaticSystem;
 import top.fols.box.util.encode.XHexEncoder;
 import top.fols.box.io.digest.XDigestOutputStream;
@@ -41,7 +42,7 @@ public class MessageDigests {
 
 	public static byte[] getValue(MessageDigest d, InputStream input) throws IOException {
 		XDigestOutputStream out = MessageDigests.wrapToStream(d);
-		XStream.copy(input, out);
+		Streams.copy(input, out);
 		return out.getValue();
 	}
 	

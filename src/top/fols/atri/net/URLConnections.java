@@ -9,8 +9,9 @@ import java.net.JarURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.stream.Stream;
 
-import top.fols.box.io.XStream;
+import top.fols.atri.io.Streams;
 import top.fols.box.io.base.XByteArrayOutputStream;
 import top.fols.box.io.base.XInputStreamFixedLength;
 import top.fols.box.time.XTimeTool;
@@ -108,7 +109,7 @@ public class URLConnections {
 		}
 
 		public URLConnectionUtil readTo(OutputStream backoutput) throws IOException {
-			XStream.copy(this.getInputStream(), backoutput);
+			Streams.copy(this.getInputStream(), backoutput);
 			return this;
 		}
 
@@ -140,12 +141,12 @@ public class URLConnections {
 		}
 
 		public URLConnectionUtil write(InputStream stream) throws IOException {
-			XStream.copy(stream, this.getOutputStream());
+			Streams.copy(stream, this.getOutputStream());
 			return this;
 		}
 
 		public URLConnectionUtil write(InputStream stream, long length) throws IOException {
-			XStream.copy(new XInputStreamFixedLength<>(stream, length), this.getOutputStream());
+			Streams.copy(new XInputStreamFixedLength<>(stream, length), this.getOutputStream());
 			return this;
 		}
 

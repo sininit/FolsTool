@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import top.fols.atri.io.Streams;
 import top.fols.box.annotation.BaseAnnotations;
-import top.fols.box.io.XStream;
 import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.io.interfaces.XInterfaceLineReaderStream;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
@@ -22,7 +22,7 @@ XInterfaceLineReaderStream<byte[]>, XInterfaceReleaseBufferable, XInterfaceGetIn
 	private byte[] buf;// readLine superfluous data
 
 	public XInputStreamLine(T is) {
-		this(is, XStream.DEFAULT_BYTE_BUFF_SIZE);
+		this(is, Streams.DEFAULT_BYTE_BUFF_SIZE);
 	}
 
 	public XInputStreamLine(T is, int lineReadBufferedSize) {

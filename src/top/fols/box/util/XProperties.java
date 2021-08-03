@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import top.fols.atri.io.Streams;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.util.DoubleLinked;
-import top.fols.box.io.XStream;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.io.base.XStringWriter;
 import top.fols.box.util.encode.XHexEncoder;
@@ -80,7 +80,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
             newProperties = new XProperties();
             FileInputStream fis = new FileInputStream(file);
             newProperties.load(fis, charsetName);
-            XStream.tryClose(fis);
+            Streams.close(fis);
         } catch (IOException e) {
             throw e;
         }
@@ -115,7 +115,7 @@ public class XProperties implements Serializable, XInterfaceGetInnerMap<String, 
     }
     public XProperties load(Reader isr) throws IOException {
         XCharArrayWriter charstream = new XCharArrayWriter();
-        XStream.copy(isr, charstream);
+        Streams.copy(isr, charstream);
         if (charstream.size() == 0) {
             return this;
         }

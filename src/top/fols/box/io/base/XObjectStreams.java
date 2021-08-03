@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import top.fols.atri.io.Streams;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.reflect.Reflects;
-import top.fols.box.io.XStream;
 import top.fols.box.lang.abstracts.XBitsOptionAbstract;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XByteEncode;
@@ -1207,7 +1207,7 @@ public final class XObjectStreams implements Flushable {
         int alread = read;
 
         while (need > 0) {
-            int read2 = (int) XStream.copyFixedLength(is, out, (long) need);
+            int read2 = (int) Streams.copyFixedLength(is, out, (long) need);
             if (read2 > 0) {
                 off += read2;
                 need -= read2;

@@ -20,7 +20,8 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import top.fols.box.io.XStream;
+
+import top.fols.atri.io.Streams;
 
 /**
  * simple socket tool
@@ -177,7 +178,7 @@ public class XSocket {
 		return InetAddress.getLocalHost().getHostAddress();
 	}
 
-	public static boolean tryClose(Socket s) {
+	public static boolean close(Socket s) {
 		boolean b = true;
 		try {
 			s.shutdownInput();
@@ -190,17 +191,17 @@ public class XSocket {
 			b = false;
 		}
 		try {
-			XStream.tryClose(s.getInputStream());
+			Streams.close(s.getInputStream());
 		} catch (Throwable e) {
 			b = false;
 		}
 		try {
-			XStream.tryClose(s.getOutputStream());
+			Streams.close(s.getOutputStream());
 		} catch (Throwable e) {
 			b = false;
 		}
 		try {
-			XStream.tryClose(s);
+			Streams.close(s);
 		} catch (Throwable e) {
 			b = false;
 		}

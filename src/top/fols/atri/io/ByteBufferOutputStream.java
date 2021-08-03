@@ -7,6 +7,7 @@ import top.fols.atri.util.Releasable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 public class ByteBufferOutputStream extends OutputStream implements Releasable {
 	private int mark;
@@ -73,7 +74,9 @@ public class ByteBufferOutputStream extends OutputStream implements Releasable {
 	public String toString(String charsetName) throws UnsupportedEncodingException {
 		return new String(this.buffer.buffer_inner(), this.buffer.position(), this.buffer.available(), charsetName);
 	}
-	
+	public String toString(Charset charset) {
+		return new String(this.buffer.buffer_inner(), this.buffer.position(), this.buffer.available(), charset);
+	}
 	
 	public int available() { return this.buffer.available(); }
 	

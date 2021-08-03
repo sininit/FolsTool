@@ -1,9 +1,9 @@
 package top.fols.box.net;
 
+import top.fols.atri.io.Streams;
 import top.fols.atri.lang.Strings;
 import top.fols.atri.net.MessageHeader;
 import top.fols.atri.net.URLConnections;
-import top.fols.box.io.XStream;
 
 import java.io.IOException;
 import java.net.URLConnection;
@@ -42,8 +42,8 @@ public class XURLConnectionMessageHeaderTest {
 
 
 
-        MessageHeader xbk = (MessageHeader) XStream.ObjectTool.toObject(
-                XStream.ObjectTool.toBytes(
+        MessageHeader xbk = (MessageHeader) Streams.ObjectTool.toObject(
+                Streams.ObjectTool.toBytes(
                         new MessageHeader()
                                 .putAll(
                                         "Aaaa : 1" + "\n"

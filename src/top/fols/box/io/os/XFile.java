@@ -10,9 +10,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
+import top.fols.atri.io.Streams;
 import top.fols.atri.util.DoubleLinked;
 import top.fols.box.annotation.BaseAnnotations;
-import top.fols.box.io.XStream;
 import top.fols.box.io.base.XInputStreamFixedLength;
 import top.fols.box.io.base.XOutputStreamFixedLength;
 import top.fols.box.lang.XUnitConversion;
@@ -129,7 +129,7 @@ public class XFile implements Closeable, Serializable {
 		if (len < 0) {
 			return this;
 		}
-		XStream.copyFixedLength(in, this.openStream(), len);
+		Streams.copyFixedLength(in, this.openStream(), len);
 		return this;
 	}
 

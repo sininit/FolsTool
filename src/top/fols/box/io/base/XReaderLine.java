@@ -3,8 +3,9 @@ package top.fols.box.io.base;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Arrays;
+
+import top.fols.atri.io.Streams;
 import top.fols.box.annotation.BaseAnnotations;
-import top.fols.box.io.XStream;
 import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.io.interfaces.XInterfaceLineReaderStream;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
@@ -18,7 +19,7 @@ XInterfaceLineReaderStream<char[]>, XInterfaceReleaseBufferable, XInterfaceGetIn
 	private char[] buf;// readLine superfluous data
 
 	public XReaderLine(T is) {
-		this(is, XStream.DEFAULT_BYTE_BUFF_SIZE);
+		this(is, Streams.DEFAULT_BYTE_BUFF_SIZE);
 	}
 
 	public XReaderLine(T is, int lineReadBufferedSize) {

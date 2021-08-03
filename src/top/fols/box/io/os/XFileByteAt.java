@@ -5,7 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import top.fols.box.io.XStream;
+
+import top.fols.atri.io.Streams;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
 import top.fols.box.statics.XStaticFixedValue;
 import top.fols.atri.util.ArrayPieceIndex;
@@ -22,11 +23,11 @@ public class XFileByteAt implements Closeable, XInterfaceSequenceBigByteIO, XInt
     private RandomAccessFile raf;
 
     public XFileByteAt(String file) throws FileNotFoundException {
-        this(new File(file), XStream.DEFAULT_BYTE_BUFF_SIZE);
+        this(new File(file), Streams.DEFAULT_BYTE_BUFF_SIZE);
     }
 
     public XFileByteAt(File file) throws FileNotFoundException {
-        this(file, XStream.DEFAULT_BYTE_BUFF_SIZE);
+        this(file, Streams.DEFAULT_BYTE_BUFF_SIZE);
     }
 
     public XFileByteAt(String file, int bufsize) throws FileNotFoundException {
@@ -38,7 +39,7 @@ public class XFileByteAt implements Closeable, XInterfaceSequenceBigByteIO, XInt
     }
 
     public XFileByteAt(RandomAccessFile option, File file) {
-        this(option, file, file.length(), XStream.DEFAULT_BYTE_BUFF_SIZE);
+        this(option, file, file.length(), Streams.DEFAULT_BYTE_BUFF_SIZE);
     }
 
     public XFileByteAt(RandomAccessFile option, File file, long filelength, int buffsize) {

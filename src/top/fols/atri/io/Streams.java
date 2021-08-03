@@ -1,13 +1,57 @@
 package top.fols.atri.io;
 
-import top.fols.box.io.XStream;
+import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.io.base.XByteArrayOutputStream;
 import top.fols.box.io.base.XCharArrayWriter;
 
 import java.io.*;
 
 public class Streams {
-    public static boolean tryClose(Closeable c) {
+
+
+    public static  ByteBufferInputStream input(byte[] file) {
+        return new ByteBufferInputStream(file);
+    }
+    public static InputStream input(File file) {
+        try {
+            return new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+
+    public static  ByteBufferOutputStream output() {
+        return new ByteBufferOutputStream();
+    }
+    public static OutputStream output(File file) {
+        try {
+            return new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+
+
+    public static  CharBufferReader reader(char[] file) {
+        return new CharBufferReader(file);
+    }
+    public static  CharBufferWriter writer() {
+        return new CharBufferWriter();
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public static boolean close(Closeable c) {
         try {
             c.close();
             return true;
@@ -15,6 +59,50 @@ public class Streams {
             return false;
         }
     }
+
+
+
+    public static final int DEFAULT_BYTE_BUFF_SIZE = 8192;
+    public static final int DEFAULT_CHAR_BUFF_SIZE = 8192;
+
+    public static final int COPY_UNLIMIT_COPYLENGTH = -1;
+
+    public static int copy(byte[] input, OutputStream output) throws IOException {
+        return copy(input, output, false);
+    }
+
+    public static int copy(byte[] input, OutputStream output, boolean autoflush) throws IOException {
+        if (null == input) {
+            return 0;
+        }
+        output.write(input);
+        if (autoflush) {
+            output.flush();
+        }
+        return input.length;
+    }
+
+    public static long copy(InputStream input, OutputStream output) throws IOException {
+        return copy(input, output, Streams.DEFAULT_BYTE_BUFF_SIZE);
+    }
+
+    public static long copy(InputStream input, OutputStream output, int bufflen) throws IOException {
+        return copy(input, output, bufflen, false);
+    }
+
+    public static long copy(InputStream input, OutputStream output, int bufflen, boolean autoflush) throws IOException {
+        return copyFixedLength(input, output, bufflen, Streams.COPY_UNLIMIT_COPYLENGTH, autoflush);
+    }
+
+    public static long copyFixedLength(InputStream input, OutputStream output, long copyLength) throws IOException {
+        return copyFixedLength(input, output, Streams.DEFAULT_BYTE_BUFF_SIZE, copyLength);
+    }
+
+    public static long copyFixedLength(InputStream input, OutputStream output, int bufflen, long copyLength)
+            throws IOException {
+        return copyFixedLength(input, output, bufflen, copyLength, false);
+    }
+
 
     /**
      *
@@ -35,7 +123,7 @@ public class Streams {
         int read;
         int tmpbufflen;
         long already = 0;
-        boolean unlimited = copyLength <= XStream.COPY_UNLIMIT_COPYLENGTH;
+        boolean unlimited = copyLength <= Streams.COPY_UNLIMIT_COPYLENGTH;
         while (true) {
             if (unlimited) {
                 tmpbufflen = bufflen;
@@ -59,6 +147,52 @@ public class Streams {
         }
         return already;
     }
+
+
+
+
+
+
+
+
+    public static int copy(char[] input, Writer output) throws IOException {
+        return copy(input, output, false);
+    }
+
+    public static int copy(char[] input, Writer output, boolean autoflush) throws IOException {
+        if (null == input) {
+            return 0;
+        }
+        output.write(input);
+        if (autoflush) {
+            output.flush();
+        }
+        return input.length;
+    }
+
+    public static long copy(Reader input, Writer output) throws IOException {
+        return copy(input, output, Streams.DEFAULT_CHAR_BUFF_SIZE);
+    }
+
+    public static long copy(Reader input, Writer output, int bufflen) throws IOException {
+        return copy(input, output, bufflen, false);
+    }
+
+    public static long copy(Reader input, Writer output, int bufflen, boolean autoflush) throws IOException {
+        return copyFixedLength(input, output, bufflen, Streams.COPY_UNLIMIT_COPYLENGTH, autoflush);
+    }
+
+    public static long copyFixedLength(Reader input, Writer output, long copyLength) throws IOException {
+        return copyFixedLength(input, output, Streams.DEFAULT_CHAR_BUFF_SIZE, copyLength);
+    }
+
+    public static long copyFixedLength(Reader input, Writer output, int bufflen, long copyLength) throws IOException {
+        return copyFixedLength(input, output, bufflen, copyLength, false);
+    }
+
+
+
+
     /**
      *
      * @param input      off
@@ -79,7 +213,7 @@ public class Streams {
         int read;
         int tmpbufflen;
         long already = 0;
-        boolean unlimited = copyLength <= XStream.COPY_UNLIMIT_COPYLENGTH;
+        boolean unlimited = copyLength <= Streams.COPY_UNLIMIT_COPYLENGTH;
         while (true) {
             if (unlimited) {
                 tmpbufflen = bufflen;
@@ -119,7 +253,7 @@ public class Streams {
     public static byte[] toBytes(InputStream input) throws IOException {
         if (null != input) {
             XByteArrayOutputStream stream = new XByteArrayOutputStream();
-            XStream.copy(input, stream);
+            Streams.copy(input, stream);
             byte[] bs = stream.toByteArray();
             stream.releaseBuffer();
             return bs;
@@ -129,7 +263,7 @@ public class Streams {
     public static byte[] toBytes(InputStream input, int length) throws IOException {
         if (null != input) {
             XByteArrayOutputStream stream = new XByteArrayOutputStream();
-            XStream.copyFixedLength(input, stream, length);
+            Streams.copyFixedLength(input, stream, length);
             byte[] bs = stream.toByteArray();
             stream.releaseBuffer();
             return bs;
@@ -144,7 +278,7 @@ public class Streams {
     public static char[] toChars(Reader input) throws IOException {
         if (null != input) {
             XCharArrayWriter Arrayout = new XCharArrayWriter();
-            XStream.copy(input, Arrayout);
+            Streams.copy(input, Arrayout);
             char[] cs = Arrayout.toCharArray();
             Arrayout.releaseBuffer();
             return cs;
@@ -155,7 +289,7 @@ public class Streams {
     public static char[] toChars(Reader input, int length) throws IOException {
         if (null != input) {
             XCharArrayWriter Arrayout = new XCharArrayWriter();
-            XStream.copyFixedLength(input, Arrayout, length);
+            Streams.copyFixedLength(input, Arrayout, length);
             char[] cs = Arrayout.toCharArray();
             Arrayout.releaseBuffer();
             return cs;
@@ -163,5 +297,29 @@ public class Streams {
         return null;
     }
 
+    public static class ObjectTool {
+        public static void writeObject(OutputStream out, Object obj) throws IOException {
+            new ObjectOutputStream(out).writeObject(obj);
+        }
+
+        public static Object readObject(InputStream in) throws IOException, ClassNotFoundException {
+            return new ObjectInputStream(in).readObject();
+        }
+
+
+
+
+        public static byte[] toBytes(Object obj) throws IOException {
+            XByteArrayOutputStream out = new XByteArrayOutputStream();
+            writeObject(out, obj);
+            byte[] bs = out.toByteArray();
+            out.releaseBuffer();
+            return bs;
+        }
+        public static Object toObject(byte[] bytes) throws ClassNotFoundException, IOException {
+            XByteArrayInputStream in = new XByteArrayInputStream(bytes);
+            return readObject(in);
+        }
+    }
 
 }
