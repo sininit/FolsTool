@@ -72,4 +72,11 @@ public class StringLineReader {
     public boolean separator() {
         return last - 1 < length && content.charAt(last - 1) == separator;
     }
+
+    public char    separatorChar() {
+        return separator;
+    }
+    public char    separatorSize() {
+        return 1;
+    }
 }

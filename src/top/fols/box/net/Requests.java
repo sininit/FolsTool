@@ -48,14 +48,21 @@ public class Requests {
         StringLineReader reader = new StringLineReader(httpRequestDataPacket);
 
         String first = reader.next();
-        String method = first.split(" ")[0];
-        String url    = first.split(" ")[1];
+        String method;
+        String url;
 
+        try {
+            method = first.split("\\s+")[0];
+            url    = first.split("\\s+")[1];
+        } catch (Throwable e){
+            throw new IOException("cannot parse head first line: "+first);
+        }
+        
         StringBuilder headers = new StringBuilder();
         String line;
         while (reader.hasNext()) {
             line = reader.next(true);
-            if (line.length() == 0) {
+            if (line.length() == reader.separatorSize()) {
                 break;
             }
             headers.append(line);
@@ -63,7 +70,7 @@ public class Requests {
 
         int position = Math.min(httpRequestDataPacket.length(), reader.position());
         String data = httpRequestDataPacket.substring(position, httpRequestDataPacket.length());
-        return createRequest(method, url, headers.toString(), data.toString());
+        return createRequest(method, url, headers.toString(), data);
     }
 
     public static Response createRequest(
@@ -81,8 +88,6 @@ public class Requests {
 
             int connectionOvertime,
             int readStreamOvertime) throws IOException {
-
-
 
         MessageHeader header = new MessageHeader(headers);
         header.remove((BlurryKey.IgnoreCaseKey<String>) null);
