@@ -31,7 +31,7 @@ public class Requests {
      */
     public static String request(String requestSource) throws IOException {
         Response request = createRequest(requestSource);
-        return   request.toString();
+        return   request.string();
     }
 
 
