@@ -57,7 +57,7 @@ public class Requests {
         } catch (Throwable e){
             throw new IOException("cannot parse head first line: "+first);
         }
-        
+
         StringBuilder headers = new StringBuilder();
         String line;
         while (reader.hasNext()) {
