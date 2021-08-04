@@ -89,17 +89,16 @@ public class Requests {
         header.put("Accept-Encoding", "identity");
 
         String charset = Charset.defaultCharset().name();
-        ContentType request_content_type = ContentType.parse(header.get("Content-Type"));
-        if (request_content_type.hasCharset()) {
-            charset = request_content_type.getCharset();
-        } else {
-            request_content_type.setCharset(charset);
-            header.put("Content-Type", request_content_type.toString());
+        if (!write.isEmpty())  {
+            ContentType request_content_type = ContentType.parse(header.get("Content-Type"));
+            if (request_content_type.hasCharset()) {
+                charset = request_content_type.getCharset();
+            } else {
+                request_content_type.setCharset(charset);
+                header.put("Content-Type", request_content_type.toString());
+            }
         }
-
-
-        String data = write;
-        byte[] dataBytes = data.toString().getBytes(charset);
+        byte[] dataBytes = write.getBytes(charset);
 
         String content_length = header.get("Content-Length");
         if (null != content_length) {
@@ -127,12 +126,13 @@ public class Requests {
 
         request.getURLConnection().setDoInput(true);
 
-        if (data.length() > 0) {
+        if (write.length() > 0) {
             request.getURLConnection().setDoOutput(true);
             request.write(dataBytes);
             request.flush();
         }
 
+        @SuppressWarnings("UnnecessaryLocalVariable")
         Response response = new Response(request, method, url, header, write);
         return   response;
     }
@@ -240,7 +240,7 @@ public class Requests {
 
 
         byte[] data;
-        public byte[] toBytes() {
+        public byte[] bytes() {
             byte[] data = this.data;
             if (null == data) {
                 this.data = data = request.readBytes();
@@ -248,8 +248,8 @@ public class Requests {
             return data;
         }
 
-        public String toString() {
-            return new String(toBytes(), getResponseCharset());
+        public String string() {
+            return new String(bytes(), getResponseCharset());
         }
 
 

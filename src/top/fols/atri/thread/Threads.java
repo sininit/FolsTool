@@ -6,5 +6,4 @@ public class Threads {
     public static void thread(Runnable executor) {
         new Thread(executor).start();
     }
-
 }

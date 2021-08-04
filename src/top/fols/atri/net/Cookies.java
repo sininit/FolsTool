@@ -46,6 +46,7 @@ public class Cookies implements Serializable, XInterfaceGetInnerMap<String, Stri
 	}
 
 	public void putAll(Cookies params) {
+		if (null == params) { return; }
 		this.values.putAll(params.values);
 	}
 
