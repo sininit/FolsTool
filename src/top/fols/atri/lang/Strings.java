@@ -1,6 +1,7 @@
 package top.fols.atri.lang;
 
 import top.fols.atri.array.ArrayObject;
+import top.fols.atri.io.CharSeparatorReader;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.util.XArray;
 import top.fols.atri.util.Randoms;
@@ -22,7 +23,7 @@ public class Strings {
 			return null;
 		}
 		StringBuilder result = new StringBuilder();
-		StringLineReader reader = new StringLineReader(lines);
+		CharSeparatorReader reader = new CharSeparatorReader(lines);
 		while (reader.hasNext()) {
 			result.append(tabs).append(reader.next(true));
 		}

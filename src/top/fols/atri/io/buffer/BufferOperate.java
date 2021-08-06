@@ -16,7 +16,7 @@ import top.fols.atri.util.Releasable;
 import static top.fols.atri.lang.Finals.MAX_ARRAY_SIZE;
 
 
-@SuppressWarnings({"rawtypes", "SuspiciousSystemArraycopy", "unchecked", "ConstantConditions", "ManualMinMaxCalculation", "SpellCheckingInspection", "BooleanMethodIsAlwaysInverted", "UnnecessaryLocalVariable", "ForLoopReplaceableByForEach", "UnusedLabel", "UnnecessaryLabelOnBreakStatement", "UnnecessaryLabelOnContinueStatement", "IfStatementWithIdenticalBranches"})
+@SuppressWarnings({"rawtypes", "SuspiciousSystemArraycopy", "unchecked", "ConstantConditions", "ManualMinMaxCalculation", "SpellCheckingInspection", "UnnecessaryLocalVariable", "ForLoopReplaceableByForEach", "UnusedLabel", "UnnecessaryLabelOnBreakStatement", "UnnecessaryLabelOnContinueStatement", "IfStatementWithIdenticalBranches"})
 public abstract class BufferOperate<A> implements Releasable {
     public static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) {
@@ -361,14 +361,16 @@ public abstract class BufferOperate<A> implements Releasable {
 		int lastFind = this.position;
 		int lastRead = -1;
 
-		filter.finded(null, 0, 0, null, true);
+		filter.setFindResult(null, 0, 0, null, true);
 
 		int maxSize = filter.getSeparatorMaxSize();
 		int minSize = filter.getSeparatorMinSize();
 		int readSize = Math.max(stream_buffer_size, maxSize);
+
 		A[] separators = filter.getSeparators();
-		A: while (true) {
-			B: {
+
+		TOP: while (true) {
+			LOW: {
 				if (lastFind + minSize <= this.limit) {
 					boolean isFind = false;
 					for (int i = 0;i < separators.length;i++) {
@@ -376,13 +378,13 @@ public abstract class BufferOperate<A> implements Releasable {
 						if (this.position + sizeof(separator) <= this.limit) {
 							//System.out.println(lastFind);
 							//System.out.println(last);
-							int search = this.indexOfBuffer(separator, lastFind, this.limit());
+							int search = this.indexOfBuffer(separator, lastFind, this.limit);
 							if (search != -1) {
 								boolean accept = filter.accept(this.position, search, separator, false);
 								lastFind = search + sizeof(separator);
 								isFind = true;
 								if (accept) { 
-									filter.finded(this, this.position, search, separator, false);
+									filter.setFindResult(this, this.position, search, separator, false);
 									this.position(lastFind);
 									return false;
 								}
@@ -393,11 +395,11 @@ public abstract class BufferOperate<A> implements Releasable {
 					if (!isFind) {
 						lastFind = this.limit - maxSize + 1;
 						if (lastRead == -1) {
-							filter.finded(this, 0, 0, null, true);
-							break A;
+							filter.setFindResult(this, 0, 0, null, true);
+							break TOP;
 						}
 					} else {
-						continue A;
+						continue TOP;
 					}
 				}
 				if ((lastRead = this.append_from_stream_read(readSize)) == -1) {
@@ -408,14 +410,17 @@ public abstract class BufferOperate<A> implements Releasable {
 		if (this.position != this.limit) {
 			boolean accept = filter.accept(this.position, this.limit, null, true);
 			if (accept) { 
-				filter.finded(this, this.position, this.limit, null, true);
+				filter.setFindResult(this, this.position, this.limit, null, true);
 				this.position(this.limit);
 				return false;
 			}
 		}
 		return true;
 	}
-
+	public boolean readFilter(BufferFilter<A> filter) throws IOException {
+		//noinspection PointlessBooleanExpression
+		return false == readFilterIFEnd(filter);
+	}
 
 
 

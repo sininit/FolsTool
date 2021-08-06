@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
-import top.fols.atri.lang.StringLineReader;
+import top.fols.atri.io.CharSeparatorReader;
 import top.fols.atri.net.MessageHeader;
 import top.fols.atri.net.URLBuilder;
 import top.fols.atri.net.URLConnections;
@@ -45,7 +45,7 @@ public class Requests {
 
     public static Response createRequest(
             String httpRequestDataPacket) throws IOException {
-        StringLineReader reader = new StringLineReader(httpRequestDataPacket);
+        CharSeparatorReader reader = new CharSeparatorReader(httpRequestDataPacket);
 
         String first = reader.next();
         String method;

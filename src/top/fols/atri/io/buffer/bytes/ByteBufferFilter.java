@@ -2,6 +2,8 @@ package top.fols.atri.io.buffer.bytes;
 
 
 import top.fols.atri.io.buffer.BufferFilter;
+import top.fols.atri.lang.Objects;
+import top.fols.atri.util.DoubleLinkedList;
 
 import java.nio.charset.Charset;
 
@@ -12,7 +14,7 @@ public class ByteBufferFilter extends BufferFilter<byte[]> implements Cloneable 
 		return new byte[count];
 	}
 	@Override
-	public byte[][] array2(int count) {
+	public byte[][] arrays(int count) {
 		// TODO: Implement this method
 		return new byte[count][];
 	}
@@ -23,25 +25,18 @@ public class ByteBufferFilter extends BufferFilter<byte[]> implements Cloneable 
 		return array.length;
 	}
 
+
+	public static final Objects.Cast<byte[], byte[]> CLONE_CONVERT = new Objects.Cast<byte[], byte[]>() {
+		@Override
+		public byte[] cast(byte[] param) {
+			return null == param?null:param.clone();
+		}
+	};
 	@Override
 	public ByteBufferFilter clone() {
 		ByteBufferFilter instance = new ByteBufferFilter();
-		instance.separators = separators.clone();
+		instance.separators = separators.clone(CLONE_CONVERT);
 		return instance;
-	}
-
-	static final ByteBufferFilter READ_LINE_FILTER = new ByteBufferFilter() {{
-		this.addSeparator(new byte[]{'\r', '\n'});
-		this.addSeparator(new byte[]{'\r'});
-		this.addSeparator(new byte[]{'\n'});
-	}
-		@Override
-		protected boolean accept(int last, int search, byte[] split, boolean readEnd) {
-			return super.accept(last, search, split, readEnd);
-		}
-	};
-	public static ByteBufferFilter getReadLineFilter() {
-		return READ_LINE_FILTER.clone();
 	}
 
 
@@ -51,4 +46,7 @@ public class ByteBufferFilter extends BufferFilter<byte[]> implements Cloneable 
 		// TODO: Implement this method
 		super.addSeparator(separator.getBytes(charset));
 	}
+
+
+
 }

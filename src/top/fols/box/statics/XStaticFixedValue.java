@@ -20,13 +20,13 @@ import java.util.Set;
 public final class XStaticFixedValue {
 
 	public static final class FileOptMode {
-		public static final String r() {
+		public static String r() {
 			return "r";
 		}
-		public static final String rw() {
+		public static String rw() {
 			return "rw";
 		}
-		public static final String rws() {
+		public static String rws() {
 			return "rws";
 		}
 	}

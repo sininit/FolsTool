@@ -367,7 +367,7 @@ public class ProcessExecutor {
 
 
     static final ByteBufferFilter getReadLineFilter() {
-        return ByteBufferFilter.getReadLineFilter();
+        return ByteBufferFilter.lineFilterBytes();
     }
 
 

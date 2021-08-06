@@ -1,12 +1,16 @@
 package top.fols.atri.io.buffer;
 
+import top.fols.atri.io.buffer.bytes.ByteBufferFilter;
+import top.fols.atri.io.buffer.bytes.ByteBufferOperate;
+import top.fols.atri.io.buffer.chars.CharBufferFilter;
+import top.fols.atri.io.buffer.chars.CharBufferOperate;
 import top.fols.atri.util.DoubleLinkedList;
 
-public abstract class BufferFilter<A extends Object> {
+public abstract class BufferFilter<A> {
 	protected DoubleLinkedList<A> separators = new DoubleLinkedList<>();
 
-	public abstract A array(int count);
-	public abstract A[] array2(int count);
+	public abstract A   array(int count);
+	public abstract A[] arrays(int count);
 	public abstract int sizeof(A array);
 
 	public void addSeparator(A separator) {
@@ -34,7 +38,7 @@ public abstract class BufferFilter<A extends Object> {
 	public A[] getSeparators() {
 		if (null == this.separatorCache) {
 			DoubleLinkedList<A> list = this.separators;
-			return list.toArray(array2(list.size()));
+			return list.toArray(arrays(list.size()));
 		}
 		return this.separatorCache;
 	}
@@ -52,25 +56,29 @@ public abstract class BufferFilter<A extends Object> {
 	}
 
 	BufferOperate<A> buffer;
-	int  last, search;
-	A    seachSeparator;
+	int  	last, search;
+	A 		searchSeparator;
 	boolean readEnd;
-	void chk() {
+
+
+	void checkBuffer() {
 		if (null == buffer) { throw new RuntimeException("not found"); }
 	}
-	void finded(BufferOperate<A> buffer, int last, int search, A separator, boolean readEnd) {
+	void setFindResult(BufferOperate<A> buffer, int last, int search, A separator, boolean readEnd) {
 		this.buffer = buffer;
 		this.last = last;
 		this.search = search;
-		this.seachSeparator = separator;
+		this.searchSeparator = separator;
 		this.readEnd = readEnd;
 	}
-	public BufferOperate<A> buffer() { return this.buffer; }
-	public int 		contentOffset() { return last; }
-	public int 		contentLength() { return search - last; }
-	public A 		contentSeparator() { return this.seachSeparator; }
-	public boolean  contentReadEnd() { return this.readEnd; }
-	public boolean  contentReadToSeparator() { return null != this.seachSeparator; }
+
+
+	public BufferOperate<A> buffer()   { return this.buffer; }
+	public int 		contentOffset()    { return last; }
+	public int 		contentLength()    { return search - last; }
+	public A 		contentSeparator() { return this.searchSeparator; }
+	public boolean  contentReadEnd()   { return this.readEnd; }
+	public boolean  contentReadToSeparator() { return null != this.searchSeparator; }
 
 
 	public boolean  hasResult() {
@@ -83,19 +91,14 @@ public abstract class BufferFilter<A extends Object> {
 		} else {
 			boolean readToSeparator = this.contentReadToSeparator();
 			int offset = this.contentOffset();
-			int count = this.contentLength() + (readToSeparator && addSeparator ?sizeof(seachSeparator): 0);
+			int count = this.contentLength() + (readToSeparator && addSeparator ?sizeof(searchSeparator): 0);
 			A array = array(count);
 			buffer.arraycopy(offset, array, 0, count);
 			return array;
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
+
 	public int getSeparatorMaxSize() { return 0 == this.separators.size() ?0: sizeof(this.separators.getFirst().content()); }
 	public int getSeparatorMinSize() { return 0 == this.separators.size() ?0: sizeof(this.separators.getLast().content()); }
 	public int getSeparatorCount() { return this.separators.size(); }
@@ -115,8 +118,38 @@ public abstract class BufferFilter<A extends Object> {
 
 	protected DoubleLinkedList<A>.ListIterator iterator() {
 		DoubleLinkedList<A> list = this.separators;
-		DoubleLinkedList<A>.ListIterator listIterator = list.iterator();
-		return listIterator;
+		return list.iterator();
 	}
 
+
+
+
+
+
+
+	public static ByteBufferFilter lineFilterBytes() { return ByteBufferOperate.lineFilter(); }
+	public static CharBufferFilter lineFilterChars() { return CharBufferOperate.lineFilter(); }
+
+
+	public static ByteBufferFilter filterBytes(byte[]... filterValue) {
+		ByteBufferFilter filter = new ByteBufferFilter();
+		for (byte[] bytes : filterValue) {
+			filter.addSeparator(bytes);
+		}
+		return filter;
+	}
+	public static CharBufferFilter filterChars(char[]... filterValue) {
+		CharBufferFilter filter = new CharBufferFilter();
+		for (char[] bytes : filterValue) {
+			filter.addSeparator(bytes);
+		}
+		return filter;
+	}
+	public static CharBufferFilter filterChars(String... filterValue) {
+		CharBufferFilter filter = new CharBufferFilter();
+		for (String bytes : filterValue) {
+			filter.addSeparator(bytes);
+		}
+		return filter;
+	}
 }

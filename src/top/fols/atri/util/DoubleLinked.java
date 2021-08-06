@@ -5,10 +5,14 @@ import top.fols.atri.lang.Objects;
 
 import java.io.Serializable;
 
-public class DoubleLinked<T extends Object> implements Serializable {
+@SuppressWarnings({"EqualsReplaceableByObjectsCall", "DanglingJavadoc"})
+public class DoubleLinked<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private DoubleLinked<T> prev = null, next = null;
 	protected T content;
+
+
 	public T content() {
 		return this.content;
 	}
@@ -43,6 +47,9 @@ public class DoubleLinked<T extends Object> implements Serializable {
 		return null == this.content ? null : this.content.toString();
 	}
 
+
+
+
 	/**
 	 *
 	 * @param obj1
@@ -60,7 +67,6 @@ public class DoubleLinked<T extends Object> implements Serializable {
 
 
 
-	private DoubleLinked<T> prev = null, next = null;
 
 
 	public DoubleLinked() {
@@ -101,7 +107,7 @@ public class DoubleLinked<T extends Object> implements Serializable {
 		DoubleLinked._addNext(this, element);
 	}
 	// 添加下一个item
-	static <T extends Object> void _addNext(DoubleLinked<T> index, DoubleLinked<T> element) throws NullPointerException {
+	static <T> void _addNext(DoubleLinked<T> index, DoubleLinked<T> element) throws NullPointerException {
 		if (null == index) {
 			throw new NullPointerException("index");
 		}
@@ -137,7 +143,7 @@ public class DoubleLinked<T extends Object> implements Serializable {
 	public void remove() {
 		DoubleLinked._remove(this);
 	}
-	static <T extends Object> void _remove(DoubleLinked<T> element) {
+	static <T> void _remove(DoubleLinked<T> element) {
 		/**
 		 * 取消链接 next
 		 * index 存在下个元素，将(index.next) 的 prev 连接到 index.prev
@@ -166,7 +172,7 @@ public class DoubleLinked<T extends Object> implements Serializable {
 	public void addFirst(DoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
 		DoubleLinked._addFirst(this, newFirst);
 	}
-	static <T extends Object> void _addFirst(DoubleLinked<T> originalFirst, DoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
+	static <T> void _addFirst(DoubleLinked<T> originalFirst, DoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
 		if (null == originalFirst) {
 			throw new NullPointerException("original-first for null");
 		}
@@ -246,34 +252,34 @@ public class DoubleLinked<T extends Object> implements Serializable {
 
 
 
-	public <T extends Object> String toStringFromFirstStart() {
+	public String toStringFromFirstStart() {
 		return         DoubleLinked.toStringFromFirstStart(this);
 	}
-	public <T extends Object> String toStringFromLastStart() {
+	public String toStringFromLastStart() {
 		return         DoubleLinked.toStringFromLastStart(this);
 	}
-	public static <T extends Object> String toStringFromFirstStart(DoubleLinked<T> item) {
+	public static <T> String toStringFromFirstStart(DoubleLinked<T> item) {
 		if (null == item) {
-			return String.valueOf(item);
+			return String.valueOf((Object) null);
 		} else {
-			StringJoiner strbuf = new StringJoiner(",", "{", "}");
-			DoubleLinked element = item.findFirst();
+			StringJoiner sj = new StringJoiner(",", "{", "}");
+			DoubleLinked<T> element = item.findFirst();
 			do {
-				strbuf.add(element.toString());
+				sj.add(element.toString());
 			} while (null != (element = element.getNext()));
-			return strbuf.toString();
+			return sj.toString();
 		}
 	}
-	public static <T extends Object> String toStringFromLastStart(DoubleLinked<T> item) {
+	public static <T> String toStringFromLastStart(DoubleLinked<T> item) {
 		if (null == item) {
-			return String.valueOf(item);
+			return String.valueOf((Object) null);
 		} else {
-			StringJoiner strbuf = new StringJoiner(",", "{", "}");
-			DoubleLinked element = item.findLast();
+			StringJoiner sj = new StringJoiner(",", "{", "}");
+			DoubleLinked<T> element = item.findLast();
 			do {
-				strbuf.add(element.toString());
+				sj.add(element.toString());
 			} while (null != (element = element.getPrev()));
-			return strbuf.toString();
+			return sj.toString();
 		}
 	}
 

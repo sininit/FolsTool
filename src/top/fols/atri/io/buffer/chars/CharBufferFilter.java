@@ -3,6 +3,7 @@ package top.fols.atri.io.buffer.chars;
 
 import top.fols.atri.io.buffer.BufferFilter;
 import top.fols.atri.io.buffer.bytes.ByteBufferFilter;
+import top.fols.atri.lang.Objects;
 
 public class CharBufferFilter extends BufferFilter<char[]> {
 	
@@ -12,7 +13,7 @@ public class CharBufferFilter extends BufferFilter<char[]> {
 		return new char[count];
 	}
 	@Override
-	public char[][] array2(int count) {
+	public char[][] arrays(int count) {
 		// TODO: Implement this method
 		return new char[count][];
 	}
@@ -24,26 +25,22 @@ public class CharBufferFilter extends BufferFilter<char[]> {
 	}
 
 
+
+	public static final Objects.Cast<char[], char[]> CLONE_CONVERT = new Objects.Cast<char[], char[]>() {
+		@Override
+		public char[] cast(char[] param) {
+			return null == param?null:param.clone();
+		}
+	};
 	@Override
 	public CharBufferFilter clone() {
 		CharBufferFilter instance = new CharBufferFilter();
-		instance.separators = separators.clone();
+		instance.separators = separators.clone(CLONE_CONVERT);
 		return instance;
 	}
 
-	static final CharBufferFilter READ_LINE_FILTER = new CharBufferFilter() {{
-		this.addSeparator(new char[]{'\r', '\n'});
-		this.addSeparator(new char[]{'\r'});
-		this.addSeparator(new char[]{'\n'});
-	}
-		@Override
-		protected boolean accept(int last, int search, char[] split, boolean readEnd) {
-			return super.accept(last, search, split, readEnd);
-		}
-	};
-	public static CharBufferFilter getReadLineFilter() {
-		return READ_LINE_FILTER.clone();
-	}
+
+
 
 
 	public void addSeparator(String separator) {

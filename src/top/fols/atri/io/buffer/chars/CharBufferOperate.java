@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.util.Arrays;
 
 import top.fols.atri.io.buffer.BufferOperate;
+import top.fols.atri.io.buffer.bytes.ByteBufferFilter;
 import top.fols.box.util.XArrays;
 import static top.fols.atri.lang.Finals.*;
 import static top.fols.atri.lang.Finals.EMPTY_CHAR_ARRAY;
@@ -146,6 +147,25 @@ public abstract class CharBufferOperate extends BufferOperate<char[]> {
 							  , len)); }
 		stream.write(this.buffer, position, len);
 	}
-	
+
+
+
+
+
+	static final CharBufferFilter READ_LINE_FILTER = new CharBufferFilter() {{
+			this.addSeparator(new char[]{'\r', '\n'});
+			this.addSeparator(new char[]{'\r'});
+			this.addSeparator(new char[]{'\n'});
+		}
+
+		@Override
+		protected boolean accept(int last, int search, char[] split, boolean readEnd) {
+			return super.accept(last, search, split, readEnd);
+		}
+	};
+	public static CharBufferFilter lineFilter() {
+		return READ_LINE_FILTER.clone();
+	}
+
 
 }

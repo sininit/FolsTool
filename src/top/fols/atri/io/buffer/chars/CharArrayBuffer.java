@@ -1,5 +1,9 @@
 package top.fols.atri.io.buffer.chars;
 
+import top.fols.atri.io.buffer.BufferFilter;
+
+import java.io.IOException;
+
 import static top.fols.atri.lang.Finals.*;
 import static top.fols.atri.lang.Finals.EMPTY_CHAR_ARRAY;
 

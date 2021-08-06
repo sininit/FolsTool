@@ -1,5 +1,7 @@
 package top.fols.atri.util;
 
+import top.fols.atri.lang.Objects;
+
 import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -8,12 +10,12 @@ import java.util.NoSuchElementException;
 public class DoubleLinkedList<T extends Object> implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
-    public static class Element<T extends Object> extends DoubleLinked<T> implements Serializable {
+
+
+    public static class Element<T> extends DoubleLinked<T> implements Serializable {
         private static final long serialVersionUID = 1L;
 
-
         private DoubleLinkedList<T> superList;
-
 
         public Element() {
             super(null);
@@ -32,7 +34,7 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
         }
 
         @Override
-        public void addFirst(DoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
+        public void addFirst(DoubleLinked<T> newFirst) throws RuntimeException {
             // TODO: Implement this method
             if (null == this.superList) {
                 throw new NullPointerException("this object does not exist in any list");
@@ -51,13 +53,12 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
 
 
 
-        public DoubleLinkedList<T> superList() {
+        public DoubleLinkedList<T>  superList() {
             return this.superList;
         }
-        public boolean superListNull() {
+        public boolean              superListNull() {
             return null == this.superList;
         }
-
 
     }
 
@@ -89,12 +90,61 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
      * ignored.
      */
     protected transient int modCount = 0;
-
-
-
     private int size;
     private Element<T> first;
     private Element<T> last;
+
+
+
+
+
+    @Override
+    public DoubleLinkedList<T> clone() {
+        // TODO: Implement this method
+        DoubleLinkedList<T> newList = new DoubleLinkedList<>();
+        if (this.size != 0) {
+            Element<T>      first;
+            first            = newList.first = new Element<>(this.first.content);
+            first.superList  = newList;
+
+            Element<T>      last   = first;
+            for (DoubleLinkedList.Element<T> element = (Element<T>) this.first.getNext(); null != element; element = (Element<T>) element.getNext()){
+                Element<T> cloneElement = new Element<>(element.content);
+                DoubleLinked._addNext(last, cloneElement);
+
+                cloneElement.superList = newList;
+                last = cloneElement;
+            }
+            newList.last = last;
+            newList.size = this.size;
+        }
+        return newList;
+    }
+    public DoubleLinkedList<T> clone(Objects.Cast<T, T> cloneContent) {
+        // TODO: Implement this method
+        DoubleLinkedList<T> newList = new DoubleLinkedList<>();
+        if (this.size != 0) {
+            Element<T>      first;
+            first            = newList.first = new Element<>(cloneContent.cast(this.first.content));
+            first.superList  = newList;
+
+            Element<T>      last   = first;
+            for (DoubleLinkedList.Element<T> element = (Element<T>) this.first.getNext(); null != element; element = (Element<T>) element.getNext()) {
+                Element<T> cloneElement = new Element<>(cloneContent.cast(element.content));
+                DoubleLinked._addNext(last, cloneElement);
+
+                cloneElement.superList = newList;
+                last = cloneElement;
+            }
+            newList.last = last;
+            newList.size = this.size;
+        }
+        return newList;
+    }
+
+
+
+
     public DoubleLinkedList() {
         super();
     }
@@ -115,7 +165,7 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
     }
 
     public boolean contains(Element<T> element) {
-        return null == element ?false: element.superList == this;
+        return null != element && element.superList == this;
     }
 
 
@@ -320,9 +370,11 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
     public ListIterator iterator(Element<T> from) {
         return new ListIterator(from);
     }
+
+
     public class ListIterator implements Iterator<T> {
         private int expectedModCount = modCount;
-        final void checkForComodification() {
+        final void checkForCommodification() {
             if (modCount != expectedModCount) {
                 throw new ConcurrentModificationException();
             }
@@ -344,7 +396,7 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
         @Override
         public T next() {
             // TODO: Implement this method
-            this.checkForComodification();
+            this.checkForCommodification();
             if (!this.hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -365,7 +417,7 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
         @Override
         public void remove() {
             // TODO: Implement this method
-            this.checkForComodification();
+            this.checkForCommodification();
             if (null == this.lastReturned) {
                 throw new IllegalStateException();
             }
@@ -398,17 +450,16 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
         return obj == this;
     }
 
-    @Override
-    public DoubleLinkedList<T> clone() {
-        // TODO: Implement this method
-        DoubleLinkedList<T> newList = new DoubleLinkedList<>();
-        ListIterator li = this.iterator(this.first);
-        while (li.hasNext()) {
-            newList.addLast(new Element<T>(li.next()));
+
+
+    public static <A> DoubleLinkedList<A> fromArray(A[] array) {
+        DoubleLinkedList<A> objectDoubleLinkedList = new DoubleLinkedList<>();
+        if (null != array) {
+            for (A a : array) {
+                objectDoubleLinkedList.addLast(new Element<>(a));
+            }
         }
-        return newList;
+        return objectDoubleLinkedList;
     }
-
-
 
 }
