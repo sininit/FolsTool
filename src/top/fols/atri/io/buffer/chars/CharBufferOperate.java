@@ -6,8 +6,11 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Arrays;
 
+import top.fols.atri.array.ArrayObject;
+import top.fols.atri.io.buffer.BufferFilter;
 import top.fols.atri.io.buffer.BufferOperate;
 import top.fols.atri.io.buffer.bytes.ByteBufferFilter;
+import top.fols.atri.lang.Arrayz;
 import top.fols.box.util.XArrays;
 import static top.fols.atri.lang.Finals.*;
 import static top.fols.atri.lang.Finals.EMPTY_CHAR_ARRAY;
@@ -149,9 +152,9 @@ public abstract class CharBufferOperate extends BufferOperate<char[]> {
 	}
 
 
-
-
-
+	/**
+	 * windows or linux or mac os
+	 */
 	static final CharBufferFilter READ_LINE_FILTER = new CharBufferFilter() {{
 			this.addSeparator(new char[]{'\r', '\n'});
 			this.addSeparator(new char[]{'\r'});
@@ -159,13 +162,83 @@ public abstract class CharBufferOperate extends BufferOperate<char[]> {
 		}
 
 		@Override
-		protected boolean accept(int last, int search, char[] split, boolean readEnd) {
+		public boolean accept(int last, int search, char[] split, boolean readEnd) {
 			return super.accept(last, search, split, readEnd);
 		}
 	};
 	public static CharBufferFilter lineFilter() {
 		return READ_LINE_FILTER.clone();
 	}
+
+
+
+
+
+
+
+
+	/**
+	 * @see top.fols.atri.io.buffer.bytes.ByteBufferOperate#readFilterIFEnd(BufferFilter)
+	 * @param filter filter
+	 * @throws IOException stream.read
+	 */
+	public boolean readFilterIFEnd(BufferFilter<char[]> filter) throws IOException {
+		int lastFind = this.position;
+
+		filter.setFindResult(null, 0, 0, null, true);
+
+		int maxSize  = filter.getSeparatorMaxSize(), minSize = filter.getSeparatorMinSize();
+		int readSize = Math.max(stream_buffer_size, maxSize);
+
+		char[][] separators = filter.getSeparators();
+		while (true) {
+			if (lastFind + minSize <= this.limit) {
+				boolean isFind = false;
+				for (int i = lastFind; i < this.limit; i++) {
+					SW: for (char[] separator : separators) {
+						if (this.buffer[i] == separator[0] && i + separator.length <= this.limit) {
+							for (int ji = 1; ji < separator.length; ji++) {
+								if (!(this.buffer[i + ji] == separator[ji])) {
+									continue SW;
+								}
+							}
+							boolean accept = filter.accept(this.position, i, separator, false);
+							lastFind = i + sizeof(separator);
+							isFind = true;
+							if (accept) {
+								filter.setFindResult(this, this.position, i, separator, false);
+								this.position(lastFind);
+								return false;
+							}
+							break;
+						}
+					}
+				}
+				if (!isFind) {
+					lastFind = this.limit - maxSize + 1;
+				} else {
+					continue;
+				}
+			}
+			if (this.append_from_stream_read(readSize) == -1) {
+				break;
+			}
+		}
+		if (this.position != this.limit) {
+			boolean accept = filter.accept(this.position, this.limit, null, true);
+			if (accept) {
+				filter.setFindResult(this, this.position, this.limit, null, true);
+				this.position(this.limit);
+				return false;
+			}
+		}
+		return true;
+	}
+	public boolean readFilter(BufferFilter<char[]> filter) throws IOException {
+		//noinspection PointlessBooleanExpression
+		return false == readFilterIFEnd(filter);
+	}
+
 
 
 }

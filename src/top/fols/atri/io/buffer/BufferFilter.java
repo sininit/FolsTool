@@ -14,6 +14,10 @@ public abstract class BufferFilter<A> {
 	public abstract int sizeof(A array);
 
 	public void addSeparator(A separator) {
+		if (null == separator || sizeof(separator) == 0) {
+			throw new NullPointerException();
+		}
+
 		DoubleLinkedList<A> separators = this.separators;
 		DoubleLinkedList.Element<A> element = new DoubleLinkedList.Element<>(separator);
 		if (separators.size() == 0) {
@@ -51,7 +55,7 @@ public abstract class BufferFilter<A> {
 
 
 
-	protected boolean accept(int last, int search, A split, boolean readEnd) {
+	public boolean accept(int last, int search, A split, boolean readEnd) {
 		return true;
 	}
 
@@ -64,7 +68,7 @@ public abstract class BufferFilter<A> {
 	void checkBuffer() {
 		if (null == buffer) { throw new RuntimeException("not found"); }
 	}
-	void setFindResult(BufferOperate<A> buffer, int last, int search, A separator, boolean readEnd) {
+	public void setFindResult(BufferOperate<A> buffer, int last, int search, A separator, boolean readEnd) {
 		this.buffer = buffer;
 		this.last = last;
 		this.search = search;

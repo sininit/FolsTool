@@ -52,16 +52,16 @@ public class CharBufferFilter extends BufferFilter<char[]> {
 		// TODO: Implement this method
 		char[] buffer = buffer().buffer_inner();
 		boolean readToSeparator = this.contentReadToSeparator();
-		char[] seachSeparator = this.contentSeparator();
+		char[] searchSeparator = this.contentSeparator();
 		int offset = this.contentOffset();
-		int count = this.contentLength() + (readToSeparator && addSeparator ?sizeof(seachSeparator): 0);
+		int count = this.contentLength() + (readToSeparator && addSeparator ?sizeof(searchSeparator): 0);
 		return new String(buffer, offset, count);
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 }

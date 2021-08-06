@@ -2,8 +2,6 @@ package top.fols.atri.io;
 
 import top.fols.atri.lang.Finals;
 
-import java.util.Arrays;
-
 public class CharSeparatorReader {
     String content;
     char[] separators;
@@ -104,10 +102,10 @@ public class CharSeparatorReader {
 
 
     public char    separatorChar() {
-        return separator() ?  separators[separatorIndex]:NOT_FOUND;
+        return separatorIndex != -1 ?  separators[separatorIndex]:NOT_FOUND;
     }
     public boolean separatorChar(char equals) {
-        return separator() && separators[separatorIndex] == equals;
+        return separatorIndex != -1 && separators[separatorIndex] == equals;
     }
     public int     separatorSize() {
         return 1;

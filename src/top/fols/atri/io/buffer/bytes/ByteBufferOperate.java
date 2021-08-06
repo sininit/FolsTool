@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+import top.fols.atri.io.buffer.BufferFilter;
 import top.fols.atri.io.buffer.BufferOperate;
 import top.fols.atri.io.buffer.chars.CharBufferFilter;
 import top.fols.box.util.XArrays;
@@ -139,7 +140,9 @@ public abstract class ByteBufferOperate extends BufferOperate<byte[]> {
 
 
 
-
+	/**
+	 * windows or linux or mac os
+	 */
 	static final ByteBufferFilter READ_LINE_FILTER = new ByteBufferFilter() {{
 		this.addSeparator(new byte[]{'\r', '\n'});
 		this.addSeparator(new byte[]{'\r'});
@@ -147,7 +150,7 @@ public abstract class ByteBufferOperate extends BufferOperate<byte[]> {
 	}
 
 		@Override
-		protected boolean accept(int last, int search, byte[] separator, boolean readEnd) {
+        public boolean accept(int last, int search, byte[] separator, boolean readEnd) {
 			return super.accept(last, search, separator, readEnd);
 		}
 	};
@@ -156,4 +159,69 @@ public abstract class ByteBufferOperate extends BufferOperate<byte[]> {
 	}
 
 
+
+
+
+
+	/**
+	 * @see top.fols.atri.io.buffer.bytes.ByteBufferOperate#readFilterIFEnd(BufferFilter)
+	 * @param filter filter
+	 * @throws IOException stream.read
+	 */
+	public boolean readFilterIFEnd(BufferFilter<byte[]> filter) throws IOException {
+		int lastFind = this.position;
+
+		filter.setFindResult(null, 0, 0, null, true);
+
+		int maxSize  = filter.getSeparatorMaxSize(), minSize = filter.getSeparatorMinSize();
+		int readSize = Math.max(stream_buffer_size, maxSize);
+
+		byte[][] separators = filter.getSeparators();
+		while (true) {
+			if (lastFind + minSize <= this.limit) {
+				boolean isFind = false;
+				for (int i = lastFind; i < this.limit; i++) {
+					SW: for (byte[] separator : separators) {
+						if (this.buffer[i] == separator[0] && i + separator.length <= this.limit) {
+							for (int ji = 1; ji < separator.length; ji++) {
+								if (!(this.buffer[i + ji] == separator[ji])) {
+									continue SW;
+								}
+							}
+							boolean accept = filter.accept(this.position, i, separator, false);
+							lastFind = i + sizeof(separator);
+							isFind = true;
+							if (accept) {
+								filter.setFindResult(this, this.position, i, separator, false);
+								this.position(lastFind);
+								return false;
+							}
+							break;
+						}
+					}
+				}
+				if (!isFind) {
+					lastFind = this.limit - maxSize + 1;
+				} else {
+					continue;
+				}
+			}
+			if (this.append_from_stream_read(readSize) == -1) {
+				break;
+			}
+		}
+		if (this.position != this.limit) {
+			boolean accept = filter.accept(this.position, this.limit, null, true);
+			if (accept) {
+				filter.setFindResult(this, this.position, this.limit, null, true);
+				this.position(this.limit);
+				return false;
+			}
+		}
+		return true;
+	}
+	public boolean readFilter(BufferFilter<byte[]> filter) throws IOException {
+		//noinspection PointlessBooleanExpression
+		return false == readFilterIFEnd(filter);
+	}
 }

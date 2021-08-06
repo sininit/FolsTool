@@ -16,7 +16,7 @@ import top.fols.atri.util.Releasable;
 import static top.fols.atri.lang.Finals.MAX_ARRAY_SIZE;
 
 
-@SuppressWarnings({"rawtypes", "SuspiciousSystemArraycopy", "unchecked", "ConstantConditions", "ManualMinMaxCalculation", "SpellCheckingInspection", "UnnecessaryLocalVariable", "ForLoopReplaceableByForEach", "UnusedLabel", "UnnecessaryLabelOnBreakStatement", "UnnecessaryLabelOnContinueStatement", "IfStatementWithIdenticalBranches"})
+@SuppressWarnings({"rawtypes", "SuspiciousSystemArraycopy", "unchecked", "ConstantConditions", "ManualMinMaxCalculation", "SpellCheckingInspection", "UnnecessaryLocalVariable", "IfStatementWithIdenticalBranches"})
 public abstract class BufferOperate<A> implements Releasable {
     public static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) {
@@ -352,75 +352,6 @@ public abstract class BufferOperate<A> implements Releasable {
 
 
 
-
-
-	/**
-	 * @return is read end
-	 */
-	public boolean readFilterIFEnd(BufferFilter<A> filter) throws IOException {
-		int lastFind = this.position;
-		int lastRead = -1;
-
-		filter.setFindResult(null, 0, 0, null, true);
-
-		int maxSize = filter.getSeparatorMaxSize();
-		int minSize = filter.getSeparatorMinSize();
-		int readSize = Math.max(stream_buffer_size, maxSize);
-
-		A[] separators = filter.getSeparators();
-
-		TOP: while (true) {
-			LOW: {
-				if (lastFind + minSize <= this.limit) {
-					boolean isFind = false;
-					for (int i = 0;i < separators.length;i++) {
-						A separator = separators[i];
-						if (this.position + sizeof(separator) <= this.limit) {
-							//System.out.println(lastFind);
-							//System.out.println(last);
-							int search = this.indexOfBuffer(separator, lastFind, this.limit);
-							if (search != -1) {
-								boolean accept = filter.accept(this.position, search, separator, false);
-								lastFind = search + sizeof(separator);
-								isFind = true;
-								if (accept) { 
-									filter.setFindResult(this, this.position, search, separator, false);
-									this.position(lastFind);
-									return false;
-								}
-								break;
-							} 
-						}
-					}
-					if (!isFind) {
-						lastFind = this.limit - maxSize + 1;
-						if (lastRead == -1) {
-							filter.setFindResult(this, 0, 0, null, true);
-							break TOP;
-						}
-					} else {
-						continue TOP;
-					}
-				}
-				if ((lastRead = this.append_from_stream_read(readSize)) == -1) {
-					break;
-				}
-			} 
-		}
-		if (this.position != this.limit) {
-			boolean accept = filter.accept(this.position, this.limit, null, true);
-			if (accept) { 
-				filter.setFindResult(this, this.position, this.limit, null, true);
-				this.position(this.limit);
-				return false;
-			}
-		}
-		return true;
-	}
-	public boolean readFilter(BufferFilter<A> filter) throws IOException {
-		//noinspection PointlessBooleanExpression
-		return false == readFilterIFEnd(filter);
-	}
 
 
 

@@ -3,7 +3,6 @@ package top.fols.atri.io;
 import top.fols.atri.io.buffer.BufferFilter;
 import top.fols.atri.io.buffer.chars.CharArrayBuffer;
 import top.fols.atri.io.buffer.chars.CharBufferFilter;
-import top.fols.atri.lang.Arrayz;
 
 import java.util.Arrays;
 
