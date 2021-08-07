@@ -143,36 +143,7 @@ public class Arrayz {
 	 */
 	@SuppressWarnings("UnusedReturnValue")
 	public static abstract class Traverse<T> {
-		public abstract Value<T> invoke(
-				Value<T> next
-		);
-
-
-		/**
-		 * @param executor If executor returns null, it means the creation process is over
-		 */
-		public static <CAST> CAST[] creates(Class<CAST[]> type,   Traverse<CAST> executor) {
-			return creates((CAST[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor);
-		}
-		public static <CAST> CAST[] creates(CAST[] array, 		Traverse<CAST> executor) {
-			Objects.requireNonNull(array, "array type");
-			List<CAST> list = new ArrayList<>();
-			creates(list, executor);
-			return  list.toArray(array);
-		}
-		public static <CAST> Collection<CAST> creates(Collection<CAST> buffer, Traverse<CAST> executor) {
-			Objects.requireNonNull(buffer, "null buffer");
-			if (null == executor) {
-			} else {
-				Value<CAST> result = new Value<>();
-				while (null != (result = executor.invoke(result))) {
-					buffer.add(result.get());
-				}
-			}
-			return buffer;
-		}
-
-
+		public abstract Value<T> invoke(Value<T> next);
 	}
 
 
@@ -271,6 +242,31 @@ public class Arrayz {
 		}
 	}
 
+	/**
+	 * @param executor If executor returns null, it means the creation process is over
+	 */
+	public static <CAST> CAST[] create(Class<CAST[]> type, Traverse<CAST> executor) {
+		return create((CAST[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor);
+	}
+	public static <CAST> CAST[] create(CAST[] array, Traverse<CAST> executor) {
+		Objects.requireNonNull(array, "array type");
+		List<CAST> list = new ArrayList<>();
+		create(list, executor);
+		return  list.toArray(array);
+	}
+	public static <CAST> Collection<CAST> create(Collection<CAST> buffer, Traverse<CAST> executor) {
+		Objects.requireNonNull(buffer, "null buffer");
+		if (null == executor) {
+		} else {
+			Value<CAST> result = new Value<>();
+			while (null != (result = executor.invoke(result))) {
+				buffer.add(result.get());
+			}
+		}
+		return buffer;
+	}
+
+
 
 
 
@@ -283,32 +279,32 @@ public class Arrayz {
 		Value<CAST> next(Value<CAST> next, ELEMENT array_element);
 	}
 
-	public static <CAST, ELEMENT> CAST[] create(Class<CAST[]> type,   Next<CAST, ELEMENT> executor,
+	public static <CAST, ELEMENT> CAST[] filter(Class<CAST[]> type, Next<CAST, ELEMENT> executor,
 												ELEMENT[] filter) {
-		return create(type, executor, filter, 0, null == filter ?0: filter.length);
+		return filter(type, executor, filter, 0, null == filter ?0: filter.length);
 	}
-	public static <CAST, ELEMENT> CAST[] create(Class<CAST[]> type,   Next<CAST, ELEMENT> executor,
+	public static <CAST, ELEMENT> CAST[] filter(Class<CAST[]> type, Next<CAST, ELEMENT> executor,
 												ELEMENT[] filter, int filter_offset, int filter_count) {
-		return create((CAST[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor, filter, filter_offset, filter_count);
+		return filter((CAST[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor, filter, filter_offset, filter_count);
 	}
 
-	public static <CAST, ELEMENT> CAST[] create(CAST[] buffer, Next<CAST, ELEMENT> executor,
+	public static <CAST, ELEMENT> CAST[] filter(CAST[] buffer, Next<CAST, ELEMENT> executor,
 												ELEMENT[] filter) {
-		return create(buffer, executor, filter, 0, null == filter ?0: filter.length);
+		return filter(buffer, executor, filter, 0, null == filter ?0: filter.length);
 	}
-	public static <CAST, ELEMENT> CAST[] create(CAST[] buffer, Next<CAST, ELEMENT> executor,
+	public static <CAST, ELEMENT> CAST[] filter(CAST[] buffer, Next<CAST, ELEMENT> executor,
 												ELEMENT[] filter, int filter_offset, int filter_count) {
 		Objects.requireNonNull(buffer, "buffer type");
 		List<CAST> list = new ArrayList<>();
-		create(list, executor, filter, filter_offset, filter_count);
+		filter(list, executor, filter, filter_offset, filter_count);
 		return  list.toArray(buffer);
 	}
 
-	public static <CAST, ELEMENT> Collection<CAST> create(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
+	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
 														  ELEMENT[] filter) {
-		return create(buffer, executor, filter, 0, null == filter ?0: filter.length);
+		return filter(buffer, executor, filter, 0, null == filter ?0: filter.length);
 	}
-	public static <CAST, ELEMENT> Collection<CAST> create(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
+	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
 														  ELEMENT[] filter, int filter_offset, int filter_count) {
 		Objects.requireNonNull(buffer, "null buffer");
 		if (null == executor) {
@@ -327,11 +323,11 @@ public class Arrayz {
 
 
 
-	public static <CAST, ELEMENT> Collection<CAST> create(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
+	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
 														  List<ELEMENT> filter) {
-		return create(buffer, executor, filter, 0, null == filter ?0: filter.size());
+		return filter(buffer, executor, filter, 0, null == filter ?0: filter.size());
 	}
-	public static <CAST, ELEMENT> Collection<CAST> create(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
+	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
 														  List<ELEMENT> filter, int filter_offset, int filter_count) {
 		Objects.requireNonNull(buffer, "null buffer");
 		if (null == executor) {
@@ -351,7 +347,7 @@ public class Arrayz {
 
 
 
-	public static <CAST, ELEMENT> Collection<CAST> create(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
+	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
 														  Collection<ELEMENT> filter) {
 		Objects.requireNonNull(buffer, "null buffer");
 		if (null == executor) {
