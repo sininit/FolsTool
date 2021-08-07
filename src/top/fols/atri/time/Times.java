@@ -29,20 +29,18 @@ public class Times {
         }
 
 
-
-
-
         public static class Controller<V> {
             public Controller(long sleep) {
                 this.sleep = sleep;
             }
 
             private long          sleep;
-            private boolean stop, pass;
+            private long          endTime;
 
+
+            private boolean stop, pass;
             public V pass()                          { this.pass = true;         return null; }
             public V stop()                          { this.stop = true;         return null; }
-
             private void init() {
                 pass = false;
                 stop = false;
@@ -57,12 +55,20 @@ public class Times {
             }
 
 
+            public long     sleep()      {
+                return this.sleep;
+            }
             public void     sleep(long sleep)      {
                 this.sleep = sleep;
             }
+
+            public long     endTime()      {
+                return this.endTime;
+            }
+            public void     endTime(long endTime)      {
+                this.endTime = endTime;
+            }
         }
-
-
 
         public Result<V, Throwable> where(Executor<V> executor) throws InterruptedException {
             Controller<V> controllers   = new Controller<>(sleep);
@@ -82,7 +88,7 @@ public class Times {
                     result.setError(e);
                 }
             } else {
-                long endTime = System.currentTimeMillis() + (overtime);
+                controllers.endTime = System.currentTimeMillis() + (overtime);
                 while (true) {
                     try {
                         controllers.init();
@@ -102,7 +108,7 @@ public class Times {
                         result.setError(e);
                     }
 
-                    if (System.currentTimeMillis() >= endTime)  { break; } else { Thread.sleep(controllers.sleep); }
+                    if (System.currentTimeMillis() >= controllers.endTime)  { break; } else { Thread.sleep(controllers.sleep); }
                 }
             }
             return result;
@@ -111,6 +117,104 @@ public class Times {
     public static <V> V trial(long overtime, long sleep, Try.Executor<V> executor) throws InterruptedException {
         return new Try<V>(overtime, sleep).where(executor).get();
     }
+
+
+
+
+
+
+
+    @SuppressWarnings({"StatementWithEmptyBody", "MethodDoesntCallSuperMethod"})
+    public static class TryFrequency<V> {
+        public interface Executor<V> {
+            V apply(Controller<V> execute) throws Throwable;
+        }
+
+        public TryFrequency(long frequency) {
+            this.frequency = frequency;
+        }
+
+        private final long     frequency;
+
+
+        @Override
+        public TryFrequency<V> clone() {
+            TryFrequency<V> clone;
+            clone = new TryFrequency<>(frequency);
+            return  clone;
+        }
+
+
+
+
+
+        public static class Controller<V> {
+            public Controller(long frequency) {
+                this.frequency = frequency;
+            }
+
+            private long          frequency;
+            private boolean stop, pass;
+
+            public V pass()                          { this.pass = true;         return null; }
+            public V stop()                          { this.stop = true;         return null; }
+
+            private void init() {
+                pass = false;
+                stop = false;
+            }
+
+            private boolean ignoredInterruptedException = false;
+            public void     ignoredInterruptedException(boolean ignoredInterruptedException) {
+                this.ignoredInterruptedException = ignoredInterruptedException;
+            }
+            public boolean  ignoredInterruptedException() {
+                return ignoredInterruptedException;
+            }
+
+
+            long current = 0;
+            public long current() {
+                return current;
+            }
+            public void     frequency(long frequency)      {
+                this.frequency = frequency;
+            }
+        }
+
+        public Result<V, Throwable> where(Executor<V> executor) throws InterruptedException {
+            Controller<V> controllers   = new Controller<>(frequency);
+            Result<V, Throwable> result = new Result<>();
+            controllers.current = 1;
+            while (true) {
+                try {
+                    controllers.init();
+                    V v = executor.apply(controllers);
+                    if (controllers.stop) { break; }
+                    if (controllers.pass) {
+                    } else {
+                        result.set(v);
+                        break;
+                    }
+                } catch (InterruptedException stop) {
+                    result.setError(stop);
+                    if (!controllers.ignoredInterruptedException) {
+                        throw stop;
+                    }
+                } catch (Throwable e) {
+                    result.setError(e);
+                }
+
+                if (controllers.current++ >= controllers.frequency)  { break; }
+            }
+            return result;
+        }
+    }
+    public static <V> V trialFrequency(long frequency, TryFrequency.Executor<V> executor) throws InterruptedException {
+        return new TryFrequency<V>(frequency).where(executor).get();
+    }
+
+
 
 
 
