@@ -152,7 +152,7 @@ public class Arrayz {
 	 * traverse all elements, whether it encounters null or not
 	 */
 	@SuppressWarnings({"unchecked", "ForLoopReplaceableByWhile"})
-	public static abstract class TraverseArray<CAST, ELEMENT> extends Traverse<CAST> implements Next<CAST, ELEMENT> {
+	public static abstract class TraverseArray<RETURN, ELEMENT> extends Traverse<RETURN> implements Next<RETURN, ELEMENT> {
 		Object[] array;
 		public TraverseArray(ELEMENT[] array) {
 			this.array = null == array ?Finals.EMPTY_OBJECT_ARRAY: array;
@@ -163,27 +163,26 @@ public class Arrayz {
 
 		public void end()    { this.i = array.length; }
 		public int  index()  { return this.i; }
-		public int  index(int newIndex) { this.i = newIndex; return i;}
+		public int  index(int newIndex) { return this.i = newIndex;}
 		public int  length() { return this.array.length; }
 
-		Value<CAST> next_result = new Value<>();
+		Value<RETURN> next_result = new Value<>();
 
 
 
 		@Override
-		public final Value<CAST> invoke(Value<CAST> next) {
+		public final Value<RETURN> invoke(Value<RETURN> next) {
 			for (;i < array.length;) {
-				Value<CAST> n = next(this.next_result, (ELEMENT) array[i++]);
+				Value<RETURN> n = next(this.next_result, (ELEMENT) array[i++]);
 				if (null != n) {
-					next.set(n.get());
-					return next;
+					return  n;
 				}
 			}
 			return null;
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public static abstract class TraverseList<CAST, ELEMENT> extends Traverse<CAST> implements Next<CAST, ELEMENT> {
+	public static abstract class TraverseList<RETURN, ELEMENT> extends Traverse<RETURN> implements Next<RETURN, ELEMENT> {
 		List<ELEMENT> array;
 		public TraverseList(List<ELEMENT> array) {
 			this.array = null == array ?Finals.EMPTY_LIST: array;
@@ -196,69 +195,81 @@ public class Arrayz {
 		public int  index(int newIndex) { this.i = newIndex; return i;}
 		public int  length() { return this.array.size(); }
 
-		Value<CAST> next_result = new Value<>();
+		Value<RETURN> next_result = new Value<>();
 
 
 
 		@Override
-		public final Value<CAST> invoke(Value<CAST> next) {
+		public final Value<RETURN> invoke(Value<RETURN> next) {
 			for (int size = array.size(); i < size;) {
-				Value<CAST> n = next(this.next_result, array.get(i++));
+				Value<RETURN> n = next(this.next_result, array.get(i++));
 				if (null != n) {
-					next.set(n.get());
-					return next;
+					return  n;
 				}
 			}
 			return null;
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public static abstract class TraverseCollection<CAST, ELEMENT> extends Traverse<CAST> implements Next<CAST, ELEMENT> {
+	public static abstract class TraverseCollection<RETURN, ELEMENT> extends Traverse<RETURN> implements Next<RETURN, ELEMENT> {
 		Collection<ELEMENT> array;
 		Iterator<ELEMENT>   array_iterator;
 		public TraverseCollection(Collection<ELEMENT> array) {
 			this.array = null == array ?Finals.EMPTY_LIST: array;
 			this.array_iterator = this.array.iterator();
 		}
-		int i = 0;
+
+		static final Iterator EMPTY = new Iterator<Object>() {
+			@Override
+			public boolean hasNext() {
+				return false;
+			}
+
+			@Override
+			public Object next() {
+				return null;
+			}
+		};
 
 
-
-		public void end()    { this.array_iterator = null; }
+		public void end()    { this.array_iterator = EMPTY; }
 		public int  length() { return this.array.size(); }
 
-		Value<CAST> next_result = new Value<>();
+		Value<RETURN> next_result = new Value<>();
 
 		@Override
-		public final Value<CAST> invoke(Value<CAST> next) {
-			while  (null != array_iterator && array_iterator.hasNext()) {
-				Value<CAST> n = next(this.next_result, array_iterator.next());
+		public final Value<RETURN> invoke(Value<RETURN> next) {
+			while  (array_iterator.hasNext()) {
+				Value<RETURN> n = next(this.next_result, array_iterator.next());
 				if (null != n) {
-					next.set(n.get());
-					return next;
+					return  n;
 				}
 			}
 			return null;
 		}
 	}
 
+
+
+
+
 	/**
 	 * @param executor If executor returns null, it means the creation process is over
 	 */
-	public static <CAST> CAST[] create(Class<CAST[]> type, Traverse<CAST> executor) {
-		return create((CAST[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor);
+	public static <RETURN> RETURN[] create(Class<RETURN[]> type, Traverse<RETURN> executor) {
+		return create((RETURN[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor);
 	}
-	public static <CAST> CAST[] create(CAST[] array, Traverse<CAST> executor) {
+	public static <RETURN> RETURN[] create(RETURN[] array, Traverse<RETURN> executor) {
 		Objects.requireNonNull(array, "array type");
-		List<CAST> list = new ArrayList<>();
+		List<RETURN> list = new ArrayList<>();
 		create(list, executor);
 		return  list.toArray(array);
 	}
-	public static <CAST> Collection<CAST> create(Collection<CAST> buffer, Traverse<CAST> executor) {
+	public static <RETURN> Collection<RETURN> create(Collection<RETURN> buffer, Traverse<RETURN> executor) {
 		Objects.requireNonNull(buffer, "null buffer");
 		if (null == executor) {
 		} else {
-			Value<CAST> result = new Value<>();
+			Value<RETURN> result = new Value<>();
 			while (null != (result = executor.invoke(result))) {
 				buffer.add(result.get());
 			}
@@ -275,44 +286,45 @@ public class Arrayz {
 
 
 
-	public interface Next<CAST, ELEMENT> {
-		Value<CAST> next(Value<CAST> next, ELEMENT array_element);
+	public interface Next<RETURN, ELEMENT> {
+		Value<RETURN> next(Value<RETURN> next, ELEMENT array_element);
 	}
 
-	public static <CAST, ELEMENT> CAST[] filter(Class<CAST[]> type, Next<CAST, ELEMENT> executor,
-												ELEMENT[] filter) {
+
+	public static <RETURN, ELEMENT> RETURN[] filter(Class<RETURN[]> type, Next<RETURN, ELEMENT> executor,
+													ELEMENT[] filter) {
 		return filter(type, executor, filter, 0, null == filter ?0: filter.length);
 	}
-	public static <CAST, ELEMENT> CAST[] filter(Class<CAST[]> type, Next<CAST, ELEMENT> executor,
-												ELEMENT[] filter, int filter_offset, int filter_count) {
-		return filter((CAST[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor, filter, filter_offset, filter_count);
+	public static <RETURN, ELEMENT> RETURN[] filter(Class<RETURN[]> type, Next<RETURN, ELEMENT> executor,
+													ELEMENT[] filter, int filter_offset, int filter_count) {
+		return filter((RETURN[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor, filter, filter_offset, filter_count);
 	}
 
-	public static <CAST, ELEMENT> CAST[] filter(CAST[] buffer, Next<CAST, ELEMENT> executor,
-												ELEMENT[] filter) {
+	public static <RETURN, ELEMENT> RETURN[] filter(RETURN[] buffer, Next<RETURN, ELEMENT> executor,
+													ELEMENT[] filter) {
 		return filter(buffer, executor, filter, 0, null == filter ?0: filter.length);
 	}
-	public static <CAST, ELEMENT> CAST[] filter(CAST[] buffer, Next<CAST, ELEMENT> executor,
-												ELEMENT[] filter, int filter_offset, int filter_count) {
+	public static <RETURN, ELEMENT> RETURN[] filter(RETURN[] buffer, Next<RETURN, ELEMENT> executor,
+													ELEMENT[] filter, int filter_offset, int filter_count) {
 		Objects.requireNonNull(buffer, "buffer type");
-		List<CAST> list = new ArrayList<>();
+		List<RETURN> list = new ArrayList<>();
 		filter(list, executor, filter, filter_offset, filter_count);
 		return  list.toArray(buffer);
 	}
 
-	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
-														  ELEMENT[] filter) {
+	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
+															  ELEMENT[] filter) {
 		return filter(buffer, executor, filter, 0, null == filter ?0: filter.length);
 	}
-	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
-														  ELEMENT[] filter, int filter_offset, int filter_count) {
+	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
+															  ELEMENT[] filter, int filter_offset, int filter_count) {
 		Objects.requireNonNull(buffer, "null buffer");
 		if (null == executor) {
 		} else {
 			if (null == filter) { return buffer; }
-			Value<CAST> result = new Value<>();
+			Value<RETURN> result = new Value<>();
 			for (int max = filter_offset + filter_count; filter_offset < max;) {
-				Value<CAST> n = executor.next(result, filter[filter_offset++]);
+				Value<RETURN> n = executor.next(result, filter[filter_offset++]);
 				if (null != n) {
 					buffer.add(n.get());
 				}
@@ -323,19 +335,19 @@ public class Arrayz {
 
 
 
-	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
-														  List<ELEMENT> filter) {
+	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
+															  List<ELEMENT> filter) {
 		return filter(buffer, executor, filter, 0, null == filter ?0: filter.size());
 	}
-	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
-														  List<ELEMENT> filter, int filter_offset, int filter_count) {
+	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
+															  List<ELEMENT> filter, int filter_offset, int filter_count) {
 		Objects.requireNonNull(buffer, "null buffer");
 		if (null == executor) {
 		} else {
 			if (null == filter) { return buffer; }
-			Value<CAST> result = new Value<>();
+			Value<RETURN> result = new Value<>();
 			for (int max = filter_offset + filter_count; filter_offset < max;) {
-				Value<CAST> n = executor.next(result, filter.get(filter_offset++));
+				Value<RETURN> n = executor.next(result, filter.get(filter_offset++));
 				if (null != n) {
 					buffer.add(n.get());
 				}
@@ -347,16 +359,16 @@ public class Arrayz {
 
 
 
-	public static <CAST, ELEMENT> Collection<CAST> filter(Collection<CAST> buffer, Next<CAST, ELEMENT> executor,
-														  Collection<ELEMENT> filter) {
+	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
+															  Collection<ELEMENT> filter) {
 		Objects.requireNonNull(buffer, "null buffer");
 		if (null == executor) {
 		} else {
 			if (null == filter) { return buffer; }
 			Iterator<ELEMENT> array_iterator = filter.iterator();
-			Value<CAST> result = new Value<>();
+			Value<RETURN> result = new Value<>();
 			while  (array_iterator.hasNext()) {
-				Value<CAST> n = executor.next(result, array_iterator.next());
+				Value<RETURN> n = executor.next(result, array_iterator.next());
 				if (null != n) {
 					buffer.add(n.get());
 				}
