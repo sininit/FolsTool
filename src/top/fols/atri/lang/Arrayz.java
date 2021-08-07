@@ -161,7 +161,7 @@ public class Arrayz {
 
 
 
-		public void end()    { this.i = array.length; }
+		public Value<RETURN> end()    { this.i = array.length; return null; }
 		public int  index()  { return this.i; }
 		public int  index(int newIndex) { return this.i = newIndex;}
 		public int  length() { return this.array.length; }
@@ -190,7 +190,7 @@ public class Arrayz {
 		int i = 0;
 
 
-		public void end()    { this.i = array.size(); }
+		public Value<RETURN> end()    { this.i = array.size(); return null; }
 		public int  index()  { return this.i; }
 		public int  index(int newIndex) { this.i = newIndex; return i;}
 		public int  length() { return this.array.size(); }
@@ -232,7 +232,7 @@ public class Arrayz {
 		};
 
 
-		public void end()    { this.array_iterator = EMPTY; }
+		public Value<RETURN> end()    { this.array_iterator = EMPTY; return null; }
 		public int  length() { return this.array.size(); }
 
 		Value<RETURN> next_result = new Value<>();
