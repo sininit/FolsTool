@@ -521,8 +521,19 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
 
 
 
-    public Cookies getCookies(String key)                   { return this.getCookies(KeyFactory.newKey(key)); }
-    public Cookies getCookies(IgnoreCaseKey<String> key)    { return new Cookies(this.getValue0(key)); }
+    public Cookies getCookies(String key)                   {
+        return this.getCookies(KeyFactory.newKey(key));
+    }
+    public Cookies getCookies(IgnoreCaseKey<String> key)    {
+        List<String> value0 = this.getValueList0(key);
+        Cookies cookies = new Cookies();
+        if (null != value0) {
+            for (String s : value0) {
+                Cookies.parse(cookies.getInnerMap(), s);
+            }
+        }
+        return cookies;
+    }
 
 
     public MessageHeader setCookies(String key, Cookies cookies) {

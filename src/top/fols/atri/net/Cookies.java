@@ -27,8 +27,8 @@ public class Cookies implements Serializable, XInterfaceGetInnerMap<String, Stri
 		values = parse(null, value);
 	}
 	public Cookies(MessageHeader header) {
-		String value = null == header ?null: header.get(MessageHeader.REQUEST_HEADER_COOKIE);
-		values = parse(null, value);
+		Cookies cookies = header.getCookies(MessageHeader.REQUEST_HEADER_COOKIE);
+		this.putAll(cookies);
 	}
 
 
@@ -112,9 +112,10 @@ public class Cookies implements Serializable, XInterfaceGetInnerMap<String, Stri
 			}
 
 			sb.append(COOKIE_ELEMENT_SEPARATOR_CHAR);
+			sb.append(' ');
 		}
-		if (sb.length() > 1) {
-			sb.setLength(sb.length() - 1);
+		if (sb.length() > 2) {
+			sb.setLength(sb.length() - 2);
 		}
 		return sb.toString();
 	}
