@@ -1,5 +1,7 @@
 package top.fols.box.io.os;
 
+import top.fols.atri.io.Filex;
+
 import java.io.File;
 
 public class XFileTest {
@@ -7,11 +9,11 @@ public class XFileTest {
 
 
         System.out.println(new File("a/b", "../").getCanonicalPath());
-        System.out.println(XFile.dealRelativePath(XFile.normalizePath("a/b", "../", '/'), '/'));
+        System.out.println(Filex.dealRelativePath(Filex.normalizePath("a/b", "../", '/'), '/'));
 
 
         System.out.println(new File("a/b", "/../").getCanonicalPath());
-        System.out.println(XFile.dealRelativePath(XFile.normalizePath("a/b", "/../", '/'), '/'));
+        System.out.println(Filex.dealRelativePath(Filex.normalizePath("a/b", "/../", '/'), '/'));
 
 
         System.out.println(new File(" /"));
@@ -28,35 +30,35 @@ public class XFileTest {
 
         System.out.println("------1");
 
-        System.out.println(XFile.normalizePath("", '/'));
-        System.out.println(XFile.normalizePath("/", '/'));
-        System.out.println(XFile.normalizePath("//////", '/'));
-        System.out.println(XFile.normalizePath("a", '/'));
-        System.out.println(XFile.normalizePath("a/", '/'));
-        System.out.println(XFile.normalizePath("a/b/c/", '/'));
-        System.out.println(XFile.normalizePath("/a/b/c/", '/'));
+        System.out.println(Filex.normalizePath("", '/'));
+        System.out.println(Filex.normalizePath("/", '/'));
+        System.out.println(Filex.normalizePath("//////", '/'));
+        System.out.println(Filex.normalizePath("a", '/'));
+        System.out.println(Filex.normalizePath("a/", '/'));
+        System.out.println(Filex.normalizePath("a/b/c/", '/'));
+        System.out.println(Filex.normalizePath("/a/b/c/", '/'));
 
         System.out.println("------2");
 
-        System.out.println(XFile.normalizePath("", "", '/'));
-        System.out.println(XFile.normalizePath("/", "", '/'));
-        System.out.println(XFile.normalizePath("/a", "", '/'));
-        System.out.println(XFile.normalizePath("/a", "/", '/'));
-        System.out.println(XFile.normalizePath("a", "/", '/'));
-        System.out.println(XFile.normalizePath("", "/a", '/'));
-        System.out.println(XFile.normalizePath("/", "a/b", '/'));
-        System.out.println(XFile.normalizePath("/a", "/b", '/'));
-        System.out.println(XFile.normalizePath("a", "b", '/'));
-        System.out.println(XFile.normalizePath("a/", "b", '/'));
+        System.out.println(Filex.normalizePath("", "", '/'));
+        System.out.println(Filex.normalizePath("/", "", '/'));
+        System.out.println(Filex.normalizePath("/a", "", '/'));
+        System.out.println(Filex.normalizePath("/a", "/", '/'));
+        System.out.println(Filex.normalizePath("a", "/", '/'));
+        System.out.println(Filex.normalizePath("", "/a", '/'));
+        System.out.println(Filex.normalizePath("/", "a/b", '/'));
+        System.out.println(Filex.normalizePath("/a", "/b", '/'));
+        System.out.println(Filex.normalizePath("a", "b", '/'));
+        System.out.println(Filex.normalizePath("a/", "b", '/'));
 
         System.out.println("------3");
 
-        System.out.println(XFile.getCanonicalRelativePath(""));
-        System.out.println(XFile.getCanonicalRelativePath("/./../../../b"));
+        System.out.println(Filex.getCanonicalRelativePath(""));
+        System.out.println(Filex.getCanonicalRelativePath("/./../../../b"));
 
         String testpath = "//XSt/]/tt/////.//./././a/b/v//x//a/vv//n///...//../../();".replace("/", File.separator);
         System.out.println("path: " + testpath);
-        System.out.print(XFile.getCanonicalRelativePath(testpath));
+        System.out.print(Filex.getCanonicalRelativePath(testpath));
         System.out.println(" ==? " + new File(testpath).getCanonicalPath());
 
         System.out.println("------4");
@@ -64,16 +66,16 @@ public class XFileTest {
         testpath = "/XSt/]/tt/////.//././///////../.././a/b/v//x//a/vv//n///...//../../();".replace("/",
                 File.separator);
         System.out.println("path: " + testpath);
-        System.out.print(XFile.getCanonicalRelativePath(testpath));
+        System.out.print(Filex.getCanonicalRelativePath(testpath));
         System.out.println(" ==? " + new File(testpath).getCanonicalPath());
 
         System.out.println("------5");
 
 
-        testpath = XFile.getCanonicalRelativePath("hhh*/.././//////gggghjj/../..ggg/rrrf".replace("/",
+        testpath = Filex.getCanonicalRelativePath("hhh*/.././//////gggghjj/../..ggg/rrrf".replace("/",
                 File.separator));
         System.out.println("path: " + testpath);
-        System.out.print(XFile.getCanonicalRelativePath(testpath));
+        System.out.print(Filex.getCanonicalRelativePath(testpath));
         System.out.println(" ==? " + new File(testpath).getCanonicalPath());
 
         /*
@@ -82,64 +84,64 @@ public class XFileTest {
          */
         System.out.println("------6");
 
-        System.out.println(XFile.dealRelativePath("a/b/c/../../d", '/'));
-        System.out.println(XFile.dealRelativePath("/a/b/c/../../d", '/'));
+        System.out.println(Filex.dealRelativePath("a/b/c/../../d", '/'));
+        System.out.println(Filex.dealRelativePath("/a/b/c/../../d", '/'));
 
 
-        System.out.println(XFile.dealRelativePath("a/../../b/", '/'));
-        System.out.println(XFile.dealRelativePath("/a/../../b/", '/'));
-
-
-
-        System.out.println(XFile.dealRelativePath("/../../a/", '/'));
-        System.out.println(XFile.dealRelativePath("../../a/", '/'));
-
-        System.out.println(XFile.dealRelativePath("" , '/'));
-        System.out.println(XFile.dealRelativePath("/.." , '/'));
-        System.out.println(XFile.dealRelativePath("..", '/'));
+        System.out.println(Filex.dealRelativePath("a/../../b/", '/'));
+        System.out.println(Filex.dealRelativePath("/a/../../b/", '/'));
 
 
 
-        System.out.println(XFile.dealRelativePath("a/b/c", '/'));
-        System.out.println(XFile.dealRelativePath("a/b/c/", '/'));
+        System.out.println(Filex.dealRelativePath("/../../a/", '/'));
+        System.out.println(Filex.dealRelativePath("../../a/", '/'));
 
-        System.out.println(XFile.dealRelativePath("/a/b/c", '/'));
-        System.out.println(XFile.dealRelativePath("/a/b/c/", '/'));
-
-
-        System.out.println(XFile.dealRelativePath("a/b/c/..", '/'));
-        System.out.println(XFile.dealRelativePath("/a/b/c/..", '/'));
+        System.out.println(Filex.dealRelativePath("" , '/'));
+        System.out.println(Filex.dealRelativePath("/.." , '/'));
+        System.out.println(Filex.dealRelativePath("..", '/'));
 
 
 
-        System.out.println(XFile.dealRelativePath("a/..", '/'));
-        System.out.println(XFile.dealRelativePath("a/../", '/'));
-        System.out.println(XFile.dealRelativePath("/a/..", '/'));
-        System.out.println(XFile.dealRelativePath("/a/../" , '/'));
+        System.out.println(Filex.dealRelativePath("a/b/c", '/'));
+        System.out.println(Filex.dealRelativePath("a/b/c/", '/'));
+
+        System.out.println(Filex.dealRelativePath("/a/b/c", '/'));
+        System.out.println(Filex.dealRelativePath("/a/b/c/", '/'));
+
+
+        System.out.println(Filex.dealRelativePath("a/b/c/..", '/'));
+        System.out.println(Filex.dealRelativePath("/a/b/c/..", '/'));
+
+
+
+        System.out.println(Filex.dealRelativePath("a/..", '/'));
+        System.out.println(Filex.dealRelativePath("a/../", '/'));
+        System.out.println(Filex.dealRelativePath("/a/..", '/'));
+        System.out.println(Filex.dealRelativePath("/a/../" , '/'));
 
 
 
 
-        System.out.println(XFile.dealRelativePath("a/./b", '/'));
-        System.out.println(XFile.dealRelativePath("a/../b", '/'));
-        System.out.println(XFile.dealRelativePath("a/b/../c", '/'));
+        System.out.println(Filex.dealRelativePath("a/./b", '/'));
+        System.out.println(Filex.dealRelativePath("a/../b", '/'));
+        System.out.println(Filex.dealRelativePath("a/b/../c", '/'));
 
 
-        System.out.println(XFile.dealRelativePath("/./a", '/'));
-        System.out.println(XFile.dealRelativePath("/../a", '/'));
+        System.out.println(Filex.dealRelativePath("/./a", '/'));
+        System.out.println(Filex.dealRelativePath("/../a", '/'));
 
 
-        System.out.println(XFile.dealRelativePath("/a/../", '/'));
-        System.out.println(XFile.dealRelativePath("/a/../", '/'));
+        System.out.println(Filex.dealRelativePath("/a/../", '/'));
+        System.out.println(Filex.dealRelativePath("/a/../", '/'));
 
         System.out.println("------");
 
 
-        System.out.println(XFile.getCanonicalRelativePath("////..///", '/'));
-        System.out.println(XFile.getCanonicalRelativePath("////..", '/'));
-        System.out.println(XFile.getCanonicalRelativePath("..////", '/'));
-        System.out.println(XFile.getCanonicalRelativePath("///\\\\/../", '/'));
-        System.out.println(XFile.getCanonicalRelativePath("/1/2/../", '/'));
+        System.out.println(Filex.getCanonicalRelativePath("////..///", '/'));
+        System.out.println(Filex.getCanonicalRelativePath("////..", '/'));
+        System.out.println(Filex.getCanonicalRelativePath("..////", '/'));
+        System.out.println(Filex.getCanonicalRelativePath("///\\\\/../", '/'));
+        System.out.println(Filex.getCanonicalRelativePath("/1/2/../", '/'));
 
         System.out.println("------");
 

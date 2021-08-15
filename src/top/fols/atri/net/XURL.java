@@ -2,9 +2,10 @@ package top.fols.atri.net;
 
 
 import java.io.Serializable;
+
+import top.fols.atri.io.Filex;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.lang.Value;
-import top.fols.box.io.os.XFile;
 
 /**
  * it does not convert absolute addresses
@@ -549,7 +550,7 @@ public class XURL implements Serializable {
     }
 
     public static String formatPath(String path) {
-        return XFile.getCanonicalRelativePath(path, PATH_SEPARATOR_CHAR);
+        return Filex.getCanonicalRelativePath(path, PATH_SEPARATOR_CHAR);
     }
 
 }

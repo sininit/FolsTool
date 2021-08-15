@@ -44,6 +44,49 @@ public class Strings {
 
 
 
+	public static int indexOfChar(String str, char chars) {
+		return (null == str)?-1:str.indexOf(chars);
+	}
+	public static int indexOfChar(String str, char[] chars, int offset) {
+		if (!(null == str || null == chars)) {
+			for (int i = offset; i < str.length(); i++) {
+				char ch = str.charAt(i);
+				for (char s: chars) {
+					if (ch == s) {
+						return i;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+
+
+	public static int lastIndexOfChar(String str, char chars) {
+		return (null == str)?-1:str.lastIndexOf(chars);
+	}
+	public static int lastIndexOfChar(String str, char[] chars) {
+		return lastIndexOfChar(str, chars, str.length()-1);
+	}
+	public static int lastIndexOfChar(String str, char[] chars, int offset) {
+		if (!(null == str || null == chars) && str.length() > 0) {
+			for (int i = offset; i >= 0; i--) {
+				char ch = str.charAt(i);
+				for (char s: chars) {
+					if (ch == s) {
+						return i;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+
+
+
+
+
+
 
 
 	public static String[][] matchs(String content, String regex) {
@@ -413,24 +456,22 @@ public class Strings {
 	public static int indexOf(String str, String find, int off) {
 		return (null == str || null == find) ? -1 : str.indexOf(find, off);
 	}
-
-	public static int indexOf(String str, char find, int off) {
+	public static int indexOfChar(String str, char find, int off) {
+		return (null == str) ? -1 : str.indexOf(find, off);
+	}
+	public static int indexOfChar(String str, int find, int off) {
 		return (null == str) ? -1 : str.indexOf(find, off);
 	}
 
-	public static int indexOf(String str, int find, int off) {
-		return (null == str) ? -1 : str.indexOf(find, off);
-	}
+
 
 	public static int lastIndexOf(String str, String find, int off) {
 		return (null == str || null == find) ? -1 : str.lastIndexOf(find, off);
 	}
-
-	public static int lastIndexOf(String str, char find, int off) {
+	public static int lastIndexOfChar(String str, char find, int off) {
 		return (null == str) ? -1 : str.lastIndexOf(find, off);
 	}
-
-	public static int lastIndexOf(String str, int find, int off) {
+	public static int lastIndexOfChar(String str, int find, int off) {
 		return (null == str) ? -1 : str.lastIndexOf(find, off);
 	}
 

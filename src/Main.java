@@ -9,6 +9,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import top.fols.atri.array.ArrayObject;
 import top.fols.atri.io.CharSeparatorReader;
+import top.fols.atri.io.Filex;
+import top.fols.atri.io.Filez;
 import top.fols.atri.io.StringLineReader;
 import top.fols.atri.io.buffer.BufferFilter;
 import top.fols.atri.io.buffer.chars.CharBufferFilter;
@@ -31,6 +33,8 @@ import top.fols.atri.assist.json.JSONObject;
 public class Main extends k {
     public static void main(String[] args) throws Throwable {
 
+        System.out.println(Filez.RUN);
+        System.out.println(Filez.TEMP);
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"
                 , "src"

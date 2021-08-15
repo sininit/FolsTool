@@ -4,5 +4,5 @@ package top.fols.atri.util.interfaces;
 import java.util.Map;
 
 public interface InnerMap<K, V> {
-    Map<K, V> getInnerMap();
+    public Map<K, V> getInnerMap();
 }

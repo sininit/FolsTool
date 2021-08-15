@@ -1,5 +1,6 @@
 package test;
 
+import top.fols.atri.io.Filex;
 import top.fols.box.io.os.XFile;
 import top.fols.atri.util.ArrayPieceIndex;
 
@@ -47,7 +48,7 @@ public class QmcDecode {
 
     private static File getNewExtensionNamePath(String filepath, String newExtensionName) {
         File orgFile = new File(filepath);
-        File file = new File(XFile.getParent(orgFile.getAbsolutePath()) + XFile.getNameNoExtension(filepath) + "."
+        File file = new File(Filex.getParent(orgFile.getAbsolutePath()) + Filex.getNameNoExtension(filepath) + "."
                 + newExtensionName);
         return file;
     }
@@ -55,7 +56,7 @@ public class QmcDecode {
     public static void decodeQmcFile(String filePath) throws FileNotFoundException, IOException {
 
         String newExName = null;
-        String orgExName = XFile.getExtensionName(filePath);
+        String orgExName = Filex.getExtensionName(filePath);
         if ("qmcflac".equals(orgExName)) {
             newExName = "flac";
         } else if ("qmc3".equals(orgExName)) {
