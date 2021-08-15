@@ -86,20 +86,6 @@ public class Filex {
 		return name;
 	}
 
-	/**
-	 * absolutely path
-	 */
-	public static String getCanonicalPath(Object path) {
-		File file = toFile(path);
-		if (null == file) {
-			return null;
-		} else if (path instanceof Filez) {
-			return ((Filez)path).getCanonicalPath();
-		} else {
-			return getCanonicalRelativePath(getFileCanonicalPath(file));
-		}
-	}
-
 
 
 
@@ -166,12 +152,7 @@ public class Filex {
 		String fPath = path.toString();
 		return fPath;
     }
-
-
-
-
-
-	public static String getFileCanonicalPath(Object path) {
+	public static String toCanonicalPath(Object path) {
 		if (path instanceof Filez) {
 			return ((Filez)path).getCanonicalPath();
 		} else {
@@ -190,6 +171,11 @@ public class Filex {
 			return rPath;
 		}
 	}
+
+
+
+
+
 
 	public static long getLastModified(Object path) {
         File   file = toFile(path);

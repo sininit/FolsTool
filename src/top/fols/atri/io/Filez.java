@@ -25,6 +25,7 @@ public class Filez implements InnerFile {
 
 
 
+
 	private final File    fileOrDirectory;
 	private boolean isCanonical;
 
@@ -66,9 +67,23 @@ public class Filez implements InnerFile {
 	public String getCanonicalPath() {
 		String path = this.cPath;
 		if (null ==      path) {
-			this.cPath = path = isCanonical() ?fileOrDirectory.getPath(): Filex.getCanonicalPath(this.fileOrDirectory);
+			this.cPath = path = isCanonical() ?fileOrDirectory.getPath(): getCanonicalPath(this.fileOrDirectory);
 		}
 		return path;
+	}
+
+	/**
+	 * absolutely path
+	 */
+	public static String getCanonicalPath(Object path) {
+		File file = Filex.toFile(path);
+		if (null == file) {
+			return null;
+		} else if (path instanceof Filez) {
+			return ((Filez)path).getCanonicalPath();
+		} else {
+			return Filex.getCanonicalRelativePath(Filex.toCanonicalPath(file));
+		}
 	}
 	public String getCanonicalPath(char separator) {
 		String path = this.getCanonicalPath();
