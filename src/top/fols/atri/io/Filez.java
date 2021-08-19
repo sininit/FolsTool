@@ -18,11 +18,10 @@ public class Filez implements InnerFile {
 	public static Filez TEMP = new Filez(System.getProperty(Finals.Property.JAVA_IO_TEMPDIR, "")).getCanonical();
 
 
+
 	public static Filez wrap(Object path) {
 		return new Filez(path);
 	}
-
-
 
 
 

@@ -14,6 +14,15 @@ import java.util.regex.Pattern;
 @SuppressWarnings("SpellCheckingInspection")
 public class Strings {
 
+	public static String cast(Object object) {
+		return null == object?null:object.toString();
+	}
+	public static String nonNull(Object object, String def) {
+		return null == object?def:object.toString();
+	}
+
+
+
 
 	public static String tabs(String lines) {
 		return tabs(lines, "\t");

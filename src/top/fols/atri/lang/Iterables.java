@@ -11,6 +11,7 @@ import top.fols.atri.array.ArrayObject;
 import top.fols.atri.reflect.ReflectCache;
 import top.fols.atri.reflect.Reflects;
 
+@SuppressWarnings("rawtypes")
 public abstract class Iterables<K, V> implements Iterable {
     private Iterables() {
     }
@@ -56,7 +57,7 @@ public abstract class Iterables<K, V> implements Iterable {
         final Class<?> type = object.getClass();
         if (object instanceof Class)        {
             return new Iterables() {
-                Map<String, Field> names = new HashMap<String, Field>() {{
+                final Map<String, Field> names = new HashMap<String, Field>() {{
                     Field[] fields = fields((Class)object);
                     for (Field field: fields) {
                         String name = field.getName();
@@ -64,7 +65,7 @@ public abstract class Iterables<K, V> implements Iterable {
                             put(name, field);
                     }
                 }};
-                Iterator iterator = new WrapIterator(names.keySet().iterator());
+                final Iterator iterator = new WrapIterator(names.keySet().iterator());
 
                 @Override
                 public Iterator iterator() {
@@ -108,10 +109,10 @@ public abstract class Iterables<K, V> implements Iterable {
                 }
             };
         }
-        if (object instanceof Collection)   {
+        if (object instanceof List)   {
             return new Iterables() {
-                List collection = (List) object;
-                Iterator iterator = new IndexIterator(collection.size());
+                final List collection = (List) object;
+                final Iterator iterator = new IndexIterator(collection.size());
 
                 @Override
                 public Iterator iterator() {
@@ -143,10 +144,13 @@ public abstract class Iterables<K, V> implements Iterable {
                 }
             };
         }
+        if (object instanceof Collection)   {
+            throw new UnsupportedOperationException(object.getClass().getName());
+        }
         if (object instanceof Map)          {
             return new Iterables() {
-                Map collection = (Map) object;
-                Iterator iterator = new WrapIterator(collection.keySet().iterator());
+                final Map collection = (Map) object;
+                final Iterator iterator = new WrapIterator(collection.keySet().iterator());
 
                 @Override
                 public Iterator iterator() {
@@ -176,8 +180,8 @@ public abstract class Iterables<K, V> implements Iterable {
 
         if (type.isArray()) {
             return new Iterables() {
-                ArrayObject collection = ArrayObject.wrap(object);
-                Iterator iterator = new IndexIterator(collection.length());
+                final ArrayObject collection = ArrayObject.wrap(object);
+                final Iterator iterator = new IndexIterator(collection.length());
 
                 @Override
                 public Iterator iterator() {
@@ -213,7 +217,7 @@ public abstract class Iterables<K, V> implements Iterable {
 //		if (object instanceof CharSequence) { return ((CharSequence)object).length(); }
 
         return new Iterables() {
-            Map<String, Field> names = new HashMap<String, Field>(){{
+            final Map<String, Field> names = new HashMap<String, Field>(){{
                 Field[] fields = fields(type);
                 for (Field field: fields) {
                     field = Reflects.accessible(field);
@@ -223,7 +227,7 @@ public abstract class Iterables<K, V> implements Iterable {
                         put(name, field);
                 }
             }};
-            Iterator iterator = new WrapIterator(names.keySet().iterator());
+            final Iterator iterator = new WrapIterator(names.keySet().iterator());
 
             @Override
             public Iterator iterator() {
