@@ -91,7 +91,7 @@ public class JSONTokener {
 
 
     public static boolean isJSONObject(String str) {
-        if (Objects.empty(str) && (str = str.trim()).length() > 0 && (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}')) {
+        if (!Objects.empty(str) && (str = str.trim()).length() > 0 && (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}')) {
             try {
                 parseJSONObject(str);
                 return true;
@@ -101,7 +101,7 @@ public class JSONTokener {
         return false;
     }
     public static boolean isJSONArray(String str) {
-        if (Objects.empty(str) && (str = str.trim()).length() > 0 && (str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']')) {
+        if (!Objects.empty(str) && (str = str.trim()).length() > 0 && (str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']')) {
             try {
                 parseJSONArray(str);
                 return true;
