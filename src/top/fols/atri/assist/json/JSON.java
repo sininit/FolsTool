@@ -105,12 +105,7 @@ class JSON {
 
 
 
-	public static boolean isJsonObject(String str) {
-		return !Objects.empty(str) && (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}');
-	}
-	public static boolean isJsonArray(String str) {
-		return !Objects.empty(str) && (str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']');
-	}
+
 
 
 

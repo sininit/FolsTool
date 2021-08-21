@@ -20,6 +20,8 @@ package top.fols.atri.assist.json;
 
 // Note: this class was written without inspecting the non-free org.json sourcecode.
 
+import top.fols.atri.lang.Objects;
+
 /**
  * Parses a JSON (<a href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>)
  * encoded string into the corresponding object. Most clients of
@@ -85,6 +87,29 @@ public class JSONTokener {
         this.in = in;
     }
 
+
+
+
+    public static boolean isJSONObject(String str) {
+        if (Objects.empty(str) && (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}')) {
+            try {
+                parseJSONObject(str);
+                return true;
+            } catch (Throwable ignored) {
+            }
+        }
+        return false;
+    }
+    public static boolean isJSONArray(String str) {
+        if (Objects.empty(str) && (str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']')) {
+            try {
+                parseJSONArray(str);
+                return true;
+            } catch (Throwable ignored) {
+            }
+        }
+        return false;
+    }
 
 
 
