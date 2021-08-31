@@ -2,6 +2,8 @@ package top.fols.atri.net;
 
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import top.fols.atri.io.Filex;
 import top.fols.atri.lang.Objects;
@@ -81,15 +83,15 @@ public class XURL implements Serializable {
     }
     public URLBuilder toBuilder() {
         //protocol://user@host:port/dir/filename?param=value&multiplyParam=value#ref
-        URLBuilder xurlBuilder = new URLBuilder();
-        xurlBuilder.protocol(this.getProtocol());
-        xurlBuilder.user(this.getUser());
-        xurlBuilder.host(this.getHost());
-        xurlBuilder.port(this.getPort());
-        xurlBuilder.path(this.getFilePath());
-        xurlBuilder.param(this.getParam());
-        xurlBuilder.ref(this.getRef());
-        return xurlBuilder;
+        URLBuilder urlBuilder = new URLBuilder();
+        urlBuilder.protocol(this.getProtocol());
+        urlBuilder.user(this.getUser());
+        urlBuilder.host(this.getHost());
+        urlBuilder.port(this.getPort());
+        urlBuilder.path(this.getFilePath());
+        urlBuilder.param(this.getParam());
+        urlBuilder.ref(this.getRef());
+        return urlBuilder;
     }
 
 
@@ -118,15 +120,15 @@ public class XURL implements Serializable {
 
 
 
-    private String oUrl; // origin url
+    private final String oUrl; // origin url
 
-    private String uProtocol; // null / protocol(http/https/ftp/...)
-    private String uUser; // null / user
-    private String uHostAndPort; // host(:port)
-    private String uRoot; // (protocol://)(user@)host(:port)
-    private String uDir; // /(dir/)
-    private String uPathAndParam; // /(dir/filename)(?param=value&multiplyParam=value)
-    private String uRef; // null / ref
+    private final String uProtocol; // null / protocol(http/https/ftp/...)
+    private final String uUser; // null / user
+    private final String uHostAndPort; // host(:port)
+    private final String uRoot; // (protocol://)(user@)host(:port)
+    private final String uDir; // /(dir/)
+    private final String uPathAndParam; // /(dir/filename)(?param=value&multiplyParam=value)
+    private final String uRef; // null / ref
 
 
 
@@ -468,6 +470,8 @@ public class XURL implements Serializable {
         if ((removeNotesStart = spec.indexOf(XURL.REF_SYMBOL)) > -1) {
             this.uRef = spec.substring(removeNotesStart + XURL.REF_SYMBOL.length(), limit);
             limit = removeNotesStart;
+        } else {
+            this.uRef = null;
         }
         if (start != 0 || limit != spec.length()) {
             spec = spec.substring(start, limit);
@@ -501,6 +505,8 @@ public class XURL implements Serializable {
         int userIndex = spec.lastIndexOf(XURL.USER_SYMBOL, pathSeparatorIndex - XURL.PATH_SEPARATOR.length());
         if (userIndex > -1) {
             this.uUser = spec.substring(0, userIndex);
+        } else {
+            this.uUser = null;
         }
 
         // deal host and port
@@ -541,6 +547,12 @@ public class XURL implements Serializable {
         String param = this.getParam();
         return null == param ? null : new URLParams(param);
     }
+    public URLParams paramNonNull() {
+        URLParams param = this.param();
+        return null == param ? new URLParams() : param;
+    }
+
+
 
 
 
@@ -551,6 +563,46 @@ public class XURL implements Serializable {
 
     public static String formatPath(String path) {
         return Filex.getCanonicalRelativePath(path, PATH_SEPARATOR_CHAR);
+    }
+
+
+    transient URL toURL;
+    public URL toURL() {
+        if (null == this.toURL) {
+            try {
+                this.toURL = new URL(this.getUrl());
+            } catch (MalformedURLException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }
+        return this.toURL;
+    }
+
+    /**
+     * @see URL(URL, String)
+     */
+    public String   spec(String spec) {
+        return XURL.spec(toURL(), spec);
+    }
+    public XURL     specs(String spec) {
+       String url = this.spec(spec);
+       return new XURL(url);
+    }
+
+
+    public static String spec(String url, String spec) {
+        try {
+            return spec(new URL(url), spec);
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+    public static String spec(URL url, String spec) {
+        try {
+            return new URL(url, spec).toString();
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
 }
