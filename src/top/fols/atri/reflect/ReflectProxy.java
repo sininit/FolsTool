@@ -2,6 +2,7 @@ package top.fols.atri.reflect;
 
 import java.io.Serializable;
 import java.lang.reflect.*;
+import java.util.Arrays;
 
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
@@ -13,11 +14,11 @@ public class ReflectProxy<T, F> implements InvocationHandler, Serializable {
 	T 		  value;
 	Class<T>  valueClass;
 	Class[]   interfaces;
-	ReflectProxy(T object, Class<?>... interfaces) {
-		if (null != (this.value = object)) {
-			this.valueClass = (Class<T>) object.getClass();
-		}
-		this.interfaces = null == interfaces ?Finals.EMPTY_CLASS_ARRAY: interfaces;
+	ReflectProxy(T object, Class<T>  objectClass,
+				 Class<?>... interfaces) {
+		this.value = object;
+		this.valueClass = null == objectClass? (Class<T>) object.getClass():objectClass;
+		this.interfaces = null == interfaces ? Finals.EMPTY_CLASS_ARRAY: interfaces;
 	}
 
 
@@ -41,46 +42,44 @@ public class ReflectProxy<T, F> implements InvocationHandler, Serializable {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 	@SuppressWarnings("SameParameterValue")
-	protected Method matchMethod(Method[] list,
-								 Class[][] listParameterTypes,
-								 Class returnClass,
-								 String name,
-								 boolean nullObjectCanCastToClass,
-								 Object... paramInstanceArr) {
-		return ReflectMatcher.matchMethod(list, listParameterTypes, returnClass, name, nullObjectCanCastToClass, paramInstanceArr);
-	}
+//	protected Method matchMethod(Method[] list,
+//								 Class[][] listParameterTypes,
+//								 Class returnClass,
+//								 String name,
+//								 boolean nullObjectCanCastToClass,
+//								 Object... paramInstanceArr) {
+//		return ReflectMatcher.matchMethod(list, listParameterTypes, returnClass, name, nullObjectCanCastToClass, paramInstanceArr);
+//	}
 
 
+//	Method getMethod(Class cls, String name, Object... paramInstanceArr) {
+//		ProxyReflectCache cache = ReflectProxy.cache;
+//		ReflectCache.MethodList gets = cache.getMethodsList(cls, name);
+//		if (null != gets && gets.list().length != 0) {
+//			Method match = matchMethod(gets.list(), gets.parameterTypes(), null, null, true, paramInstanceArr);
+//			return Reflects.accessible(match);
+//		}
+//		return null;
+//	}
 
-	Method getMethod(Class cls, String name, Object... paramInstanceArr) {
+
+	Method getMethod(Class cls, Class<?> returnClass, String name, Class<?>... paramInstanceArr) {
 		ProxyReflectCache cache = ReflectProxy.cache;
-		ReflectCache.MethodList gets = cache.getMethodsList(cls, name);
-		if (null != gets && gets.list().length != 0) {
-			Method match = matchMethod(gets.list(), gets.parameterTypes(), null, null, true, paramInstanceArr);
-			return Reflects.accessible(match);
-		}
-		return null;
+		Method match = cache.method(cls, returnClass, name, paramInstanceArr);
+		return Reflects.accessible(match);
 	}
-
 
 
 	@Override
 	public Object invoke(Object p1, Method p2, Object[] p3) throws Throwable {
 		// TODO: Implement this method
-		Method match = getMethod(valueClass, p2.getName(), Objects.empty(p3) ? Finals.EMPTY_OBJECT_ARRAY: p3);
-		return null == match ? null: match.invoke(value, p3);
+		Method match = getMethod(valueClass,
+				p2.getReturnType(), p2.getName(), p2.getParameterTypes());
+		if (null == match) {
+			throw new NoSuchMethodException(String.format("cannot from [%s] found [interface %s]", valueClass, p2));
+		}
+		return match.invoke(value, p3);
 	}
 
 
@@ -91,23 +90,34 @@ public class ReflectProxy<T, F> implements InvocationHandler, Serializable {
 
 
 	public static <T,F> ReflectProxy<T, F> from(T object, Class<F> proxy) {
-		if (Objects.empty(proxy)) {
+		if (null == proxy) {
 			return null;
 		} else {
-			ReflectProxy<T, F> r0 = new ReflectProxy<>(object, new Class<?>[]{proxy});
-			return r0;
+			return new ReflectProxy<>(object, (Class<T>) object.getClass(), proxy);
 		}
 	}
 	public static <T> ReflectProxy<T, Object> from(T object, Class<?>... proxy0) {
-		if (Objects.empty(proxy0)) {
+		if (null == proxy0) {
 			return null;
 		} else {
-			ReflectProxy<T, Object> r0 = new ReflectProxy<>(object, proxy0);
-			return r0;
+			return new ReflectProxy<>(object, (Class<T>) object.getClass(), proxy0);
 		}
 	}
 
-
+	public static <T,F> ReflectProxy<T, F> fromClass(Class<T> objectClass, Class<F> proxy) {
+		if (null == proxy) {
+			return null;
+		} else {
+			return new ReflectProxy<>(null, objectClass, proxy);
+		}
+	}
+	public static <T> ReflectProxy<T, Object> fromClass(Class<T> objectClass, Class<?>... proxy0) {
+		if (null == proxy0) {
+			return null;
+		} else {
+			return new ReflectProxy<>(null, objectClass, proxy0);
+		}
+	}
 
 
 
@@ -117,10 +127,11 @@ public class ReflectProxy<T, F> implements InvocationHandler, Serializable {
 		if (interfaces.length == 0) {
 			return null;
 		}
-		for (int i = 0; i < interfaces.length; i++) {
+		for (Class anInterface : interfaces) {
 			try {
-				return newInstance(interfaces[i].getClassLoader());
-			} catch (Throwable ignored) {}
+				return newInstance(anInterface.getClassLoader());
+			} catch (Throwable ignored) {
+			}
 		}
 		return newInstance(getClass().getClassLoader());
 	}
@@ -137,7 +148,6 @@ public class ReflectProxy<T, F> implements InvocationHandler, Serializable {
 
 
 
-	public Field field(String name) { return field(null , name); }
 	public Field field(Class type, String name) {
 		ReflectCache.FieldList fieldsList = cache.getFieldsList(valueClass, name);
 		Field field = null;
@@ -154,6 +164,9 @@ public class ReflectProxy<T, F> implements InvocationHandler, Serializable {
 		return field;
 	}
 
+	public Field field(String name) {
+		return field(null , name);
+	}
 
 
 
@@ -168,6 +181,18 @@ public class ReflectProxy<T, F> implements InvocationHandler, Serializable {
 		return Reflects.accessible(field).get(value);
 	}
 
+	public void set(String name, Object newValue) throws NoSuchFieldException, IllegalAccessException {
+		set(null, name, newValue);
+	}
+	public void set(Class type, String name, Object newValue) throws IllegalAccessException, NoSuchFieldException {
+		Field field = field(type, name);
+		if (null == field) {
+			throw new NoSuchFieldException((null == type ?"": type.getName() + " ") + name);
+		}
+		Reflects.accessible(field).set(value, newValue);
+	}
+
+
 
 	public Object opt(String name)  {
 		return opt((Class) null, name);
@@ -181,19 +206,6 @@ public class ReflectProxy<T, F> implements InvocationHandler, Serializable {
 		}
 	}
 
-
-
-
-	public void set(String name, Object newValue) throws NoSuchFieldException, IllegalAccessException {
-		set(null, name, newValue);
-	}
-	public void set(Class type, String name, Object newValue) throws IllegalAccessException, NoSuchFieldException {
-		Field field = field(type, name);
-		if (null == field) {
-			throw new NoSuchFieldException((null == type ?"": type.getName() + " ") + name);
-		}
-		Reflects.accessible(field).set(value, newValue);
-	}
 
 
 	public void opt(String name, Object newValue) {

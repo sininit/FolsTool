@@ -26,8 +26,8 @@ public class Reflects {
 
 
 
-	public static ReflectPoint point(Object object) 	{ return ReflectPoint.wrapObjectOption(ReflectMatcher.DEFAULT_INSTANCE, object); }
-	public static ReflectPoint point(Class<?> object) 	{ return ReflectPoint.wrapStaticOption(ReflectMatcher.DEFAULT_INSTANCE, object); }
+	public static ReflectPoint point(Object object) 	{ return ReflectPoint.from(ReflectMatcher.DEFAULT_INSTANCE, object); }
+	public static ReflectPoint point(Class<?> object) 	{ return ReflectPoint.fromClass(ReflectMatcher.DEFAULT_INSTANCE, object); }
 
 
 

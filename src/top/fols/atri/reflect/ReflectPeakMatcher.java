@@ -962,8 +962,8 @@ public class ReflectPeakMatcher extends ReflectMatcher{
     }
 
 
-	public ReflectPoint point(Object object) 	{ return ReflectPoint.wrapObjectOption(this, object); }
-	public ReflectPoint point(Class object) 	{ return ReflectPoint.wrapStaticOption(this, object); }
+	public ReflectPoint point(Object object) 	{ return ReflectPoint.from(this, object); }
+	public ReflectPoint point(Class object) 	{ return ReflectPoint.fromClass(this, object); }
 	
 	
 	public boolean isDefault(){ return this == DEFAULT_INSTANCE; }

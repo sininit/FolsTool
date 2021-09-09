@@ -14,8 +14,11 @@ import top.fols.box.util.XByteEncode;
 
 @SuppressWarnings({"SpellCheckingInspection", "StatementWithEmptyBody"})
 public class Filez implements InnerFile {
-	public static Filez RUN  = new Filez(".").getCanonical();
-	public static Filez TEMP = new Filez(System.getProperty(Finals.Property.JAVA_IO_TEMPDIR, "")).getCanonical();
+	public static Filez RUN  = new Filez(".");
+	public static Filez RUN_CANONICAL  = RUN.getCanonical();
+
+	public static Filez TEMP = new Filez(System.getProperty(Finals.Property.JAVA_IO_TEMPDIR, ""));
+	public static Filez TEMP_CANONICAL = TEMP.getCanonical();
 
 
 

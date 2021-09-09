@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-@SuppressWarnings("PointlessBooleanExpression")
+@SuppressWarnings({"PointlessBooleanExpression", "SpellCheckingInspection"})
 public class ReflectPoint implements Cloneable {
 
 	public static class StaticOption implements Cloneable {
@@ -41,8 +41,7 @@ public class ReflectPoint implements Cloneable {
 		@Override
 		public StaticOption clone() {
 			// TODO: Implement this method
-			StaticOption clone = new StaticOption(this.getOptionClass());
-			return clone;
+			return new StaticOption(this.getOptionClass());
 		}
     }
 
@@ -52,14 +51,13 @@ public class ReflectPoint implements Cloneable {
 		this.matcher = matcher;
 		this.object = object;
 	}
-	public static ReflectPoint wrapObjectOption(ReflectMatcher matcher, Object object) {
-		ReflectPoint clone = new ReflectPoint(matcher, object);
-		return clone;
+	public static ReflectPoint from(ReflectMatcher matcher, Object object) {
+		return new ReflectPoint(matcher, object);
 	}
-	public static ReflectPoint wrapStaticOption(ReflectMatcher matcher, Class object) {
-		ReflectPoint clone = new ReflectPoint(matcher, new StaticOption(object));
-		return clone;
+	public static ReflectPoint fromClass(ReflectMatcher matcher, Class<?> object) {
+		return new ReflectPoint(matcher, new StaticOption(object));
 	}
+
 
 
 
@@ -68,24 +66,39 @@ public class ReflectPoint implements Cloneable {
 	 * join new instance
 	 */
 	public ReflectPoint newInstance(Object... args) throws InvocationTargetException, InstantiationException, IllegalAccessException, IllegalArgumentException {
-        Constructor c = constructor(args);
-        return wrapObjectOption(this.matcher, c.newInstance(args));
-    }
-	public ReflectPoint newInstance(Class[] argsTypes, Object... args) throws InvocationTargetException, InstantiationException, IllegalAccessException, IllegalArgumentException {
-        Constructor c = constructor(argsTypes);
-		return wrapObjectOption(this.matcher, c.newInstance(args));
-    }
-
-
-    public Constructor constructor(Object... args) {
-		Constructor c = this.matcher().getConstructor(this.valueClass(), args);
-		return c;
+		Constructor<?> c = constructor(args);
+		return from(this.matcher, c.newInstance(args));
 	}
-	public Constructor constructor(Class[] argsTypes) {
-		Constructor c = this.matcher().getConstructor(this.valueClass(), argsTypes);
-		return c;
+	public ReflectPoint newInstance(Class<?>[] argsTypes, Object... args) throws InvocationTargetException, InstantiationException, IllegalAccessException, IllegalArgumentException {
+		Constructor<?> c = constructor(argsTypes);
+		return from(this.matcher, c.newInstance(args));
 	}
 
+
+	public Object newInstanceValue(Object... args) throws InvocationTargetException, InstantiationException, IllegalAccessException, IllegalArgumentException {
+		Constructor<?> c = constructor(args);
+		return c.newInstance(args);
+	}
+	public Object newInstanceValue(Class<?>[] argsTypes, Object... args) throws InvocationTargetException, InstantiationException, IllegalAccessException, IllegalArgumentException {
+		Constructor<?> c = constructor(argsTypes);
+		return c.newInstance(args);
+	}
+
+
+
+
+
+
+
+    public Constructor<?> constructor(Object... args) {
+		return (Constructor<?>) this.matcher().getConstructor(this.valueClass(), args);
+	}
+	public Constructor<?> constructor(Class<?>[] argsTypes) {
+		return (Constructor<?>) this.matcher().getConstructor(this.valueClass(), argsTypes);
+	}
+	public Constructor<?>[] constructors() {
+		return (Constructor<?>[]) this.matcher().cacher().constructors(this.valueClass());
+	}
 
 
 
@@ -95,18 +108,37 @@ public class ReflectPoint implements Cloneable {
     public ReflectPoint get(String name) throws IllegalAccessException, IllegalArgumentException {
         return this.get(null, name);
     }
-	public ReflectPoint get(Class returnClass, String name) throws IllegalAccessException, IllegalArgumentException {
+	public ReflectPoint get(Class<?> returnClass, String name) throws IllegalAccessException, IllegalArgumentException {
+		Field f = field(returnClass, name);
+		return from(this.matcher, f.get(this.value()));
+	}
+
+
+	public Object getValue(String name) throws IllegalAccessException, IllegalArgumentException {
+		return this.getValue(null, name);
+	}
+	public Object getValue(Class<?> returnClass, String name) throws IllegalAccessException, IllegalArgumentException {
         Field f = field(returnClass, name);
-        return wrapObjectOption(this.matcher, f.get(this.value()));
+        return f.get(this.value());
     }
+
+
+
 
 
     public Field field(String name) {
 		return field(null, name);
 	}
-	public Field field(Class returnClass, String name) {
-		Field  f = this.matcher().getField(this.valueClass(), returnClass, name);
-		return f;
+	public Field field(Class<?> returnClass, String name) {
+		return this.matcher().getField(this.valueClass(), returnClass, name);
+	}
+	public Field[] fields() {
+		return this.cacher().fields(this.valueClass());
+	}
+
+
+	public ReflectCache cacher() {
+		return this.matcher().cacher();
 	}
 
 
@@ -118,10 +150,20 @@ public class ReflectPoint implements Cloneable {
 	public ReflectPoint set(String name, Object value) throws IllegalAccessException, IllegalArgumentException {
         return this.set(null, name, value);
     }
-	public ReflectPoint set(Class returnClass, String name, Object value) throws IllegalAccessException, IllegalArgumentException {
+	public ReflectPoint set(Class<?> returnClass, String name, Object value) throws IllegalAccessException, IllegalArgumentException {
+		Field f = this.matcher().getField(this.valueClass(), returnClass, name);
+		f.set(this.value(), value);
+		return from(this.matcher, value);
+	}
+
+
+	public Object setValue(String name, Object value) throws IllegalAccessException, IllegalArgumentException {
+		return this.setValue(null, name, value);
+	}
+	public Object setValue(Class<?> returnClass, String name, Object value) throws IllegalAccessException, IllegalArgumentException {
         Field f = this.matcher().getField(this.valueClass(), returnClass, name);
         f.set(this.value(), value);
-        return this;
+        return value;
     }
 
 
@@ -132,28 +174,45 @@ public class ReflectPoint implements Cloneable {
     public ReflectPoint invoke(String name, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
         return this.invoke(null, name, args);
     }
-    public ReflectPoint invoke(Class returnClass, String name, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
+    public ReflectPoint invoke(Class<?> returnClass, String name, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
         Method m = method(returnClass, name, args);
-		return wrapObjectOption(this.matcher, m.invoke(this.value(), args));
+		return from(this.matcher, m.invoke(this.value(), args));
     }
-	public ReflectPoint invoke(Class returnClass, String name, Class[] argsTypes, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
-        Method m = method(returnClass, name, argsTypes);
-        return wrapObjectOption(this.matcher, m.invoke(this.value(), args));
-    }
+	public ReflectPoint invoke(Class<?> returnClass, String name, Class<?>[] argsTypes, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
+		Method m = method(returnClass, name, argsTypes);
+		return from(this.matcher, m.invoke(this.value(), args));
+	}
+
+
+
+	public Object invokeValue(String name, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
+		return this.invokeValue(null, name, args);
+	}
+	public Object invokeValue(Class<?> returnClass, String name, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
+		Method m = method(returnClass, name, args);
+		return m.invoke(this.value(), args);
+	}
+	public Object invokeValue(Class<?> returnClass, String name, Class<?>[] argsTypes, Object... args) throws InvocationTargetException, IllegalAccessException, IllegalArgumentException {
+		Method m = method(returnClass, name, argsTypes);
+		return m.invoke(this.value(), args);
+	}
+
+
+
 
 
 	public Method method(String name, Object... args) {
 		return method(null, name, args);
 	}
-	public Method method(Class returnClass, String name, Object... args) {
-		Method m = this.matcher().getMethod(this.valueClass(), returnClass, name, args);
-		return m;
+	public Method method(Class<?> returnClass, String name, Object... args) {
+		return this.matcher().getMethod(this.valueClass(), returnClass, name, args);
 	}
-    public Method method(Class returnClass, String name, Class[] argsTypes) {
-		Method m = this.matcher().getMethod(this.valueClass(), returnClass, name, argsTypes);
-		return m;
+    public Method method(Class<?> returnClass, String name, Class<?>[] argsTypes) {
+		return this.matcher().getMethod(this.valueClass(), returnClass, name, argsTypes);
 	}
-
+	public Method[] methods() {
+		return this.cacher().methods(this.valueClass());
+	}
 
 
 
@@ -202,7 +261,7 @@ public class ReflectPoint implements Cloneable {
 
     @Override
     public ReflectPoint clone() {
-        // TODO Auto-generated method stub
+		// TODO Auto-generated method stub
         ReflectPoint newInstance = new ReflectPoint();
         newInstance.object = this.object;
         newInstance.matcher = this.matcher;

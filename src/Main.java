@@ -1,28 +1,13 @@
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.List;
 
-import top.fols.atri.array.ArrayObject;
-import top.fols.atri.io.CharSeparatorReader;
-import top.fols.atri.io.Filex;
 import top.fols.atri.io.Filez;
-import top.fols.atri.io.StringLineReader;
-import top.fols.atri.io.buffer.BufferFilter;
-import top.fols.atri.io.buffer.chars.CharBufferFilter;
-import top.fols.atri.io.buffer.chars.CharBufferOperate;
 import top.fols.atri.lang.*;
-import top.fols.atri.net.MessageHeader;
-import top.fols.atri.reflect.ReflectMatcher;
-import top.fols.atri.reflect.ReflectPeakMatcher;
-import top.fols.atri.reflect.Reflects;
-import top.fols.atri.time.Times;
-import top.fols.atri.util.DoubleLinkedList;
+import top.fols.atri.reflect.*;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.lang.XClass;
 import top.fols.box.statics.XStaticFixedValue;
@@ -33,11 +18,6 @@ import top.fols.atri.assist.json.JSONObject;
 @SuppressWarnings("ConstantConditions")
 public class Main extends k {
     public static void main(String[] args) throws Throwable {
-
-        System.out.println(Filez.RUN);
-        System.out.println(Filez.TEMP);
-
-
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"
                 , "src"
