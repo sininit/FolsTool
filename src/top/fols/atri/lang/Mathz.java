@@ -8,7 +8,9 @@ public class Mathz {
      * @param value the long value
      * @return the argument as an int
      * @throws ArithmeticException if the {@code argument} overflows an int
-     * @since 1.8
+     * @since 1.8 ...
+     *
+     *
      */
     public static int toIntExact(long value) {
         if ((int)value != value) {

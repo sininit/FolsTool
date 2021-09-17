@@ -15,9 +15,10 @@ import top.fols.box.time.XTimeConsum;
 import top.fols.atri.assist.json.JSONObject;
 
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "unchecked"})
 public class Main extends k {
     public static void main(String[] args) throws Throwable {
+
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"
                 , "src"

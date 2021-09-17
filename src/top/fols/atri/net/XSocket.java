@@ -130,11 +130,11 @@ public class XSocket {
 
 
 	public static void socketConnect(Socket socket, 
-									 String ipAddres, int port,
+									 String ipAddress, int port,
 									 int connectOutTime, 
-									 int soOutTime) throws SocketException, IOException {
+									 int soOutTime) throws IOException {
 		socket.setSoTimeout(soOutTime);
-		socket.connect(new InetSocketAddress(ipAddres, port), 
+		socket.connect(new InetSocketAddress(ipAddress, port),
 			connectOutTime);
 	}
 

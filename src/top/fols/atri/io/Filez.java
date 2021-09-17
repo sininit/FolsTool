@@ -375,6 +375,9 @@ public class Filez implements InnerFile {
 
 
 
+	public RandomAccessFile randomAccess(String mode) throws FileNotFoundException {
+		return new RandomAccessFile(innerFile(), mode);
+	}
 
 
 

@@ -1,6 +1,7 @@
 package top.fols.box.io.base;
 
 
+import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
 import top.fols.box.io.digest.XDigestOutputStream;
 import top.fols.box.io.os.XFile;
@@ -24,9 +25,9 @@ public class XInputStreamLineTest {
             byte[] line;
             int linecount = 0;
             while (null != (line = testStream.readLine(new byte[][]{
-                            XStaticFixedValue.Bytes_NextLineR(),
-                            XStaticFixedValue.Bytes_NextLineN(),
-                            XStaticFixedValue.Bytes_NextLineRN()},
+                            Finals.getBytesLineSeparatorR(),
+                            Finals.getBytesLineSeparatorN(),
+                            Finals.getBytesLineSeparatorRN()},
                     true))) {
                 linecount++;
                 md5.write(line);

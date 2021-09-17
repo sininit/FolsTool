@@ -23,10 +23,10 @@ import java.util.regex.Pattern;
 import top.fols.atri.io.Streams;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.util.DoubleLinked;
+import top.fols.atri.util.interfaces.InnerMap;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.io.base.XStringWriter;
 import top.fols.box.util.encode.XHexEncoder;
-import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 import top.fols.box.util.interfaces.XInterfaceSetInnerMap;
 
 
@@ -38,7 +38,7 @@ import top.fols.box.util.interfaces.XInterfaceSetInnerMap;
  *
  * @author xiaoxinwangluo / https://github.com/xiaoxinwangluo
  */
-public class XProperties implements Serializable, XInterfaceGetInnerMap<String, String>, XInterfaceSetInnerMap<String, String> {
+public class XProperties implements Serializable, InnerMap<String, String>, XInterfaceSetInnerMap<String, String> {
     private static final long serialVersionUID = 1L;
 
 

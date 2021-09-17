@@ -152,7 +152,7 @@ public class Result <T, EX extends Throwable> extends Value<T> implements Serial
 
 
 
-	public static  Result<Object, Throwable> NULL() {
+	public static  Result<Object, Throwable>  NULL() {
 		return new Result<>();
 	}
 	public static  Result<Boolean, Throwable> TRUE() {

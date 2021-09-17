@@ -2,11 +2,8 @@ package top.fols.atri.lang;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import top.fols.atri.array.ArrayObject;
 import top.fols.atri.reflect.ReflectCache;
 import top.fols.atri.reflect.Reflects;
@@ -285,14 +282,11 @@ public abstract class Iterables<K, V> implements Iterable {
             return ReflectCache.DEFAULT_INSTANCE.fields(object);
         }
     }
-
-
-
-    public static int fieldCount(Class object) {
+    public static int       fieldCount(Class object) {
         if (null == object) { return 0; }
         return fields(object).length;
     }
-    public static int fieldCount(Object object) {
+    public static int       fieldCount(Object object) {
         if (null == object) { return 0; }
 
         if (object instanceof Class)        { return fieldCount((Class)object); }
@@ -306,9 +300,7 @@ public abstract class Iterables<K, V> implements Iterable {
 
         return fieldCount(type);
     }
-
-
-    public static Iterable fieldIterable(Object object) {
+    public static Iterable  fieldIterable(Object object) {
         if (null == object) return Finals.EMPTY_LIST;
 
         final Class type = object.getClass();
@@ -317,14 +309,10 @@ public abstract class Iterables<K, V> implements Iterable {
         if (object instanceof Map)          { return new IterableWrap(new WrapIterator(((Map)object).keySet().iterator())); }
 
         if (type.isArray()) { return new IterableWrap(new IndexIterator(Array.getLength(object))); }
-
 //		if (object instanceof CharSequence) { return new IterableWrap(new IndexIterator(((CharSequence)object).length())); }
 
         return new IterableWrap(new IndexIterator(fieldCount(type)));
     }
-
-
-
 
     public static class IndexIterator implements Iterator {
 
@@ -354,7 +342,7 @@ public abstract class Iterables<K, V> implements Iterable {
             throw new UnsupportedOperationException("index type");
         }
     }
-    public static class WrapIterator implements Iterator {
+    public static class WrapIterator  implements Iterator {
         Iterator iterator;
         public WrapIterator(Iterator iterator) {
             this.iterator = iterator;
@@ -376,7 +364,7 @@ public abstract class Iterables<K, V> implements Iterable {
             throw new UnsupportedOperationException("index type");
         }
     }
-    public static class IterableWrap implements Iterable {
+    public static class IterableWrap  implements Iterable {
         Iterator iterator;
         public IterableWrap(Iterator iterator) {
             this.iterator = iterator;

@@ -66,36 +66,6 @@ public final class XStaticFixedValue {
 	public static final Field[] nullFieldArray = Finals.EMPTY_FIELD_ARRAY;
 	public static final StackTraceElement[] nullStack = new StackTraceElement[0];
 
-	public static final byte Byte_NextLineR = '\r';
-	public static final byte Byte_NextLineN = '\n';
-	public static final byte[] Bytes_NextLineN(){
-		return new byte[] { '\n' };
-	}
-	public static final byte[] Bytes_NextLineR(){
-		return new byte[] { '\r' };
-	}
-	public static final byte[] Bytes_NextLineRN(){
-		return new byte[] { '\r', '\n' };
-	}
-
-	public static final char Char_NextLineR = '\r';
-	public static final char Char_NextLineN = '\n';
-	public static final char[] Chars_NextLineN(){
-		return new char[] { '\n' };
-	}
-	public static final char[] Chars_NextLineR(){
-		return new char[] { '\r' };
-	} 
-	public static final char[] Chars_NextLineRN(){
-		return new char[] { '\r', '\n' };
-	}
-
-	public static final String String_NextLineR = "\r";
-	public static final String String_NextLineN = "\n";
-	public static final String String_NextLineRN = "\r\n";
-
-
-
 	public static final Class byte_class = byte.class;
 	public static final Class long_class = long.class;
 	public static final Class double_class = double.class;
@@ -207,21 +177,4 @@ public final class XStaticFixedValue {
 	public static final Boolean 	Boolean_defaultValue = Finals.BOOLEAN_DEFAULT_VALUE;
 	public static final Float 		Float_defaultValue = Finals.FLOAT_DEFAULT_VALUE;
 	public static final Short 		Short_defaultValue = Finals.SHORT_DEFAULT_VALUE;
-
-
-
-
-
-	public static final Object NULL = Finals.NULL;
-
-	public static final boolean boolean_true = Finals.BOOLEAN_TRUE;
-	public static final boolean boolean_false = Finals.BOOLEAN_FALSE;
-
-	public static final Boolean Boolean_TRUE = Finals.BOOLEAN_PACKAGE_TRUE;
-	public static final Boolean Boolean_FALSE = Finals.BOOLEAN_PACKAGE_FALSE;
-
-
-	public static final String TRUE_STRING = Finals.TRUE_STRING;
-	public static final String FALSE_STRING = Finals.FALSE_STRING;
-	public static final String NULL_STRING = Finals.NULL_STRING;
 }

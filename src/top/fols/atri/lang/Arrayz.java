@@ -256,9 +256,6 @@ public class Arrayz {
 	/**
 	 * @param executor If executor returns null, it means the creation process is over
 	 */
-	public static <RETURN> RETURN[] create(Class<RETURN[]> type, Traverse<RETURN> executor) {
-		return create((RETURN[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor);
-	}
 	public static <RETURN> RETURN[] create(RETURN[] array, Traverse<RETURN> executor) {
 		Objects.requireNonNull(array, "array type");
 		List<RETURN> list = new ArrayList<>();
@@ -291,14 +288,14 @@ public class Arrayz {
 	}
 
 
-	public static <RETURN, ELEMENT> RETURN[] filter(Class<RETURN[]> type, Next<RETURN, ELEMENT> executor,
-													ELEMENT[] filter) {
-		return filter(type, executor, filter, 0, null == filter ?0: filter.length);
-	}
-	public static <RETURN, ELEMENT> RETURN[] filter(Class<RETURN[]> type, Next<RETURN, ELEMENT> executor,
-													ELEMENT[] filter, int filter_offset, int filter_count) {
-		return filter((RETURN[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor, filter, filter_offset, filter_count);
-	}
+//	public static <RETURN, ELEMENT> RETURN[] filter(Class<RETURN[]> type, Next<RETURN, ELEMENT> executor,
+//													ELEMENT[] filter) {
+//		return filter(type, executor, filter, 0, null == filter ?0: filter.length);
+//	}
+//	public static <RETURN, ELEMENT> RETURN[] filter(Class<RETURN[]> type, Next<RETURN, ELEMENT> executor,
+//													ELEMENT[] filter, int filter_offset, int filter_count) {
+//		return filter((RETURN[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor, filter, filter_offset, filter_count);
+//	}
 
 	public static <RETURN, ELEMENT> RETURN[] filter(RETURN[] buffer, Next<RETURN, ELEMENT> executor,
 													ELEMENT[] filter) {

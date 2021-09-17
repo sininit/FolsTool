@@ -7,7 +7,6 @@ import top.fols.atri.io.buffer.bytes.ByteBufferOperate;
 import top.fols.box.io.base.XByteArrayOutputStream;
 import top.fols.box.io.base.XInputStreamLine;
 import top.fols.box.io.base.XStringWriter;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.statics.XStaticSystem;
 import top.fols.box.util.XArrays;
 import top.fols.box.util.encode.XHexEncoder;
@@ -19,6 +18,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
+//test
 public class ProcessExecutor {
     public ProcessExecutor() {
     }
@@ -64,7 +64,7 @@ public class ProcessExecutor {
     public static final String LINE_SEPARATOR = XStaticSystem.getLineSeparator();//write command line spearator
     public static final String DEFAULT_EXIT_COMMAND = "exit";
 
-    public static final byte[] PROCESS_LINE_SEPARATOR = XStaticFixedValue.Bytes_NextLineN();
+    public static final byte[] PROCESS_LINE_SEPARATOR = Finals.getBytesLineSeparatorN();
 
 
     public static String execCommandToString(String runDir, String[] createCommand, String[] commands, Charset charset)

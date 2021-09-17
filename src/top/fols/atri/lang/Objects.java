@@ -428,4 +428,28 @@ public class Objects {
     }
 
 
+
+
+
+
+    public static boolean and(boolean... value) {
+        if (null == value || value.length == 0) { return false; }
+        for (Boolean object: value) {
+            if (null == object || !object) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean or(boolean... value) {
+        if (null == value || value.length == 0) { return false; }
+        for (Boolean object: value)
+            if(null != object && object)
+                return true;
+        return false;
+    }
+
+
+
+
 }

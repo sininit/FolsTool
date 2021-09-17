@@ -38,6 +38,8 @@ public final class XTimeTool {
 	 * 使用nanoTime的差 来计算时间 实现currentTimeMillis, 解决currentTimeMillis 高并发，低效率的问题
 	 * 在数据溢出内必须读取一次时间, 同时设备不可以是休眠状态
 	 *
+	 *
+	 * 在休眠时请不要使用本方法
 	 * @hide
 	 */
 	public final static class ConcurrencyCurrentTimeMillis {

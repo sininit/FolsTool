@@ -246,6 +246,11 @@ public class Throwables {
 	}
 
 
+	/**
+	 *
+	 * @param e
+	 * @return full exception
+	 */
 	public static String toStrings(Throwable e) {
 		return printStackTrace(e);
 	}

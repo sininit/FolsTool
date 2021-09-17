@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import top.fols.atri.lang.Finals;
 import top.fols.atri.util.interfaces.InnerMap;
 import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.base.XStringReader;
@@ -38,7 +39,8 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
      * 如果想在服务器支持HTTP头部有汉字，那么只好把可能包含中文的头部值进行 url编码，然后整体进行ISO-8859-1编码。
      */
     public 	static final Charset 		HTTP_MESSAGE_HEADER_CHARSET_ISO_8859_1 = Charset.forName("ISO-8859-1");
-    public 	static final String 		LINE_SEPARATOR = new String(XStaticFixedValue.Chars_NextLineRN());
+
+    public 	static final String 		LINE_SEPARATOR = new String(Finals.getCharsLineSeparatorRN());
     public 	static final char 			ASSIGNMENT_SYMBOL_CHAR = ':';
 
     private static final IgnoreCaseKey KeyFactory = BlurryKey.IgnoreCaseKey.getDefaultFactory();
@@ -218,9 +220,9 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
      * ^key: value\n ^key2: value2\n ^...
      */
     private static final char[][] LINE_SEPARATOR_ALL = new char[][]{
-            XStaticFixedValue.Chars_NextLineRN(),
-            XStaticFixedValue.Chars_NextLineR(),
-            XStaticFixedValue.Chars_NextLineN()
+            Finals.getCharsLineSeparatorRN(),
+            Finals.getCharsLineSeparatorR(),
+            Finals.getCharsLineSeparatorN()
     };
     private static void dealMultiLineMessage0(MessageHeader m, String headerMessage, boolean putValue) {
         XStringReader rowStreanm = new XStringReader(headerMessage);

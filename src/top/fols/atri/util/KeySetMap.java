@@ -1,7 +1,6 @@
 package top.fols.atri.util;
 
 import top.fols.atri.util.interfaces.InnerMap;
-import top.fols.box.util.interfaces.XInterfaceGetInnerMap;
 import top.fols.box.util.interfaces.XInterfaceSetInnerMap;
 
 import java.io.Serializable;
