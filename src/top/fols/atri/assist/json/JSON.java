@@ -137,7 +137,63 @@ class JSON {
     }
 
 
+    public static boolean isJSON(String str) {
+        return isJSONObject(str) || isJSONArray(str);
+    }
+    public static boolean isJSONObject(String str) {
+        if (!Objects.empty(str) && (str = str.trim()).length() > 0 && (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}')) {
+            try {
+                parseJSONObject(str);
+                return true;
+            } catch (Throwable ignored) {
+            }
+        }
+        return false;
+    }
+    public static boolean isJSONArray(String str) {
+        if (!Objects.empty(str) && (str = str.trim()).length() > 0 && (str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']')) {
+            try {
+                parseJSONArray(str);
+                return true;
+            } catch (Throwable ignored) {
+            }
+        }
+        return false;
+    }
 
 
+
+
+
+
+    public static JSONObject parseJSONObject(String str) throws JSONException {
+        Object object = parseJSON(str);
+        if (object instanceof JSONObject) {
+            return ((JSONObject) object);
+        } else {
+            throw JSON.typeMismatch(object, "JSONObject");
+        }
+    }
+    public static JSONArray parseJSONArray(String str) throws JSONException {
+        Object object = parseJSON(str);
+        if (object instanceof JSONArray) {
+            return ((JSONArray) object);
+        } else {
+            throw JSON.typeMismatch(object, "JSONArray");
+        }
+    }
+    public static Object parseJSON(String str) throws JSONException {
+        /*
+         * Getting the parser to populate this could get tricky. Instead, just
+         * parse to temporary JSONObject and then steal the data from that.
+         */
+        JSONTokener readFrom = new JSONTokener(str);
+        Object object = readFrom.readFirstJSONObject();
+        if (object instanceof JSONObject || object instanceof JSONArray) {
+            return object;
+        } else {
+            throw JSON.typeMismatch(object, "JSON");
+        }
+    }
 
 }
