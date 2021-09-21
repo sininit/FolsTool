@@ -19,7 +19,7 @@
 package top.fols.atri.assist.json;
 import top.fols.atri.lang.Objects;
 
-class JSON {
+public class JSON {
     /**
      * Returns the input if it is a JSON-permissible value; throws otherwise.
      */
