@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import top.fols.atri.lang.Finals;
 import top.fols.box.annotation.BaseAnnotations;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.io.abstracts.XAbstractRandomAccessOutputStream;
 
 @BaseAnnotations("random access file mode rw, default seek to file end index")
@@ -17,7 +17,7 @@ public class XRandomAccessFileOutputStream extends XAbstractRandomAccessOutputSt
 	private boolean closed = false;
 
 
-	public static final String MODE_RW = XStaticFixedValue.FileOptMode.rw();
+	public static final String MODE_RW = Finals.FileOptMode.rw();
 
 	public XRandomAccessFileOutputStream(String file) throws FileNotFoundException, IOException {
 		this(new File(file));

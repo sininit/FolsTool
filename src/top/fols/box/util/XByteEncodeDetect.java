@@ -28,10 +28,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Arrays;
 
+import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
 import top.fols.box.io.base.XByteArrayOutputStream;
-import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.statics.XStaticSystem;
 import top.fols.box.io.interfaces.XInterfaceSequenceBigByteIO;
 
 public class XByteEncodeDetect {
@@ -103,9 +102,9 @@ public class XByteEncodeDetect {
 					return "ISO8859_1";
 
 				case DEAULT:
-					return XStaticSystem.getDefaultCharsetName();
+					return Finals.Charsets.defaultCharsetName();
 			}
-			return XStaticSystem.getDefaultCharsetName();
+			return Finals.Charsets.defaultCharsetName();
 		}
 	}
 
@@ -362,7 +361,7 @@ public class XByteEncodeDetect {
 						read = input.read(test);
 						if (read == -1) {
 							out.close();
-							return XStaticFixedValue.nullbyteArray;
+							return Finals.EMPTY_BYTE_ARRAY;
 						}
 						out.close();
 						return Arrays.copyOfRange(test, 0, read);
@@ -370,13 +369,13 @@ public class XByteEncodeDetect {
 				}
 			}
 			out.close();
-			return XStaticFixedValue.nullbyteArray;
+			return Finals.EMPTY_BYTE_ARRAY;
 		}
 
 		public byte[] findResolveBytes(byte[] f, int length, int maxForLength) {
 			int filelength = f.length;
 			if (filelength < 1) {
-				return XStaticFixedValue.nullbyteArray;
+				return Finals.EMPTY_BYTE_ARRAY;
 			}
 			int startIndex = 0;
 			for (int i = 0; i < filelength; i++) {
@@ -391,7 +390,7 @@ public class XByteEncodeDetect {
 				}
 			}
 			if (startIndex >= filelength) {
-				return XStaticFixedValue.nullbyteArray;
+				return Finals.EMPTY_BYTE_ARRAY;
 			}
 			return Arrays.copyOfRange(f, startIndex, filelength);
 		}

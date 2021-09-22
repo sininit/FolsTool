@@ -5,7 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
-import top.fols.box.statics.XStaticFixedValue;
+
+import top.fols.atri.lang.Finals;
 import top.fols.box.util.XByteEncode;
 
 /**
@@ -95,7 +96,7 @@ public class XRandomAccessUnicodeFileWriter extends java.io.Writer {
     }
 
     private void reCreateStreamInstance() throws FileNotFoundException {
-        this.stream = new RandomAccessFile(file, XStaticFixedValue.FileOptMode.rw());
+        this.stream = new RandomAccessFile(file, Finals.FileOptMode.rw());
     }
 
     @Override

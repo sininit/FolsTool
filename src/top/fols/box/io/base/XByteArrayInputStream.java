@@ -1,12 +1,13 @@
 package top.fols.box.io.base;
 
 import java.io.InputStream;
+
+import top.fols.atri.lang.Finals;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
 import top.fols.box.io.interfaces.XInterfacePrivateByteArrayBuffSearchOperat;
 import top.fols.box.io.interfaces.XInterfacePrivateFixedStreamIndexOperat;
 import top.fols.box.io.interfaces.XInterfaceLineReaderStream;
 import top.fols.box.util.XArrays;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
 
 /**
@@ -106,7 +107,7 @@ XInterfacePrivateFixedStreamIndexOperat, XInterfaceReleaseBufferable {
 		}
 
 		int findindex = -1;
-		byte[] split = XStaticFixedValue.nullbyteArray;
+		byte[] split = Finals.EMPTY_BYTE_ARRAY;
 		int search = XArrays.indexOf(buf, separators, this.pos, this.count);
 		if (search != -1 && (findindex == -1 || search < findindex)) {
 			this.readLineDefaultSeparatorIndex = 0;
@@ -262,7 +263,7 @@ XInterfacePrivateFixedStreamIndexOperat, XInterfaceReleaseBufferable {
 	@Override
 	public void setBuff(byte[] newBuff, int size) {
 		// TODO: Implement this method
-		this.buf = null == newBuff ? XStaticFixedValue.nullbyteArray : newBuff;
+		this.buf = null == newBuff ? Finals.EMPTY_BYTE_ARRAY : newBuff;
 		this.setBuffSize(size);
 	}
 

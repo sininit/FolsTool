@@ -8,13 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import top.fols.atri.io.Streams;
+import top.fols.atri.lang.Finals;
 import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.io.interfaces.XInterfaceLineReaderStream;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
-import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.statics.XStaticSystem;
 
 public class XInputStreamLine<T extends InputStream> extends InputStream implements XInterfacePrivateBuffOperat<byte[]>,
 XInterfaceLineReaderStream<byte[]>, XInterfaceReleaseBufferable, XInterfaceGetInnerStream<T> {
@@ -184,7 +183,7 @@ XInterfaceLineReaderStream<byte[]>, XInterfaceReleaseBufferable, XInterfaceGetIn
 			int searchOffset;
 
 			int findindex = -1;
-			byte[] split = XStaticFixedValue.nullbyteArray;
+			byte[] split = Finals.EMPTY_BYTE_ARRAY;
 			int search = this.lineoutbuf.indexOfBuff(separator, 0, lineoutbuf.size());
 			if (search != -1 && (findindex == -1 || search < findindex)) {
 				this.readLineDefaultSeparatorIndex = 0;
@@ -225,7 +224,7 @@ top: while (true) {
 
 				if (this.lineoutbuf.size() == 0 && !resultAddSeparator && null != buf) {
 					this.lineoutbuf.releaseBuffer();
-					return XStaticFixedValue.nullbyteArray;
+					return Finals.EMPTY_BYTE_ARRAY;
 				}
 			}
 			byte array[] = this.lineoutbuf.toByteArray();
@@ -397,7 +396,7 @@ top: while (true) {
 
 
 
-    protected static final String[] ALL_LINE_SEPARATOR = XStaticSystem.getAllSystemLineSeparator();
+    protected static final String[] ALL_LINE_SEPARATOR = Finals.Separator.getAllSystemLineSeparator();
     private static final Map<String, byte[][]> ALL_LINE_SEPARATOR_CACHE = new HashMap<>();
     private static final byte[][] getAllLineSeparatorBytes(Charset charset) {
         String cn = null == charset ?Charset.defaultCharset().name(): charset.name();
@@ -527,7 +526,7 @@ top: while (true) {
 			return null;
 		}
 		if (end - offset < 1) {
-			return XStaticFixedValue.nullbyteArray;
+			return Finals.EMPTY_BYTE_ARRAY;
 		}
 		return Arrays.copyOfRange(array, offset, end);
 	}

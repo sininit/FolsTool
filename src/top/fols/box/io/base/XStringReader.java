@@ -2,13 +2,13 @@ package top.fols.box.io.base;
 
 import java.io.IOException;
 import java.io.Reader;
+
+import top.fols.atri.lang.Finals;
 import top.fols.box.io.interfaces.XInterfaceLineReaderStream;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
 import top.fols.box.io.interfaces.XInterfacePrivateCharArrayBuffSearchOperat;
 import top.fols.box.io.interfaces.XInterfacePrivateFixedStreamIndexOperat;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
-import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.util.XArray;
 import top.fols.box.util.XArrays;
 
 public class XStringReader extends Reader implements XInterfacePrivateBuffOperat<String>,
@@ -198,7 +198,7 @@ XInterfacePrivateFixedStreamIndexOperat, XInterfaceReleaseBufferable {
 		}
 
 		int findindex = -1;
-		char[] split = XStaticFixedValue.nullcharArray;
+		char[] split = Finals.EMPTY_CHAR_ARRAY;
 		int search = XArrays.CharSequenceUtil.indexOf(buf, separators, this.pos, this.count);
 		if (search != -1 && (findindex == -1 || search < findindex)) {
 			this.readLineDefaultSeparatorIndex = 0;

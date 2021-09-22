@@ -1,16 +1,12 @@
 
 import java.io.*;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import top.fols.atri.io.Filez;
 import top.fols.atri.lang.*;
 import top.fols.atri.reflect.*;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.lang.XClass;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.time.XTimeConsum;
 import top.fols.atri.assist.json.JSONObject;
 
@@ -169,7 +165,7 @@ public class Main extends k {
             XTimeConsum jsq0 = XTimeConsum.newAndStart();
             for (int i = 0; i < 1000000; i++) {
                 ReflectMatcher.DEFAULT_INSTANCE.getConstructor(mainclass, new String[]{}, new Main(), "", 1,
-                        new XStaticFixedValue());
+                        new Finals());
             }
             System.out.println(jsq0.endAndGetEndLessStart());
             System.out.println("______test xreflectoptdeclared end");
@@ -199,7 +195,7 @@ public class Main extends k {
     public Main() {
     }
 
-    public Main(CharSequence[] s, Main t, CharSequence tt, int gggg, XStaticFixedValue ooh) {
+    public Main(CharSequence[] s, Main t, CharSequence tt, int gggg, Finals ooh) {
     }
 
     public static void main() {

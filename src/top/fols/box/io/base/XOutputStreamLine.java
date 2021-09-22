@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+
+import top.fols.atri.lang.Finals;
 import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
-import top.fols.box.statics.XStaticSystem;
 
 public class XOutputStreamLine<T extends OutputStream> extends OutputStream implements XInterfaceGetInnerStream<T> {
     private T stream;
@@ -57,7 +58,7 @@ public class XOutputStreamLine<T extends OutputStream> extends OutputStream impl
      * @param charset nullable
      */
     public void writeLineString(String string, Charset charset) throws UnsupportedEncodingException, IOException {
-        this.writeLineString(string, XStaticSystem.LINUX_UNIX_LINE_SEPARATOR, charset);
+        this.writeLineString(string, Finals.Separator.LINUX_UNIX_LINE_SEPARATOR, charset);
     }
 
     /**

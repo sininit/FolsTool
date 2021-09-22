@@ -406,19 +406,19 @@ public class Filez implements InnerFile {
 		}
 	}
 	public char[] readUTF8() {
-		return readChars(Finals.StandardCharsets.UTF_8);
+		return readChars(Finals.Charsets.UTF_8);
 	}
 	public String readUTF8Chars() {
-		char[] str = readChars(Finals.StandardCharsets.UTF_8);
+		char[] str = readChars(Finals.Charsets.UTF_8);
 		return null == str ?null: new String(str);
 	}
 
 
 	public boolean writeUTF8(String data) {
-		return writeChars(data, Finals.StandardCharsets.UTF_8);
+		return writeChars(data, Finals.Charsets.UTF_8);
 	}
 	public boolean writeUTF8(char[] data) {
-		return writeChars(data, Finals.StandardCharsets.UTF_8);
+		return writeChars(data, Finals.Charsets.UTF_8);
 	}
 	public boolean writeChars(CharSequence data, Charset charset) {
 		if (null == data) {

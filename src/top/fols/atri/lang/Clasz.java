@@ -1,6 +1,5 @@
 package top.fols.atri.lang;
 
-import top.fols.box.statics.XStaticFixedValue;
 
 public class Clasz {
     /**
@@ -18,27 +17,27 @@ public class Clasz {
             return nullObjectCanCastToClass && !castToClass.isPrimitive();//null can be converted to any package class ((?)null)
         }
         if (castToClass.isPrimitive()) {
-            return (castToClass == XStaticFixedValue.byte_class && obj instanceof Byte)
-                    || (castToClass == XStaticFixedValue.long_class && obj instanceof Long)
-                    || (castToClass == XStaticFixedValue.double_class && obj instanceof Double)
-                    || (castToClass == XStaticFixedValue.char_class && obj instanceof Character)
-                    || (castToClass == XStaticFixedValue.int_class && obj instanceof Integer)
-                    || (castToClass == XStaticFixedValue.boolean_class && obj instanceof Boolean)
-                    || (castToClass == XStaticFixedValue.float_class && obj instanceof Float)
-                    || (castToClass == XStaticFixedValue.short_class && obj instanceof Short);
+            return (castToClass == Finals.BYTE_CLASS && obj instanceof Byte)
+                    || (castToClass == Finals.LONG_CLASS && obj instanceof Long)
+                    || (castToClass == Finals.DOUBLE_CLASS && obj instanceof Double)
+                    || (castToClass == Finals.CHAR_CLASS && obj instanceof Character)
+                    || (castToClass == Finals.INT_CLASS && obj instanceof Integer)
+                    || (castToClass == Finals.BOOLEAN_CLASS && obj instanceof Boolean)
+                    || (castToClass == Finals.FLOAT_CLASS && obj instanceof Float)
+                    || (castToClass == Finals.SHORT_CLASS && obj instanceof Short);
         } else {
-            // if (instanceCls == XStaticFixedValue.Byte_class) return obj instanceof Byte;
-            // if (instanceCls == XStaticFixedValue.Long_class) return obj instanceof Long;
-            // if (instanceCls == XStaticFixedValue.Double_class) return obj instanceof
+            // if (instanceCls == Finals.Byte_class) return obj instanceof Byte;
+            // if (instanceCls == Finals.Long_class) return obj instanceof Long;
+            // if (instanceCls == Finals.Double_class) return obj instanceof
             // Double;
-            // if (instanceCls == XStaticFixedValue.Character_class) return obj instanceof
+            // if (instanceCls == Finals.Character_class) return obj instanceof
             // Character;
-            // if (instanceCls == XStaticFixedValue.Integer_class) return obj instanceof
+            // if (instanceCls == Finals.Integer_class) return obj instanceof
             // Integer;
-            // if (instanceCls == XStaticFixedValue.Boolean_class) return obj instanceof
+            // if (instanceCls == Finals.Boolean_class) return obj instanceof
             // Boolean;
-            // if (instanceCls == XStaticFixedValue.Float_class) return obj instanceof Float;
-            // if (instanceCls == XStaticFixedValue.Short_class) return obj instanceof Short;
+            // if (instanceCls == Finals.Float_class) return obj instanceof Float;
+            // if (instanceCls == Finals.Short_class) return obj instanceof Short;
 
             return castToClass.isInstance(obj);
         }
@@ -71,23 +70,23 @@ public class Clasz {
             return nullObjectCanCastToClass && !castToClass.isPrimitive();//null can be converted to any package class ((?)null)
         }
         if (castToClass.isPrimitive()) {
-            return (castToClass == XStaticFixedValue.byte_class         && objcls == XStaticFixedValue.Byte_class)
-                    || (castToClass == XStaticFixedValue.long_class         && objcls == XStaticFixedValue.Long_class)
-                    || (castToClass == XStaticFixedValue.double_class       && objcls == XStaticFixedValue.Double_class)
-                    || (castToClass == XStaticFixedValue.char_class         && objcls == XStaticFixedValue.Character_class)
-                    || (castToClass == XStaticFixedValue.int_class          && objcls == XStaticFixedValue.Integer_class)
-                    || (castToClass == XStaticFixedValue.boolean_class      && objcls == XStaticFixedValue.Boolean_class)
-                    || (castToClass == XStaticFixedValue.float_class        && objcls == XStaticFixedValue.Float_class)
-                    || (castToClass == XStaticFixedValue.short_class        && objcls == XStaticFixedValue.Short_class);
+            return (castToClass == Finals.BYTE_CLASS && objcls == Finals.BYTE_PACKAGE_CLASS)
+                    || (castToClass == Finals.LONG_CLASS && objcls == Finals.LONG_PACKAGE_CLASS)
+                    || (castToClass == Finals.DOUBLE_CLASS && objcls == Finals.DOUBLE_PACKAGE_CLASS)
+                    || (castToClass == Finals.CHAR_CLASS && objcls == Finals.CHAR_PACKAGE_CLASS)
+                    || (castToClass == Finals.INT_CLASS && objcls == Finals.INT_PACKAGE_CLASS)
+                    || (castToClass == Finals.BOOLEAN_CLASS && objcls == Finals.BOOLEAN_PACKAGE_CLASS)
+                    || (castToClass == Finals.FLOAT_CLASS && objcls == Finals.FLOAT_PACKAGE_CLASS)
+                    || (castToClass == Finals.SHORT_CLASS && objcls == Finals.SHORT_PACKAGE_CLASS);
         } else {
-            if ((castToClass == XStaticFixedValue.Byte_class            && objcls == XStaticFixedValue.byte_class)
-                    || (castToClass == XStaticFixedValue.Long_class         && objcls == XStaticFixedValue.long_class)
-                    || (castToClass == XStaticFixedValue.Double_class       && objcls == XStaticFixedValue.double_class)
-                    || (castToClass == XStaticFixedValue.Character_class    && objcls == XStaticFixedValue.char_class)
-                    || (castToClass == XStaticFixedValue.Integer_class      && objcls == XStaticFixedValue.int_class)
-                    || (castToClass == XStaticFixedValue.Boolean_class      && objcls == XStaticFixedValue.boolean_class)
-                    || (castToClass == XStaticFixedValue.Float_class        && objcls == XStaticFixedValue.float_class)
-                    || (castToClass == XStaticFixedValue.Short_class        && objcls == XStaticFixedValue.short_class)) {
+            if ((castToClass == Finals.BYTE_PACKAGE_CLASS && objcls == Finals.BYTE_CLASS)
+                    || (castToClass == Finals.LONG_PACKAGE_CLASS && objcls == Finals.LONG_CLASS)
+                    || (castToClass == Finals.DOUBLE_PACKAGE_CLASS && objcls == Finals.DOUBLE_CLASS)
+                    || (castToClass == Finals.CHAR_PACKAGE_CLASS && objcls == Finals.CHAR_CLASS)
+                    || (castToClass == Finals.INT_PACKAGE_CLASS && objcls == Finals.INT_CLASS)
+                    || (castToClass == Finals.BOOLEAN_PACKAGE_CLASS && objcls == Finals.BOOLEAN_CLASS)
+                    || (castToClass == Finals.FLOAT_PACKAGE_CLASS && objcls == Finals.FLOAT_CLASS)
+                    || (castToClass == Finals.SHORT_PACKAGE_CLASS && objcls == Finals.SHORT_CLASS)) {
                 return true;
             } else {
                 return castToClass.isAssignableFrom(objcls);
@@ -111,15 +110,15 @@ public class Clasz {
 
 
     public static boolean isPrimitiveClassName(String classCanonicalName) {
-        if (classCanonicalName.equals(XStaticFixedValue.byte_classcanonicalname)
-                || classCanonicalName.equals(XStaticFixedValue.char_classcanonicalname)
-                || classCanonicalName.equals(XStaticFixedValue.double_classcanonicalname)
-                || classCanonicalName.equals(XStaticFixedValue.float_classcanonicalname)
-                || classCanonicalName.equals(XStaticFixedValue.int_classcanonicalname)
-                || classCanonicalName.equals(XStaticFixedValue.long_classcanonicalname)
-                || classCanonicalName.equals(XStaticFixedValue.short_classcanonicalname)
-                || classCanonicalName.equals(XStaticFixedValue.boolean_classcanonicalname)
-                || classCanonicalName.equals(XStaticFixedValue.void_classcanonicalname)) {
+        if (classCanonicalName.equals(Finals.BYTE_CLASS_CANONICAL_NAME)
+                || classCanonicalName.equals(Finals.CHAR_CLASS_CANONICAL_NAME)
+                || classCanonicalName.equals(Finals.DOUBLE_CLASS_CANONICAL_NAME)
+                || classCanonicalName.equals(Finals.FLOAT_CLASS_CANONICAL_NAME)
+                || classCanonicalName.equals(Finals.INT_CLASS_CANONICAL_NAME)
+                || classCanonicalName.equals(Finals.LONG_CLASS_CANONICAL_NAME)
+                || classCanonicalName.equals(Finals.SHORT_CLASS_CANONICAL_NAME)
+                || classCanonicalName.equals(Finals.BOOLEAN_CLASS_CANONICAL_NAME)
+                || classCanonicalName.equals(Finals.VOID_CLASS_CANONICAL_NAME)) {
             return true;
         } else {
             return false;
@@ -129,24 +128,24 @@ public class Clasz {
 
 
     public static Class primitiveClassForName(String classCanonicalName) {
-        if (classCanonicalName.equals(XStaticFixedValue.byte_classcanonicalname)) {
-            return XStaticFixedValue.byte_class;
-        } else if (classCanonicalName.equals(XStaticFixedValue.char_classcanonicalname)) {
-            return XStaticFixedValue.char_class;
-        } else if (classCanonicalName.equals(XStaticFixedValue.double_classcanonicalname)) {
-            return XStaticFixedValue.double_class;
-        } else if (classCanonicalName.equals(XStaticFixedValue.float_classcanonicalname)) {
-            return XStaticFixedValue.float_class;
-        } else if (classCanonicalName.equals(XStaticFixedValue.int_classcanonicalname)) {
-            return XStaticFixedValue.int_class;
-        } else if (classCanonicalName.equals(XStaticFixedValue.long_classcanonicalname)) {
-            return XStaticFixedValue.long_class;
-        } else if (classCanonicalName.equals(XStaticFixedValue.short_classcanonicalname)) {
-            return XStaticFixedValue.short_class;
-        } else if (classCanonicalName.equals(XStaticFixedValue.boolean_classcanonicalname)) {
-            return XStaticFixedValue.boolean_class;
-        } else if (classCanonicalName.equals(XStaticFixedValue.void_classcanonicalname)) {
-            return XStaticFixedValue.void_class;
+        if (classCanonicalName.equals(Finals.BYTE_CLASS_CANONICAL_NAME)) {
+            return Finals.BYTE_CLASS;
+        } else if (classCanonicalName.equals(Finals.CHAR_CLASS_CANONICAL_NAME)) {
+            return Finals.CHAR_CLASS;
+        } else if (classCanonicalName.equals(Finals.DOUBLE_CLASS_CANONICAL_NAME)) {
+            return Finals.DOUBLE_CLASS;
+        } else if (classCanonicalName.equals(Finals.FLOAT_CLASS_CANONICAL_NAME)) {
+            return Finals.FLOAT_CLASS;
+        } else if (classCanonicalName.equals(Finals.INT_CLASS_CANONICAL_NAME)) {
+            return Finals.INT_CLASS;
+        } else if (classCanonicalName.equals(Finals.LONG_CLASS_CANONICAL_NAME)) {
+            return Finals.LONG_CLASS;
+        } else if (classCanonicalName.equals(Finals.SHORT_CLASS_CANONICAL_NAME)) {
+            return Finals.SHORT_CLASS;
+        } else if (classCanonicalName.equals(Finals.BOOLEAN_CLASS_CANONICAL_NAME)) {
+            return Finals.BOOLEAN_CLASS;
+        } else if (classCanonicalName.equals(Finals.VOID_CLASS_CANONICAL_NAME)) {
+            return Finals.VOID_CLASS;
         }
         return null;
     }

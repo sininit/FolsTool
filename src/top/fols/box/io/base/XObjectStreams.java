@@ -21,13 +21,13 @@ import top.fols.atri.io.Streams;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.reflect.Reflects;
 import top.fols.box.lang.abstracts.XBitsOptionAbstract;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XByteEncode;
 
 
 /**
  * no synchronized
  */
+@Deprecated
 public final class XObjectStreams implements Flushable {
 
 
@@ -90,7 +90,7 @@ public final class XObjectStreams implements Flushable {
     private static Field[] cacheGetFields(Class cls) {
         Field[]  fs = GET_FIELDS_CACHE.get(cls);
         if (null == fs) {
-            Field[] newFields = cls == XStaticFixedValue.Object_class ?XStaticFixedValue.nullFieldArray:
+            Field[] newFields = cls == Finals.OBJECT_CLASS ?Finals.EMPTY_FIELD_ARRAY:
                 getAllFields(cls);
             List<Field> newFieldsList = new ArrayList<>(newFields.length);
             for (int i = 0;i < newFields.length;i++) {
@@ -115,7 +115,7 @@ public final class XObjectStreams implements Flushable {
         Map<String, Field> fm = GET_FIELD_CACHE.get(cls);
         if (null == fm) {
             Map<String, Field> newFm = new WeakHashMap<>();
-            Field[] newFields = cls == XStaticFixedValue.Object_class ?XStaticFixedValue.nullFieldArray:
+            Field[] newFields = cls == Finals.OBJECT_CLASS ?Finals.EMPTY_FIELD_ARRAY:
                 getAllFields(cls);
             for (Field f: newFields) {
                 newFm.put(f.getName(), f);
@@ -1586,7 +1586,7 @@ public final class XObjectStreams implements Flushable {
         Object instance = null;
         try {
             cls = this.readClass();
-            instance = cacheGetConstructor(cls).newInstance(XStaticFixedValue.nullObjectArray);
+            instance = cacheGetConstructor(cls).newInstance(Finals.EMPTY_OBJECT_ARRAY);
         } catch (Throwable e) {
             readClassException = e instanceof IOException ?(IOException)e: new IOException(e);
         }
@@ -1655,7 +1655,7 @@ public final class XObjectStreams implements Flushable {
 
         IOException readClassException = null;
         String elementClassName = this.readChars();
-        Class elementClass = XStaticFixedValue.Object_class;
+        Class elementClass = Finals.OBJECT_CLASS;
         try {
             elementClass = cacheForName(this.getReadObjectInClassLoader(), elementClassName);
         } catch (ClassNotFoundException e) {

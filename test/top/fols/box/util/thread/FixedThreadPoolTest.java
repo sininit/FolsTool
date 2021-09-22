@@ -1,7 +1,6 @@
 package top.fols.box.util.thread;
 
 import top.fols.atri.thread.FixedThreadPool;
-import top.fols.box.lang.XStringFormat;
 
 public class FixedThreadPoolTest {
     public static void main(String[] args) throws  Throwable{
@@ -28,23 +27,23 @@ public class FixedThreadPoolTest {
             };
             pool.post(runable);
         }
-        System.out.println(XStringFormat.strf("wait:{0}, running:{1}, max:{2}", pool.getWaitCount(), pool.getNowRunningCount(), pool.getMaxRunningCount()));
+        System.out.println(String.format("wait:%s, running:%s, max:%s", pool.getWaitCount(), pool.getNowRunningCount(), pool.getMaxRunningCount()));
         pool.removeAllAndWaitEnd(pool.list());
-        System.out.println(XStringFormat.strf("wait:{0}, running:{1}, max:{2}", pool.getWaitCount(), pool.getNowRunningCount(), pool.getMaxRunningCount()));
+        System.out.println(String.format("wait:%s, running:%s, max:%s", pool.getWaitCount(), pool.getNowRunningCount(), pool.getMaxRunningCount()));
 
 
         System.out.println("----------------------");
 
-        Thread.currentThread().sleep(1001);
+        Thread.sleep(1001);
 
 
 
         while (true) {
             if (false) {break;}
 
-            System.out.println(XStringFormat.strf(
-                    "wait:{0}, running:{1}, max:{2}, \n"
-                            + "isDealThreadRunning:{3}, isDealThreadWait:{4}"
+            System.out.println(String.format(
+                    "wait:%s, running:%s, max:%s, \n"
+                            + "isDealThreadRunning:%s, isDealThreadWait:%s"
 
                     , pool.getWaitCount()
                     , pool.getNowRunningCount()
@@ -75,9 +74,9 @@ public class FixedThreadPoolTest {
                 System.out.println("(post): " + runable);
 
 
-                System.out.println(XStringFormat.strf(
-                        "wait:{0}, running:{1}, max:{2}, \n"
-                                + "isDealThreadRunning:{3}, isDealThreadWait:{4}"
+                System.out.println(String.format(
+                        "wait:%s, running:%s, max:%s, \n"
+                                + "isDealThreadRunning:%s, isDealThreadWait:%s"
 
                         , pool.getWaitCount()
                         , pool.getNowRunningCount()

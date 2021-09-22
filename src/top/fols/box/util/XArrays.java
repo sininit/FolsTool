@@ -1,9 +1,7 @@
 package top.fols.box.util;
 
 import top.fols.atri.lang.Arrayz;
-import top.fols.box.statics.XStaticFixedValue;
-
-import java.lang.reflect.Array;
+import top.fols.atri.lang.Finals;
 
 public class XArrays {
 
@@ -129,7 +127,7 @@ public class XArrays {
 		}
 
 		public static char[] tocharArray(CharSequence originArray) {
-			if (null == originArray) return XStaticFixedValue.nullcharArray;
+			if (null == originArray) return Finals.EMPTY_CHAR_ARRAY;
 			char[] newArray = new char[originArray.length()];
 			for (int i = 0;i < originArray.length();i++) newArray[i] = originArray.charAt(i);
 			return newArray;

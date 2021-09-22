@@ -3,7 +3,6 @@ package top.fols.atri.util;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Value;
 import top.fols.atri.reflect.Reflects;
-import top.fols.box.statics.XStaticSystem;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -53,7 +52,7 @@ public class Throwables {
 		}
 		PrintStream sw = new PrintStream(out);
 		e.printStackTrace(sw);
-		sw.print(XStaticSystem.getLineSeparatorBytes());
+		sw.print(Finals.Separator.SYSTEM_LINE_SEPARATOR_BYTES());
 		sw = null;
 	}
 
@@ -63,7 +62,7 @@ public class Throwables {
 		}
 		PrintWriter sw = new PrintWriter(out);
 		e.printStackTrace(sw);
-		sw.print(XStaticSystem.getLineSeparatorBytes());
+		sw.print(Finals.Separator.SYSTEM_LINE_SEPARATOR_BYTES());
 		sw = null;
 	}
 

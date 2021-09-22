@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+
+import top.fols.atri.lang.Finals;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
 import top.fols.box.io.interfaces.XInterfacePrivateByteArrayBuffSearchOperat;
 import top.fols.box.io.interfaces.XInterfacePrivateFixedStreamIndexOperat;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XArrays;
 
 /**
@@ -96,7 +97,7 @@ XInterfacePrivateFixedStreamIndexOperat, XInterfaceReleaseBufferable {
 	// 将“字节数组输出流”转换成字节数组。
 	public byte toByteArray()[] {
 		if (count == 0)
-			return XStaticFixedValue.nullbyteArray;
+			return Finals.EMPTY_BYTE_ARRAY;
 		return Arrays.copyOf(buf, count);
 	}
 
@@ -127,7 +128,7 @@ XInterfacePrivateFixedStreamIndexOperat, XInterfaceReleaseBufferable {
 
 	@Override
 	public void releaseBuffer() {
-		buf = XStaticFixedValue.nullbyteArray;
+		buf = Finals.EMPTY_BYTE_ARRAY;
 		count = 0;
 	}
 
@@ -145,7 +146,7 @@ XInterfacePrivateFixedStreamIndexOperat, XInterfaceReleaseBufferable {
 	@Override
 	public void setBuff(byte[] newBuff, int size) {
 		// TODO: Implement this method
-		this.buf = null == newBuff ? XStaticFixedValue.nullbyteArray : newBuff;
+		this.buf = null == newBuff ? Finals.EMPTY_BYTE_ARRAY : newBuff;
 		this.setBuffSize(size);
 	}
 

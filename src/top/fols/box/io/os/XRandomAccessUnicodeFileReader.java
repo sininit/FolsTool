@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
 
+import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XArrays;
 import top.fols.box.util.XByteEncode;
 
@@ -33,7 +33,7 @@ public class XRandomAccessUnicodeFileReader extends java.io.Reader {
 
     public XRandomAccessUnicodeFileReader(File file) throws FileNotFoundException, IOException {
         this.file = Objects.requireNonNull(file);
-        this.stream = new RandomAccessFile(file, XStaticFixedValue.FileOptMode.r());
+        this.stream = new RandomAccessFile(file, Finals.FileOptMode.r());
         this.charPos = 0;
         this.reLoad();
     }

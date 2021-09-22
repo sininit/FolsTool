@@ -12,7 +12,7 @@ public class CharSeparatorReader {
     int length;
 
     public CharSeparatorReader(String content) {
-        this(content, Finals.LINE_SEPARATOR_CHAR_N);
+        this(content, Finals.Separator.LINE_SEPARATOR_CHAR_N);
     }
     public CharSeparatorReader(String content, char...   separator) {
         this.setContent(content, separator);

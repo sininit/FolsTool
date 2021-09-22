@@ -5,8 +5,6 @@ import java.math.RoundingMode;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import top.fols.box.time.XTimeTool;
-import top.fols.box.util.XFixelArrayFill;
-import top.fols.box.lang.XStringFormat;
 
 public class XCycleAvgergeSpeedGet {
     private AtomicLong nowAccessCount = new AtomicLong(0);// 周期时间内的速率
@@ -58,7 +56,7 @@ public class XCycleAvgergeSpeedGet {
         @Override
         public String toString() {
             // TODO: Implement this method
-            return new StringBuilder().append(XStringFormat.strf("speed={0} time={1}", speed, time)).toString();
+            return String.format("speed=%s time=%s", speed, time);
         }
     }
 
@@ -66,7 +64,7 @@ public class XCycleAvgergeSpeedGet {
     private AtomicLong lastCycleAverageSpeedGetTime = new AtomicLong(0);
 
     private volatile double lastCycleAverageSpeed = 0;
-    private volatile XFixelArrayFill<Recording> speeds = new XFixelArrayFill<>(6);
+    private volatile FinalArray<Recording> speeds = new FinalArray<>(6);
     public double getAvgergeValue() {
         if (this.isIdle.get()) {
             return 0;

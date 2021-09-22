@@ -3,8 +3,8 @@ package top.fols.atri.util;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 
+import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
-import top.fols.box.statics.XStaticFixedValue;
 
 @SuppressWarnings({"rawtypes", "unchecked", "EqualsWhichDoesntCheckParameterClass"})
 public abstract class BlurryKey<T extends Object> implements Cloneable {
@@ -22,7 +22,7 @@ public abstract class BlurryKey<T extends Object> implements Cloneable {
     public abstract BlurryKey<T> clone();
     public BlurryKey<T> newKey(T okey) {
         try {
-            Constructor con = this.getClass().getDeclaredConstructor(XStaticFixedValue.Object_class);
+            Constructor con = this.getClass().getDeclaredConstructor(Finals.OBJECT_CLASS);
             return (BlurryKey<T>) con.newInstance(okey);
         } catch (Throwable e) {
             throw new UnsupportedOperationException(e);

@@ -42,7 +42,7 @@ public class Strings {
 		if (null == lines) { return null; }
 		StringBuilder result = new StringBuilder();
 		for (String line: lines) {
-			result.append(line).append(Finals.LINE_SEPARATOR_CHAR_N);
+			result.append(line).append(Finals.Separator.LINE_SEPARATOR_CHAR_N);
 		}
 		if (result.length() > 1) {
 			result.setLength(result.length() - 1);

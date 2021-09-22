@@ -1,13 +1,15 @@
 package top.fols.box.util;
 
 import java.util.Arrays;
-import top.fols.box.statics.XStaticFixedValue;
 
-public class XFixelArrayFill<K extends Object> {
+import top.fols.atri.lang.Finals;
+import top.fols.atri.util.Releasable;
+
+public class FinalArray<K> implements Releasable {
 	private Object[] array;
 	private int length;
 
-	public XFixelArrayFill(int len) {
+	public FinalArray(int len) {
 		if (len < 1) {
 			throw new NumberFormatException("len need > 0");
 		}
@@ -15,7 +17,7 @@ public class XFixelArrayFill<K extends Object> {
 		length = len;
 	}
 
-	public XFixelArrayFill(K[] arr) {
+	public FinalArray(K[] arr) {
 		if (null == arr) {
 			throw new NullPointerException();
 		}
@@ -86,10 +88,26 @@ public class XFixelArrayFill<K extends Object> {
 		return length;
 	}
 
-	public void free() {
-		array = XStaticFixedValue.nullObjectArray;
+	@Override
+	public boolean release() {
+		array = Finals.EMPTY_OBJECT_ARRAY;
 		length = 0;
+		return true;
 	}
+
+	@Override
+	public boolean released() {
+		return array == Finals.EMPTY_OBJECT_ARRAY;
+	}
+
+
+
+
+
+
+
+
+
 
 	@SuppressWarnings("unchecked")
 	public K get(int i) {

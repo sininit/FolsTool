@@ -449,8 +449,19 @@ public class Arrayz {
 	public boolean isObjectArray(Object object) {
 		if (null == object) { return false; }
 		Class<?> 		 componentClass = object.getClass().getComponentType();
-		return   null != componentClass && componentClass.isPrimitive() == false;
+		return   null != componentClass && !componentClass.isPrimitive();
 	}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -487,10 +498,6 @@ public class Arrayz {
 		}
 	}
 
-
-
-
-
 	public static String toString(Object a) {
 		if (a == null)
 			return "null";
@@ -517,6 +524,34 @@ public class Arrayz {
 			}
 		} else {  // a is non-null and not an array
 			return String.valueOf(a);
+		}
+	}
+
+	public int hashCode(Object src) {
+		if (null == src)
+			return 0;
+		if (src.getClass().isArray()) {
+			if (src instanceof byte[]) {
+				return Arrays.hashCode((byte[])   src);
+			} else if (src instanceof short[]) {
+				return Arrays.hashCode((short[])  src);
+			} else if (src instanceof int[]) {
+				return Arrays.hashCode((int[])    src);
+			} else if (src instanceof long[]) {
+				return Arrays.hashCode((long[])   src);
+			} else if (src instanceof char[]) {
+				return Arrays.hashCode((char[])   src);
+			} else if (src instanceof float[]) {
+				return Arrays.hashCode((float[])  src);
+			} else if (src instanceof double[]) {
+				return Arrays.hashCode((double[]) src);
+			} else if (src instanceof boolean[]) {
+				return Arrays.hashCode((boolean[])src);
+			} else {
+				return Arrays.deepHashCode((Object[]) src);
+			}
+		} else {
+			return src.hashCode();
 		}
 	}
 

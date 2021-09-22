@@ -91,23 +91,23 @@ public class Requests {
 
         MessageHeader header = new MessageHeader(headers);
         header.remove((BlurryKey.IgnoreCaseKey<String>) null);
-        header.put("Accept-Encoding", "identity");
+        header.put(MessageHeader.REQUEST_HEADER_ACCEPT_ENCODING, MessageHeader.REQUEST_HEADER_VALUE_ACCEPT_ENCODING_IDENTITY);
 
         String charset = Charset.defaultCharset().name();
         if (!write.isEmpty())  {
-            ContentType request_content_type = ContentType.parse(header.get("Content-Type"));
+            ContentType request_content_type = ContentType.parse(header.get(MessageHeader.RESPONSE_HEADER_CONTENT_TYPE));
             if (request_content_type.hasCharset()) {
                 charset = request_content_type.getCharset();
             } else {
                 request_content_type.setCharset(charset);
-                header.put("Content-Type", request_content_type.toString());
+                header.put(MessageHeader.RESPONSE_HEADER_CONTENT_TYPE, request_content_type.toString());
             }
         }
         byte[] dataBytes = write.getBytes(charset);
 
-        String content_length = header.get("Content-Length");
+        String content_length = header.get(MessageHeader.RESPONSE_HEADER_CONTENT_LENGTH);
         if (null != content_length) {
-            header.put("Content-Length", String.valueOf(dataBytes.length));
+            header.put(MessageHeader.RESPONSE_HEADER_CONTENT_LENGTH, String.valueOf(dataBytes.length));
         }
 
         XURL xurl = new XURL(url);
@@ -115,11 +115,11 @@ public class Requests {
             URLBuilder urlBuilder;
             urlBuilder = xurl.toBuilder();
             urlBuilder.protocol("http");
-            urlBuilder.host(header.get("Host"));
+            urlBuilder.host(header.get(MessageHeader.REQUEST_HEADER_HOST));
             xurl = new XURL(urlBuilder.build());
         } else {
-            if (!header.containsKey("Host")) {
-                header.put("Host", xurl.getHostAndPort());
+            if (!header.containsKey(MessageHeader.REQUEST_HEADER_HOST)) {
+                header.put(MessageHeader.REQUEST_HEADER_HOST, xurl.getHostAndPort());
             }
         }
 
@@ -219,7 +219,7 @@ public class Requests {
             return h;
         }
         public ContentType 	getResponseType() {
-            ContentType   response_content_type = ContentType.parse(getResponseHeader().get("Content-Type"));
+            ContentType   response_content_type = ContentType.parse(getResponseHeader().get(MessageHeader.RESPONSE_HEADER_CONTENT_TYPE));
             return        response_content_type;
         }
         public Charset 		getResponseCharset() {
@@ -233,7 +233,7 @@ public class Requests {
         public Long getResponseLength() {
             Long length = null;
             try {
-                length = Long.parseLong(getResponseHeader().get("Content-Length"));
+                length = Long.parseLong(getResponseHeader().get(MessageHeader.RESPONSE_HEADER_CONTENT_LENGTH));
             } catch (Throwable ignored) {}
             return length;
         }

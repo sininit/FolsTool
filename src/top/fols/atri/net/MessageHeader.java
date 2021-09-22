@@ -13,7 +13,6 @@ import top.fols.atri.lang.Finals;
 import top.fols.atri.util.interfaces.InnerMap;
 import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.base.XStringReader;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XArrays;
 import top.fols.atri.util.BlurryKey;
 import top.fols.atri.util.BlurryKey.IgnoreCaseKey;
@@ -25,7 +24,7 @@ import top.fols.atri.util.BlurryKey.IgnoreCaseKey;
  *
  */
 
-@SuppressWarnings({"unchecked", "UnusedReturnValue"})
+@SuppressWarnings({"unchecked", "UnusedReturnValue", "CharsetObjectCanBeUsed"})
 public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<String>, List<String>> {
     private static final long serialVersionUID = 1L;
 
@@ -40,24 +39,43 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
      */
     public 	static final Charset 		HTTP_MESSAGE_HEADER_CHARSET_ISO_8859_1 = Charset.forName("ISO-8859-1");
 
-    public 	static final String 		LINE_SEPARATOR = new String(Finals.getCharsLineSeparatorRN());
+    public 	static final String 		LINE_SEPARATOR = new String(Finals.Separator.getCharsLineSeparatorRN());
     public 	static final char 			ASSIGNMENT_SYMBOL_CHAR = ':';
 
     private static final IgnoreCaseKey KeyFactory = BlurryKey.IgnoreCaseKey.getDefaultFactory();
 
-    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_COOKIE      = KeyFactory.newKey("Cookie");
-    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_SET_COOKIE  = KeyFactory.newKey("Set-Cookie");
-
-
-
-
-    private Map<IgnoreCaseKey<String>, List<String>> headerValue = new LinkedHashMap<>();
 
 
 
 
 
+    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_COOKIE           = KeyFactory.newKey("Cookie");
+    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_RANGE            = KeyFactory.newKey("Range");
+    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_HOST             = KeyFactory.newKey("Host");
+    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_CONTENT_TYPE     = KeyFactory.newKey("Content-Type");
+    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_ACCEPT_ENCODING  = KeyFactory.newKey("Accept-Encoding");
+    public static final String REQUEST_HEADER_VALUE_ACCEPT_ENCODING_IDENTITY            = "identity";
 
+
+
+
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_SET_COOKIE              = KeyFactory.newKey("Set-Cookie");
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_RANGE           = KeyFactory.newKey("Content-Range");
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_LENGTH          = KeyFactory.newKey("Content-Length");
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_TYPE            = KeyFactory.newKey("Content-Type");
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_DISPOSITION     = KeyFactory.newKey("Content-Disposition");
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_SERVER                  = KeyFactory.newKey("Server");
+
+
+
+
+
+
+
+
+
+
+    private final Map<IgnoreCaseKey<String>, List<String>> headerValue = new LinkedHashMap<>();
 
 
     private void setValue0(String k, String v) {
@@ -220,9 +238,9 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
      * ^key: value\n ^key2: value2\n ^...
      */
     private static final char[][] LINE_SEPARATOR_ALL = new char[][]{
-            Finals.getCharsLineSeparatorRN(),
-            Finals.getCharsLineSeparatorR(),
-            Finals.getCharsLineSeparatorN()
+            Finals.Separator.getCharsLineSeparatorRN(),
+            Finals.Separator.getCharsLineSeparatorR(),
+            Finals.Separator.getCharsLineSeparatorN()
     };
     private static void dealMultiLineMessage0(MessageHeader m, String headerMessage, boolean putValue) {
         XStringReader rowStreanm = new XStringReader(headerMessage);
@@ -519,9 +537,19 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
 
 
 
-
-
-
+    /**
+     * @return [Cookie or Set-Cookie]
+     */
+    public Cookies getCookies() {
+        Cookies cookies = new Cookies();
+        if (containsKey(REQUEST_HEADER_COOKIE)) {
+            cookies.putAll(getCookies(REQUEST_HEADER_COOKIE));
+        }
+        if (containsKey(RESPONSE_HEADER_SET_COOKIE)) {
+            cookies.putAll(getCookies(RESPONSE_HEADER_SET_COOKIE));
+        }
+        return cookies;
+    }
 
     public Cookies getCookies(String key)                   {
         return this.getCookies(KeyFactory.newKey(key));

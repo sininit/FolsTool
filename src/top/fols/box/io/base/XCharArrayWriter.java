@@ -3,11 +3,12 @@ package top.fols.box.io.base;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
+
+import top.fols.atri.lang.Finals;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
 import top.fols.box.io.interfaces.XInterfacePrivateCharArrayBuffSearchOperat;
 import top.fols.box.io.interfaces.XInterfacePrivateFixedStreamIndexOperat;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XArrays;
 
 /**
@@ -144,7 +145,7 @@ public class XCharArrayWriter extends Writer
 	 */
 	public char toCharArray()[] {
 		if (count == 0)
-			return XStaticFixedValue.nullcharArray;
+			return Finals.EMPTY_CHAR_ARRAY;
 		return Arrays.copyOf(buf, count);
 	}
 
@@ -181,7 +182,7 @@ public class XCharArrayWriter extends Writer
 
 	@Override
 	public void releaseBuffer() {
-		buf = XStaticFixedValue.nullcharArray;
+		buf = Finals.EMPTY_CHAR_ARRAY;
 		count = 0;
 	}
 
@@ -199,7 +200,7 @@ public class XCharArrayWriter extends Writer
 	@Override
 	public void setBuff(char[] newBuff, int size) {
 		// TODO: Implement this method
-		this.buf = null == newBuff ? XStaticFixedValue.nullcharArray : newBuff;
+		this.buf = null == newBuff ? Finals.EMPTY_CHAR_ARRAY : newBuff;
 		this.setBuffSize(size);
 	}
 

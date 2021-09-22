@@ -78,6 +78,10 @@ public class Objects {
 
 
 
+
+
+
+
     public static boolean equals(Object obj, Object obj2) {
         if (null == obj) {
             return null == obj2;

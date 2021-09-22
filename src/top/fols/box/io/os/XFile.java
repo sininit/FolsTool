@@ -12,11 +12,11 @@ import java.util.Locale;
 
 import top.fols.atri.io.Filex;
 import top.fols.atri.io.Streams;
+import top.fols.atri.lang.Finals;
 import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.base.XInputStreamFixedLength;
 import top.fols.box.io.base.XOutputStreamFixedLength;
 import top.fols.box.lang.XUnitConversion;
-import top.fols.box.statics.XStaticFixedValue;
 import top.fols.box.util.XByteEncodeDetect;
 
 @Deprecated
@@ -198,13 +198,13 @@ public class XFile implements Closeable, Serializable {
 			throw new NullPointerException("file for null");
 		}
 		if (!file.exists()) {
-			return XStaticFixedValue.nullbyteArray;
+			return Finals.EMPTY_BYTE_ARRAY;
 		}
 		RandomAccessFile randomFile = null;
 		byte[] fileBytes;
 		long filelength = file.length();
 		try {
-			randomFile = new RandomAccessFile(file, XStaticFixedValue.FileOptMode.r());
+			randomFile = new RandomAccessFile(file, Finals.FileOptMode.r());
 			randomFile.seek(off);
 			if (off + len > filelength) {
 				throw new IOException(String.format(
@@ -231,7 +231,7 @@ public class XFile implements Closeable, Serializable {
 			throw new NullPointerException("file for null");
 		}
 		if (null == bytes) {
-			bytes = XStaticFixedValue.nullbyteArray;
+			bytes = Finals.EMPTY_BYTE_ARRAY;
 		}
 		if (!file.exists()) {
 			if (!file.createNewFile()) {
@@ -240,7 +240,7 @@ public class XFile implements Closeable, Serializable {
 		}
 		RandomAccessFile randomFile = null;
 		try {
-			randomFile = new RandomAccessFile(file, XStaticFixedValue.FileOptMode.rws());
+			randomFile = new RandomAccessFile(file, Finals.FileOptMode.rws());
 			randomFile.write(bytes);
 			randomFile.setLength(bytes.length);
 			return true;

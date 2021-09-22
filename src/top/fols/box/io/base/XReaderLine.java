@@ -5,13 +5,12 @@ import java.io.Reader;
 import java.util.Arrays;
 
 import top.fols.atri.io.Streams;
+import top.fols.atri.lang.Finals;
 import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.interfaces.XInterfaceGetInnerStream;
 import top.fols.box.io.interfaces.XInterfaceLineReaderStream;
 import top.fols.box.io.interfaces.XInterfacePrivateBuffOperat;
 import top.fols.box.io.interfaces.XInterfaceReleaseBufferable;
-import top.fols.box.statics.XStaticFixedValue;
-import top.fols.box.statics.XStaticSystem;
 
 public class XReaderLine<T extends Reader> extends Reader implements XInterfacePrivateBuffOperat<char[]>,
 XInterfaceLineReaderStream<char[]>, XInterfaceReleaseBufferable, XInterfaceGetInnerStream<T> {
@@ -173,7 +172,7 @@ XInterfaceLineReaderStream<char[]>, XInterfaceReleaseBufferable, XInterfaceGetIn
 			int searchOffset;
 
 			int findindex = -1;
-			char[] split = XStaticFixedValue.nullcharArray;
+			char[] split = Finals.EMPTY_CHAR_ARRAY;
 			int search = this.lineoutbuf.indexOfBuff(separator, 0, lineoutbuf.size());
 			if (search != -1 && (findindex == -1 || search < findindex)) {
 				this.readLineDefaultSeparatorIndex = 0;
@@ -214,7 +213,7 @@ top: while (true) {
 
 				if (this.lineoutbuf.size() == 0 && !resultAddSeparator && null != buf) {
 					this.lineoutbuf.releaseBuffer();
-					return XStaticFixedValue.nullcharArray;
+					return Finals.EMPTY_CHAR_ARRAY;
 				}
 			}
 			char array[] = this.lineoutbuf.toCharArray();
@@ -388,7 +387,7 @@ top: while (true) {
 
 
 
-	private static final char[][] ALL_LINE_SEPARATOR_CHARS = lineSeparatorsToChars(XStaticSystem.getAllSystemLineSeparator());
+	private static final char[][] ALL_LINE_SEPARATOR_CHARS = lineSeparatorsToChars(Finals.Separator.getAllSystemLineSeparator());
 	public static char[][] lineSeparatorsToChars(String[] lineSeparator) {
 		char[][] result = new char[lineSeparator.length][];
 		for (int i = 0; i < lineSeparator.length; i++) {
@@ -397,7 +396,7 @@ top: while (true) {
 		return result;
 	}
 	public static final char[][] getAllSystemLineSeparatorChars() {
-        return lineSeparatorsToChars(XStaticSystem.getAllSystemLineSeparator());
+        return lineSeparatorsToChars(Finals.Separator.getAllSystemLineSeparator());
     }
 	
 	public String readLineToString(String[] lineSeparator, boolean resultAddSeparator)
@@ -489,7 +488,7 @@ top: while (true) {
 			return null;
 		}
 		if (end - offset < 1) {
-			return XStaticFixedValue.nullcharArray;
+			return Finals.EMPTY_CHAR_ARRAY;
 		}
 		return Arrays.copyOfRange(array, offset, end);
 	}

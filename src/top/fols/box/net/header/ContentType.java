@@ -1,24 +1,30 @@
 package top.fols.box.net.header;
 
-import java.net.URLConnection;
-import java.util.*;
+import top.fols.atri.lang.Objects;
 
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /*
+
+
  在RFC 822的扩展BNF表示法中，Content-Type头字段值定义如下：
  Content-Type：= type“/”子类型* [“;” 参数]
- 键入：=“application”/“audio”/“image”/“message”/“multipart”/“text”/“video”/ x-token 
- x-token：= <随后的两个字符“X-”，没有任何中间空格，由任何标记> 
- 子类型=令牌 
- 参数：=属性“=”值 
- 属性：=标记 
- 值：=标记/引用字符串 
- token：= 1 * 
+ 键入：=“application”/“audio”/“image”/“message”/“multipart”/“text”/“video”/ x-token
+ x-token：= <随后的两个字符“X-”，没有任何中间空格，由任何标记>
+ 子类型=令牌
+ 参数：=属性“=”值
+ 属性：=标记
+ 值：=标记/引用字符串
+ token：= 1 *
  tspecials：=“（”/“）”/“<”/“>”/“@”; 必须在/“，”/“;” /“：”/“\”/ <“>; quoted-string，/”/“/”[“/”]“/”？“/”。“;用于/”=“;参数值
- */
 
 
-/*
+
+
  text/html  ：HTML格式
  text/plain ：纯文本格式      
  text/xml   ：XML格式
@@ -69,8 +75,7 @@ public class ContentType {
 			// TODO: Implement this method
 			return 
 				getClass().hashCode() + 
-				Objects.hash(this.property)
-				;
+				Objects.hashCode(this.property);
 		}
 
 		@Override
@@ -102,7 +107,7 @@ public class ContentType {
 	private String type = null;
 	private String type_sub = null;
 
-	private List<Value> values = new ArrayList<>();
+	private final List<Value> values = new ArrayList<>();
 
 
 

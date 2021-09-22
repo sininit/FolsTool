@@ -1,11 +1,15 @@
 package top.fols.atri.lang;
 
+import top.fols.atri.util.KeySetMap;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
+import java.security.Security;
 import java.util.*;
 
+@SuppressWarnings("rawtypes")
 public class Finals {
 
     /**
@@ -37,14 +41,21 @@ public class Finals {
     public static final float[]         EMPTY_FLOAT_ARRAY = new float[]{};
     public static final short[]         EMPTY_SHORT_ARRAY = new short[]{};
 
-    public static final Byte[]          EMPTY_BYTE_P_ARRAY = new Byte[]{};
-    public static final Long[]          EMPTY_LONG_P_ARRAY = new Long[]{};
-    public static final Double[]        EMPTY_DOUBLE_P_ARRAY = new Double[]{};
-    public static final Character[]     EMPTY_CHAR_P_ARRAY = new Character[]{};
-    public static final Integer[]       EMPTY_INT_P_ARRAY = new Integer[]{};
-    public static final Boolean[]       EMPTY_BOOLEAN_P_ARRAY = new Boolean[]{};
-    public static final Float[]         EMPTY_FLOAT_P_ARRAY = new Float[]{};
-    public static final Short[]         EMPTY_SHORT_P_ARRAY = new Short[]{};
+    public static final Byte[]          EMPTY_BYTE_PACKAGE_ARRAY    = new Byte[]{};
+    public static final Long[]          EMPTY_LONG_PACKAGE_ARRAY    = new Long[]{};
+    public static final Double[]        EMPTY_DOUBLE_PACKAGE_ARRAY  = new Double[]{};
+    public static final Character[]     EMPTY_CHAR_PACKAGE_ARRAY    = new Character[]{};
+    public static final Integer[]       EMPTY_INT_PACKAGE_ARRAY     = new Integer[]{};
+    public static final Boolean[]       EMPTY_BOOLEAN_PACKAGE_ARRAY = new Boolean[]{};
+    public static final Float[]         EMPTY_FLOAT_PACKAGE_ARRAY   = new Float[]{};
+    public static final Short[]         EMPTY_SHORT_PACKAGE_ARRAY   = new Short[]{};
+
+
+    public static final StackTraceElement[] EMPTY_STACK_TRACE_ELEMENT_ARRAY = new StackTraceElement[]{};
+
+
+
+
 
     public static final Iterator        EMPTY_ITERATOR = Collections.emptyIterator();
     public static final List            EMPTY_LIST = Collections.emptyList();
@@ -53,13 +64,12 @@ public class Finals {
     public static final Set             EMPTY_SET = Collections.emptySet();
     public static final Map             EMPTY_MAP = Collections.emptyMap();
 
-    public static final StackTraceElement[] EMPTY_STACK_TRACE_ELEMENT_ARRAY = new StackTraceElement[]{};
 
 
 
-    public static final String TRUE_STRING = String.valueOf(true);
+    public static final String TRUE_STRING  = String.valueOf(true);
     public static final String FALSE_STRING = String.valueOf(false);
-    public static final String NULL_STRING = String.valueOf((Object) null);
+    public static final String NULL_STRING  = String.valueOf((Object) null);
 
     public static final Object NULL = null;
 
@@ -132,6 +142,49 @@ public class Finals {
     public static final Class<Short[]>      SHORT_PACKAGE_ARRAY_CLASS = Short[].class;
     public static final Class<Void[]>       VOID_PACKAGE_ARRAY_CLASS = Void[].class;
 
+
+
+
+    public static final String BYTE_CLASS_CANONICAL_NAME        = byte.class.getCanonicalName();
+    public static final String LONG_CLASS_CANONICAL_NAME        = long.class.getCanonicalName();
+    public static final String DOUBLE_CLASS_CANONICAL_NAME      = double.class.getCanonicalName();
+    public static final String CHAR_CLASS_CANONICAL_NAME        = char.class.getCanonicalName();
+    public static final String INT_CLASS_CANONICAL_NAME         = int.class.getCanonicalName();
+    public static final String BOOLEAN_CLASS_CANONICAL_NAME     = boolean.class.getCanonicalName();
+    public static final String FLOAT_CLASS_CANONICAL_NAME       = float.class.getCanonicalName();
+    public static final String SHORT_CLASS_CANONICAL_NAME       = short.class.getCanonicalName();
+    public static final String VOID_CLASS_CANONICAL_NAME        = void.class.getCanonicalName();
+
+    public static final String BYTE_PACKAGE_CLASS_CANONICAL_NAME    = Byte.class.getCanonicalName();
+    public static final String LONG_PACKAGE_CLASS_CANONICAL_NAME    = Long.class.getCanonicalName();
+    public static final String DOUBLE_PACKAGE_CLASS_CANONICAL_NAME  = Double.class.getCanonicalName();
+    public static final String CHAR_PACKAGE_CLASS_CANONICAL_NAME    = Character.class.getCanonicalName();
+    public static final String INT_PACKAGE_CLASS_CANONICAL_NAME     = Integer.class.getCanonicalName();
+    public static final String BOOLEAN_PACKAGE_CLASS_CANONICAL_NAME = Boolean.class.getCanonicalName();
+    public static final String FLOAT_PACKAGE_CLASS_CANONICAL_NAME   = Float.class.getCanonicalName();
+    public static final String SHORT_PACKAGE_CLASS_CANONICAL_NAME   = Short.class.getCanonicalName();
+    public static final String VOID_PACKAGE_CLASS_CANONICAL_NAME    = Void.class.getCanonicalName();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static final Class<Object>           OBJECT_CLASS = Object.class;
     public static final Class<Class>            CLASS_CLASS = Class.class;
     public static final Class<String>           STRING_CLASS = String.class;
@@ -147,75 +200,50 @@ public class Finals {
     public static final Class<Constructor[]>    CONSTRUCTOR_ARRAY_CLASS = Constructor[].class;
 
 
+    public static final class Separator {
 
-    public static final byte LINE_SEPARATOR_BYTE_R = '\r';
-    public static final byte LINE_SEPARATOR_BYTE_N = '\n';
-    public static byte[] getBytesLineSeparatorN()  { return new byte[] { '\n' }; }
-    public static byte[] getBytesLineSeparatorR()  { return new byte[] { '\r' }; }
-    public static byte[] getBytesLineSeparatorRN() { return new byte[] { '\r', '\n' }; }
+        public static final byte LINE_SEPARATOR_BYTE_R = '\r';
+        public static final byte LINE_SEPARATOR_BYTE_N = '\n';
+        public static final char LINE_SEPARATOR_CHAR_R = '\r';
+        public static final char LINE_SEPARATOR_CHAR_N = '\n';
 
-    public static final char LINE_SEPARATOR_CHAR_R = '\r';
-    public static final char LINE_SEPARATOR_CHAR_N = '\n';
-    public static char[]    getCharsLineSeparatorN()  { return new char[] { '\n' }; }
-    public static char[]    getCharsLineSeparatorR()  { return new char[] { '\r' }; }
-    public static char[]    getCharsLineSeparatorRN() { return new char[] { '\r', '\n' }; }
+        public static final String LINE_SEPARATOR_STRING_R = "\r";
+        public static final String LINE_SEPARATOR_STRING_N = "\n";
+        public static final String LINE_SEPARATOR_STRING_RN = "\r\n";
 
-    public static final String LINE_SEPARATOR_STRING_R = "\r";
-    public static final String LINE_SEPARATOR_STRING_N = "\n";
-    public static final String LINE_SEPARATOR_STRING_RN = "\r\n";
+        public static final String WINDOWS_LINE_SEPARATOR = "\r\n";//WINDOWS
+        public static final String MAC_LINE_SEPARATOR = "\r";//MAC
+        public static final String LINUX_UNIX_LINE_SEPARATOR = "\n";//Linux, Unix
 
+        public static byte[] getBytesLineSeparatorN()  { return new byte[] { '\n' }; }
 
+        public static byte[] getBytesLineSeparatorR()  { return new byte[] { '\r' }; }
 
+        public static byte[] getBytesLineSeparatorRN() { return new byte[] { '\r', '\n' }; }
 
+        public static char[] getCharsLineSeparatorN()  { return new char[] { '\n' }; }
 
+        public static char[] getCharsLineSeparatorR()  { return new char[] { '\r' }; }
 
+        public static char[] getCharsLineSeparatorRN() { return new char[] { '\r', '\n' }; }
 
-    public static final String SYSTEM_LINE_SEPARATOR = System.lineSeparator(); //write command line spearator
-
-
-    public static String[] getOperateSystemEnvironment() {
-        Map<String, String> env = System.getenv();
-        String[] environments = new String[env.size()];
-        int environmentsIndex = 0;
-        for (String key: env.keySet()) {
-            environments[environmentsIndex++] = key + '=' + env.get(key);
+        public static final String  SYSTEM_LINE_SEPARATOR = System.lineSeparator(); //write command line spearator
+        public static byte[]        SYSTEM_LINE_SEPARATOR_BYTES() {
+            return SYSTEM_LINE_SEPARATOR.getBytes(); //write command line spearator
         }
-        return environments;
+
+        public static String[] getAllSystemLineSeparator() {
+            return new String[]{
+                    WINDOWS_LINE_SEPARATOR,
+                    MAC_LINE_SEPARATOR,
+                    LINUX_UNIX_LINE_SEPARATOR,
+            };
+        }
     }
 
 
-
-    /**
-     * Operating system default encoding
-     * sun.jnu.encoding refers to the default encoding of the operating system, and file.encoding refers to the encoding of JAVA files (remember, not class files, all class files are encoded in UTF-8), so, in the same operating system The sun.jnu.encoding of the JAVA application running on the computer is exactly the same, and even if the file.encoding is in the same JAVA application, the encoding of the JAVA file can be different.
-     *       * In most cases, sun.jnu.encoding is transparent to us.
-     *
-     * LINUX 系统默认编码utf-8
-     * WINDOWS 默认编码GBK
-     * @return
-     */
-    public static String getOperateSystemCharset() {
-        String charset = System.getProperty("sun.jnu.encoding");
-        return charset;
-    }
-    public static String getOperateSystemCharsetOrDefaultCharset() {
-        String charset = Finals.getOperateSystemCharset();
-        return null != charset ? charset
-                : Finals.defaultCharsetName();
-    }
-
-
-    public static String defaultCharsetName() {
-        return Finals.defaultCharset().name();
-    }
-    public static Charset defaultCharset() {
-        return Charset.defaultCharset();
-    }
-
-
-
-    public static final class StandardCharsets {
-        private StandardCharsets() {
+    public static final class Charsets {
+        private Charsets() {
             throw new AssertionError("No instances for you!");
         }
 
@@ -249,11 +277,82 @@ public class Finals {
          * optional byte-order mark
          */
         public static final Charset UTF_16 = Charset.forName("UTF-16");
+
+        /**
+         * Operating system default encoding
+         * sun.jnu.encoding refers to the default encoding of the operating system, and file.encoding refers to the encoding of JAVA files (remember, not class files, all class files are encoded in UTF-8), so, in the same operating system The sun.jnu.encoding of the JAVA application running on the computer is exactly the same, and even if the file.encoding is in the same JAVA application, the encoding of the JAVA file can be different.
+         *       * In most cases, sun.jnu.encoding is transparent to us.
+         *
+         * LINUX 系统默认编码utf-8
+         * WINDOWS 默认编码GBK
+         * @return
+         */
+        public static String getOperateSystemCharset() {
+            String charset = System.getProperty("sun.jnu.encoding");
+            return charset;
+        }
+
+        public static String getOperateSystemCharsetOrDefaultCharset() {
+            String charset = getOperateSystemCharset();
+            return null != charset ? charset
+                    : defaultCharsetName();
+        }
+
+        public static String  defaultCharsetName() {
+            return defaultCharset().name();
+        }
+
+        public static Charset defaultCharset() {
+            return Charset.defaultCharset();
+        }
     }
 
-    public static class Property{
+    public static class Property {
         @SuppressWarnings("SpellCheckingInspection")
         public static final String JAVA_IO_TEMPDIR = "java.io.tmpdir";
     }
+
+    public static final class FileOptMode {
+        public static String r() {
+            return "r";
+        }
+        public static String rw() {
+            return "rw";
+        }
+        public static String rws() {
+            return "rws";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public static KeySetMap<String> getMessageDigestAlgorithms() {
+        KeySetMap<String> list = new KeySetMap<>();
+        for (String Str : Security.getAlgorithms("MessageDigest")) {
+            list.put(Str);
+        }
+        return list;
+    }
+    public static String[] getOperateSystemEnvironment() {
+        Map<String, String> env = System.getenv();
+        String[] environments = new String[env.size()];
+        int environmentsIndex = 0;
+        for (String key: env.keySet()) {
+            environments[environmentsIndex++] = key + '=' + env.get(key);
+        }
+        return environments;
+    }
+
+
+
 
 }

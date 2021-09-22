@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import top.fols.atri.io.Streams;
-import top.fols.box.statics.XStaticSystem;
+import top.fols.atri.lang.Finals;
 import top.fols.box.util.encode.XHexEncoder;
 import top.fols.box.io.digest.XDigestOutputStream;
 
@@ -21,7 +21,7 @@ public class MessageDigests {
 	 * MD5 SHA-1 SHA-384 SHA-224 SHA-256 SHA-512
 	 */
 	public static KeySetMap<String> getMessageDigestAlgorithms() {
-		return XStaticSystem.getMessageDigestAlgorithms();
+		return Finals.getMessageDigestAlgorithms();
 	}
 	
 	public static boolean contains(String name) {
