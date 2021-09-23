@@ -68,6 +68,8 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_LENGTH          = KeyFactory.newKey("Content-Length");
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_TYPE            = KeyFactory.newKey("Content-Type");
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_DISPOSITION     = KeyFactory.newKey("Content-Disposition");
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_ENCODING        = KeyFactory.newKey("Content-Encoding");
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_LOCATION                = KeyFactory.newKey("location");
 
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_SERVER                  = KeyFactory.newKey("Server");
 
