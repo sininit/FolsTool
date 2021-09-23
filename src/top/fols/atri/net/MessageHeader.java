@@ -50,22 +50,28 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
 
 
     public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_COOKIE           = KeyFactory.newKey("Cookie");
-    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_RANGE            = KeyFactory.newKey("Range");
     public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_HOST             = KeyFactory.newKey("Host");
+    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_RANGE            = KeyFactory.newKey("Range");
+
     public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_CONTENT_TYPE     = KeyFactory.newKey("Content-Type");
+
     public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_ACCEPT_ENCODING  = KeyFactory.newKey("Accept-Encoding");
     public static final String REQUEST_HEADER_VALUE_ACCEPT_ENCODING_IDENTITY            = "identity";
 
 
 
 
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_SET_COOKIE              = KeyFactory.newKey("Set-Cookie");
+
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_RANGE           = KeyFactory.newKey("Content-Range");
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_ACCEPT_RANGES           = KeyFactory.newKey("Accept-Ranges");
+
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_LENGTH          = KeyFactory.newKey("Content-Length");
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_TYPE            = KeyFactory.newKey("Content-Type");
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_DISPOSITION     = KeyFactory.newKey("Content-Disposition");
+
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_SERVER                  = KeyFactory.newKey("Server");
 
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_SET_COOKIE              = KeyFactory.newKey("Set-Cookie");
 
 
 

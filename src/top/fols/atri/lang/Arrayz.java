@@ -438,15 +438,15 @@ public class Arrayz {
 		}
 	}
 
-	public boolean isArray(Object object) {
+	public static boolean isArray(Object object) {
 		return null != object && object.getClass().isArray();
 	}
-	public boolean isPrimitiveArray(Object object) {
+	public static boolean isPrimitiveArray(Object object) {
 		if (null == object) { return false; }
 		Class<?> 		 componentClass = object.getClass().getComponentType();
 		return   null != componentClass && componentClass.isPrimitive();
 	}
-	public boolean isObjectArray(Object object) {
+	public static boolean isObjectArray(Object object) {
 		if (null == object) { return false; }
 		Class<?> 		 componentClass = object.getClass().getComponentType();
 		return   null != componentClass && !componentClass.isPrimitive();
@@ -527,7 +527,7 @@ public class Arrayz {
 		}
 	}
 
-	public int hashCode(Object src) {
+	public static int hashCode(Object src) {
 		if (null == src)
 			return 0;
 		if (src.getClass().isArray()) {
