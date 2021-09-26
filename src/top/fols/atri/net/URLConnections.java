@@ -9,7 +9,8 @@ import java.net.JarURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.Map;
 
 import top.fols.atri.io.Streams;
 import top.fols.box.io.base.XByteArrayOutputStream;
@@ -29,16 +30,30 @@ public class URLConnections {
 	public static final int DEFAULT_CONNECT_TIMEOUT = 12 * (int)XTimeTool.time_1s;
 	public static final int DEFAULT_READ_TIMEOUT 	= 6 *  (int)XTimeTool.time_1s;
 
+
+	public static void close(URLConnection con) {
+		if (con instanceof HttpURLConnection) {
+			((HttpURLConnection) con).disconnect();
+		}
+		try {
+			con.getInputStream().close();
+		} catch (Throwable ignored) {}
+		try {
+			con.getOutputStream().close();
+		} catch (Throwable ignored) {}
+	}
+
+
+	@SuppressWarnings("UnusedReturnValue")
 	public static class URLConnectionUtil implements Closeable {
 
-		private URLConnection con;
+		private final URLConnection con;
 		private InputStream in;
 		private OutputStream ot;
 
 		public boolean isHttpURLConnection() {
 			return this.con instanceof HttpURLConnection;
 		}
-
 		public boolean isJarURLConnection() {
 			return this.con instanceof JarURLConnection;
 		}
@@ -46,14 +61,14 @@ public class URLConnections {
 		public URLConnectionUtil(String url) throws IOException {
 			this(new URL(url).openConnection());
 		}
-
 		public URLConnectionUtil(URLConnection urlConnection) {
 			this.con = urlConnection;
 		}
-
 		public URLConnection getURLConnection() {
 			return this.con;
 		}
+
+
 
 		public URLConnectionUtil connectTimeout(int time) {
 			this.con.setConnectTimeout(time);
@@ -84,18 +99,9 @@ public class URLConnections {
 		}
 
 		public void disconnect() {
-			try {
-				this.getInputStream().close();
-				this.in = null;
-			} catch (Throwable e) {
-				e = null;
-			}
-			try {
-				this.getOutputStream().close();
-				this.ot = null;
-			} catch (Throwable e) {
-				e = null;
-			}
+			URLConnections.close(con);
+			this.in = null;
+			this.ot = null;
 		}
 
 		@Override
@@ -108,22 +114,22 @@ public class URLConnections {
 			return this.getInputStream().available();
 		}
 
+
+		public int read() throws java.io.IOException {
+			return this.getInputStream().read();
+		}
+		public int read(byte[] b) throws java.io.IOException {
+			return this.read(b, 0, b.length);
+		}
+		public int read(byte[] b, int off, int len) throws java.io.IOException {
+			return this.getInputStream().read(b, off, len);
+		}
 		public URLConnectionUtil readTo(OutputStream backoutput) throws IOException {
 			Streams.copy(this.getInputStream(), backoutput);
 			return this;
 		}
 
-		public int read() throws java.io.IOException {
-			return this.getInputStream().read();
-		}
 
-		public int read(byte[] b) throws java.io.IOException {
-			return this.read(b, 0, b.length);
-		}
-
-		public int read(byte[] b, int off, int len) throws java.io.IOException {
-			return this.getInputStream().read(b, off, len);
-		}
 
 		public URLConnectionUtil write(int b) throws IOException {
 			this.getOutputStream().write(b);
@@ -163,11 +169,11 @@ public class URLConnections {
 
 
 		public byte[] readBytes() {
-			XByteArrayOutputStream bytearrout = new XByteArrayOutputStream();
+			XByteArrayOutputStream stream = new XByteArrayOutputStream();
 			try {
-				this.readTo(bytearrout);
-				byte[] bs = bytearrout.toByteArray();
-				bytearrout.releaseBuffer();
+				this.readTo(stream);
+				byte[] bs = stream.toByteArray();
+				stream.releaseBuffer();
 				return bs;
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -189,13 +195,29 @@ public class URLConnections {
 		}
 
 
+
+		public Map<String, List<String>> getResponseHeaderMap() {
+			return con.getHeaderFields();
+		}
+		public MessageHeader getResponseHeader() {
+			return new MessageHeader(getResponseHeaderMap());
+		}
 	}
 
 
 
 
 	public static class HttpURLConnectionUtil extends URLConnectionUtil {
-		private HttpURLConnection con;
+
+
+		public void setInstanceFollowRedirects(boolean followRedirects) {
+			con.setInstanceFollowRedirects(followRedirects);
+		}
+		public boolean getInstanceFollowRedirects() {
+			return con.getInstanceFollowRedirects();
+		}
+
+		private final HttpURLConnection con;
 
 		public HttpURLConnectionUtil(String httpUrl) throws IOException {
 			this((HttpURLConnection) new URL(httpUrl).openConnection());
@@ -204,6 +226,7 @@ public class URLConnections {
 		public HttpURLConnectionUtil(HttpURLConnection httpURLConnection) {
 			super(httpURLConnection);
 			this.con = httpURLConnection;
+			this.con.setInstanceFollowRedirects(false);
 		}
 
 		@Override
@@ -214,6 +237,24 @@ public class URLConnections {
 		public void setRequestMethod(String method) throws ProtocolException {
 			this.con.setRequestMethod(method);
 		}
+
+		public String getRequestMethod() {
+			return con.getRequestMethod();
+		}
+
+		public int getResponseCode() throws IOException {
+			return con.getResponseCode();
+		}
+
+		public String getResponseMessage() throws IOException {
+			return con.getResponseMessage();
+		}
+
+		@Override
+		public void disconnect() {
+			URLConnections.close(con);
+		}
+
 	}
 
 	public static class GetRequest extends HttpURLConnectionUtil {

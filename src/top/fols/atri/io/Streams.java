@@ -1,10 +1,14 @@
 package top.fols.atri.io;
 
+import top.fols.atri.net.URLConnections;
+import top.fols.atri.net.XSocket;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.io.base.XByteArrayOutputStream;
 import top.fols.box.io.base.XCharArrayWriter;
 
 import java.io.*;
+import java.net.Socket;
+import java.net.URLConnection;
 
 public class Streams {
 
@@ -54,6 +58,22 @@ public class Streams {
     public static boolean close(Closeable c) {
         try {
             c.close();
+            return true;
+        } catch (Throwable e) {
+            return false;
+        }
+    }
+    public static boolean close(URLConnection urlConnection){
+        try {
+            URLConnections.close(urlConnection);
+            return true;
+        } catch (Throwable e) {
+            return false;
+        }
+    }
+    public static boolean close(Socket socket) {
+        try {
+            XSocket.close(socket);
             return true;
         } catch (Throwable e) {
             return false;

@@ -7,40 +7,46 @@ import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 import top.fols.atri.io.CharSeparatorReader;
+import top.fols.atri.io.Streams;
 import top.fols.atri.net.MessageHeader;
 import top.fols.atri.net.URLBuilder;
 import top.fols.atri.net.URLConnections;
 import top.fols.atri.net.XURL;
 import top.fols.atri.util.BlurryKey;
+import top.fols.box.io.base.XInputStreamFixedLength;
 import top.fols.box.net.header.ContentType;
 
+/**
+ * Test
+ */
 public class Requests {
 
-
-
-
-
     /**
+     * Directly simulate the sending of complete HTTP network packets. The complete packets must include:
      *
-     * METHOD URL HTTP_VERSION
+     *----------------------------
+     * METHOD FULL_URL HTTP_VERSION
      * HTTP_HEADER
      * HTTP_HEADER
      * HTTP_HEADER
      *
      * REQUEST_DATA
+     *----------------------------
+     *
+     * example:
+     * request("GET https://fanyi.baidu.com/#zh/en/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BE%93%E5%87%BA HTTP/1.1\n" +
+     *         "Host: fanyi.baidu.com\n")
+     *
+     *
+     * request("POST https://fanyi.baidu.com/#zh/en/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BE%93%E5%87%BA HTTP/1.1\n" +
+     *         "Host: fanyi.baidu.com\n"+
+     *         "\r\n"+
+     *         "POST_DATA")
      */
     public static String request(String requestSource) throws IOException {
         Response request = createRequest(requestSource);
-        return   request.string();
+        return   request.readString();
     }
-
-
-
-
-
-
-
-
 
 
     public static Response createRequest(
@@ -78,18 +84,17 @@ public class Requests {
             String headers,
             String write) throws IOException {
 
-        return createRequest(method, url, headers, write, (int) TimeUnit.SECONDS.toMillis(60), (int) TimeUnit.SECONDS.toMillis(60));
+        MessageHeader header = new MessageHeader(headers);
+        return createRequest(method, url, header, write, (int) TimeUnit.SECONDS.toMillis(60), (int) TimeUnit.SECONDS.toMillis(60));
     }
-
     public static Response createRequest(
             String method, String url,
-            String headers,
+            MessageHeader header,
             String write,
 
             int connectionOvertime,
             int readStreamOvertime) throws IOException {
 
-        MessageHeader header = new MessageHeader(headers);
         header.remove((BlurryKey.IgnoreCaseKey<String>) null);
         header.put(MessageHeader.REQUEST_HEADER_ACCEPT_ENCODING, MessageHeader.REQUEST_HEADER_VALUE_ACCEPT_ENCODING_IDENTITY);
 
@@ -143,6 +148,129 @@ public class Requests {
     }
 
 
+
+
+
+
+    /**
+     *
+     * Data will not be submitted
+     *
+     *
+     * FORMAT:
+     * METHOD URL HTTP_VERSION
+     * HTTP_HEADER
+     * HTTP_HEADER
+     * HTTP_HEADER
+     */
+    public static Response createCustomOutputRequest(
+            String httpRequestDataPacket,
+            long contentLength) throws IOException {
+        CharSeparatorReader reader = new CharSeparatorReader(httpRequestDataPacket);
+
+        String first = reader.next();
+        String method;
+        String url;
+
+        try {
+            method = first.split("\\s+")[0];
+            url    = first.split("\\s+")[1];
+        } catch (Throwable e){
+            throw new IOException("cannot parse head first line: "+first);
+        }
+
+        StringBuilder headers = new StringBuilder();
+        String line;
+        while (reader.hasNext()) {
+            line = reader.next(true);
+            if (line.length() == reader.separatorSize()) {
+                break;
+            }
+            headers.append(line);
+        }
+        return createCustomOutputRequest(method, url, headers.toString(), contentLength);
+    }
+
+    public static Response createCustomOutputRequest(
+            String method, String url,
+            String headers,
+            long contentLength) throws IOException {
+
+        MessageHeader header = new MessageHeader(headers);
+        return createCustomOutputRequest(method, url, header, contentLength, (int) TimeUnit.SECONDS.toMillis(60), (int) TimeUnit.SECONDS.toMillis(60));
+    }
+    public static Response createCustomOutputRequest(
+            String method, String url,
+            MessageHeader header,
+            long contentLength,
+
+            int connectionOvertime,
+            int readStreamOvertime) throws IOException {
+
+        header.remove((BlurryKey.IgnoreCaseKey<String>) null);
+        header.put(MessageHeader.REQUEST_HEADER_ACCEPT_ENCODING, MessageHeader.REQUEST_HEADER_VALUE_ACCEPT_ENCODING_IDENTITY);
+
+        String content_length = header.get(MessageHeader.RESPONSE_HEADER_CONTENT_LENGTH);
+        if (null != content_length) {
+            if (contentLength > 0) {
+                header.put(MessageHeader.RESPONSE_HEADER_CONTENT_LENGTH, String.valueOf(contentLength));
+            } else {
+                header.remove(MessageHeader.RESPONSE_HEADER_CONTENT_LENGTH);
+            }
+        }
+
+        XURL xurl = new XURL(url);
+        if  (xurl.getProtocol() == null) {
+            URLBuilder urlBuilder;
+            urlBuilder = xurl.toBuilder();
+            urlBuilder.protocol("http");
+            urlBuilder.host(header.get(MessageHeader.REQUEST_HEADER_HOST));
+            xurl = new XURL(urlBuilder.build());
+        } else {
+            if (!header.containsKey(MessageHeader.REQUEST_HEADER_HOST)) {
+                header.put(MessageHeader.REQUEST_HEADER_HOST, xurl.getHostAndPort());
+            }
+        }
+
+        URLConnections.HttpURLConnectionUtil request = new URLConnections.HttpURLConnectionUtil(xurl.getUrl());
+        request.connectTimeout(connectionOvertime);
+        request.readTimeout(readStreamOvertime);
+        request.setRequestMethod(method);
+        request.messageHeader(header);
+
+        request.getURLConnection().setDoInput(true);
+
+        if (contentLength > 0) {
+            request.getURLConnection().setDoOutput(true);
+        }
+
+        @SuppressWarnings("UnnecessaryLocalVariable")
+        Response response = new Response(request, method, url, header, null);
+        return   response;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static class Response {
         String method; String url;
         URLConnections.HttpURLConnectionUtil request;
@@ -159,6 +287,51 @@ public class Requests {
             this.requestHeader = requestHeader;
             this.requestData   = requestData;
         }
+
+        public int read() throws java.io.IOException {
+            return this.getInputStream().read();
+        }
+        public int read(byte[] b) throws java.io.IOException {
+            return this.read(b, 0, b.length);
+        }
+        public int read(byte[] b, int off, int len) throws java.io.IOException {
+            return this.getInputStream().read(b, off, len);
+        }
+        public Response readTo(OutputStream backoutput) throws IOException {
+            Streams.copy(this.getInputStream(), backoutput);
+            return this;
+        }
+
+
+        public Response write(int b) throws IOException {
+            this.getOutputStream().write(b);
+            return this;
+        }
+        public Response write(byte[] b) throws IOException {
+            return this.write(b, 0, b.length);
+        }
+        public Response write(byte[] b, int off, int len) throws IOException {
+            OutputStream stream = this.getOutputStream();
+            stream.write(b, off, len);
+            return this;
+        }
+        public Response write(InputStream stream) throws IOException {
+            Streams.copy(stream, this.getOutputStream());
+            return this;
+        }
+        public Response write(InputStream stream, long length) throws IOException {
+            Streams.copy(new XInputStreamFixedLength<>(stream, length), this.getOutputStream());
+            return this;
+        }
+        public Response flush() throws IOException {
+            this.getOutputStream().flush();
+            return this;
+        }
+
+
+
+
+
 
 
 
@@ -219,8 +392,7 @@ public class Requests {
             return h;
         }
         public ContentType 	getResponseType() {
-            ContentType   response_content_type = ContentType.parse(getResponseHeader().get(MessageHeader.RESPONSE_HEADER_CONTENT_TYPE));
-            return        response_content_type;
+            return ContentType.parse(getResponseHeader().get(MessageHeader.RESPONSE_HEADER_CONTENT_TYPE));
         }
         public Charset 		getResponseCharset() {
             ContentType   response_content_type = this.getResponseType();
@@ -245,24 +417,23 @@ public class Requests {
 
 
         byte[] data;
-        public byte[] bytes() {
+        public byte[] readBytes() {
             byte[] data = this.data;
             if (null == data) {
                 this.data = data = request.readBytes();
             }
             return data;
         }
-
-        public String string() {
-            return new String(bytes(), getResponseCharset());
+        public String readString() {
+            return new String(readBytes(), getResponseCharset());
         }
 
 
 
-        public InputStream  input() throws IOException {
+        public InputStream getInputStream() throws IOException {
             return getURLConnection().getInputStream();
         }
-        public OutputStream output() throws IOException {
+        public OutputStream getOutputStream() throws IOException {
             return getURLConnection().getOutputStream();
         }
 

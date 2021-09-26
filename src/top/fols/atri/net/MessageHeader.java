@@ -42,6 +42,7 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
     public 	static final String 		LINE_SEPARATOR = new String(Finals.Separator.getCharsLineSeparatorRN());
     public 	static final char 			ASSIGNMENT_SYMBOL_CHAR = ':';
 
+    @SuppressWarnings("rawtypes")
     private static final IgnoreCaseKey KeyFactory = BlurryKey.IgnoreCaseKey.getDefaultFactory();
 
 
@@ -75,8 +76,8 @@ public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<Strin
 
     public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_SET_COOKIE              = KeyFactory.newKey("Set-Cookie");
 
-
-
+    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_TRANSFER_ENCODING       = KeyFactory.newKey("Transfer-Encoding");
+    public static final String RESPONSE_HEADER_VALUE_TRANSFER_ENCODING_CHUNKED                  = "chunked";
 
 
 
