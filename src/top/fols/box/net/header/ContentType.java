@@ -210,7 +210,7 @@ public class ContentType {
 	}
 	public static ContentType parse(String content_type) {
 		ContentType instance = new ContentType();
-		if (null == content_type || content_type.length() == 0) {
+		if (null == content_type || content_type.trim().length() == 0) {
 			return instance;
 		}
 		String[] splits = content_type.split(SEPARATOR);
