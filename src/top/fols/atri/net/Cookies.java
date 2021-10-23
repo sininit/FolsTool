@@ -5,11 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import top.fols.atri.util.interfaces.InnerMap;
+import top.fols.atri.util.interfaces.IInnerMap;
 import top.fols.box.annotation.BaseAnnotations;
 
 @SuppressWarnings("SpellCheckingInspection")
-public class Cookies implements Serializable, InnerMap<String, String> {
+public class Cookies implements Serializable, IInnerMap<String, String> {
 	private static final long serialVersionUID = 1L;
 
 	public static final char COOKIE_ELEMENT_SEPARATOR_CHAR = ';';

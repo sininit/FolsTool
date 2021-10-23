@@ -2,6 +2,7 @@ package top.fols.atri.lang;
 
 import top.fols.atri.array.ArrayObject;
 import top.fols.atri.io.CharSeparatorReader;
+import top.fols.atri.regex.Regexs;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.util.XArray;
 import top.fols.atri.util.Randoms;
@@ -95,66 +96,57 @@ public class Strings {
 
 
 
-
-
-
-	public static String[][] matchs(String content, String regex) {
-		return matchs(content, regex, Pattern.MULTILINE);
+	public static Matcher matches(String regex, String content) {
+		return Regexs.matches(regex, content);
 	}
-	public static String[][] matchs(String content, String regex, int mode) {
-		Pattern pattern = Pattern.compile(regex, mode);
-		return matchs(content, pattern);
+
+	public static String[][] subpatterns_all(String content, String regex) {
+		return Regexs.subpatterns_all(content, regex);
 	}
-	public static String[][] matchs(String content, Pattern regex) {
-		List<String[]> results = new ArrayList<>();
-		Matcher matcher = regex.matcher(content);
-		while (matcher.find()) {
-			String[] result = new String[matcher.groupCount()];
-			for (int i = 0; i < result.length;i++) {
-				result[i] = matcher.group(i + 1);
-			}
-			results.add(result);
+	public static String[] subpatterns(String content, String regex) {
+		return Regexs.subpatterns(content, regex);
+	}
+
+	public static String[] subpattern_all(String content, String regex, int subpattern) {
+		return Regexs.subpattern_all(content, regex, subpattern);
+	}
+	public static String subpattern(String content, String regex, int subpattern) {
+		return Regexs.subpattern(content, regex, subpattern);
+	}
+
+	public static String[] group_all(String content, String regex) {
+		return Regexs.group_all(content, regex);
+	}
+	public static String group(String content, String regex) {
+		return Regexs.group(content, regex);
+	}
+
+
+
+	public static List<String> splitSpace(String firstLine) {
+		List<String> list = new ArrayList<>();
+		if (null == firstLine) {
+			return list;
 		}
-		return results.toArray(new String[][]{});
-	}
-
-	public static String[] match(String content, String regex) {
-		return match(content, regex, Pattern.MULTILINE);
-	}
-	public static String[] match(String content, String regex, int mode) {
-		Pattern pattern = Pattern.compile(regex, mode);
-		return match(content, pattern);
-	}
-	public static String[] match(String content, Pattern regex) {
-		Matcher matcher = regex.matcher(content);
-		if (matcher.find()) {
-			String[] result = new String[matcher.groupCount()];
-			for (int i = 0; i < result.length;i++) {
-				result[i] = matcher.group(i + 1);
-			}
-			return result;
-		}
-		return Finals.EMPTY_STRING_ARRAY;
-	}
-
-
-	public static String matchGroup(String content, String regex, int group) {
-		Pattern pattern = Pattern.compile(regex);
-		return matchGroup(content, pattern, group);
-	}
-	public static String matchGroup(String content, Pattern pattern, int group) {
-		Matcher matcher = pattern.matcher(content);
-		boolean find = matcher.find();
-		if (find) {
-			int count = matcher.groupCount();
-			if (count >= group) {
-				return matcher.group(group);
+		int last = 0, length = firstLine.length();
+		for (int i = 0; i < length; i++) {
+			if (Character.isSpaceChar(firstLine.charAt(i))) {
+				if (i - last > 0) {
+					String element = firstLine.substring(last, i);
+					list.add(element);
+				}
+				while (i + 1 < length && Character.isSpaceChar(firstLine.charAt(i + 1))) {
+					i++;
+				}
+				last = i + 1;
 			}
 		}
-		return null;
+		if (last < length) {
+			String element = firstLine.substring(last, length);
+			list.add(element);
+		}
+		return list;
 	}
-
-
 
 
 

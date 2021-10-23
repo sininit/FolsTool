@@ -9,11 +9,11 @@ import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Mathz;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.lang.Strings;
-import top.fols.atri.util.interfaces.InnerFile;
+import top.fols.atri.util.interfaces.IInnerFile;
 import top.fols.box.util.XByteEncode;
 
 @SuppressWarnings({"SpellCheckingInspection", "StatementWithEmptyBody"})
-public class Filez implements InnerFile {
+public class Filez implements IInnerFile {
 	public static Filez RUN  = new Filez(".");
 	public static Filez RUN_CANONICAL  = RUN.getCanonical();
 

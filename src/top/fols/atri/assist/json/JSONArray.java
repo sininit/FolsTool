@@ -18,7 +18,7 @@
 
 package top.fols.atri.assist.json;
 
-import top.fols.atri.util.interfaces.InnerList;
+import top.fols.atri.util.interfaces.IInnerList;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ import java.util.List;
  * <i>Effective Java</i> Item 17, "Design and Document or inheritance or else
  * prohibit it" for further information.
  */
-public class JSONArray implements InnerList {
+public class JSONArray implements IInnerList {
     private List<Object> values = new ArrayList<Object>();
 
     /**

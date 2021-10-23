@@ -1,12 +1,12 @@
 package top.fols.atri.util;
 
-import top.fols.atri.util.interfaces.InnerMap;
+import top.fols.atri.util.interfaces.IInnerMap;
 import top.fols.box.util.interfaces.XInterfaceSetInnerMap;
 
 import java.io.Serializable;
 import java.util.*;
 
-public class KeySetMap<K> implements Serializable, InnerMap<K, Object>, XInterfaceSetInnerMap<K, Object> {
+public class KeySetMap<K> implements Serializable, IInnerMap<K, Object>, XInterfaceSetInnerMap<K, Object> {
 	private static final long serialVersionUID = 1L;
 
 

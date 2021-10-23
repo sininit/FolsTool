@@ -5,12 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import top.fols.atri.util.interfaces.InnerMap;
+import top.fols.atri.util.interfaces.IInnerMap;
 import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.util.encode.XURLEncoder;
 
 @SuppressWarnings("SpellCheckingInspection")
-public class URLParams implements Serializable, InnerMap<String, String> {
+public class URLParams implements Serializable, IInnerMap<String, String> {
 	private static final long serialVersionUID = 1L;
 
 

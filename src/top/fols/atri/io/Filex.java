@@ -1,5 +1,6 @@
 package top.fols.atri.io;
 
+import top.fols.atri.lang.Strings;
 import top.fols.atri.util.DoubleLinked;
 import top.fols.box.io.os.XFile;
 
@@ -342,7 +343,16 @@ public class Filex {
 	 * 获得 文件名 带后缀
 	 */
 	public static String getName(String filePath) {
-		return getName(filePath, system_separators);
+		if ((null != filePath)) {
+			int pathSeparatorLen = 1;
+			int dot = Strings.lastIndexOfChar(filePath, separatorChars);
+			if (dot > -1) {
+				return filePath.substring(dot + pathSeparatorLen, filePath.length());
+			} else {
+				return filePath;
+			}
+		}
+		return null;
 	}
 	/*
 	 * 获得 文件名 带后缀
@@ -365,7 +375,14 @@ public class Filex {
 	 * 获得 文件目录
 	 */
 	public static String getParent(String filePath) {
-		return getParent(filePath, system_separators);
+		if ((null != filePath)) {
+			int pathSeparatorLen = 1;
+			int dot = Strings.lastIndexOfChar(filePath, separatorChars);
+			if (dot > -1) {
+				return filePath.substring(0, dot + pathSeparatorLen);
+			}
+		}
+		return null;
 	}
 	/*
 	 * 获得 文件目录
@@ -384,7 +401,21 @@ public class Filex {
 	 * 得到扩展名
 	 */
 	public static String getExtensionName(String filePath) {
-		return getExtensionName(filePath, system_separators, FILE_EXTENSION_NAME_SEPARATORS);
+		if ((null != filePath) && (filePath.length() > 0)) {
+			String extensionNameSeparator = top.fols.atri.io.Filex.FILE_EXTENSION_NAME_SEPARATORS;
+			int dot = filePath.lastIndexOf(extensionNameSeparator);
+			int splitCharDot = Strings.lastIndexOfChar(filePath, separatorChars);
+			if (splitCharDot > -1) {
+				if (dot > -1 && dot > splitCharDot) {
+					return filePath.substring(dot + extensionNameSeparator.length(), filePath.length());
+				}
+			} else {
+				if (dot > -1) {
+					return filePath.substring(dot + extensionNameSeparator.length(), filePath.length());
+				}
+			}
+		}
+		return null;
 	}
 	public static String getExtensionName(String filePath, String pathSeparator, String extensionNameSeparator) {
 		if ((null != filePath) && (filePath.length() > 0)) {
@@ -406,8 +437,28 @@ public class Filex {
 	/*
 	 * 获得 文件名 不带带后缀
 	 */
-	public static String getNameNoExtension(String fileCanonicalPath) {
-		return getNameNoExtension(fileCanonicalPath, system_separators, FILE_EXTENSION_NAME_SEPARATORS);
+	public static String getNameNoExtension(String filePath) {
+		if ((null != filePath)) {
+			int pathSeparatorLen = 1;
+			String extensionNameSeparator = top.fols.atri.io.Filex.FILE_EXTENSION_NAME_SEPARATORS;
+			int dot = Strings.lastIndexOfChar(filePath, separatorChars);
+			if (dot > -1) {
+				int dot2 = filePath.lastIndexOf(extensionNameSeparator);
+				if (dot2 > dot) { // dot2 > -1
+					return filePath.substring(dot + pathSeparatorLen, dot2);
+				} else {// dot2 <= -1
+					return filePath.substring(dot + pathSeparatorLen, filePath.length());
+				}
+			} else {
+				int dot2 = filePath.lastIndexOf(extensionNameSeparator);
+				if (dot2 > -1) {
+					return filePath.substring(0, dot2);
+				} else {
+					return filePath;
+				}
+			}
+		}
+		return null;
 	}
 	/*
 	 * 获得 文件名 不带带后缀

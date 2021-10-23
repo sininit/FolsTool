@@ -1,0 +1,3 @@
+
+XStaticFixedValue
+XProperties

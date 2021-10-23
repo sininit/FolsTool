@@ -18,7 +18,7 @@
 
 package top.fols.atri.assist.json;
 
-import top.fols.atri.util.interfaces.InnerMap;
+import top.fols.atri.util.interfaces.IInnerMap;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,7 +82,7 @@ import java.util.Set;
  * <i>Effective Java</i> Item 17, "Design and Document or inheritance or else
  * prohibit it" for further information.
  */
-public class JSONObject implements InnerMap {
+public class JSONObject implements IInnerMap {
 
     private static final Double NEGATIVE_ZERO = -0d;
 

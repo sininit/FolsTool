@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import top.fols.atri.lang.*;
 import top.fols.atri.reflect.*;
+import top.fols.atri.util.abstracts.ABitsOptions;
 import top.fols.box.io.base.XByteArrayInputStream;
 import top.fols.box.lang.XClass;
 import top.fols.box.net.Requests;
@@ -14,10 +15,12 @@ import top.fols.box.time.XTimeConsum;
 import top.fols.atri.assist.json.JSONObject;
 
 
+
 @SuppressWarnings({"ConstantConditions"})
 public class Main extends k {
     public static void main(String[] args) throws Throwable {
-
+        System.out.println(ABitsOptions.BIG_ENDIAN);
+        if (true) { return; }
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"
                 , "src"
@@ -347,4 +350,16 @@ public class Main extends k {
 
 
 
+}
+
+
+abstract class k {
+
+    int df, tt, yh, dd, ghji, ttfgg, fryh, dedcvhu, rrtgv;
+
+    public abstract void v();
+
+    protected void dddd() {
+        System.out.println();
+    }
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import top.fols.atri.lang.Finals;
-import top.fols.atri.util.interfaces.InnerMap;
+import top.fols.atri.util.interfaces.IInnerMap;
 import top.fols.box.annotation.BaseAnnotations;
 import top.fols.box.io.base.XStringReader;
 import top.fols.box.util.XArrays;
@@ -25,7 +25,7 @@ import top.fols.atri.util.BlurryKey.IgnoreCaseKey;
  */
 
 @SuppressWarnings({"unchecked", "UnusedReturnValue", "CharsetObjectCanBeUsed"})
-public class MessageHeader implements Serializable, InnerMap<IgnoreCaseKey<String>, List<String>> {
+public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<String>, List<String>> {
     private static final long serialVersionUID = 1L;
 
 

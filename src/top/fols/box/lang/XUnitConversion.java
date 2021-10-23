@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import top.fols.atri.util.DoubleLinked;
-import top.fols.box.util.XCollections;
+import top.fols.box.util.Collectionz;
 
 public class XUnitConversion {
 
@@ -98,7 +98,7 @@ public class XUnitConversion {
 			list.add(sort);
 		}
 
-		XCollections.sort(list, new Comparator<Sort>() {
+		Collectionz.sort(list, new Comparator<Sort>() {
                 @Override
                 public int compare(Sort p1, Sort p2) {
                     // TODO: Implement this method

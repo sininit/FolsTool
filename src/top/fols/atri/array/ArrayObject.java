@@ -207,9 +207,10 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 					object.getClass().isArray() ||
 					object instanceof ArrayObject ||
 
-					object instanceof CharSequence ||
-//					object instanceof StringBuilder ||
-					object instanceof AbstractList;
+					object instanceof AbstractList
+//					object instanceof CharSequence ||
+//					object instanceof StringBuilder
+					;
 	}
 
 	public static ArrayObject<boolean[]> 				wrap(boolean[] object) { return null == object ?null: new BooleanArrayObject(object); }
@@ -227,8 +228,8 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 
 
 	public static <T extends Object> ArrayObject<List<T>> 				wrap(List<T> object) 			{ return null == object ?null: new ListArrayObject<> (object); }
-	public static <T extends StringBuilder> ArrayObject<StringBuilder> 	wrap(StringBuilder object) 		{ return null == object ?null: new StringBuilderObject<> (object); }
-	public static <T extends CharSequence>  ArrayObject<CharSequence> 	wrap(CharSequence object) 		{ return null == object ?null: new CharSequenceObject<> (object); }
+//	public static <T extends StringBuilder> ArrayObject<StringBuilder> 	wrap(StringBuilder object) 		{ return null == object ?null: new StringBuilderObject<> (object); }
+//	public static <T extends CharSequence>  ArrayObject<CharSequence> 	wrap(CharSequence object) 		{ return null == object ?null: new CharSequenceObject<> (object); }
 
 
 	public static ArrayObject 							wrap(Object object) {
@@ -261,8 +262,8 @@ public abstract class ArrayObject< T extends Object> implements Releasable {
 			if (object instanceof ArrayObject) { return (ArrayObject) object; }
 
 			if (object instanceof AbstractList) 	{ return wrap((AbstractList) object); }
-			if (object instanceof StringBuilder) 	{ return wrap((StringBuilder) object); }
-			if (object instanceof CharSequence) 	{ return wrap((CharSequence) object); }
+//			if (object instanceof StringBuilder) 	{ return wrap((StringBuilder) object); }
+//			if (object instanceof CharSequence) 	{ return wrap((CharSequence) object); }
 		}
 		throw new ClassCastException(object.getClass().getName() + " cannot parsing");
 	}

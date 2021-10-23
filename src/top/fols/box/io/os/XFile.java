@@ -29,7 +29,7 @@ public class XFile implements Closeable, Serializable {
 
 
 
-	private String path;
+	private final String path;
 
 	private transient File file0;
 	private transient XRandomAccessFileOutputStream raf0;

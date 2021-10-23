@@ -12,9 +12,7 @@ import java.util.Arrays;
 
 import top.fols.box.io.base.XInputStreamFixedLength;
 import top.fols.box.io.os.XRandomAccessFileInputStream;
-import top.fols.box.lang.XBitsBigEndian;
-import top.fols.box.lang.XBitsLittleEndian;
-import top.fols.box.lang.abstracts.XBitsOptionAbstract;
+import top.fols.atri.util.abstracts.ABitsOptions;
 
 public class XByteEncode {
 
@@ -67,21 +65,21 @@ public class XByteEncode {
 		 * data
 		 */
 		@Override
-		public long charsLenToBytesLen(long length) { return length * XBitsOptionAbstract.BIG_ENDIAN.char_byte_length; }
+		public long charsLenToBytesLen(long length) { return length * ABitsOptions.BIG_ENDIAN.char_byte_length; }
 		@Override
-		public long bytesLenToCharsLen(long length) { return length / XBitsOptionAbstract.BIG_ENDIAN.char_byte_length; }
+		public long bytesLenToCharsLen(long length) { return length / ABitsOptions.BIG_ENDIAN.char_byte_length; }
 		@Override
-		public int charsLenToBytesLen(int length) { return length * XBitsOptionAbstract.BIG_ENDIAN.char_byte_length; }
+		public int charsLenToBytesLen(int length) { return length * ABitsOptions.BIG_ENDIAN.char_byte_length; }
 		@Override
-		public int bytesLenToCharsLen(int length) { return length / XBitsOptionAbstract.BIG_ENDIAN.char_byte_length; }
+		public int bytesLenToCharsLen(int length) { return length / ABitsOptions.BIG_ENDIAN.char_byte_length; }
 
 		@Override
 		public void putCharsToBytes(char[] chars, int charsOff, int charsLen, byte[] bytes, int bytesOff) {
 			int coff = charsOff;
 			int boff = bytesOff;
 			for (int i = 0; i < charsLen; i++) {
-				XBitsOptionAbstract.BIG_ENDIAN.putBytes(bytes, boff, chars[coff++]);
-				boff += XBitsOptionAbstract.BIG_ENDIAN.char_byte_length;
+				ABitsOptions.BIG_ENDIAN.putBytes(bytes, boff, chars[coff++]);
+				boff += ABitsOptions.BIG_ENDIAN.char_byte_length;
 			}
 		}
 
@@ -90,8 +88,8 @@ public class XByteEncode {
 			int coff = charsOff;
 			int boff = bytesOff;
 			for (int i = 0; i < charsLen; i++) {
-				XBitsOptionAbstract.BIG_ENDIAN.putBytes(bytes, boff, chars.charAt(coff++));
-				boff += XBitsOptionAbstract.BIG_ENDIAN.char_byte_length;
+				ABitsOptions.BIG_ENDIAN.putBytes(bytes, boff, chars.charAt(coff++));
+				boff += ABitsOptions.BIG_ENDIAN.char_byte_length;
 			}
 		}
 
@@ -100,19 +98,19 @@ public class XByteEncode {
 			int coff = charsOff;
 			int boff = bytesOff;
 			for (int i = 0; i < charsLen; i++) {
-				chars[coff++] = XBitsOptionAbstract.BIG_ENDIAN.getChar(bytes, boff);
-				boff += XBitsOptionAbstract.BIG_ENDIAN.char_byte_length;
+				chars[coff++] = ABitsOptions.BIG_ENDIAN.getChar(bytes, boff);
+				boff += ABitsOptions.BIG_ENDIAN.char_byte_length;
 			}
 		}
 
 		@Override
 		public void putChar(byte[] bytes, int bytesOff, char ch) {
-			XBitsOptionAbstract.BIG_ENDIAN.putBytes(bytes, bytesOff, ch);
+			ABitsOptions.BIG_ENDIAN.putBytes(bytes, bytesOff, ch);
 		}
 
 		@Override
 		public char getChar(byte[] bytes, int bytesOff) {
-			return XBitsOptionAbstract.BIG_ENDIAN.getChar(bytes, bytesOff);
+			return ABitsOptions.BIG_ENDIAN.getChar(bytes, bytesOff);
 		}
 	}
 	public static class LittleEndianUnicode extends UnicodeOption {
@@ -128,21 +126,21 @@ public class XByteEncode {
 		 * data
 		 */
 		@Override
-		public long charsLenToBytesLen(long length) { return length * XBitsOptionAbstract.LITTLE_ENDIAN.char_byte_length; }
+		public long charsLenToBytesLen(long length) { return length * ABitsOptions.LITTLE_ENDIAN.char_byte_length; }
 		@Override
-		public long bytesLenToCharsLen(long length) { return length / XBitsOptionAbstract.LITTLE_ENDIAN.char_byte_length; }
+		public long bytesLenToCharsLen(long length) { return length / ABitsOptions.LITTLE_ENDIAN.char_byte_length; }
 		@Override
-		public int charsLenToBytesLen(int length) { return length * XBitsOptionAbstract.LITTLE_ENDIAN.char_byte_length; }
+		public int charsLenToBytesLen(int length) { return length * ABitsOptions.LITTLE_ENDIAN.char_byte_length; }
 		@Override
-		public int bytesLenToCharsLen(int length) { return length / XBitsOptionAbstract.LITTLE_ENDIAN.char_byte_length; }
+		public int bytesLenToCharsLen(int length) { return length / ABitsOptions.LITTLE_ENDIAN.char_byte_length; }
 
 		@Override
 		public void putCharsToBytes(char[] chars, int charsOff, int charsLen, byte[] bytes, int bytesOff) {
 			int coff = charsOff;
 			int boff = bytesOff;
 			for (int i = 0; i < charsLen; i++) {
-				XBitsOptionAbstract.LITTLE_ENDIAN.putBytes(bytes, boff, chars[coff++]);
-				boff += XBitsOptionAbstract.LITTLE_ENDIAN.char_byte_length;
+				ABitsOptions.LITTLE_ENDIAN.putBytes(bytes, boff, chars[coff++]);
+				boff += ABitsOptions.LITTLE_ENDIAN.char_byte_length;
 			}
 		}
 
@@ -151,8 +149,8 @@ public class XByteEncode {
 			int coff = charsOff;
 			int boff = bytesOff;
 			for (int i = 0; i < charsLen; i++) {
-				XBitsOptionAbstract.LITTLE_ENDIAN.putBytes(bytes, boff, chars.charAt(coff++));
-				boff += XBitsOptionAbstract.LITTLE_ENDIAN.char_byte_length;
+				ABitsOptions.LITTLE_ENDIAN.putBytes(bytes, boff, chars.charAt(coff++));
+				boff += ABitsOptions.LITTLE_ENDIAN.char_byte_length;
 			}
 		}
 
@@ -161,19 +159,19 @@ public class XByteEncode {
 			int coff = charsOff;
 			int boff = bytesOff;
 			for (int i = 0; i < charsLen; i++) {
-				chars[coff++] = XBitsOptionAbstract.LITTLE_ENDIAN.getChar(bytes, boff);
-				boff += XBitsOptionAbstract.LITTLE_ENDIAN.char_byte_length;
+				chars[coff++] = ABitsOptions.LITTLE_ENDIAN.getChar(bytes, boff);
+				boff += ABitsOptions.LITTLE_ENDIAN.char_byte_length;
 			}
 		}
 
 		@Override
 		public void putChar(byte[] bytes, int bytesOff, char ch) {
-			XBitsOptionAbstract.LITTLE_ENDIAN.putBytes(bytes, bytesOff, ch);
+			ABitsOptions.LITTLE_ENDIAN.putBytes(bytes, bytesOff, ch);
 		}
 
 		@Override
 		public char getChar(byte[] bytes, int bytesOff) {
-			return XBitsOptionAbstract.LITTLE_ENDIAN.getChar(bytes, bytesOff);
+			return ABitsOptions.LITTLE_ENDIAN.getChar(bytes, bytesOff);
 		}
 	}
 

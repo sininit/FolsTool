@@ -81,6 +81,16 @@ public class URLConnections {
 		}
 
 
+		public String getResponseLocation() {
+			String location = getResponseHeader().get(MessageHeader.RESPONSE_HEADER_LOCATION);
+			return location;
+		}
+		public String getURL() {
+			return getURLConnection().getURL().toExternalForm();
+		}
+
+
+
 
 		public URLConnectionUtil messageHeader(String Content) {
 			return this.messageHeader(new MessageHeader(Content));

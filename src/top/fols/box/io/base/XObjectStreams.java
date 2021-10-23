@@ -20,7 +20,7 @@ import java.util.WeakHashMap;
 import top.fols.atri.io.Streams;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.reflect.Reflects;
-import top.fols.box.lang.abstracts.XBitsOptionAbstract;
+import top.fols.atri.util.abstracts.ABitsOptions;
 import top.fols.box.util.XByteEncode;
 
 
@@ -707,13 +707,13 @@ public final class XObjectStreams implements Flushable {
     }
 
     // 及时写入的数据不存在残留
-    transient byte[] writeCache = new byte[XBitsOptionAbstract.BIG_ENDIAN.MAX_DATA_LENGTH()];
+    transient byte[] writeCache = new byte[ABitsOptions.BIG_ENDIAN.MAX_DATA_LENGTH()];
 
     public void writeBoolean(boolean value) throws IOException {
         this.writeType0(READ_TYPE_BOOLEAN);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.boolean_byte_length;
-        XBitsOptionAbstract.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.boolean_byte_length;
+        ABitsOptions.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
         os.write(this.writeCache, off, length);
     }
 
@@ -730,12 +730,12 @@ public final class XObjectStreams implements Flushable {
             boolean temp = value[voff + vlen - 1];
         }
         this.writeType0(READ_TYPE_BOOLEAN_ARRAY);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(vlen));
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(vlen));
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.boolean_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.boolean_byte_length;
         byte[] buf = new byte[length * vlen];
         for (int i = 0; i < vlen; i++) {
-            XBitsOptionAbstract.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
+            ABitsOptions.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
             off += length;
         }
         os.write(buf);
@@ -745,8 +745,8 @@ public final class XObjectStreams implements Flushable {
     public void writeChar(char value) throws IOException {
         this.writeType0(READ_TYPE_CHAR);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.char_byte_length;
-        XBitsOptionAbstract.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.char_byte_length;
+        ABitsOptions.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
         os.write(this.writeCache, off, length);
     }
 
@@ -763,12 +763,12 @@ public final class XObjectStreams implements Flushable {
             char temp = value[voff + vlen - 1];
         }
         this.writeType0(READ_TYPE_CHAR_ARRAY);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(vlen));
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(vlen));
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.char_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.char_byte_length;
         byte[] buf = new byte[length * vlen];
         for (int i = 0; i < vlen; i++) {
-            XBitsOptionAbstract.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
+            ABitsOptions.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
             off += length;
         }
         os.write(buf);
@@ -778,8 +778,8 @@ public final class XObjectStreams implements Flushable {
     public void writeShort(short value) throws IOException {
         this.writeType0(READ_TYPE_SHORT);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.short_byte_length;
-        XBitsOptionAbstract.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.short_byte_length;
+        ABitsOptions.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
         os.write(this.writeCache, off, length);
     }
 
@@ -796,12 +796,12 @@ public final class XObjectStreams implements Flushable {
             short temp = value[voff + vlen - 1];
         }
         this.writeType0(READ_TYPE_SHORT_ARRAY);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(vlen));
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(vlen));
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.short_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.short_byte_length;
         byte[] buf = new byte[length * vlen];
         for (int i = 0; i < vlen; i++) {
-            XBitsOptionAbstract.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
+            ABitsOptions.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
             off += length;
         }
         os.write(buf);
@@ -811,8 +811,8 @@ public final class XObjectStreams implements Flushable {
     public void writeInt(int value) throws IOException {
         this.writeType0(READ_TYPE_INT);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.int_byte_length;
-        XBitsOptionAbstract.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.int_byte_length;
+        ABitsOptions.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
         os.write(this.writeCache, off, length);
     }
 
@@ -829,12 +829,12 @@ public final class XObjectStreams implements Flushable {
             int temp = value[voff + vlen - 1];
         }
         this.writeType0(READ_TYPE_INT_ARRAY);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(vlen));
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(vlen));
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.int_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.int_byte_length;
         byte[] buf = new byte[length * vlen];
         for (int i = 0; i < vlen; i++) {
-            XBitsOptionAbstract.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
+            ABitsOptions.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
             off += length;
         }
         os.write(buf);
@@ -844,8 +844,8 @@ public final class XObjectStreams implements Flushable {
     public void writeFloat(float value) throws IOException {
         this.writeType0(READ_TYPE_FLOAT);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.float_byte_length;
-        XBitsOptionAbstract.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.float_byte_length;
+        ABitsOptions.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
         os.write(this.writeCache, off, length);
     }
 
@@ -862,12 +862,12 @@ public final class XObjectStreams implements Flushable {
             float temp = value[voff + vlen - 1];
         }
         this.writeType0(READ_TYPE_FLOAT_ARRAY);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(vlen));
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(vlen));
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.float_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.float_byte_length;
         byte[] buf = new byte[length * vlen];
         for (int i = 0; i < vlen; i++) {
-            XBitsOptionAbstract.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
+            ABitsOptions.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
             off += length;
         }
         os.write(buf);
@@ -877,8 +877,8 @@ public final class XObjectStreams implements Flushable {
     public void writeLong(long value) throws IOException {
         this.writeType0(READ_TYPE_LONG);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.long_byte_length;
-        XBitsOptionAbstract.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.long_byte_length;
+        ABitsOptions.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
         os.write(this.writeCache, off, length);
     }
 
@@ -895,12 +895,12 @@ public final class XObjectStreams implements Flushable {
             long temp = value[voff + vlen - 1];
         }
         this.writeType0(READ_TYPE_LONG_ARRAY);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(vlen));
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(vlen));
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.long_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.long_byte_length;
         byte[] buf = new byte[length * vlen];
         for (int i = 0; i < vlen; i++) {
-            XBitsOptionAbstract.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
+            ABitsOptions.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
             off += length;
         }
         os.write(buf);
@@ -910,8 +910,8 @@ public final class XObjectStreams implements Flushable {
     public void writeDouble(double value) throws IOException {
         this.writeType0(READ_TYPE_DOUBLE);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.double_byte_length;
-        XBitsOptionAbstract.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.double_byte_length;
+        ABitsOptions.BIG_ENDIAN.putBytes(this.writeCache, 0, value);
         os.write(this.writeCache, off, length);
     }
 
@@ -928,12 +928,12 @@ public final class XObjectStreams implements Flushable {
             double temp = value[voff + vlen - 1];
         }
         this.writeType0(READ_TYPE_DOUBLE_ARRAY);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(vlen));
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(vlen));
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.double_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.double_byte_length;
         byte[] buf = new byte[length * vlen];
         for (int i = 0; i < vlen; i++) {
-            XBitsOptionAbstract.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
+            ABitsOptions.BIG_ENDIAN.putBytes(buf, off, value[voff + i]);
             off += length;
         }
         os.write(buf);
@@ -958,7 +958,7 @@ public final class XObjectStreams implements Flushable {
             byte temp = value[voff + vlen - 1];
         }
         this.writeType0(READ_TYPE_BYTE_ARRAY);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(vlen));
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(vlen));
         os.write(value, voff, vlen);
     }
 
@@ -972,7 +972,7 @@ public final class XObjectStreams implements Flushable {
         XByteEncode.UnicodeOption.BIG_ENDIAN.putCharsToBytes(value, 0, charlen, bytes, 0);
 
         this.writeType0(READ_TYPE_CHARS);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(charlen));// write length
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(charlen));// write length
         os.write(bytes);// write data
 
         bytes = null;
@@ -991,7 +991,7 @@ public final class XObjectStreams implements Flushable {
             String temp = value[voff + vlen - 1];
         }
         this.writeType0(READ_TYPE_CHARS_ARRAY);
-        os.write(XBitsOptionAbstract.BIG_ENDIAN.getBytes(vlen));
+        os.write(ABitsOptions.BIG_ENDIAN.getBytes(vlen));
         for (int i = 0; i < vlen; i++) {
             this.writeChars(value[voff + i]);
         }
@@ -1165,7 +1165,7 @@ public final class XObjectStreams implements Flushable {
 
 
     // 及时读取的数据不存在残留
-    transient byte[] readCache = new byte[XBitsOptionAbstract.BIG_ENDIAN.MAX_DATA_LENGTH()];
+    transient byte[] readCache = new byte[ABitsOptions.BIG_ENDIAN.MAX_DATA_LENGTH()];
 
     // require read data
     int readToCacheFixedLength(InputStream is, int len) throws IOException {
@@ -1228,8 +1228,8 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(this.readType0(), READ_TYPE_BOOLEAN);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.boolean_byte_length);
-        return XBitsOptionAbstract.BIG_ENDIAN.getBoolean(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.boolean_byte_length);
+        return ABitsOptions.BIG_ENDIAN.getBoolean(this.readCache, 0);
     }
 
     public boolean[] readBooleanArray() throws IOException {
@@ -1240,15 +1240,15 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(type, READ_TYPE_BOOLEAN_ARRAY);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int arrlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int arrlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.boolean_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.boolean_byte_length;
         byte[] bytes = this.readFixedLength(is, arrlen * length);
 
         boolean[] arr = new boolean[arrlen];
         for (int i = 0; i < arrlen; i++) {
-            arr[i] = XBitsOptionAbstract.BIG_ENDIAN.getBoolean(bytes, off);
+            arr[i] = ABitsOptions.BIG_ENDIAN.getBoolean(bytes, off);
             off += length;
         }
         bytes = null;
@@ -1259,8 +1259,8 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(this.readType0(), READ_TYPE_CHAR);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.char_byte_length);
-        return XBitsOptionAbstract.BIG_ENDIAN.getChar(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.char_byte_length);
+        return ABitsOptions.BIG_ENDIAN.getChar(this.readCache, 0);
     }
 
     public char[] readCharArray() throws IOException {
@@ -1271,15 +1271,15 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(type, READ_TYPE_CHAR_ARRAY);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int arrlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int arrlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.char_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.char_byte_length;
         byte[] bytes = this.readFixedLength(is, arrlen * length);
 
         char[] arr = new char[arrlen];
         for (int i = 0; i < arrlen; i++) {
-            arr[i] = XBitsOptionAbstract.BIG_ENDIAN.getChar(bytes, off);
+            arr[i] = ABitsOptions.BIG_ENDIAN.getChar(bytes, off);
             off += length;
         }
         bytes = null;
@@ -1290,8 +1290,8 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(this.readType0(), READ_TYPE_SHORT);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.short_byte_length);
-        return XBitsOptionAbstract.BIG_ENDIAN.getShort(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.short_byte_length);
+        return ABitsOptions.BIG_ENDIAN.getShort(this.readCache, 0);
     }
 
     public short[] readShortArray() throws IOException {
@@ -1302,15 +1302,15 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(type, READ_TYPE_SHORT_ARRAY);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int arrlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int arrlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.short_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.short_byte_length;
         byte[] bytes = this.readFixedLength(is, arrlen * length);
 
         short[] arr = new short[arrlen];
         for (int i = 0; i < arrlen; i++) {
-            arr[i] = XBitsOptionAbstract.BIG_ENDIAN.getShort(bytes, off);
+            arr[i] = ABitsOptions.BIG_ENDIAN.getShort(bytes, off);
             off += length;
         }
         bytes = null;
@@ -1321,8 +1321,8 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(this.readType0(), READ_TYPE_INT);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        return XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        return ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
     }
 
     public int[] readIntArray() throws IOException {
@@ -1333,15 +1333,15 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(type, READ_TYPE_INT_ARRAY);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int arrlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int arrlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.int_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.int_byte_length;
         byte[] bytes = this.readFixedLength(is, arrlen * length);
 
         int[] arr = new int[arrlen];
         for (int i = 0; i < arrlen; i++) {
-            arr[i] = XBitsOptionAbstract.BIG_ENDIAN.getInt(bytes, off);
+            arr[i] = ABitsOptions.BIG_ENDIAN.getInt(bytes, off);
             off += length;
         }
         bytes = null;
@@ -1352,8 +1352,8 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(this.readType0(), READ_TYPE_FLOAT);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.float_byte_length);
-        return XBitsOptionAbstract.BIG_ENDIAN.getFloat(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.float_byte_length);
+        return ABitsOptions.BIG_ENDIAN.getFloat(this.readCache, 0);
     }
 
     public float[] readFloatArray() throws IOException {
@@ -1364,15 +1364,15 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(type, READ_TYPE_FLOAT_ARRAY);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int arrlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int arrlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.float_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.float_byte_length;
         byte[] bytes = this.readFixedLength(is, arrlen * length);
 
         float[] arr = new float[arrlen];
         for (int i = 0; i < arrlen; i++) {
-            arr[i] = XBitsOptionAbstract.BIG_ENDIAN.getFloat(bytes, off);
+            arr[i] = ABitsOptions.BIG_ENDIAN.getFloat(bytes, off);
             off += length;
         }
         bytes = null;
@@ -1383,8 +1383,8 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(this.readType0(), READ_TYPE_LONG);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.long_byte_length);
-        return XBitsOptionAbstract.BIG_ENDIAN.getLong(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.long_byte_length);
+        return ABitsOptions.BIG_ENDIAN.getLong(this.readCache, 0);
     }
 
     public long[] readLongArray() throws IOException {
@@ -1395,15 +1395,15 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(type, READ_TYPE_LONG_ARRAY);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int arrlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int arrlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.long_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.long_byte_length;
         byte[] bytes = this.readFixedLength(is, arrlen * length);
 
         long[] arr = new long[arrlen];
         for (int i = 0; i < arrlen; i++) {
-            arr[i] = XBitsOptionAbstract.BIG_ENDIAN.getLong(bytes, off);
+            arr[i] = ABitsOptions.BIG_ENDIAN.getLong(bytes, off);
             off += length;
         }
         bytes = null;
@@ -1414,8 +1414,8 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(this.readType0(), READ_TYPE_DOUBLE);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.double_byte_length);
-        return XBitsOptionAbstract.BIG_ENDIAN.getDouble(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.double_byte_length);
+        return ABitsOptions.BIG_ENDIAN.getDouble(this.readCache, 0);
     }
 
     public double[] readDoubleArray() throws IOException {
@@ -1426,15 +1426,15 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(type, READ_TYPE_DOUBLE_ARRAY);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int arrlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int arrlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
-        int off = 0, length = XBitsOptionAbstract.BIG_ENDIAN.double_byte_length;
+        int off = 0, length = ABitsOptions.BIG_ENDIAN.double_byte_length;
         byte[] bytes = this.readFixedLength(is, arrlen * length);
 
         double[] arr = new double[arrlen];
         for (int i = 0; i < arrlen; i++) {
-            arr[i] = XBitsOptionAbstract.BIG_ENDIAN.getDouble(bytes, off);
+            arr[i] = ABitsOptions.BIG_ENDIAN.getDouble(bytes, off);
             off += length;
         }
         bytes = null;
@@ -1457,8 +1457,8 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(type, READ_TYPE_BYTE_ARRAY);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int arrlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int arrlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
         int length = 1;
         byte[] bytes = this.readFixedLength(is, arrlen * length);
@@ -1474,8 +1474,8 @@ public final class XObjectStreams implements Flushable {
         this.requireType0(type, READ_TYPE_CHARS);
         this.isLastReadType = false;
 
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int charlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int charlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
         char[] chars = new char[charlen];
         byte[] readData = this.readFixedLength(is, XByteEncode.UnicodeOption.BIG_ENDIAN.charsLenToBytesLen(charlen));
@@ -1495,8 +1495,8 @@ public final class XObjectStreams implements Flushable {
         this.isLastReadType = false;
 
         // 获取数组长度
-        this.readToCacheFixedLength(is, XBitsOptionAbstract.BIG_ENDIAN.int_byte_length);
-        int arrlen = XBitsOptionAbstract.BIG_ENDIAN.getInt(this.readCache, 0);
+        this.readToCacheFixedLength(is, ABitsOptions.BIG_ENDIAN.int_byte_length);
+        int arrlen = ABitsOptions.BIG_ENDIAN.getInt(this.readCache, 0);
 
         String[] arr = new String[arrlen];
         for (int i = 0; i < arrlen; i++) {
