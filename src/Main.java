@@ -19,8 +19,6 @@ import top.fols.atri.assist.json.JSONObject;
 @SuppressWarnings({"ConstantConditions"})
 public class Main extends k {
     public static void main(String[] args) throws Throwable {
-        System.out.println(ABitsOptions.BIG_ENDIAN);
-        if (true) { return; }
         Compiler.start(
                 "C:\\Program Files\\Java\\jdk1.8.0_212\\bin"
                 , "src"

@@ -1,9 +1,12 @@
-package top.fols.atri.lang;
+package top.fols.box.lang;
 
 import top.fols.atri.io.ByteBufferOutputStream;
+import top.fols.atri.io.ByteLines;
 import top.fols.atri.io.buffer.BufferFilter;
 import top.fols.atri.io.buffer.bytes.ByteBufferFilter;
 import top.fols.atri.io.buffer.bytes.ByteBufferOperate;
+import top.fols.atri.lang.Finals;
+import top.fols.atri.lang.Strings;
 import top.fols.box.io.base.XByteArrayOutputStream;
 import top.fols.box.io.base.XInputStreamLine;
 import top.fols.box.io.base.XStringWriter;
@@ -419,12 +422,12 @@ public class ProcessExecutor {
 
 
 
-        ByteBufferInputStream<InputStream> bufferInputStream;
-        public ByteBufferInputStream<InputStream> getBufferInputStream() { return null == this.bufferInputStream?this.bufferInputStream = new ByteBufferInputStream(this.getInputStream()): this.bufferInputStream; }
+        ByteLines<InputStream> bufferInputStream;
+        public ByteLines<InputStream> getBufferInputStream() { return null == this.bufferInputStream?this.bufferInputStream = new ByteLines(this.getInputStream()): this.bufferInputStream; }
         public int getInputStreamAvailable() { try { return this.getBufferInputStream().available(); } catch (IOException e) { return 0; } }
 
         public byte[] readInputLine() throws IOException {
-            ByteBufferInputStream<InputStream> bufferInputStream = this.getBufferInputStream();
+            ByteLines<InputStream> bufferInputStream = this.getBufferInputStream();
             byte[] bytes = bufferInputStream.readLine();
             return bytes;
         }
@@ -433,7 +436,7 @@ public class ProcessExecutor {
             return toString(bytes);
         }
         public byte[] readInputAll() throws IOException {
-            ByteBufferInputStream<InputStream> b = this.getBufferInputStream();
+            ByteLines<InputStream> b = this.getBufferInputStream();
             ByteBufferOperate byteArrayBuffer = new ByteBufferOperate() {
                 @Override
                 public int stream_read(byte[] buf, int off, int len) throws IOException {
@@ -457,13 +460,13 @@ public class ProcessExecutor {
         }
 
 
-        ByteBufferInputStream<InputStream> bufferErrorStream;
-        public ByteBufferInputStream<InputStream> getBufferErrorStream() {return null == this.bufferErrorStream?this.bufferErrorStream = new ByteBufferInputStream<InputStream>(this.getErrorStream()): this.bufferErrorStream; }
+        ByteLines<InputStream> bufferErrorStream;
+        public ByteLines<InputStream> getBufferErrorStream() {return null == this.bufferErrorStream?this.bufferErrorStream = new ByteLines<InputStream>(this.getErrorStream()): this.bufferErrorStream; }
         public int getErrorStreamAvailable() { try { return this.getBufferErrorStream().available(); } catch (IOException e) { return 0; }}
 
 
         public byte[] readErrorLine() throws IOException {
-            ByteBufferInputStream<InputStream> bufferInputStream = this.getBufferErrorStream();
+            ByteLines<InputStream> bufferInputStream = this.getBufferErrorStream();
             byte[] bytes = bufferInputStream.readLine();
             return bytes;
         }
@@ -472,7 +475,7 @@ public class ProcessExecutor {
             return toString(bytes);
         }
         public byte[] readErrorAll() throws IOException {
-            ByteBufferInputStream<InputStream> b = this.getBufferErrorStream();
+            ByteLines<InputStream> b = this.getBufferErrorStream();
             ByteBufferOperate byteArrayBuffer = new ByteBufferOperate() {
                 @Override
                 public int stream_read(byte[] buf, int off, int len) throws IOException {
@@ -564,110 +567,6 @@ public class ProcessExecutor {
         }
 
 
-
-
-
-
-
-        public static class ByteBufferInputStream<T extends InputStream> extends InputStream implements top.fols.box.io.interfaces.XInterfaceGetInnerStream<T> {
-            private int mark;
-            private int markLimit;
-            private ByteBufferOperate buffer;
-            private T inputStream;
-
-            BufferFilter<byte[]> READ_LINE_FILTER = getReadLineFilter();
-
-            public ByteBufferInputStream(T inputStream) {
-                this.inputStream = inputStream;
-                this.buffer = new ByteBufferOperate() {
-                    @Override
-                    public int stream_read(byte[] buf, int off, int len) throws IOException { return ByteBufferInputStream.this.inputStream.read(buf, off, len); }
-                };
-                this.mark = -1;
-                this.markLimit = 8192;
-            }
-            
-            public byte[] readLine() throws IOException {
-                return this.readLine(true);
-            }
-            public byte[] readLine(boolean addSeparator) throws IOException {
-                byte[] buffer = null;
-                if (!this.buffer.readFilterIFEnd(READ_LINE_FILTER)) {
-                    buffer = READ_LINE_FILTER.result(addSeparator);
-                }
-                if (this.buffer.removeIfOverflow(markLimit)) {
-                    this.mark = -1;
-                }
-                return buffer;
-            }
-
-
-            public int read() throws IOException {
-                int read = this.buffer.read();
-                if (read > -1) {
-                    if (this.buffer.removeIfOverflow(markLimit)) {
-                        this.mark = -1;
-                    }
-                }
-                return read;
-            }
-            public int read(byte[] b) throws IOException {
-                return this.read(b, 0, b.length);
-            }
-            public int read(byte[] b, int off, int len) throws IOException {
-                int read = this.buffer.read(b, off, len);
-                if (read > -1) {
-                    if (this.buffer.removeIfOverflow(markLimit)) {
-                        this.mark = -1;
-                    }
-                }
-                return read;
-            }
-
-            public long skip(long n) throws IOException {
-                if (n < 0) { return 0; }
-                long ki = Math.min(this.buffer.available(), (int) Math.min(n, Integer.MAX_VALUE));
-                this.buffer.positionSkip((int) ki);
-                if (ki != n) {
-                    long s_skip = this.inputStream.skip(n - ki);
-                    ki += s_skip;
-                }
-                return ki;
-            }
-
-            public void close() { this.buffer.remove(); }
-            public void mark(int readlimit) {
-                int position = this.buffer.position();
-                this.markLimit =  position + readlimit;
-                this.mark = position;
-            }
-            public void reset() throws IOException {
-                if (this.mark < 0) {
-                    throw new IOException("Resetting to invalid mark");
-                }
-                this.buffer.position(this.mark);
-            }
-            public boolean markSupported() {
-                return true;
-            }
-
-
-            public int available() throws IOException { return this.buffer.available() + this.inputStream.available(); }
-
-            public ByteBufferOperate buffer() { return this.buffer; }
-            public void releaseBuffer() {
-                // TODO: Implement this method
-                this.buffer.remove();
-            }
-
-            @Override
-            public T getInnerStream() {
-                return this.inputStream;
-            }
-        }
-
-
-
     }
 
 
@@ -744,8 +643,6 @@ public class ProcessExecutor {
         }
         return new String(result.toByteArray(), charset);
     }
-
-
 
 
 }

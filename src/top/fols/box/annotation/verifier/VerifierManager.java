@@ -16,11 +16,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import top.fols.atri.lang.Arrayz;
+import top.fols.atri.lang.Clasz;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.util.TabPrint;
-import top.fols.box.annotation.verifier.annotation.Key;
-import top.fols.box.annotation.verifier.annotation.Keys;
+import top.fols.box.annotation.verifier.annotation.VKey;
+import top.fols.box.annotation.verifier.annotation.VKeys;
 
 
 public class VerifierManager<O extends VerifierObject> {
@@ -49,8 +50,8 @@ public class VerifierManager<O extends VerifierObject> {
 			return Finals.EMPTY_STRING_ARRAY;
 		}
 		List<String> list = new ArrayList<>();
-		Key key   =  (Key) getAnnotation(ae, Key.CLASS);
-		Keys keyw = (Keys) getAnnotation(ae, Keys.CLASS);
+		VKey key   =  (VKey) getAnnotation(ae, VKey.CLASS);
+		VKeys keyw = (VKeys) getAnnotation(ae, VKeys.CLASS);
 		if (null != key) {
 			list.add(key.value());
 		} 
@@ -113,9 +114,9 @@ public class VerifierManager<O extends VerifierObject> {
 	 * annotation 检验器
 	 * 每个annotation必须都有一个唯一的AnnotationVerifier
 	 */
-	public static class AnnotationVerifier<T extends Annotation, O extends VerifierObject> {
+	public static class AnnotationVerifier<T extends Annotation, V, O extends VerifierObject> {
         T annotation;
-        Verifier<T, O> annotationVerifier;
+        Verifier<T, V, O> annotationVerifier;
 
 
         /**
@@ -125,7 +126,7 @@ public class VerifierManager<O extends VerifierObject> {
         public volatile Object tag;
 
 
-        public AnnotationVerifier(T annotation, Verifier<T, O> requireVerifier) {
+        public AnnotationVerifier(T annotation, Verifier<T, V, O> requireVerifier) {
             this.annotation = annotation;
             this.annotationVerifier = requireVerifier;
         }
@@ -133,7 +134,7 @@ public class VerifierManager<O extends VerifierObject> {
         public T annotation() {
             return annotation;
         }
-        public Verifier<T, O> annotationVerifier() {
+        public Verifier<T, V, O> annotationVerifier() {
             return annotationVerifier;
         }
 
@@ -165,9 +166,9 @@ public class VerifierManager<O extends VerifierObject> {
         }
 
         @Override
-        public AnnotationVerifier<T, O> clone() {
+        public AnnotationVerifier<T, V, O> clone() {
             // TODO: Implement this method
-            AnnotationVerifier<T, O> instance = new AnnotationVerifier<T, O>(this.annotation, this.annotationVerifier);
+            AnnotationVerifier<T, V, O> instance = new AnnotationVerifier<T, V, O>(this.annotation, this.annotationVerifier);
             instance.tag = null;
             return instance;
         }
@@ -217,12 +218,13 @@ public class VerifierManager<O extends VerifierObject> {
 				MethodExecutor.parse(method):
 				methodExecutor;
 		}
-
         public Method getMappingMethod() { return this.method0; }
         public boolean isMappingMethod() {
             return null != this.method0;
         }
-		public MethodExecutor getMethodInvoke() { return this.executor; }
+
+
+		public MethodExecutor getMethodExecutor() { return this.executor; }
 
 
 
@@ -280,8 +282,41 @@ public class VerifierManager<O extends VerifierObject> {
 
 
 	public static class DynamicMapping extends Mapping {
-		public DynamicMapping() {
+		private DynamicMapping() {
 			super.dynamic = true;
+		}
+
+
+		public static DynamicMapping create(Method method, Annotation... annotations) {
+
+			final Map<Class<? extends Annotation>, Annotation> map = new HashMap<>();
+			final Annotation[] clone = annotations.clone();
+
+			for (Annotation annotation: annotations){
+				map.put(annotation.annotationType(), annotation);
+			}
+			Mapping mapping1 = parseMappingElement(new AnnotatedElement() {
+				@SuppressWarnings("unchecked")
+				@Override
+				public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+					return (T) map.get(annotationClass);
+				}
+				@Override
+				public Annotation[] getAnnotations() {
+					return clone;
+				}
+				@Override
+				public Annotation[] getDeclaredAnnotations() {
+					throw new UnsupportedOperationException(getClass().getName());
+				}
+			});
+
+			DynamicMapping methodMappingElement = new DynamicMapping();
+			methodMappingElement.keys = mapping1.keys;
+			methodMappingElement.verifiers = null == methodMappingElement.verifiers ?new MappingVerifier(): methodMappingElement.verifiers;
+			methodMappingElement.verifiers.setMappingMethod(method);
+
+			return methodMappingElement;
 		}
 	}
 	public static class Mapping {
@@ -304,6 +339,7 @@ public class VerifierManager<O extends VerifierObject> {
 		public Method getMethod() {
 			return this.verifiers.getMappingMethod();
 		}
+		public MethodExecutor getMethodExecutor() { return this.verifiers.getMethodExecutor(); }
 
 		public boolean isDynamic() {
 			return this.dynamic;
@@ -369,7 +405,7 @@ public class VerifierManager<O extends VerifierObject> {
         }
         return mapping;
     }
-	protected Mapping parseMappingElement(AnnotatedElement annotatedElement) {
+	protected static Mapping parseMappingElement(AnnotatedElement annotatedElement) {
         if (null == annotatedElement) { return null; }
 
 
@@ -428,7 +464,7 @@ public class VerifierManager<O extends VerifierObject> {
         return null;
     }
 
-	static class MethodExecutor {
+	public static class MethodExecutor {
         Method method;
         int 				paramCount;
         Class[] 			paramTypes;
@@ -439,12 +475,12 @@ public class VerifierManager<O extends VerifierObject> {
             MethodExecutor instance = new MethodExecutor();
             instance.method = method;
 
-            Class[] paramTypes = method.getParameterTypes();
+            Class<?>[] paramTypes = method.getParameterTypes();
 
             instance.paramCount = paramTypes.length;
             instance.paramTypes = paramTypes;
 
-            if (Arrays.equals(paramTypes, new Class[]{VerifierObject.CLASS}) == false) {
+            if (paramTypes.length != 1 || !Clasz.isInstance(paramTypes[0], VerifierObject.CLASS)) {
                 throw new UnsupportedOperationException(String.format("method [%s] parameter needs to match {%s}", method, VerifierObject.CLASS));
             }
             return instance;
@@ -514,6 +550,9 @@ public class VerifierManager<O extends VerifierObject> {
     }
 
 	public boolean removeMapping(Mapping mappingElement) {
+		if (null == mappingElement) {
+			return false;
+		}
         Method method = mappingElement.getMethod();
 		boolean result = false;
 		this.mMappingMethodMap.remove(method);//删除正常注册

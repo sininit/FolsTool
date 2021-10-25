@@ -11,13 +11,6 @@ import java.lang.annotation.Target;
 import top.fols.atri.lang.Arrayz;
 
 
-/**
- * Key 和 Keys 为同一个数据组 称为 Key组
- * Key 组 不可以和子元素Key组 合并 
- * 所以 如果子元素存在 Key组 一定为 子元素的Key组
- * 
- * @see annotation_verifier.annotation.test.TestMain
- */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({
 		ElementType.TYPE,
@@ -29,20 +22,16 @@ import top.fols.atri.lang.Arrayz;
 		ElementType.ANNOTATION_TYPE,
 		ElementType.PACKAGE
 	})
-public @interface Key {
-	String value() default "";
-	
-	
-	public static final Class<Key> CLASS = Key.class;
-	
-	
-	public static final Verifier<Key, VerifierObject> verifier = new Verifier<Key, VerifierObject>(){
-		
+
+public @interface VKeys {
+	String[] value() default {};
+
+	public static final Class<VKeys> CLASS = VKeys.class;
+
+	public static final Verifier<VKeys, String[], VerifierObject> verifier = new Verifier<VKeys, String[], VerifierObject>(){
 		@Override
-		public Key clone(Key that) {
-			// TODO: Implement this method
-		    final String value = that.value();
-			return new Key() {
+		public VKeys newInstance(String[] value) {
+			return new VKeys() {
 				@Override
 				public Class<? extends Annotation> annotationType() {
 					// TODO: Implement this method
@@ -50,11 +39,11 @@ public @interface Key {
 				}
 
 				@Override
-				public String value() {
+				public String[] value() {
 					// TODO: Implement this method
 					return value;
 				}
-				
+
 				@Override
 				public String toString() {
 					// TODO: Implement this method
@@ -64,22 +53,31 @@ public @interface Key {
 		}
 
 		@Override
-		public Key selectMerge(Key parrent, Key cover) {
+		public VKeys clone(VKeys that) {
+			// TODO: Implement this method
+			final String[] value = that.value().clone();
+			return newInstance(value);
+		}
+
+		@Override
+		public VKeys selectMerge(VKeys parrent, VKeys cover) {
 			// TODO: Implement this method
 			return (null != cover) ?cover: parrent;
 		}
-		
-		/**
-		*
-		*/
+
 		@Override
-		public boolean verify(VerifierManager.AnnotationVerifier<Key, VerifierObject> that, VerifierObject object) {
+		public boolean verify(VerifierManager.AnnotationVerifier<VKeys, String[], VerifierObject> that, VerifierObject object) {
 			// TODO: Implement this method
 			return true;
 			
 //			//因为 Key 和 Keys 一起注解时 Key 和Keys都会被用来检验，如果Key和keys不互相包含 则永远返回false
 //			//因为 查询的时候是先检测 key的 所以根本不需要检测！
-//			return that.value().equals(object.key());
+//			for (String key: that.value()) {
+//				if (key.equals(object.key())) {
+//					return true;
+//				}
+//			}
+//			return false;
 		}
 	};
 }

@@ -474,7 +474,9 @@ public class Filez implements IInnerFile {
 	}
 
 
-
+	public ByteLines<FileInputStream> lines() throws FileNotFoundException {
+		return new ByteLines<FileInputStream>(new FileInputStream(innerFile()));
+	}
 
 
 
@@ -567,6 +569,12 @@ public class Filez implements IInnerFile {
 		}
 		return result;
 	}
+
+
+
+
+
+
 
 	@SuppressWarnings("UnusedReturnValue")
 	public static long copyAfterClose(InputStream input, OutputStream output) throws IOException {

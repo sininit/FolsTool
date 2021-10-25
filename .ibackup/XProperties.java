@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 import top.fols.atri.io.Streams;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.util.DoubleLinked;
-import top.fols.atri.util.interfaces.InnerMap;
 import top.fols.box.io.base.XCharArrayWriter;
 import top.fols.box.io.base.XStringWriter;
 import top.fols.box.util.encode.XHexEncoder;
