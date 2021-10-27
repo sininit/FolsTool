@@ -13,7 +13,6 @@ import top.fols.atri.io.Streams;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.lock.Locks;
-import top.fols.atri.net.Cookies;
 import top.fols.atri.net.MessageHeader;
 import top.fols.atri.net.URLBuilder;
 import top.fols.atri.net.URLConnections;
@@ -315,14 +314,9 @@ public class Requests {
 
     public static class Request implements Closeable {
         String method; String url;
-        URLConnections.HttpURLConnectionUtil request;
+        URLConnections.HttpURLConnectionUtil urlConnectionUtil;
 
 
-
-
-        //		public static Request wrap(URLConnections.HttpURLConnectionUtil request) {
-//			return wrap(request, null);
-//		}
         public static Request wrap(URLConnections.HttpURLConnectionUtil request) {
             String method = request.getRequestMethod();
             String url = request.getURLConnection().getURL().toExternalForm();
@@ -332,6 +326,8 @@ public class Requests {
             Request response = new Request(request, method, url, header);
             return response;
         }
+
+
         Request(URLConnections.HttpURLConnectionUtil request,
                 String method, String url,
                 MessageHeader requestHeader) {
@@ -339,7 +335,7 @@ public class Requests {
             this.method = method;
             this.url    = url;
 
-            this.request 	   = request;
+            this.urlConnectionUtil = request;
             this.requestHeader = requestHeader;
 //            this.requestData   = requestData;
         }
@@ -352,7 +348,7 @@ public class Requests {
         @Override
         public void close() {
             // TODO: Implement this method
-            Streams.close(request);
+            Streams.close(urlConnectionUtil);
         }
 
         public int read() throws java.io.IOException {
@@ -401,7 +397,7 @@ public class Requests {
 
 
         public URLConnections.HttpURLConnectionUtil request() {
-            return this.request;
+            return this.urlConnectionUtil;
         }
 
 
@@ -427,7 +423,7 @@ public class Requests {
 
 
         public HttpURLConnection getURLConnection() {
-            return request.getURLConnection();
+            return urlConnectionUtil.getURLConnection();
         }
 
 
@@ -468,20 +464,7 @@ public class Requests {
 
         public Request clone(String url) throws IOException {
             url = Objects.requireNonNull(url, "url");
-
-
             MessageHeader requestHeader = new MessageHeader().putAll(this.getRequestHeader());
-            Cookies requestCookies = requestHeader.getCookies(MessageHeader.REQUEST_HEADER_COOKIE);
-
-
-            MessageHeader responseHeader = getResponseHeader();
-            Cookies responseCookie = responseHeader.getCookies();
-
-            //if set Expires = -1 ...
-            for (String key: responseCookie.keySet()) {
-                requestCookies.put(key, responseCookie.get(key));
-            }
-
             URLConnections.HttpURLConnectionUtil request = new URLConnections.HttpURLConnectionUtil(url);
             request.setRequestMethod(this.request().getRequestMethod());
             request.setInstanceFollowRedirects(this.request().getInstanceFollowRedirects());
@@ -526,7 +509,7 @@ public class Requests {
         public byte[] readBytes() {
             byte[] data = this.data;
             if (null == data) {
-                this.data = data = request.readBytes();
+                this.data = data = urlConnectionUtil.readBytes();
             }
             return data;
         }
@@ -560,9 +543,8 @@ public class Requests {
 
     protected StreamList streams = new StreamList();
 
-    Requests() {}
-
     String url;
+    Requests() {}
     public static Requests on(String http) {
         Requests requests;
         requests = new Requests();
@@ -691,11 +673,21 @@ public class Requests {
 
     Throwable ex;
     Request  request;
+
     public Throwable error() {
         return this.ex;
     }
+    public Requests  error(Throwable ex) {
+        this.ex = ex;
+        return this;
+    }
+    public boolean isError() {
+        return  null != this.ex;
+    }
+
+
     public Request  request() {
-        return this.request;
+        return Objects.requireNonNull(this.request, "no start request");
     }
     public Requests start() {
         synchronized (lock) {
@@ -720,7 +712,6 @@ public class Requests {
                                         }
                                     }
                                 }
-
 
 
 
