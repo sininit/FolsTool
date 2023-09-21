@@ -1,0 +1,7 @@
+{
+    "TABLE_TRACE_WIDTH_LIST": "[127,653]",
+    "LAST_CODE": "function() {\n    println(\"Hello\");\n}();",
+    "LAST_CODE_RESULT": "null",
+    "TABLE_OBJ_WIDTH_LIST": "[222,374,483]",
+    "LAST_ADDRESS": "55939"
+}

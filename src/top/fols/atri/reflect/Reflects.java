@@ -1,72 +1,170 @@
 package top.fols.atri.reflect;
-import top.fols.atri.lang.Finals;
 
 import java.lang.reflect.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-@SuppressWarnings("UnnecessaryLocalVariable")
+import top.fols.atri.interfaces.annotations.UnsafeOperate;
+import top.fols.atri.lang.Finals;
+import top.fols.atri.lang.Objects;
+import top.fols.box.lang.Classx;
+import top.fols.box.lang.GenericTypes;
+import top.fols.box.reflect.Reflectx;
+
+@SuppressWarnings({"rawtypes", "SpellCheckingInspection", "UnnecessaryContinue"})
 public class Reflects {
 
-	public static boolean parameterTypesEquals(Class[] parameterTypes, Class[] parameterTypes2) {
-		if (parameterTypes.length != parameterTypes2.length) { return false;}
-		for(int i = 0; i<parameterTypes.length; i++){
-			if(parameterTypes[i] != parameterTypes2[i]){
+
+	public static Set<Class> getInherites(Class cls) {
+		Set<Class> result = new LinkedHashSet<>();
+		if (null == cls)
+			return result;
+		else
+			result.add(cls);
+		for (Class inter: cls.getInterfaces()) //public interface x extends a,b,c
+			result.addAll(getInherites(inter));
+		for (Class inter: new Class[]{cls.getSuperclass()})
+			result.addAll(getInherites(inter));
+		return result;
+	}
+
+	/**
+	 * Reflects 使用前自己需要判断 instanceof
+	 *
+	 * 类型和名字必须一样
+	 * //修饰符 相同
+	 */
+	public static boolean isOverride(Field parentClass,
+									 Field thisClass) {
+		boolean isEqDeclared = parentClass.getDeclaringClass() == thisClass.getDeclaringClass();
+		boolean isEqName     = parentClass.getName().equals(thisClass.getName());
+		boolean isEqType     = parentClass.getType() == thisClass.getType();
+		if (isEqDeclared) {
+			return
+					(isEqName && isEqType);
+		} else {
+//			int parentClassModifiers = parentClass.getModifiers();
+//			int thisClassModifiers = thisClass.getModifiers();
+//			if (Modifier.isStatic(parentClassModifiers) != Modifier.isStatic(thisClassModifiers))
+//				return false;
+//
+//			return parentClassModifiers == thisClassModifiers &&
+//					(isEqName && isEqType);
+			return false;
+		}
+	}
+	/**
+	 * Reflects 使用前自己需要判断 instanceof
+	 *
+	 * 参数类型必须一致
+	 * 子类方法的返回值类型要和父类方法的返回值类型一样，
+	 *    子类方法的返回值类型要是父类方法的返回值类型的子类
+	 *    例如父类返回类型是object 子类方法的返回值类型是String
+	 * 修饰符 如果父类是private就不能重写
+	 *    可以从空权限提升到protected或者public
+	 *    可以从protected提升到public
+	 *    可以相同
+	 */
+	public static boolean isOverride(Method parentClass,
+									 Method thisClass) {
+		boolean isEqDeclared    = parentClass.getDeclaringClass() == thisClass.getDeclaringClass();
+		if (isEqDeclared) {
+			return (parentClass.getName().equals(thisClass.getName()) &&
+					parentClass.getReturnType().isAssignableFrom(thisClass.getReturnType()) &&
+					Objects.identityEquals(parentClass.getParameterTypes(), thisClass.getParameterTypes())); //low speed
+		} else {
+			int parentClassModifiers = parentClass.getModifiers();
+			int thisClassModifiers   = thisClass.getModifiers();
+			if (Modifier.isStatic(parentClassModifiers) || Modifier.isStatic(thisClassModifiers))
 				return false;
+
+			boolean isParentPrivate = Modifier.isPrivate(parentClassModifiers);
+			if (!isParentPrivate) {
+				return (parentClass.getName().equals(thisClass.getName()) &&
+						parentClass.getReturnType().isAssignableFrom(thisClass.getReturnType()) &&
+						Objects.identityEquals(parentClass.getParameterTypes(), thisClass.getParameterTypes())); //low speed
 			}
 		}
-		return true;
+		return false;
+	}
+
+
+	public static boolean isOverride(Class parentClass,
+									 Field thisClass) {
+		return isOverride(parentClass, getDeclaredFields(parentClass), thisClass);
+	}
+	public static boolean isOverride(Class parentClass,
+									 Method thisClass) {
+		return isOverride(parentClass, getDeclaredMethods(parentClass), thisClass);
+	}
+	static boolean isOverride(Class parentClass, Method[] parentClassDeclaredMethods,
+							  Method thisClass) {
+		if (thisClass.getDeclaringClass() == parentClass) {
+			return true;
+		} else {
+			for (Method f: parentClassDeclaredMethods) {
+				if (isOverride(f, thisClass)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	static boolean isOverride(Class parentClass, Field[] parentClassDeclaredMethods,
+							  Field thisClass) {
+		if (thisClass.getDeclaringClass() == parentClass) {
+			return true;
+		} else {
+			for (Field f: parentClassDeclaredMethods) {
+				if (isOverride(f, thisClass)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	static final Class<Object> CLASS_OBJECT = Finals.OBJECT_CLASS;
+	static final Method[]      CLASS_OBJECT_DECLARED_METHOD = getDeclaredMethods(CLASS_OBJECT);
+	public static boolean isOverrideObjectClassMethod(Method thisClass) {
+		if (Modifier.isPrivate(thisClass.getModifiers()))
+			return false;
+		return isOverride(CLASS_OBJECT, CLASS_OBJECT_DECLARED_METHOD, thisClass);
 	}
 
 
 
 
+	public static class SignatureClassWrap implements Cloneable {
+		private final Class value;
 
-
-	public static ReflectPoint point(Object object) 	{ return ReflectPoint.from(ReflectMatcher.DEFAULT_INSTANCE, object); }
-	public static ReflectPoint point(Class<?> object) 	{ return ReflectPoint.fromClass(ReflectMatcher.DEFAULT_INSTANCE, object); }
-
-
-
-
-
-	public static class ClassObject implements Cloneable {
-		Class value;
-
-		private Class cls;
-		public ClassObject(Class value) {
+		public SignatureClassWrap(Class value) {
 			this.value = value;
-
-			this.cls = value;
 		}
 
-		Integer hashCode = null;
+
+		int hashCode;
 		@Override
 		public int hashCode() {
 			// TODO: Implement this method
-			if (null == this.hashCode) {
-				this.hashCode = 
-					Objects.hashCode(Reflects.name(this.cls));
+			int h = this.hashCode;
+			if (h == 0) {
+				int h1 = Objects.hashCode(value);
+				hashCode = h = (0 == h1 ? 1 : h1);
 			}
-			return this.hashCode.intValue();
+			return h;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			// TODO: Implement this method
-			if (obj instanceof ClassObject == false) { return false;}
-			ClassObject value = (ClassObject) obj;
-			return 
-				this.cls == value.cls;
+			if (!(obj instanceof SignatureClassWrap)) { return false; }
+			SignatureClassWrap value = (SignatureClassWrap) obj;
+			return this.value == value.value; //signature
 		}
 
 		@Override
-		public ClassObject clone() {
+		public SignatureClassWrap clone() {
 			// TODO: Implement this method
-			return new ClassObject(this.value);
+			return new SignatureClassWrap(this.value);
 		}
 
 		@Override
@@ -75,41 +173,42 @@ public class Reflects {
 			return this.value.toString();
 		}
 
-		public static ClassObject wrap(Class value) { return new ClassObject(value); }
+		public static SignatureClassWrap wrap(Class value) { return new SignatureClassWrap(value); }
 	}
-	public static class ConstructorObject implements Cloneable {
-		Constructor value;
 
-		private Class cls;
-		private Class[] params;
-		public ConstructorObject(Constructor value) {
+	public static class SignatureConstructorWrap implements Cloneable {
+		private final Constructor value;
+
+		private final Class clazz;
+		private final Class[] params;
+		public SignatureConstructorWrap(Constructor value) {
 			this.value = value;
 
-			this.cls = value.getDeclaringClass();
+			this.clazz = value.getDeclaringClass();
 			this.params = value.getParameterTypes();
 		}
 
-		Integer hashCode = null;
+		int hashCode;
 		@Override
 		public int hashCode() {
 			// TODO: Implement this method
-			if (null == this.hashCode) {
-				this.hashCode = 
-					Objects.hash(Reflects.name(this.cls))
-					+ Objects.hash((Object[]) Reflects.names(this.params))
-					;
+			int h = this.hashCode;
+			if (h == 0) {
+				int h1 = Objects.hashCode(clazz) +
+						Objects.hashCode(params);
+				hashCode = h = (0 == h1 ? 1 : h1);
 			}
-			return this.hashCode.intValue();
+			return h;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			// TODO: Implement this method
-			if (obj instanceof ConstructorObject == false) { return false;}
-			ConstructorObject value = (ConstructorObject) obj;
-			return 
-				this.cls == value.cls && 
-				Arrays.equals(this.params, value.params);
+			if (!(obj instanceof SignatureConstructorWrap)) { return false;}
+
+			SignatureConstructorWrap value = (SignatureConstructorWrap) obj;
+			return  this.clazz == value.clazz &&
+					Arrays.equals(this.params, value.params); //signature
 		}
 
 		@Override
@@ -119,56 +218,55 @@ public class Reflects {
 		}
 
 		@Override
-		public ConstructorObject clone() {
+		public SignatureConstructorWrap clone() {
 			// TODO: Implement this method
-			return new ConstructorObject(this.value);
+			return new SignatureConstructorWrap(this.value);
 		}
 
-		public static ConstructorObject wrap(Constructor value) { return new ConstructorObject(value); }
+		public static SignatureConstructorWrap wrap(Constructor value) { return new SignatureConstructorWrap(value); }
 	}
-	public static class FieldObject {
-		Field value;
 
-//		private Class cls;
-		private String name;
-		private Class type;
+	public static class SignatureFieldWrap {
+		private final Field value;
 
-		public FieldObject(Field value) {
+		private final String name;
+		private final Class type;
+
+		public SignatureFieldWrap(Field value) {
 			this.value = value;
 
-//			this.cls = value.getDeclaringClass();
 			this.name = value.getName();
 			this.type = value.getType();
 		}
 
-		Integer hashCode = null;
+		int hashCode;
 		@Override
 		public int hashCode() {
 			// TODO: Implement this method
-			if (null == this.hashCode) {Objects.hash();
-				this.hashCode = 
-					Objects.hash(this.name)
-					+ Objects.hash(Reflects.name(this.type));
+			int h = this.hashCode;
+			if (h == 0) {
+				int h1 = Objects.hashCode(this.name) +
+						Objects.hashCode(type);
+				hashCode = h = (0 == h1 ? 1 : h1);
 			}
-			return this.hashCode.intValue();
+			return h;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			// TODO: Implement this method
-			if (obj instanceof FieldObject == false) { return false;}
-			FieldObject value = (FieldObject) obj;
-			return 
-				//this.cls == value.cls &&
-				this.name.equals(value.name) &&
-				this.type == value.type;
+			if (!(obj instanceof SignatureFieldWrap)) { return false;}
+			SignatureFieldWrap value = (SignatureFieldWrap) obj;
+			return
+					this.name.equals(value.name) &&
+							this.type == value.type; //signature
 		}
 
 
 		@Override
-		public FieldObject clone() {
+		public SignatureFieldWrap clone() {
 			// TODO: Implement this method
-			return new FieldObject(this.value);
+			return new SignatureFieldWrap(this.value);
 		}
 
 		@Override
@@ -177,16 +275,16 @@ public class Reflects {
 			return this.value.toString();
 		}
 
-		public static FieldObject wrap(Field value) { return new FieldObject(value);}
+		public static SignatureFieldWrap wrap(Field value) { return new SignatureFieldWrap(value);}
 	}
-	public static class MethodObject {
-		Method value;
+	public static class SignatureMethodWrap {
+		private final Method value;
 
-		private Class returnType;
-		private String name;
-		private Class[] params;
+		private final Class returnType;
+		private final String name;
+		private final Class[] params;
 
-		public MethodObject(Method value) {
+		public SignatureMethodWrap(Method value) {
 			this.value = value;
 
 			this.returnType = value.getReturnType();
@@ -194,28 +292,29 @@ public class Reflects {
 			this.params = value.getParameterTypes();
 		}
 
-		Integer hashCode = null;
+		int hashCode;
 		@Override
 		public int hashCode() {
 			// TODO: Implement this method
-			if (null == this.hashCode) {
-				this.hashCode = 
-					Objects.hash(Reflects.name(this.returnType))
-					+ Objects.hash(this.name)
-					+ Objects.hash((Object[]) Reflects.names(this.params));
+			int h = this.hashCode;
+			if (h == 0) {
+				int h1 = Objects.hashCode(this.returnType) +
+						Objects.hashCode(this.name) +
+						Objects.hashCode(this.params);
+				hashCode = h = (0 == h1 ? 1 : h1);
 			}
-			return this.hashCode.intValue();
+			return h;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			// TODO: Implement this method
-			if (obj instanceof MethodObject == false) { return false;}
-			MethodObject value = (MethodObject) obj;
-			return 
-				this.returnType == value.returnType &&
-				this.name.equals(value.name) &&
-				Arrays.equals(this.params, value.params);
+			if (!(obj instanceof SignatureMethodWrap)) { return false;}
+			SignatureMethodWrap value = (SignatureMethodWrap) obj;
+			return
+					this.returnType == value.returnType &&
+							this.name.equals(value.name) &&
+							Arrays.equals(this.params, value.params); //signature
 		}
 
 		@Override
@@ -225,224 +324,438 @@ public class Reflects {
 		}
 
 		@Override
-		public MethodObject clone() {
+		public SignatureMethodWrap clone() {
 			// TODO: Implement this method
-			return new MethodObject(this.value);
+			return new SignatureMethodWrap(this.value);
 		}
 
 
-		public static MethodObject wrap(Method value) {	return new MethodObject(value); }
+		public static SignatureMethodWrap wrap(Method value) {	return new SignatureMethodWrap(value); }
 	}
 
 
 
-	public static String[] names(Class clss[]) { 
-		String[] names = new String[clss.length];
-		for (int i = 0; i < names.length; i++) {
-			names[i] = null == clss[i] ?null: clss[i].getName();
+
+
+	static Field[] OBJECT_CLASS_DECLARED_FIELDS;
+	static {
+		Field[] es = Finals.OBJECT_CLASS.getDeclaredFields();
+		List<Field> fields = new ArrayList<>();
+		for (Field f: es) {
+			int modifier = f.getModifiers();
+			if (Modifier.isPrivate(modifier)) {
+				continue;
+			} else {
+				fields.add(f);
+			}
 		}
-		return names;
+		OBJECT_CLASS_DECLARED_FIELDS = fields.toArray(Finals.EMPTY_FIELD_ARRAY);
 	}
-	public static String name(Class cls) {
-		return null == cls ?null: cls.getName();
+	public static Class[] getDeclaredClasses(Class clazz) {
+		return null != clazz ? clazz.getDeclaredClasses() : null;
+	}
+	public static Field[] getDeclaredFields(Class clazz) {
+		return null != clazz ? (
+				clazz != Finals.OBJECT_CLASS
+				? clazz.getDeclaredFields()
+				: OBJECT_CLASS_DECLARED_FIELDS.clone()) : null;
+	}
+	public static Constructor[] getDeclaredConstructors(Class clazz) {
+		return null != clazz ? clazz.getDeclaredConstructors() : null;
+	}
+	public static Method[] getDeclaredMethods(Class clazz) {
+		return null != clazz ? clazz.getDeclaredMethods() : null;
 	}
 
 
-	public static final Class OBJECT_CLASS = Object.class;
 
 
-	public static Class[] classes(Class cls) {
-        if (null == cls) { return null; }
-		Map<ClassObject, Class> values = new LinkedHashMap<>();
-		Class tempClass = cls;
+
+
+
+
+
+
+	/**
+	 * deep search
+	 */
+	public static Class[] classes(Class clazz) {
+		if (null == clazz) { return null; }
+		Map<SignatureClassWrap, Class> values = new LinkedHashMap<>();
+		Class tempClass = clazz;
 		while (null != tempClass) {
-			Reflects.classesPut(values, cls.getClasses());
+			Reflects.classesAppend(values, getDeclaredClasses(tempClass));
 			tempClass = tempClass.getSuperclass();
-			//if (temp == OBJECT_CLASS) { break;}
 		}
-		return values.values().toArray(new Class[values.size()]);
-    }
-	private static void classesPut(Map<ClassObject, Class> values, Class[] puts) {
+		Reflects.classesAppend(values, clazz.getClasses());
+		return values.values().toArray(Finals.EMPTY_CLASS_ARRAY);
+	}
+	private static void classesAppend(Map<SignatureClassWrap, Class> values, Class[] puts) {
 		for (Class cf: puts) {
-			ClassObject cacheFieldObject = ClassObject.wrap(cf);
+			SignatureClassWrap cacheFieldObject = SignatureClassWrap.wrap(cf);
 			Class cacheField = values.get(cacheFieldObject);
 			if (null == cacheField) {
 				values.put(cacheFieldObject, cf);
 			}
 		}
 	}
-
-
-
-    public static Field[] fields(Class<?> cls) {
-        if (null == cls) { return null; }
-		Map<FieldObject, Field> values = new LinkedHashMap<>();
-		Reflects.fieldPut(values, cls.getFields());
+	/**
+	 * deep search
+	 */
+	public static Class classes(Class<?> clazz, String name) {
+		if (null == clazz) { return null; }
 		try {
-			Class tempClass = cls;
+			Class tempClass = clazz;
 			while (null != tempClass) {
-				Reflects.fieldPut(values, tempClass.getDeclaredFields());
+				for (Class c: getDeclaredClasses(tempClass)) {
+					if (Classx.findSimpleName(c).equals(name)) {
+						return c;
+					}
+				}
 				tempClass = tempClass.getSuperclass();
-				//if (temp == OBJECT_CLASS) { break;}
 			}
-		} catch (Throwable ignore) {}
-        return values.values().toArray(new Field[values.size()]);
-    }
-	private static void fieldPut(Map<FieldObject, Field> values, Field[] puts) {
+		} catch (Exception ignored) {}
+		try {
+			for (Class c: clazz.getClasses()) {
+				if (Classx.findSimpleName(c).equals(name)) {
+					return c;
+				}
+			}
+		} catch (Exception ignored) {}
+		return null;
+	}
+
+
+
+
+
+	public static Constructor[] constructors(Class<?> clazz) {
+		if (null == clazz) { return null; }
+		Map<SignatureConstructorWrap, Constructor> values = new LinkedHashMap<>();
+		Reflects.constructorsAppend(values, getDeclaredConstructors(clazz));
+		Reflects.constructorsAppend(values, clazz.getConstructors());
+		return values.values().toArray(Finals.EMPTY_CONSTRUCTOR_ARRAY);
+	}
+	private static void constructorsAppend(Map<SignatureConstructorWrap, Constructor> values, Constructor[] puts) {
+		for (Constructor cf: puts) {
+			SignatureConstructorWrap cacheFieldObject = SignatureConstructorWrap.wrap(cf);
+			Constructor cacheField = values.get(cacheFieldObject);
+			if (null == cacheField) {
+				values.put(cacheFieldObject, cf);
+			}
+		}
+	}
+	public static Constructor constructor(Class<?> clazz, Class... paramClass) {
+		if (null == clazz) { return null; }
+		try { return clazz.getDeclaredConstructor(paramClass); } catch (NoSuchMethodException ignored) {}
+		try { return clazz.getConstructor(paramClass);         } catch (NoSuchMethodException ignored) {}
+		return null;
+	}
+
+
+
+	/**
+	 * deep search
+	 */
+	public static Field[] fields(Class<?> clazz) {
+		if (null == clazz) { return null; }
+		Map<SignatureFieldWrap, Field> values = new LinkedHashMap<>();
+		try {
+			Class tempClass = clazz;
+			while (null != tempClass) {
+				Reflects.fieldAppend(values, getDeclaredFields(tempClass));
+				tempClass = tempClass.getSuperclass();
+			}
+		} catch (Exception ignore) {}
+		Reflects.fieldAppend(values, clazz.getFields());
+		return values.values().toArray(Finals.EMPTY_FIELD_ARRAY);
+	}
+	private static void fieldAppend(Map<SignatureFieldWrap, Field> values, Field[] puts) {
 		for (Field cf: puts) {
-			FieldObject cacheFieldObject = FieldObject.wrap(cf);
+			SignatureFieldWrap cacheFieldObject = SignatureFieldWrap.wrap(cf);
 			Field cacheField = values.get(cacheFieldObject);
 			if (null == cacheField) {
 				values.put(cacheFieldObject, cf);
-			} else if (cacheField.getDeclaringClass().isAssignableFrom(cf.getDeclaringClass())) {
-				values.put(cacheFieldObject, cf); // cacheField class inherit from cf
-			} 
+			}
 		}
 	}
+
+	/**
+	 * deep search
+	 */
 	public static Field field(Class<?> clazz, String name) {
-        try {
-            Field declaredField = clazz.getField(name);
-            return declaredField;
-        } catch (NoSuchFieldException e) {
-            e = null;
-        }
-        while (null != clazz) {
-            try {
-                Field declaredField = clazz.getDeclaredField(name);
-                return declaredField;
-            } catch (NoSuchFieldException ex) {
-                clazz = clazz.getSuperclass();
-            }
-        }
-        return null;
-    }
+		if (null == clazz) { return null; }
+		Class<?> tempClass = clazz;
+		while (null != tempClass) {
+			try {
+				return tempClass.getDeclaredField(name);
+			} catch (NoSuchFieldException ignored) {}
+			tempClass = tempClass.getSuperclass();
+		}
+		try {
+			return clazz.getField(name);
+		} catch (NoSuchFieldException ignored) {}
+		return null;
+	}
+	/**
+	 * deep search
+	 */
 	public static Field field(Class<?> clazz, Class<?> returnType, String name) {
+		if (null == clazz) { return null; }
 		if (null == returnType) { return field(clazz, name); }
+		Class<?> tempClass = clazz;
+		while (null != tempClass) {
+			try {
+				Field declaredField = tempClass.getDeclaredField(name);
+				if (returnType == declaredField.getType()) {
+					return declaredField;
+				}
+			} catch (NoSuchFieldException ignored) {}
+			tempClass = tempClass.getSuperclass();
+		}
 		try {
 			Field declaredField = clazz.getField(name);
 			if (returnType == declaredField.getType()) {
 				return declaredField;
 			}
-		} catch (NoSuchFieldException e) {
-			e = null;
-		}
-		while (null != clazz) {
-			try {
-				Field declaredField = clazz.getDeclaredField(name);
-				if (returnType == declaredField.getType()) {
-					return declaredField;
-				}
-			} catch (NoSuchFieldException ex) {
-				clazz = clazz.getSuperclass();
-			}
-		}
+		} catch (NoSuchFieldException ignored) {}
 		return null;
 	}
 
 
 
-	public static Constructor[] constructors(Class<?> cls) {
-		if (null == cls) { return null; }
-		Map<ConstructorObject, Constructor> values = new LinkedHashMap<>();
-		Reflects.constructorsPut(values, cls.getConstructors());
-		Reflects.constructorsPut(values, cls.getDeclaredConstructors());
-//		try {
-//			Class tempClass = cls;
-//			while (null != tempClass) {
-//				Reflects.constructorsPut(values, cls.getDeclaredConstructors());
-//				tempClass = tempClass.getSuperclass();
-//				//if (temp == OBJECT_CLASS) { break;}
-//			}
-//		} catch (Throwable ignore) {}
-        return values.values().toArray(new Constructor[values.size()]);
-	}
-	private static void constructorsPut(Map<ConstructorObject, Constructor> values, Constructor[] puts) {
-		for (Constructor cf: puts) {
-			ConstructorObject cacheFieldObject = ConstructorObject.wrap(cf);
-			Constructor cacheField = values.get(cacheFieldObject);
-			if (null == cacheField) {
-				values.put(cacheFieldObject, cf);
-			} 
-		}
-	}
-	public static Constructor constructor(Class<?> cls, Class... paramClass) {
-        try {
-            return cls.getDeclaredConstructor(paramClass);
-        } catch (NoSuchMethodException e) {
-            e = null;
-        }
-        try {
-            return cls.getConstructor(paramClass);
-        } catch (NoSuchMethodException e) {
-            e = null;
-        }
-        return null;
-    }
 
 
-
-
-
-
-	public static Method[] methods(Class<?> cls) {
-		if (null == cls) { return null; }
-		Map<MethodObject, Method> values = new LinkedHashMap<>();
-		Reflects.methodsPut(values, cls.getMethods());
+	/**
+	 * deep search
+	 */
+	public static Method[] methods(Class<?> clazz) {
+		if (null == clazz) { return null; }
+		Map<SignatureMethodWrap, Method> values = new LinkedHashMap<>();
 		try {
-			Class tempClass = cls;
+			Class tempClass = clazz;
 			while (null != tempClass) {
-				Reflects.methodsPut(values, cls.getDeclaredMethods());
+				Reflects.methodsAppend(values, getDeclaredMethods(tempClass));
 				tempClass = tempClass.getSuperclass();
-				//if (temp == OBJECT_CLASS) { break;}
 			}
-		} catch (Throwable ignore) {}
-        return values.values().toArray(new Method[values.size()]);
+		} catch (Exception ignore) {}
+		Reflects.methodsAppend(values, clazz.getMethods());
+		return values.values().toArray(Finals.EMPTY_METHOD_ARRAY);
 	}
-	private static void methodsPut(Map<MethodObject, Method> values, Method[] puts) {
+	private static void methodsAppend(Map<SignatureMethodWrap, Method> values, Method[] puts) {
 		for (Method cf: puts) {
-			MethodObject cacheFieldObject = MethodObject.wrap(cf);
+			SignatureMethodWrap cacheFieldObject = SignatureMethodWrap.wrap(cf);
 			Method cacheField = values.get(cacheFieldObject);
 			if (null == cacheField) {
 				values.put(cacheFieldObject, cf);
-			} 
+			}
 		}
 	}
+
+
+	/**
+	 * deep search
+	 */
 	public static Method method(Class<?> clazz, String name, Class<?>... array) {
-        try {
-            Method declaredMethod = clazz.getMethod(name, array);
-            return declaredMethod;
-        } catch (NoSuchMethodException e) {
-            e = null;
-        }
-        while (null != clazz) {
-            try {
-                Method declaredMethod = clazz.getDeclaredMethod(name, array);
-                return declaredMethod;
-            } catch (NoSuchMethodException ex) {
-                clazz = clazz.getSuperclass();
-            }
-        }
-        return null;
-    }
-	public static Method method(Class<?> clazz, Class<?> returnType, String name, Class<?>... array) {
-		if (null == returnType) { return method(clazz, name, array); }
-		try {
-			Method declaredMethod = clazz.getMethod(name, array);
-			if (returnType == declaredMethod.getReturnType()){
-				return declaredMethod;
-			}
-		} catch (NoSuchMethodException e) {
-			e = null;
-		}
-		while (null != clazz) {
+		if (null == clazz) { return null; }
+		Class<?> tempClass = clazz;
+		while (null != tempClass) {
 			try {
-				Method declaredMethod = clazz.getDeclaredMethod(name, array);
+				return tempClass.getDeclaredMethod(name, array);
+			} catch (NoSuchMethodException ignored) {}
+			tempClass = tempClass.getSuperclass();
+		}
+		try {
+			return clazz.getMethod(name, array);
+		} catch (NoSuchMethodException ignored) {}
+		return null;
+	}
+
+	/**
+	 * deep search
+	 */
+	public static Method method(Class<?> clazz, Class<?> returnType, String name, Class<?>... array) {
+		if (null == clazz)      { return null; }
+		if (null == returnType) { return method(clazz, name, array); }
+		Class<?> tempClass = clazz;
+		while (null != tempClass) {
+			try {
+				Method declaredMethod = tempClass.getDeclaredMethod(name, array);
 				if (returnType == declaredMethod.getReturnType()) {
 					return declaredMethod;
 				}
-			} catch (NoSuchMethodException ex) {
-				clazz = clazz.getSuperclass();
+			} catch (NoSuchMethodException ignored) {}
+			tempClass = tempClass.getSuperclass();
+		}
+		try {
+			Method declaredMethod = clazz.getMethod(name, array);
+			if (returnType == declaredMethod.getReturnType()) {
+				return declaredMethod;
 			}
+		} catch (NoSuchMethodException ignored) {}
+		return null;
+	}
+
+
+
+
+
+
+	public static Class[] topClassess(Class clazz) {
+		if (null == clazz) { return null; }
+		Map<SignatureClassWrap, Class> values = new LinkedHashMap<>();
+		classesAppend(values, getDeclaredClasses(clazz));
+		classesAppend(values, clazz.getClasses());
+		return values.values().toArray(Finals.EMPTY_CLASS_ARRAY);
+	}
+	public static Class topClasses(Class<?> clazz, String name) {
+		if (null == clazz) { return null; }
+		try {
+			for (Class c : getDeclaredClasses(clazz)) {
+				if (Classx.findSimpleName(c).equals(name)) {
+					return c;
+				}
+			}
+			for (Class c : clazz.getClasses()) {
+				if (Classx.findSimpleName(c).equals(name)) {
+					return c;
+				}
+			}
+		} catch (Exception ignored) {}
+		return null;
+	}
+
+
+	public static Constructor[] topConstructors(Class clazz) { return constructors(clazz); }
+	public static Constructor   topConstructor(Class<?> clazz, Class<?>... param) { return constructor(clazz, param); }
+
+
+	public static Field[] topFields(Class<?> clazz) {
+		if (null == clazz) { return null; }
+
+		Map<SignatureFieldWrap, Field> values = new LinkedHashMap<>();
+		fieldAppend(values, getDeclaredFields(clazz));
+		fieldAppend(values, clazz.getFields());
+		return values.values().toArray(Finals.EMPTY_FIELD_ARRAY);
+	}
+
+	public static Field topField(Class<?> clazz, String name) {
+		if (null == clazz) { return null; }
+		try { return clazz.getDeclaredField(name); } catch (NoSuchFieldException ignored) {}
+		try { return clazz.getField(name);         } catch (NoSuchFieldException ignored) {}
+		return null;
+	}
+
+	public static Field topField(Class<?> clazz, Class<?> returnType, String name) {
+		if (null == clazz) 		{ return null; }
+		if (null == returnType) { return topField(clazz, name); }
+		try {
+			Field declaredField = clazz.getDeclaredField(name);
+			if (returnType == declaredField.getType()) {
+				return declaredField;
+			}
+		} catch (NoSuchFieldException ignored) {}
+		try {
+			Field declaredField = clazz.getField(name);
+			if (returnType == declaredField.getType()) {
+				return declaredField;
+			}
+		} catch (NoSuchFieldException ignored) {}
+		return null;
+	}
+
+
+	public static Method[] topMethods(Class<?> clazz) {
+		if (null == clazz) { return null; }
+		Map<SignatureMethodWrap, Method> values = new LinkedHashMap<>();
+		methodsAppend(values, getDeclaredMethods(clazz));
+		methodsAppend(values, clazz.getMethods());
+		return values.values().toArray(Finals.EMPTY_METHOD_ARRAY);
+	}
+	public static Method topMethod(Class<?> clazz, String name, Class<?>... param) {
+		if (null == clazz) { return null; }
+		try { return clazz.getDeclaredMethod(name, param); } catch (NoSuchMethodException ignored) {}
+		try { return clazz.getMethod(name, param);         } catch (NoSuchMethodException ignored) {}
+		return null;
+	}
+	public static Method topMethod(Class<?> clazz, Class<?> returnType, String name, Class<?>... param) {
+		if (null == clazz) 		{ return null; }
+		if (null == returnType) { return topMethod(clazz, name, param); }
+		try {
+			Method declaredMethod = clazz.getDeclaredMethod(name, param);
+			if (returnType == declaredMethod.getReturnType()) {
+				return declaredMethod;
+			}
+		} catch (NoSuchMethodException ignored) {}
+		try {
+			Method declaredMethod = clazz.getMethod(name, param);
+			if (returnType == declaredMethod.getReturnType()) {
+				return declaredMethod;
+			}
+		} catch (NoSuchMethodException ignored) {}
+		return null;
+	}
+
+
+
+
+
+
+
+	public static <T> GenericTypes.GenericElement getGenericSuperclasses(Class src) {
+		return new GenericTypes().getGenericSuperclasses(src);
+	}
+	public static <T> GenericTypes.GenericElement getGenericsInterfaces(Class src, Class interfax) {
+		return new GenericTypes().getGenericsInterfaces(src, interfax);
+	}
+
+
+
+
+
+
+
+	static class AccessibleSetter { public void setAccessible(AccessibleObject accessibleObject) { accessibleObject.setAccessible(true); }}
+	static AccessibleSetter accessibleSetter;
+
+
+	public static <T extends AccessibleObject> Collection<T> accessible(Collection<T> aos) {
+		if (null != aos) {
+			if (null != accessibleSetter) {
+				for (T ao : aos)
+					try { accessibleSetter.setAccessible(ao); } catch (Throwable ignore) { }
+			} else {
+				for (T ao : aos)
+					try { ao.setAccessible(true); } catch (Throwable ignore) { }
+			}
+		}
+		return aos;
+	}
+
+	@SafeVarargs
+	public static <T extends AccessibleObject> T[] accessible(T... aos) {
+		if (null != aos) {
+			if (null != accessibleSetter) {
+				for (T ao : aos)
+					try { accessibleSetter.setAccessible(ao); } catch (Throwable ignore) { }
+			} else {
+				for (T ao : aos)
+					try { ao.setAccessible(true); } catch (Throwable ignore) { }
+			}
+		}
+		return aos;
+	}
+
+	public static <T extends AccessibleObject> T accessible(T ao) {
+		if (null != ao) {
+			try {
+				if (null != accessibleSetter) {
+					accessibleSetter.setAccessible(ao);
+				} else {
+					ao.setAccessible(true);
+				}
+			} catch (Throwable ignore) {}
+			return ao;
 		}
 		return null;
 	}
@@ -453,68 +766,33 @@ public class Reflects {
 
 
 
-
-
-
-	public static <T extends AccessibleObject> Collection<T> accessible(Collection<T> aos) {
-		for (T obj: aos) { accessible(obj); }
-		return aos;
-	}
-	public static <T extends AccessibleObject> T[] accessible(T... aos) {
+	@UnsafeOperate
+	public static <T> Constructor<T> getEmptyArgsConstructor(Class<T> type){
 		try {
-			AccessibleObject.setAccessible(aos, true);
-		} catch (Throwable ignore) { ignore.printStackTrace(); }
-		return aos;
-	}
-	public static <T extends AccessibleObject> T accessible(T aos) {
-		try {
-			aos.setAccessible(true);
-		} catch (Throwable ignore) { ignore.printStackTrace(); }
-		return aos;
-	}
-
-
-
-	/**
-	 * Checks whether can control member accessible.
-	 *
-	 * @return If can control member accessible, it return {@literal true}
-	 */
-	private static final ReflectPermission suppressAccessChecksReflectPermission = new ReflectPermission(
-			"suppressAccessChecks");
-	public static boolean canSetAccessible() {
-		try {
-			SecurityManager securityManager = System.getSecurityManager();
-			if (null != securityManager) {
-				securityManager.checkPermission(suppressAccessChecksReflectPermission);
-			}
-		} catch (SecurityException e) {
-			return false;
+			return Reflects.accessible(type.getDeclaredConstructor(Finals.EMPTY_CLASS_ARRAY));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		return true;
 	}
 
+	@UnsafeOperate
+	public static <T> T newInstance(Class<T> type) {
+		Constructor<T> con = getEmptyArgsConstructor(type);
+		try {
+			return (T) con.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-
-	/**
-	 *
-	 */
-
+	@UnsafeOperate
+	@Deprecated
 	public static Field setFinalFieldAccessAble(Field f) throws IllegalAccessException, IllegalArgumentException {
-		int modifier = f.getModifiers();
-		if (Modifier.isStatic(modifier)) {
-			Field[] fs = accessible(Finals.FIELD_CLASS.getDeclaredFields());
-			Field accessFlags;
-			Object value;
-			int intValue;
-			for (Field fi : fs) {
-				if ((value = fi.get(f)) instanceof Integer && (intValue = ((Integer) value).intValue()) == modifier) {
-					accessFlags = fi;
-					accessFlags.set(f, intValue | Modifier.FINAL);
-				}
-			}
-		}
-		return f;
+		return Reflectx.setFinalFieldAccessAble(f);
 	}
+
+
 
 }
+
+

@@ -1,53 +1,101 @@
 package top.fols.atri.lang;
 
-import top.fols.atri.array.ArrayObject;
-import top.fols.atri.io.CharSeparatorReader;
-import top.fols.atri.regex.Regexs;
-import top.fols.box.io.base.XCharArrayWriter;
-import top.fols.box.util.XArray;
-import top.fols.atri.util.Randoms;
+import top.fols.atri.interfaces.annotations.Nullable;
+import top.fols.atri.io.*;
+import top.fols.atri.io.util.Streams;
+import top.fols.box.array.ArrayObject;
+import top.fols.box.lang.Arrayx;
+import top.fols.box.util.Randoms;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 @SuppressWarnings("SpellCheckingInspection")
 public class Strings {
+	public static final String EMPTY = Finals.STRING_EMPTY_VALUE;
+
+	public static String nullToEmpty(String string) {
+		return (string == null) ? "" : string;
+	}
+	public static String emptyToNull(String string) {
+		return isNullOrEmpty(string) ? null : string;
+	}
+	public static boolean isNullOrEmpty(String string) {
+		return string == null || string.length() == 0; // string.isEmpty() in Java 6
+	}
+	public static boolean empty(CharSequence str) {
+		return null == str || str.length() == 0;
+	}
+
+
+	public static boolean startsWithIgnoreCase(String v, String start) {
+		int vlen  = v.length();
+		int stlen = start.length();
+		if (stlen > vlen)
+			return false;
+		return v.regionMatches(true, 0, start, 0, stlen);
+	}
+	public static boolean endsWithIgnoreCase(String v, String start) {
+		int vlen  = v.length();
+		int stlen = start.length();
+		if (stlen > v.length())
+			return false;
+		return v.regionMatches(true, vlen - stlen, start, 0, stlen);
+	}
 
 	public static String cast(Object object) {
-		return null == object?null:object.toString();
+		return null == object ? null : object.toString();
 	}
-	public static String nonNull(Object object, String def) {
-		return null == object?def:object.toString();
-	}
-
-
-
 
 	public static String tabs(String lines) {
 		return tabs(lines, "\t");
 	}
 	public static String tabs(String lines, String tabs) {
 		if (null == lines) {
-			return null;
+			return tabs + null;
 		}
 		StringBuilder result = new StringBuilder();
-		CharSeparatorReader reader = new CharSeparatorReader(lines);
-		while (reader.hasNext()) {
-			result.append(tabs).append(reader.next(true));
+		StringReaders readers = new StringReaders(lines);
+		readers.setDelimiterAsLine();
+		char[] chars;
+		while (null != (chars = readers.readNextLine(true))) {
+			result.append(tabs).append(chars);
 		}
+		Streams.close(readers);
 		return result.toString();
 	}
+	public static String tabsFromSecondLineStart(int firstLinePrefixLength, String reason) {
+		return tabsFromSecondLineStart(firstLinePrefixLength, "", reason);
+	}
+	public static String tabsFromSecondLineStart(int firstLinePrefixLength, String tabs, String reason) {
+		StringBuilder sb = new StringBuilder();
+		StringReaders readers = new StringReaders(null == reason ? "" : reason);
+		readers.setDelimiterAsLine();
+		char[] chars;
+		if (null != (chars = readers.readNextLine(true))) {
+			sb.append(chars);//first line
+		}
+		StringBuilder prefix = new StringBuilder();
+		for (int i = 0; i < firstLinePrefixLength; i++)
+			prefix.append(' ');
+		prefix.append(tabs);
+		while (null != (chars = readers.readNextLine(true))) {
+			sb.append(prefix).append(chars);
+		}
+		return sb.toString();
+	}
+
+
+
+
 	public static String line(String... lines) {
 		if (null == lines) { return null; }
+
 		StringBuilder result = new StringBuilder();
-		for (String line: lines) {
-			result.append(line).append(Finals.Separator.LINE_SEPARATOR_CHAR_N);
-		}
-		if (result.length() > 1) {
+		for (String line: lines)
+			result.append(line).append(Finals.LineSeparator.LINE_SEPARATOR_CHAR_N);
+		if (result.length() > 1)
 			result.setLength(result.length() - 1);
-		}
 		return result.toString();
 	}
 
@@ -70,7 +118,6 @@ public class Strings {
 		}
 		return -1;
 	}
-
 
 	public static int lastIndexOfChar(String str, char chars) {
 		return (null == str)?-1:str.lastIndexOf(chars);
@@ -96,181 +143,8 @@ public class Strings {
 
 
 
-	public static Matcher matches(String regex, String content) {
-		return Regexs.matches(regex, content);
-	}
-
-	public static String[][] subpatterns_all(String content, String regex) {
-		return Regexs.subpatterns_all(content, regex);
-	}
-	public static String[] subpatterns(String content, String regex) {
-		return Regexs.subpatterns(content, regex);
-	}
-
-	public static String[] subpattern_all(String content, String regex, int subpattern) {
-		return Regexs.subpattern_all(content, regex, subpattern);
-	}
-	public static String subpattern(String content, String regex, int subpattern) {
-		return Regexs.subpattern(content, regex, subpattern);
-	}
-
-	public static String[] group_all(String content, String regex) {
-		return Regexs.group_all(content, regex);
-	}
-	public static String group(String content, String regex) {
-		return Regexs.group(content, regex);
-	}
 
 
-
-	public static List<String> splitSpace(String firstLine) {
-		List<String> list = new ArrayList<>();
-		if (null == firstLine) {
-			return list;
-		}
-		int last = 0, length = firstLine.length();
-		for (int i = 0; i < length; i++) {
-			if (Character.isSpaceChar(firstLine.charAt(i))) {
-				if (i - last > 0) {
-					String element = firstLine.substring(last, i);
-					list.add(element);
-				}
-				while (i + 1 < length && Character.isSpaceChar(firstLine.charAt(i + 1))) {
-					i++;
-				}
-				last = i + 1;
-			}
-		}
-		if (last < length) {
-			String element = firstLine.substring(last, length);
-			list.add(element);
-		}
-		return list;
-	}
-
-
-
-
-	public static String join(Object[] array, String joinString) {
-		return Strings.join(array, null, joinString, null);
-	}
-	@SuppressWarnings({"ImplicitArrayToString", "ConstantConditions"})
-	public static String join(Object[] array, String head, String joinString, String end) {
-		StringBuilder sb = new StringBuilder();
-		if (null != head) { sb.append(head); }
-		if (null == array) {
-			sb.append(array);
-		} else {
-			if (array.length > 0) {
-				for (Object o : array) {
-					sb.append(o).append(joinString);
-				}
-				if (sb.length() > joinString.length()) {
-					sb.setLength(sb.length() - joinString.length());
-				}
-			}
-		}
-		if (null != end) { sb.append(end); }
-		return sb.toString();
-	}
-
-
-
-	public static String join(Collection<?> array, String joinString) {
-		return Strings.join(array, null, joinString, null);
-	}
-
-	public static String join(Collection<?> array, String head, String joinString, String end) {
-		StringBuilder sb = new StringBuilder();
-		if (null != head) { sb.append(head); }
-		if (null == array) {
-			sb.append(array);
-		} else {
-			if (array.size() > 0) {
-				for (Object o : array) {
-					sb.append(o).append(joinString);
-				}
-				if (sb.length() > joinString.length()) {
-					sb.setLength(sb.length() - joinString.length());
-				}
-			}
-		}
-		if (null != end) { sb.append(end); }
-		return sb.toString();
-	}
-
-
-	/**
-	 * StringJoiner
-	 * 
-	 * @param array
-	 * @param joinString
-	 * @return
-	 */
-	public static String join(Object array, String joinString) {
-		return Strings.join(array, null, joinString, null);
-	}
-
-	public static String join(Object array, String head, String joinString, String end) {
-		StringBuilder sb = new StringBuilder();
-		if (null != head) { sb.append(head); }
-		if (!ArrayObject.wrapable(array)) {
-			sb.append(array);
-		} else {
-			ArrayObject<?> xifs = ArrayObject.wrap(array);
-			int len = xifs.length();
-			if (len > 0) {
-				for (int i = 0; i < len; i++) {
-					sb.append(xifs.objectValue(i)).append(joinString);
-				}
-				if (sb.length() > joinString.length()) {
-					sb.setLength(sb.length() - joinString.length());
-				}
-			}
-		}
-		if (null != end) { sb.append(end); }
-		return sb.toString();
-	}
-
-
-
-	public static String join(Map<?, ?> map, String joinString) {
-		return Strings.join(map, null, "=", joinString, null);
-	}
-	public static String join(Map<?, ?> map, String valSeparator, String joinString) {
-		return Strings.join(map, null, valSeparator, joinString, null);
-	}
-	public static String join(Map<?, ?> map, String head, String valSeparator, String joinString, String end) {
-		StringBuilder sb = new StringBuilder();
-		if (null != head) { sb.append(head); }
-		if (null == map) {
-			sb.append(map);
-		} else {
-			int len = map.size();
-			Set<?> set = map.keySet();
-			int i = 0;
-			for (Object k : set) {
-				sb.append(k).append(valSeparator).append(map.get(k)).append((i >= len - 1) ? "" : joinString);
-				i++;
-			}
-		}
-		if (null != end) { sb.append(end); }
-		return sb.toString();
-	}
-
-
-
-
-	public static String marge(Object... values) {
-		StringBuilder concat = new StringBuilder();
-		if (null == values || values.length == 0) {
-		} else {
-			for (Object value: values) {
-				concat.append(Objects.toString(value));
-			}
-		}
-		return concat.toString();
-	}
 
 
 
@@ -299,87 +173,6 @@ public class Strings {
 		}
 		return sb.toString();
 	}
-
-	/**
-	 * 替换字符串 i代表替换次数
-	 */
-	public static String replace(String str, CharSequence target, CharSequence replacement) {
-		return replace(str, target, replacement, -1);
-	}
-
-	public static String replace(String str, CharSequence target, CharSequence replacement, int limiter) {
-		if (null == str || null == target || target.length() == 0) { return  str; }
-		if (null == replacement) { replacement = Finals.STRING_EMPTY_VALUE; }
-
-		String tgtStr = target.toString();
-		String replStr = replacement.toString();
-		int j = str.indexOf(tgtStr);
-		int tgtLen = tgtStr.length();
-		if (j < 0 || limiter == 0 || tgtLen == 0) {
-			return str;
-		}
-		int tgtLen1 = Math.max(tgtLen, 1);
-		int length = str.length();
-		int newLenHint = length - tgtLen + replStr.length();
-		if (newLenHint < 0) {
-			throw new OutOfMemoryError();
-		}
-		StringBuilder sb = new StringBuilder(newLenHint);
-		int i = 0;
-		if (limiter < 0)
-			do {
-				sb.append(str, i, j).append(replStr);
-				i = j + tgtLen;
-			} while (j < length && (j = str.indexOf(tgtStr, j + tgtLen1)) > 0);
-		else
-			do {
-				sb.append(str, i, j).append(replStr);
-				i = j + tgtLen;
-			} while (--limiter > 0 && j < length && (j = str.indexOf(tgtStr, j + tgtLen1)) > 0);
-		return sb.append(str, i, length).toString();
-	}
-
-	/**
-	 * 获取str 出现的位置集合
-	 */
-	public static List<Integer> search(String str, String element) {
-		List<Integer> list = new ArrayList<Integer>();
-		if (Objects.empty(str) || Objects.empty(element)) {
-			return list;
-		}
-		int elementlen = element.length();
-		int indexOf = str.indexOf(element);
-		if (indexOf <= -1) {
-			return list;
-		}
-		do {
-			list.add(indexOf);
-		} while ((indexOf = str.indexOf(element, indexOf + elementlen)) > -1);
-		return list;
-	}
-
-	/**
-	 * 获取str重复出现的次数
-	 */
-	public static int 			searchRepeatCount(String str, String find) {
-		if (Objects.empty(str) || Objects.empty(find)) { return 0; }
-
-		int i = 0;
-		int elementlen = find.length();
-		int indexOf = str.indexOf(find);
-		if (indexOf <= -1) { return 0; }
-		do {
-			i++;
-		} while ((indexOf = str.indexOf(find, indexOf + elementlen)) > -1);
-		return i;
-	}
-
-
-
-	/**
-	 * 取文本长度
-	 */
-	public static int length(String str) { return null == str ? 0 : str.length(); }
 
 
 
@@ -436,91 +229,242 @@ public class Strings {
 	 * 取文本中间
 	 */
 	public static String substring(String str, int startIndex, int endIndex) {
-		if (null == str || (startIndex < 0 || endIndex < 0)) { return null; }
+		if (null == str) return null;
+		if (startIndex < 0 || endIndex < 0) { return null; }
 
-		return str.substring(startIndex, endIndex);
+		return str.substring(startIndex, Mathz.min(str.length(), endIndex));
 	}
-	public static String subtrim(String spec, int start, int limit) {
-		if (null == spec || (start < 0 || limit < 0)) { return null; }
+	public static String subtrim(String str, int start, int limit) {
+		if (null == str) return null;
+		if (start < 0 || limit < 0) { return null; }
 
-		while ((limit > 0) && (spec.charAt(limit - 1) <= ' ')) limit--;
-		while ((start < limit) && (spec.charAt(start) <= ' ')) start++;
-		return spec.substring(start, limit);
-	}
-
-
-
-
-	/**
-	 * 寻找文本
-	 */
-	public static int indexOf(String str, String find, int off) {
-		return (null == str || null == find) ? -1 : str.indexOf(find, off);
-	}
-	public static int indexOfChar(String str, char find, int off) {
-		return (null == str) ? -1 : str.indexOf(find, off);
-	}
-	public static int indexOfChar(String str, int find, int off) {
-		return (null == str) ? -1 : str.indexOf(find, off);
+		while ((limit > 0) && (str.charAt(limit - 1) <= ' ')) limit--;
+		while ((start < limit) && (str.charAt(start) <= ' ')) start++;
+		return str.substring(start, limit);
 	}
 
 
 
-	public static int lastIndexOf(String str, String find, int off) {
-		return (null == str || null == find) ? -1 : str.lastIndexOf(find, off);
-	}
-	public static int lastIndexOfChar(String str, char find, int off) {
-		return (null == str) ? -1 : str.lastIndexOf(find, off);
-	}
-	public static int lastIndexOfChar(String str, int find, int off) {
-		return (null == str) ? -1 : str.lastIndexOf(find, off);
-	}
 
 
-
+	public static List<String> splitSpace(String line) {
+		List<String> list = new ArrayList<>();
+		if (null == line) {
+			return list;
+		}
+		int last = 0, length = line.length();
+		for (int i = 0; i < length; i++) {
+			if (Character.isSpaceChar(line.charAt(i))) {
+				if (i - last > 0) {
+					String element = line.substring(last, i);
+					list.add(element);
+				}
+				while (i + 1 < length && Character.isSpaceChar(line.charAt(i + 1))) {
+					i++;
+				}
+				last = i + 1;
+			}
+		}
+		if (last < length) {
+			String element = line.substring(last, length);
+			list.add(element);
+		}
+		return list;
+	}
 
 
 	/**
 	 * split String
 	 * <p>
 	 * 分割文本
-	 * 
+	 *
 	 * split("ab+cd+ef","+"); >> {"ab","cd",ef"}
 	 */
-	public static List<String> split(String str, String separator) {
-		List<String> list = new ArrayList<>();
-		Strings.split(str, separator, list);
-		return list;
+	@Nullable
+	public static List<String> splitSkipEmpty(String content, String separator) {
+		if (null == content) return null;
+
+		List<String> list;
+		Strings.splitSkipEmpty(
+				content,
+				separator,
+				list = new ArrayList<>());
+		return  list;
 	}
 
-	public static void split(String str, String separator, Collection<String> splits) {
-		if (Objects.empty(str) || Objects.empty(separator) || str.equals(separator) || null == splits) { return; }
+	@Nullable
+	public static List<String> splitSkipEmpty(String content, String separator, List<String> splits) {
+		if (null == content) return null;
+
+		Objects.requireNonNull(separator, "separator");
+		Objects.requireNonNull(splits, "buffer");
 
 		int end = 0;
 		int off = -separator.length();
 
 		boolean startWith;
-		if (startWith = str.startsWith(separator)) {
+		if (startWith = content.startsWith(separator)) {
 			end += separator.length();
 			off += separator.length();
 		}
 
-		if ((end = str.indexOf(separator, end)) > -1) {
+		if ((end = content.indexOf(separator, end)) > -1) {
 			while (end > -1) {
-				splits.add(str.substring(off + separator.length(), end));
+				String substring = content.substring(off + separator.length(), end);
+				if (substring.length() > 0) {
+					splits.add(substring);
+				}
 				off = end;
-				end = str.indexOf(separator, end + separator.length());
+				end = content.indexOf(separator, end + separator.length());
 			}
-			if (str.endsWith(separator)) {
-				return;
+			if (content.endsWith(separator)) {
+				return splits;
 			}
-			splits.add(str.substring(off + separator.length(), str.length()));
+			String substring = content.substring(off + separator.length(), content.length());
+			if (substring.length() > 0) {
+				splits.add(substring);
+			}
 		} else {
 			if (startWith) {
-				splits.add(str.substring(off + separator.length(), str.length()));
+				String substring = content.substring(off + separator.length(), content.length());
+				if (substring.length() > 0) {
+					splits.add(substring);
+				}
 			}
 		}
+		return splits;
 	}
+
+	@Nullable
+	public static List<String> split(String str, String delimiter) {
+		if (null == str) return null;
+
+		Objects.requireNonNull(delimiter, "delimiter");
+		Objects.requireTrue(!"".equals(delimiter), "delimiter is empty");
+
+		List<String> result = new ArrayList<>();
+		int pos;
+		int delPos;
+		for (pos = 0; (delPos = str.indexOf(delimiter, pos)) != -1; pos = delPos + delimiter.length()) {
+			result.add(str.substring(pos, delPos));
+		}
+		if (str.length() > 0 && pos <= str.length()) {
+			result.add(str.substring(pos));
+		}
+		return result;
+	}
+	@Nullable
+	public static List<String> split(String content, Delimiter.ICharsDelimiter delimiter) {
+		if (null == content) return null;
+
+		return Delimiter.splitToStringLists(
+				content,
+				Objects.requireNonNull(delimiter, "delimiter"));
+	}
+
+
+
+	@Nullable
+	public static String join(Object[] array,
+							  String joinString) {
+		if (null == array) return null;
+
+		StringBuilder sb = new StringBuilder();
+		int length = array.length;
+		if (length > 0) {
+			sb.append(array[0]);
+			for (int i = 1; i < length; i++) {
+				sb.append(joinString);
+				sb.append(array[i]);
+			}
+		}
+		return sb.toString();
+	}
+
+
+
+
+	@Nullable
+	public static String join(List<?> array,
+							  String joinString) {
+		if (null == array) return null;
+
+		StringBuilder sb = new StringBuilder();
+		int length = array.size();
+		if (length > 0) {
+			sb.append(array.get(0));
+			for (int i = 1; i < length; i++) {
+				sb.append(joinString);
+				sb.append(array.get(i));
+			}
+		}
+		return sb.toString();
+	}
+	@Nullable
+	public static String join(Collection<?> array,
+							  String joinString) {
+		if (null == array) return null;
+
+		StringBuilder sb = new StringBuilder();
+		int length = array.size();
+		if (length > 0) {
+			Iterator<?> iterator = array.iterator();
+			if (iterator.hasNext()) {
+				sb.append(iterator.next());
+				while (iterator.hasNext()) {
+					sb.append(joinString);
+					sb.append(iterator.next());
+				}
+			}
+		}
+		return sb.toString();
+	}
+
+
+	/**
+	 * StringJoiner
+	 *
+	 * @param array
+	 * @param joinString
+	 * @return
+	 */
+	@Nullable
+	public static String join(Object array,
+							  String joinString) {
+		if (!ArrayObject.wrapable(array)) return null;
+
+		StringBuilder sb = new StringBuilder();
+		ArrayObject<?> xifs = ArrayObject.wrap(array);
+		int length = xifs.length();
+		if (length > 0) {
+			sb.append(xifs.objectValue(0));
+			for (int i = 1; i < length; i++) {
+				sb.append(joinString);
+				sb.append(xifs.objectValue(i));
+			}
+		}
+		return sb.toString();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * repeat String
@@ -531,7 +475,7 @@ public class Strings {
 		if (null == str) { return null; }
 		if (str.length() == 0 || repeatLength == 0) { return Finals.STRING_EMPTY_VALUE; }
 
-		char[] newChar = XArray.repeat(str.toCharArray(), repeatLength);
+		char[] newChar = Arrayx.repeat(str.toCharArray(), repeatLength);
 		return new String(newChar);
 	}
 
@@ -659,7 +603,7 @@ public class Strings {
 		if (null == retain)     							  { return null; }
 		if (off < 0 || len < 0)     						  { return null; }
 
-		XCharArrayWriter retains = new XCharArrayWriter();
+		CharsWriters retains = new CharsWriters();
 		for (int i = off; i < off + len; i++) {
 			char ch = str.charAt(i);
 			for (char c : retain) {
@@ -673,6 +617,44 @@ public class Strings {
 	}
 
 
+
+	/**
+	 * 替换字符串 i代表替换次数
+	 */
+	public static String replace(String str, CharSequence target, CharSequence replacement) {
+		return replace(str, target, replacement, -1);
+	}
+	public static String replace(String str, CharSequence target, CharSequence replacement, int limiter) {
+		if (null == str || null == target || target.length() == 0) { return  str; }
+		if (null == replacement) { replacement = Finals.STRING_EMPTY_VALUE; }
+
+		String tgtStr = target.toString();
+		String replStr = replacement.toString();
+		int j = str.indexOf(tgtStr);
+		int tgtLen = tgtStr.length();
+		if (j < 0 || limiter == 0 || tgtLen == 0) {
+			return str;
+		}
+		int tgtLen1 = Math.max(tgtLen, 1);
+		int length = str.length();
+		int newLenHint = length - tgtLen + replStr.length();
+		if (newLenHint < 0) {
+			throw new OutOfMemoryError();
+		}
+		StringBuilder sb = new StringBuilder(newLenHint);
+		int i = 0;
+		if (limiter < 0)
+			do {
+				sb.append(str, i, j).append(replStr);
+				i = j + tgtLen;
+			} while (j < length && (j = str.indexOf(tgtStr, j + tgtLen1)) > 0);
+		else
+			do {
+				sb.append(str, i, j).append(replStr);
+				i = j + tgtLen;
+			} while (--limiter > 0 && j < length && (j = str.indexOf(tgtStr, j + tgtLen1)) > 0);
+		return sb.append(str, i, length).toString();
+	}
 
 
 	/**
@@ -768,4 +750,57 @@ public class Strings {
 		}
 		return sb.toString();
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * 获取str 出现的位置集合
+	 */
+	public static List<Integer> searchIndex(String str, String element) {
+		List<Integer> list = new ArrayList<>();
+		if ((null == str     || str.length() == 0) ||
+				(null == element || element.length() == 0)) {
+			return list;
+		}
+		int elementlen = element.length();
+		int indexOf = str.indexOf(element);
+		if (indexOf <= -1) {
+			return list;
+		}
+		do {
+			list.add(indexOf);
+		} while ((indexOf = str.indexOf(element, indexOf + elementlen)) > -1);
+		return list;
+	}
+
+	/**
+	 * 获取str重复出现的次数
+	 */
+	public static int 			searchRepeatCount(String str, String find) {
+		if ((null == str  || str.length() == 0) ||
+				(null == find || find.length() == 0)) {
+			return 0;
+		}
+
+		int i = 0;
+		int elementlen = find.length();
+		int indexOf = str.indexOf(find);
+		if (indexOf <= -1) { return 0; }
+		do {
+			i++;
+		} while ((indexOf = str.indexOf(find, indexOf + elementlen)) > -1);
+		return i;
+	}
+
 }

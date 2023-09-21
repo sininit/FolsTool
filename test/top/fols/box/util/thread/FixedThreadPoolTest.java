@@ -1,6 +1,6 @@
 package top.fols.box.util.thread;
 
-import top.fols.atri.thread.FixedThreadPool;
+import top.fols.box.thread.FixedThreadPool;
 
 public class FixedThreadPoolTest {
     public static void main(String[] args) throws  Throwable{

@@ -7,25 +7,27 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
-import top.fols.atri.io.CharSeparatorReader;
-import top.fols.atri.io.StreamList;
-import top.fols.atri.io.Streams;
+
+import top.fols.atri.assist.json.JSONObject;
+import top.fols.atri.interfaces.interfaces.ICallbackOneParam;
+import top.fols.atri.io.Delimiter;
+import top.fols.atri.io.StringReaders;
+import top.fols.atri.io.util.StreamList;
+import top.fols.atri.io.util.Streams;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
-import top.fols.atri.lock.Locks;
+import top.fols.atri.lock.LockAwait;
+import top.fols.atri.net.HttpURL;
+import top.fols.atri.net.HttpURLBuilder;
 import top.fols.atri.net.MessageHeader;
-import top.fols.atri.net.URLBuilder;
-import top.fols.atri.net.URLConnections;
-import top.fols.atri.net.XURL;
-import top.fols.atri.util.BlurryKey;
-import top.fols.atri.util.TabPrint;
-import top.fols.atri.util.Throwables;
-import top.fols.box.io.base.XInputStreamFixedLength;
+import top.fols.box.lang.Throwables;
+import top.fols.box.io.InputStreamFixedLengths;
 import top.fols.box.net.header.ContentType;
 
 /**
  * Test
  */
+@Deprecated
 public class Requests {
 
     /**
@@ -56,11 +58,14 @@ public class Requests {
     }
 
 
+    static final Delimiter.ICharsDelimiter lineCharDelimit = Delimiter.lineCharDelimit();
+    static final char[][] lineCharDelimitSeparators   = lineCharDelimit.cloneSeparators();
     public static Request createRequest(
             String httpRequestDataPacket) throws IOException {
-        CharSeparatorReader reader = new CharSeparatorReader(httpRequestDataPacket);
+        StringReaders readers = new StringReaders(httpRequestDataPacket);
+        readers.setDelimiter(lineCharDelimit);
 
-        String first = reader.next();
+        String first = new String(readers.readNextLine(false));
         String method;
         String url;
 
@@ -73,17 +78,16 @@ public class Requests {
         }
 
         StringBuilder headers = new StringBuilder();
-        String line;
-        while (reader.hasNext()) {
-            line = reader.next(true);
-            if (line.length() == reader.separatorSize()) {
+        char[] line;
+        while (null != (line = readers.readNextLine(true))) {
+            if (readers.lastIsReadReadSeparator() && lineCharDelimitSeparators[readers.lastReadSeparatorIndex()].length == line.length) //一行里只有换行符
                 break;
-            }
             headers.append(line);
         }
 
-        int position = Math.min(httpRequestDataPacket.length(), reader.position());
+        int position = Math.min(httpRequestDataPacket.length(), readers.getIndex());
         String data = httpRequestDataPacket.substring(position, httpRequestDataPacket.length());
+        Streams.close(readers);
         return createRequest(method, url, headers.toString(), data);
     }
 
@@ -103,7 +107,7 @@ public class Requests {
             int connectionOvertime,
             int readStreamOvertime) throws IOException {
 
-        header.remove((BlurryKey.IgnoreCaseKey<String>) null);
+        header.remove(null);
         header.put(MessageHeader.REQUEST_HEADER_ACCEPT_ENCODING, MessageHeader.REQUEST_HEADER_VALUE_ACCEPT_ENCODING_IDENTITY);
 
 
@@ -125,25 +129,25 @@ public class Requests {
         }
 
 
-        XURL xurl = new XURL(url);
-        URLBuilder xurlBuilder = xurl.toBuilder();
-        if  (Objects.empty(xurl.getProtocol())) {
+        HttpURL xurl = new HttpURL(url);
+        HttpURLBuilder xurlBuilder = xurl.toBuilder();
+        if  (Objects.isEmpty(xurl.getProtocol())) {
             xurlBuilder.protocol("http");
         }
-        if (Objects.empty(xurl.getHost())) {
+        if (Objects.isEmpty(xurl.getHost())) {
             if (header.containsKey(MessageHeader.REQUEST_HEADER_HOST)) {
                 String host = header.get(MessageHeader.REQUEST_HEADER_HOST);
                 int pi;
-                if ((pi = host.indexOf(XURL.PORT_SYMBOL)) > -1) {
+                if ((pi = host.indexOf(HttpURL.PORT_SYMBOL)) > -1) {
                     xurlBuilder.host(host.substring(0, pi));
-                    xurlBuilder.port(host.substring(pi + XURL.PORT_SYMBOL.length(), host.length()));
+                    xurlBuilder.port(host.substring(pi + HttpURL.PORT_SYMBOL.length(), host.length()));
                 }  else {
                     xurlBuilder.host(host);
                 }
             }
         }
-        xurl = new XURL(xurlBuilder.build());
-        if (Objects.empty(header.get(MessageHeader.REQUEST_HEADER_HOST))) {
+        xurl = new HttpURL(xurlBuilder.build());
+        if (Objects.isEmpty(header.get(MessageHeader.REQUEST_HEADER_HOST))) {
             header.put(MessageHeader.REQUEST_HEADER_HOST, xurl.getHostAndPort());
         }
 
@@ -186,9 +190,10 @@ public class Requests {
     public static Request createCustomOutputRequest(
             String httpRequestDataPacket,
             Long contentLength) throws IOException {
-        CharSeparatorReader reader = new CharSeparatorReader(httpRequestDataPacket);
+        StringReaders reader = new StringReaders(httpRequestDataPacket);
+        reader.setDelimiter(lineCharDelimit);
 
-        String first = reader.next();
+        String first = new String(reader.readNextLine(false));
         String method;
         String url;
 
@@ -200,14 +205,14 @@ public class Requests {
         }
 
         StringBuilder headers = new StringBuilder();
-        String line;
-        while (reader.hasNext()) {
-            line = reader.next(true);
-            if (line.length() == reader.separatorSize()) {
+        char[] line;
+        while (null != (line = reader.readNextLine(true))) {
+            if (reader.lastIsReadReadSeparator() && lineCharDelimitSeparators[reader.lastReadSeparatorIndex()].length == line.length) //一行里只有换行符
                 break;
-            }
             headers.append(line);
         }
+
+        Streams.close(reader);
         return createCustomOutputRequest(method, url, headers.toString(), contentLength);
     }
 
@@ -227,7 +232,7 @@ public class Requests {
             int connectionOvertime,
             int readStreamOvertime) throws IOException {
 
-        header.remove((BlurryKey.IgnoreCaseKey<String>) null);
+        header.remove(null);
         header.put(MessageHeader.REQUEST_HEADER_ACCEPT_ENCODING, MessageHeader.REQUEST_HEADER_VALUE_ACCEPT_ENCODING_IDENTITY);
 
 
@@ -247,25 +252,25 @@ public class Requests {
         }
 
 
-        XURL xurl = new XURL(url);
-        URLBuilder xurlBuilder = xurl.toBuilder();
-        if  (Objects.empty(xurl.getProtocol())) {
+        HttpURL xurl = new HttpURL(url);
+        HttpURLBuilder xurlBuilder = xurl.toBuilder();
+        if  (Objects.isEmpty(xurl.getProtocol())) {
             xurlBuilder.protocol("http");
         }
-        if (Objects.empty(xurl.getHost())) {
+        if (Objects.isEmpty(xurl.getHost())) {
             if (header.containsKey(MessageHeader.REQUEST_HEADER_HOST)) {
                 String host = header.get(MessageHeader.REQUEST_HEADER_HOST);
                 int pi;
-                if ((pi = host.indexOf(XURL.PORT_SYMBOL)) > -1) {
+                if ((pi = host.indexOf(HttpURL.PORT_SYMBOL)) > -1) {
                     xurlBuilder.host(host.substring(0, pi));
-                    xurlBuilder.port(host.substring(pi + XURL.PORT_SYMBOL.length(), host.length()));
+                    xurlBuilder.port(host.substring(pi + HttpURL.PORT_SYMBOL.length(), host.length()));
                 }  else {
                     xurlBuilder.host(host);
                 }
             }
         }
-        xurl = new XURL(xurlBuilder.build());
-        if (Objects.empty(header.get(MessageHeader.REQUEST_HEADER_HOST))) {
+        xurl = new HttpURL(xurlBuilder.build());
+        if (Objects.isEmpty(header.get(MessageHeader.REQUEST_HEADER_HOST))) {
             header.put(MessageHeader.REQUEST_HEADER_HOST, xurl.getHostAndPort());
         }
 
@@ -278,11 +283,11 @@ public class Requests {
         request.messageHeader(header);
 
 
-        request.getURLConnection().setDoInput(true);
-
-        try {
-            request.getURLConnection().setDoOutput(true);
-        } catch (Throwable ignored) {}
+//        request.getURLConnection().setDoInput(true);
+//
+//        try {
+//            request.getURLConnection().setDoOutput(true);
+//        } catch (Throwable ignored) {}
 
 
         @SuppressWarnings("UnnecessaryLocalVariable")
@@ -383,7 +388,7 @@ public class Requests {
             return this;
         }
         public Request write(InputStream stream, long length) throws IOException {
-            Streams.copy(new XInputStreamFixedLength<>(stream, length), this.getOutputStream());
+            Streams.copy(new InputStreamFixedLengths<>(stream, length), this.getOutputStream());
             return this;
         }
         public Request flush() throws IOException {
@@ -643,24 +648,24 @@ public class Requests {
 
 
 
-    public Requests onEnd(Objects.CallbackValue<Requests> callback) {
-        this.end = callback;
+
+    public Requests onEnd(ICallbackOneParam<Requests> callback) {
+        this.onend = callback;
         return this;
     }
-    Objects.CallbackValue<Requests> 	end;
+    ICallbackOneParam<Requests> onend;
 
     @Override
     public String toString() {
         // TODO: Implement this method
-        TabPrint tp = new TabPrint();
-        tp.tag = getClass().getName();
-        tp.add("request", this.started());
-        tp.add("method", this.method());
-        tp.add("url", this.url());
-        tp.add("headers", TabPrint.wrap(this.headers()));
-        tp.add("data",  null == data ?null: data.length);
-        tp.add("charset",  charset);
-        tp.add("error", Throwables.toStrings(ex));
+        JSONObject tp = new JSONObject();
+        tp.put("request", this.started());
+        tp.put("method", this.method());
+        tp.put("url", this.url());
+        tp.put("headers", String.valueOf(this.headers()));
+        tp.put("data",  null == data ? null: data.length);
+        tp.put("charset",  String.valueOf(charset));
+        tp.put("error", Throwables.toString(ex));
         return tp.toString();
     }
 
@@ -694,8 +699,12 @@ public class Requests {
     }
 
 
-    public Request  request() {
-        return Objects.requireNonNull(this.request, "no start request");
+    public Request  request() throws InterruptedException {
+        synchronized (lock) {
+            if (null == this.request)
+                this.start().await();
+            return Objects.requireNonNull(this.request, "no start request");
+        }
     }
     public Requests start() {
         synchronized (lock) {
@@ -704,13 +713,13 @@ public class Requests {
                     this.streams.close();
                     this.ex = null;
                     this.request = null;
-                    this.threadLock = new Locks();
+                    this.threadLock = new LockAwait();
 
-                    new Thread() {
+                    Thread thread = new Thread() {
                         @Override
                         public void run() {
                             try {
-                                if (null != data)  {
+                                if (null != data) {
                                     if (null != Requests.this.charset) {
                                         String charset = Requests.this.charset.name();
                                         ContentType request_content_type = ContentType.parse(header.get(MessageHeader.RESPONSE_HEADER_CONTENT_TYPE));
@@ -722,13 +731,12 @@ public class Requests {
                                 }
 
 
-
                                 byte[] dataBytes = data;
                                 Requests.this.request = streams.add(createCustomOutputRequest(
                                         Requests.this.method(),
                                         Requests.this.url(),
                                         Requests.this.headers(),
-                                        (long) (null == dataBytes ?0: dataBytes.length),
+                                        (long) (null == dataBytes ? 0 : dataBytes.length),
                                         Requests.this.connectTimeout(),
                                         Requests.this.readTimeout()));
                                 if (null != dataBytes && dataBytes.length > 0) {
@@ -741,10 +749,11 @@ public class Requests {
                             }
                             try {
                                 try {
-                                    if (null != end) {
-                                        end.callback(Requests.this);
+                                    if (null != onend) {
+                                        onend.callback(Requests.this);
                                     }
-                                } catch (Throwable ignored) {}
+                                } catch (Throwable ignored) {
+                                }
                             } finally {
                                 synchronized (cleanLock) {
                                     try {
@@ -757,13 +766,14 @@ public class Requests {
                             }
 
                         }
-                    }.start();
+                    };
+                    thread.start();
                 } catch (Throwable e) {
                     this.threadLock = null;
-                    throw new InternalError(e);
+                    throw new RuntimeException(e);
                 }
             } else {
-                Objects.requireTrue(false, "started");
+                Throwables.throwRuntimeException("started");
             }
             return this;
         }
@@ -778,21 +788,21 @@ public class Requests {
     }
     public Requests await() throws InterruptedException {
         synchronized (lock) {
-            Locks locks = this.threadLock;
+            LockAwait locks = this.threadLock;
             if (null != locks) {
                 this.threadLock.await();
             }
             return this;
         }
     }
-
     public boolean started() {
         synchronized (lock) {
             return null != this.threadLock;
         }
     }
 
-    Locks threadLock;
+
+    LockAwait threadLock;
     final Object cleanLock = new Object();
     public Requests clean() {
         synchronized (cleanLock) {

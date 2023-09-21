@@ -4,7 +4,6 @@ import top.fols.box.io.base.XInputStreamFixedLength;
 import top.fols.box.io.os.XFile;
 import top.fols.box.io.os.XRandomAccessFileInputStream;
 import top.fols.box.io.os.XRandomAccessFileOutputStream;
-import top.fols.box.time.XTimeTool;
 
 import java.io.File;
 import java.io.InputStream;

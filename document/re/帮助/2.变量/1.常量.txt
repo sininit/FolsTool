@@ -1,0 +1,36 @@
+关于常量
+常量是不可改变的
+
+
+声明 
+
+a = 1;       1 Java Integer
+a = 2L;      2 Java Long
+a = 3c;      3 Java Character
+a = 4f;      4 Java Float
+a=5.5d;      5 Java Double
+a=6s;        6 Java Short
+a=7b;        7 Java Byte
+a=true;      true Java Boolean
+a=false;     false Java Boolean
+a=null;      null  Java null
+a='a';        'a'   Java Character
+a="a";        "a"   Java String
+a="""a""";    "a" Java String
+
+
+ (1, 2L,  3c,  4f,   5.5d,  6s,   7b,   true,    false,  null, ‘3’, "4", """5""");
+ 
+ 类型后缀
+ 注意如果不注明 数字类型则  
+     如果数比Integer.MAX_VALUE 就会变成 Long
+     如果数据存在小数点 会被解析成 Double类型
+ 
+ 
+ 
+ 字符串是可以多行的 但是不建议。。。
+     可以使用转义符 也支持 \uxxx
+     
+     
+ 负数的定义
+    -1

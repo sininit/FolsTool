@@ -2,6 +2,8 @@ package top.fols.atri.time;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import top.fols.atri.interfaces.interfaces.ICallbackOneParam;
 import top.fols.atri.lang.Objects;
 
 public class Timeout {
@@ -14,7 +16,7 @@ public class Timeout {
 	public class Control {
 		long      time;
 		TimerTask thread;
-		Objects.CallbackValue<Control>  runnable;
+		ICallbackOneParam<Control> runnable;
 		boolean   executed;
 
 		public void cancel() {
@@ -56,19 +58,26 @@ public class Timeout {
 		public boolean isExecuted() {
 			return executed;
 		}
-		public Objects.CallbackValue<Control> runnable() {
+		public ICallbackOneParam<Control> runnable() {
 			return runnable;
 		}
 	}
-	
-	
-	
-	
-	public Control setTimeout(final Objects.CallbackValue<Control> runnable, long millisecondsLater) {
+
+
+
+
+	public Control setTimeout(final Runnable runnable, long millisecondsLater) {
+		return setTimeout(new ICallbackOneParam<Control>(){
+			@Override
+			public void callback(Control param) {
+				runnable.run();
+			}
+		}, millisecondsLater);
+	}
+	public Control setTimeout(final ICallbackOneParam<Control> runnable, long millisecondsLater) {
 		Objects.requireTrue(millisecondsLater >= 0, "time argument error");
 		
 		final Control control = new Control();
-
 		TimerTask tt = new TimerTask() {
 			@Override
 			public void run() {
@@ -82,7 +91,6 @@ public class Timeout {
 				control.cancel();
 			}
 		};
-
 		control.thread   = tt;
 		control.runnable = runnable;
 		control.time     = millisecondsLater;
@@ -92,12 +100,18 @@ public class Timeout {
 
 		return control;
 	}
-
-	public Control setInterval(final Objects.CallbackValue<Control> runnable, long millisecondsLater) {
+	public Control setInterval(final Runnable runnable, long millisecondsLater) {
+		return setInterval(new ICallbackOneParam<Control>(){
+			@Override
+			public void callback(Control param) {
+				runnable.run();
+			}
+		}, millisecondsLater);
+	}
+	public Control setInterval(final ICallbackOneParam<Control> runnable, long millisecondsLater) {
 		Objects.requireTrue(millisecondsLater >= 0, "time argument error");
 
 		final Control control = new Control();
-
 		TimerTask tt = new TimerTask() {
 			@Override
 			public void run() {
@@ -110,7 +124,6 @@ public class Timeout {
 				}
 			}
 		};
-
 		control.thread   = tt;
 		control.runnable = runnable;
 		control.time     = millisecondsLater;

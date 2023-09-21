@@ -1,0 +1,10 @@
+{
+  "minSdkVersion": 21.0,
+  "viewBindingEnabled": false,
+  "libraries": "[{\"declaration\":\"net.java.dev.jna:jna-platform:5.8.0\",\"sourceFile\":\"/storage/emulated/0/Android/data/com.tyron.code/files/cache/maven/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0.jar\"},{\"declaration\":\"net.bytebuddy:byte-buddy:1.12.7\",\"sourceFile\":\"/storage/emulated/0/Android/data/com.tyron.code/files/cache/maven/net/bytebuddy/byte-buddy/1.12.7/byte-buddy-1.12.7.jar\"},{\"declaration\":\"com.google.code.findbugs:findbugs-annotations:3.0.1\",\"sourceFile\":\"/storage/emulated/0/Android/data/com.tyron.code/files/cache/maven/com/google/code/findbugs/findbugs-annotations/3.0.1/findbugs-annotations-3.0.1.jar\"},{\"declaration\":\"net.bytebuddy:byte-buddy-agent:1.12.7\",\"sourceFile\":\"/storage/emulated/0/Android/data/com.tyron.code/files/cache/maven/net/bytebuddy/byte-buddy-agent/1.12.7/byte-buddy-agent-1.12.7.jar\"},{\"declaration\":\"com.google.code.findbugs:jsr305:3.0.2\",\"sourceFile\":\"/storage/emulated/0/Android/data/com.tyron.code/files/cache/maven/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar\"},{\"declaration\":\"net.java.dev.jna:jna:5.8.0\",\"sourceFile\":\"/storage/emulated/0/Android/data/com.tyron.code/files/cache/maven/net/java/dev/jna/jna/5.8.0/jna-5.8.0.jar\"},{\"declaration\":\"net.bytebuddy:byte-buddy-android:1.12.7\",\"sourceFile\":\"/storage/emulated/0/Android/data/com.tyron.code/files/cache/maven/net/bytebuddy/byte-buddy-android/1.12.7/byte-buddy-android-1.12.7.jar\"},{\"declaration\":\"com.jakewharton.android.repackaged:dalvik-dx:9.0.0_r3\",\"sourceFile\":\"/storage/emulated/0/Android/data/com.tyron.code/files/cache/maven/com/jakewharton/android/repackaged/dalvik-dx/9.0.0_r3/dalvik-dx-9.0.0_r3.jar\"}]",
+  "useR8": false,
+  "targetSdkVersion": 30.0,
+  "versionName": "1.0",
+  "versionCode": 1.0,
+  "zipAlignEnabled": false
+}

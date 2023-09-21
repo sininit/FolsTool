@@ -1,502 +1,699 @@
 package top.fols.atri.reflect;
 
+import top.fols.atri.cache.WeakCache;
+import top.fols.atri.interfaces.interfaces.ICaller;
+import top.fols.atri.interfaces.interfaces.IFilter;
+import top.fols.atri.lang.Finals;
+import top.fols.atri.lang.Objects;
+import top.fols.box.lang.Classx;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.IdentityHashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class ReflectCache {
-	public ReflectCache() { }
-
-
-	public static class ClassesList implements Cloneable {
-		Class[] list;
-
-		public static ClassesList wrap(Class[] list) {
-			ClassesList wrap = new ClassesList();
-			wrap.list = list.clone();
-			return wrap;
-		}
-
-		public Class[] list() {
-			return this.list;
-		}
-
-		public Class[] listClone() {
-			return this.list.clone();
-		}
-
-		@Override
-		public int hashCode() {
-			// TODO Auto-generated method stub
-			return null == this.list ? 0 : this.list.hashCode();
-		}
-
-		@Override
-		public String toString() {
-			// TODO Auto-generated method stub
-			return null == this.list ? null : Arrays.toString(this.list);
-		}
-
-		@Override
-		public ClassesList clone() {
-			// TODO Auto-generated method stub
-			ClassesList newInstance = new ClassesList();
-			newInstance.list = this.listClone();
-			return newInstance;
-		}
-	}
-
-	public static class ConstructorList implements Cloneable {
-		Constructor[] list;
-		Class[][] parameterTypes;
-
-		public static ConstructorList wrap(Constructor[] list) {
-			ConstructorList wrap = new ConstructorList();
-			wrap.list = list.clone();
-			wrap.parameterTypes = new Class[list.length][];
-			for (int i = 0; i < list.length; i++) {
-				wrap.parameterTypes[i] = list[i].getParameterTypes();// already clone
-			}
-			return wrap;
-		}
-
-		public Constructor[] list() {
-			return this.list;
-		}
-
-		public Constructor[] listClone() {
-			return this.list.clone();
-		}
-
-		public Class[][] parameterTypes() {
-			return this.parameterTypes;
-		}
-
-		public Class[][] parameterTypesClone() {
-			Class[][] clones = new Class[this.parameterTypes.length][];
-			for (int i = 0; i < this.parameterTypes.length; i++) {
-				clones[i] = this.parameterTypes[i].clone();
-			}
-			return clones;
-		}
-
-		@Override
-		public int hashCode() {
-			// TODO Auto-generated method stub
-			return null == this.list ? 0 : this.list.hashCode();
-		}
-
-		@Override
-		public String toString() {
-			// TODO Auto-generated method stub
-			return null == this.list ? null : Arrays.toString(this.list);
-		}
-
-		@Override
-		public ConstructorList clone() {
-			// TODO Auto-generated method stub
-			ConstructorList newInstance = new ConstructorList();
-			newInstance.list = this.listClone();
-			newInstance.parameterTypes = this.parameterTypesClone();
-			return newInstance;
-		}
-	}
-
-	public static class MethodList implements Cloneable {
-		Method[] list;
-		Class[][] parameterTypes;
-
-		public static MethodList wrap(Method[] list) {
-			MethodList wrap = new MethodList();
-			wrap.list = list.clone();
-			wrap.parameterTypes = new Class[list.length][];
-			for (int i = 0; i < list.length; i++) {
-				wrap.parameterTypes[i] = list[i].getParameterTypes();// already clone
-			}
-			return wrap;
-		}
-
-		public Method[] list() {
-			return this.list;
-		}
-
-		public Method[] listClone() {
-			return this.list.clone();
-		}
-
-		public Class[][] parameterTypes() {
-			return this.parameterTypes;
-		}
-
-		public Class[][] parameterTypesClone() {
-			Class[][] clones = new Class[this.parameterTypes.length][];
-			for (int i = 0; i < this.parameterTypes.length; i++) {
-				clones[i] = this.parameterTypes[i].clone();
-			}
-			return clones;
-		}
-
-		@Override
-		public int hashCode() {
-			// TODO Auto-generated method stub
-			return null == this.list ? 0 : this.list.hashCode();
-		}
-
-		@Override
-		public String toString() {
-			// TODO Auto-generated method stub
-			return null == this.list ? null : Arrays.toString(this.list);
-		}
-
-		@Override
-		public MethodList clone() {
-			// TODO Auto-generated method stub
-			MethodList newInstance = new MethodList();
-			newInstance.list = this.listClone();
-			newInstance.parameterTypes = this.parameterTypesClone();
-			return newInstance;
-		}
-	}
-
-	public static class FieldList implements Cloneable {
-		Field[] list;
-
-		public static FieldList wrap(Field[] list) {
-			FieldList wrap = new FieldList();
-			wrap.list = list.clone();
-			return wrap;
-		}
-
-		public Field[] list() {
-			return this.list;
-		}
-
-		public Field[] listClone() {
-			return this.list.clone();
-		}
-
-		@Override
-		public int hashCode() {
-			// TODO Auto-generated method stub
-			return null == this.list ? 0 : this.list.hashCode();
-		}
-
-		@Override
-		public String toString() {
-			// TODO Auto-generated method stub
-			return null == this.list ? null : Arrays.toString(this.list);
-		}
-
-		@Override
-		public FieldList clone() {
-			// TODO Auto-generated method stub
-			FieldList newInstance = new FieldList();
-			newInstance.list = this.listClone();
-			return newInstance;
-		}
-	}
-
-
-
-
-
-	/**
-	 * Update cache if not present
-	 * @return cache
-	 */
-
-
-
-
-
-
-	protected Map<Class, ClassesList> classesListMap;
-	protected ClassesList 	getClassesList(Class cls) { return this.getClassesListProcess(null == this.classesListMap ?this.classesListMap = new IdentityHashMap<>(): this.classesListMap, cls); }
-	ClassesList 	getClassesListProcess(Map<Class, ClassesList> map, Class cls) {
-		ClassesList object;
-		if (null == cls) { return null; }
-		if (null == (object = map.get(cls))) {
-			map.put(cls, object = ClassesList.wrap(this.listClassesProcess(cls)));
-		}
-		return object;
-	}
-	protected Class[] 		listClassesProcess(Class cls) { return Reflects.classes(cls); }
-
-
-
-
-	protected Map<Class, ConstructorList> constructorListMap;
-	protected ConstructorList getConstructorsList(Class cls) { return this.getConstructorsListProcess(null == this.constructorListMap ?this.constructorListMap = new IdentityHashMap<>(): this.constructorListMap, cls); }
-	ConstructorList getConstructorsListProcess(Map<Class, ConstructorList> map, Class cls) {
-		ConstructorList object;
-		if (null == cls) { return null; }
-		if (null == (object = map.get(cls))) {
-			map.put(cls, object = ConstructorList.wrap(this.listConstructorListProcess(cls)));
-		}
-		return object;
-	}
-	protected Constructor[] listConstructorListProcess(Class cls) { return Reflects.constructors(cls); }
-
-
-
-
-
-	protected Map<Class, FieldList> fieldsListMap;
-	protected FieldList getFieldsList(Class cls) { return this.getFieldsListProcess(null == this.fieldsListMap ?this.fieldsListMap = new IdentityHashMap<>(): this.fieldsListMap, cls); }
-	FieldList getFieldsListProcess(Map<Class, FieldList> map, Class cls) {
-		FieldList object;
-		if (null == cls) { return null; }
-		if (null == (object = map.get(cls))) {
-			map.put(cls, object = FieldList.wrap(this.listFieldListProcess(cls)));
-		}
-		return object;
-	}
-
-	protected Map<Class, Map<String, FieldList>> fieldsNameListMap;
-	protected FieldList getFieldsList(Class cls, String name) { 
-		Map<Class, Map<String, FieldList>> values = (null == this.fieldsNameListMap ?(this.fieldsNameListMap = new IdentityHashMap<>()): this.fieldsNameListMap);
-		return this.getFieldsListProcess(values, cls, name); 
-	}
-	FieldList getFieldsListProcess(Map<Class, Map<String, FieldList>> map, Class cls, String name) {
-		if (null == cls) { return null; }
-		if (null == name) { return this.getFieldsList(cls); }
-		if (null == map.get(cls)) {
-			this.update(map, cls, this.listFieldListProcess(cls));
-		}
-		return map.get(cls).get(name);
-	}
-	void update(Map<Class, Map<String, FieldList>> map, Class cls, Field[] values) {
-		Map<String, List<Field>> temp = new LinkedHashMap<>();
-		for (Field value: values) {
-			String fn = value.getName();
-			List<Field> tempList = temp.get(value.getName());
-			if (null == tempList) {
-				temp.put(fn, tempList = new ArrayList<>());
-			}
-			tempList.add(value);
-		}
-		Map<String, FieldList> temp2 = new LinkedHashMap<>();
-		for (String n: temp.keySet()) {
-			List<Field> tempList = temp.get(n);
-			temp2.put(n, FieldList.wrap(tempList.toArray(new Field[]{})));
-		}
-		temp = null;
-		Map<String, FieldList> last = map.put(cls, temp2);
-		last = null;
-	}
-
-	protected Field[] listFieldListProcess(Class cls) { return Reflects.fields(cls); }
-
-
-
-
-
-
-
-	protected Map<Class, MethodList> methodsListMap;
-	protected MethodList getMethodsList(Class cls) { return this.getMethodsListProcess(null == this.methodsListMap ?this.methodsListMap = new IdentityHashMap<>(): this.methodsListMap, cls); }
-	MethodList getMethodsListProcess(Map<Class, MethodList> map, Class cls) {
-		MethodList object;
-		if (null == cls) { return null; }
-		if (null == (object = map.get(cls))) {
-			map.put(cls, object = MethodList.wrap(this.listMethodListProcess(cls)));
-		}
-		return object;
-	}
-
-
-	protected Map<Class, Map<String, MethodList>> methodsNameListMap;
-	protected MethodList getMethodsList(Class cls, String name) { return this.getMethodsListProcess(null == this.methodsNameListMap ?this.methodsNameListMap = new IdentityHashMap<>(): this.methodsNameListMap, cls, name); }
-	MethodList getMethodsListProcess(Map<Class, Map<String, MethodList>> map, Class cls, String name) {
-		if (null == cls) { return null; }
-		if (null == name) { return this.getMethodsList(cls); }
-		if (null == map.get(cls)) {
-			this.update(map, cls, this.listMethodListProcess(cls));
-		}
-		return map.get(cls).get(name);
-	}
-	void update(Map<Class, Map<String, MethodList>> map, Class cls, Method[] values) {
-		Map<String, List<Method>> temp = new LinkedHashMap<>();
-		for (Method value: values) {
-			String fn = value.getName();
-			List<Method> tempList = temp.get(value.getName());
-			if (null == tempList) {
-				temp.put(fn, tempList = new ArrayList<>());
-			}
-			tempList.add(value);
-		}
-		Map<String, MethodList> temp2 = new LinkedHashMap<>();
-		for (String n: temp.keySet()) {
-			List<Method> tempList = temp.get(n);
-			temp2.put(n, MethodList.wrap(tempList.toArray(new Method[]{})));
-		}
-		temp = null;
-		Map<String, MethodList> last = map.put(cls, temp2);
-		last = null;
-	}
-
-	protected Method[] listMethodListProcess(Class cls) { return Reflects.methods(cls); }
-
-
-	
-	
-	
-	public Class[] classes(Class cls) {
-		if (null == cls) { return null; }
-		ClassesList list = this.getClassesList(cls);
-		if (null == list) { return null; }
-		return list.listClone();
-	}
-
-	/**
-	 * Update cache if not present
-	 * @return cache
-	 */
-	public Field field(Class cls, String name) {
-		return this.field(cls, null, name);
-	}
-	public Field field(Class cls, Class returnClass, String name) {
-		if (null == cls || null == name) { return null; }
-		FieldList list = this.getFieldsList(cls, name);
-		if (null == list) { return null; }
-		if (null == returnClass) {
-			Field f = list.list.length == 0 ? null : list.list[0];
-			return f;
-		} else {
-			int length = list.list.length;
-			for (int i = 0; i < length; i++) {
-				if (returnClass == list.list[i].getType()) {
-					return list.list[i];
-				}
-			}
-		}
-		return null;
-	}
-
-	public Field[] fields(Class cls) {
-		if (null == cls) { return null; }
-		FieldList list = this.getFieldsList(cls);
-		return list.listClone();
-	}
-
-
-
-
-	/**
-	 * Update cache if not present
-	 * @return cache
-	 */
-	public Constructor constructor(Class cls, Class... parameterTypes) {
-		if (null == cls || null == parameterTypes) { return null; }
-		ConstructorList list = this.getConstructorsList(cls);
-		if (null == list) { return null; }
-		int length = list.list.length;
-		for (int i = 0; i < length; i++) {
-			Class[] listElementParameterTypes = list.parameterTypes[i];
-			if (listElementParameterTypes.length == parameterTypes.length
-				&& Reflects.parameterTypesEquals(listElementParameterTypes, parameterTypes)) {
-				return list.list[i];
-			}
-		}
-		return null;
-	}
-	public Constructor[] constructors(Class cls) {
-		if (null == cls) { return null; }
-		ConstructorList list = this.getConstructorsList(cls);
-		return list.listClone();
-	}
-
-
-
-	/**
-	 * Update cache if not present
-	 * @return cache
-	 */
-	public Method method(Class cls, String name, Class... parameterTypes) {
-		return this.method(cls, null, name, parameterTypes);
-	}
-	public Method method(Class cls, Class returnClass, String name, Class... parameterTypes) {
-		if (null == cls || null == name || null == parameterTypes) { return null; }
-		MethodList list = this.getMethodsList(cls, name);
-		if (null == list) {return null; }
-		if (null == returnClass) {
-			int length = list.list.length;
-			for (int i = 0; i < length; i++) {
-				Class[] listElementParameterTypes = list.parameterTypes[i];
-				if (listElementParameterTypes.length == parameterTypes.length
-					&& Reflects.parameterTypesEquals(listElementParameterTypes, parameterTypes)) {
-					return list.list[i];
-				}
-			}
-		} else {
-			int length = list.list.length;
-			for (int i = 0; i < length; i++) {
-				Class[] listElementParameterTypes = list.parameterTypes[i];
-				if (returnClass == list.list[i].getReturnType()
-					&& listElementParameterTypes.length == parameterTypes.length
-					&& Reflects.parameterTypesEquals(listElementParameterTypes, parameterTypes)) {
-					return list.list[i];
-				}
-			}
-		}
-		return null;
-	}
-	public Method[] methods(Class cls) {
-		if (null == cls) { return null; }
-		MethodList list = this.getMethodsList(cls);
-		return list.listClone();
-	}
-	public Method[] methods(Class cls, String name) {
-		if (null == cls) { return null; }
-		MethodList list = this.getMethodsList(cls, name);
-		return list.listClone();
-	}
-
-
-
-
-
-
-	public ReflectCache classesRelease()		{ this.classesListMap = null; 									return this; }
-	public ReflectCache constructorsRelease()	{ this.constructorListMap = null; 								return this; }
-	public ReflectCache fieldsRelease()			{ this.fieldsListMap = null; 	this.fieldsNameListMap = null;		return this; }
-	public ReflectCache methodsRelease()		{ this.methodsListMap = null; 	this.methodsNameListMap = null;		return this; }
-
-	public ReflectCache release() { 
-		return this
-			. classesRelease()
-			. constructorsRelease()
-			. fieldsRelease()
-			. methodsRelease()
-			;
-	}
-
-
-	public boolean isDefault() { return this == DEFAULT_INSTANCE; }
-	public static final ReflectCache DEFAULT_INSTANCE = new ReflectCache() {
-		@Override public ReflectCache classesRelease() { throw new UnsupportedOperationException(); }
-		@Override public ReflectCache constructorsRelease() { throw new UnsupportedOperationException(); }
-		@Override public ReflectCache fieldsRelease() { throw new UnsupportedOperationException(); }
-		@Override public ReflectCache methodsRelease() { throw new UnsupportedOperationException(); }
-
-		@Override public ReflectCache release() { throw new UnsupportedOperationException(); }
-	};
-
-
-
-
-
-
-
-
-
-
-
-}	
+    public ReflectCache() {}
+
+
+    public static class ClassesList implements Cloneable {
+        private Class[] list0;
+
+        public static ClassesList wrap(Class[] list) {
+            ClassesList wrap = new ClassesList();
+            wrap.list0 = list.clone();
+            return wrap;
+        }
+
+        protected Class[] list() {
+            return this.list0;
+        }
+        public Class[] listClone() {
+            return this.list0.clone();
+        }
+
+
+        @Override
+        public String toString() {
+            // TODO Auto-generated method stub
+            Class[] list = list();
+            return null == list ? null : Arrays.toString(list);
+        }
+
+        @Override
+        public ClassesList clone() {
+            try {
+                ClassesList newInstance = (ClassesList) super.clone();
+                // TODO Auto-generated method stub
+                newInstance.list0 = this.listClone();
+                return newInstance;
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public static ClassesList empty() {
+            return ClassesList.wrap(Finals.EMPTY_CLASS_ARRAY);
+        }
+        public ClassesList filter(IFilter<Class> filter) {
+            List<Class> list = new ArrayList<>();
+            for (Class element : this.list0) {
+                if (filter.next(element)) {
+                    list.add(element);
+                }
+            }
+            return ClassesList.wrap(list.toArray(Finals.EMPTY_CLASS_ARRAY));
+        }
+    }
+
+    public static class FieldList implements Cloneable {
+        private Field[] list0;
+
+        public static FieldList wrap(Field[] list) {
+            FieldList wrap = new FieldList();
+            wrap.list0 = list.clone();
+            return wrap;
+        }
+
+        protected Field[] list() {
+            return this.list0;
+        }
+        public Field[] listClone() {
+            return this.list0.clone();
+        }
+
+        @Override
+        public String toString() {
+            // TODO Auto-generated method stub
+            Field[] list = list();
+            return null == list ? null : Arrays.toString(list);
+        }
+
+        @Override
+        public FieldList clone() {
+            try {
+                FieldList newInstance = (FieldList) super.clone();
+                // TODO Auto-generated method stub
+                newInstance.list0 = this.listClone();
+                return newInstance;
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        public static FieldList empty() {
+            return FieldList.wrap(Finals.EMPTY_FIELD_ARRAY);
+        }
+        public FieldList filter(IFilter<Field> filter) {
+            List<Field> list = new ArrayList<>();
+            for (Field element : this.list0) {
+                if (filter.next(element)) {
+                    list.add(element);
+                }
+            }
+            return FieldList.wrap(list.toArray(Finals.EMPTY_FIELD_ARRAY));
+        }
+    }
+
+    public static class ConstructorList implements Cloneable {
+        private Constructor[] list0;
+        private Class[][] parameterTypes0;
+
+        public static ConstructorList wrap(Constructor[] list) {
+            ConstructorList wrap = new ConstructorList();
+            wrap.list0 = list.clone();
+            wrap.parameterTypes0 = new Class[list.length][];
+            for (int i = 0; i < list.length; i++) {
+                wrap.parameterTypes0[i] = list[i].getParameterTypes();// already cloneExecutor
+            }
+            return wrap;
+        }
+
+        protected Constructor[] list() {
+            return this.list0;
+        }
+        public Constructor[] listClone() {
+            return this.list0.clone();
+        }
+
+        protected Class[]   parameterTypes(int index) {
+            return this.parameterTypes0[index];
+        }
+        protected Class[][] parameterTypes() {
+            return this.parameterTypes0;
+        }
+        public Class[][] parameterTypesClone() {
+            Class[][] parameterTypes = this.parameterTypes();
+            Class[][] clones = new Class[parameterTypes.length][];
+            for (int i = 0; i < parameterTypes.length; i++) {
+                clones[i] = parameterTypes[i].clone();
+            }
+            return clones;
+        }
+
+        @Override
+        public String toString() {
+            // TODO Auto-generated method stub
+            Constructor[] list = list();
+            return null == list ? null : Arrays.toString(list);
+        }
+
+        @Override
+        public ConstructorList clone() {
+            try {
+                ConstructorList newInstance = (ConstructorList) super.clone();
+                // TODO Auto-generated method stub
+                newInstance.list0 = this.listClone();
+                newInstance.parameterTypes0 = this.parameterTypesClone();
+                return newInstance;
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        public static ConstructorList empty() {
+            return ConstructorList.wrap(Finals.EMPTY_CONSTRUCTOR_ARRAY);
+        }
+        public ConstructorList filter(IFilter<Constructor> filter) {
+            List<Constructor> list = new ArrayList<>();
+            for (Constructor element : this.list0) {
+                if (filter.next(element)) {
+                    list.add(element);
+                }
+            }
+            return ConstructorList.wrap(list.toArray(Finals.EMPTY_CONSTRUCTOR_ARRAY));
+        }
+    }
+
+    public static class MethodList implements Cloneable {
+        private Method[] list0;
+        private Class[][] parameterTypes0;
+
+        public static MethodList wrap(Method[] list) {
+            MethodList wrap = new MethodList();
+            wrap.list0 = list.clone();
+            wrap.parameterTypes0 = new Class[list.length][];
+            for (int i = 0; i < list.length; i++) {
+                wrap.parameterTypes0[i] = list[i].getParameterTypes();// already cloneExecutor
+            }
+            return wrap;
+        }
+
+        protected Method[] list() {
+            return this.list0;
+        }
+        public Method[] listClone() {
+            return this.list0.clone();
+        }
+
+        protected Class[] parameterTypes(int index) {
+            return this.parameterTypes0[index];
+        }
+        protected Class[][] parameterTypes() {
+            return this.parameterTypes0;
+        }
+
+        public Class[][] parameterTypesClone() {
+            Class[][] parameterTypes = parameterTypes();
+            Class[][] clones = new Class[parameterTypes.length][];
+            for (int i = 0; i < parameterTypes.length; i++) {
+                clones[i] = parameterTypes[i].clone();
+            }
+            return clones;
+        }
+
+        @Override
+        public String toString() {
+            // TODO Auto-generated method stub
+            Method[] list = list();
+            return null == list ? null : Arrays.toString(list);
+        }
+
+        @Override
+        public MethodList clone() {
+            try {
+                MethodList newInstance = (MethodList) super.clone();
+                newInstance.list0 = this.listClone();
+                newInstance.parameterTypes0 = this.parameterTypesClone();
+                return newInstance;
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public static MethodList empty() {
+            return MethodList.wrap(Finals.EMPTY_METHOD_ARRAY);
+        }
+        public MethodList filter(IFilter<Method> filter) {
+            List<Method> list = new ArrayList<>();
+            for (Method element : this.list0) {
+                if (filter.next(element)) {
+                    list.add(element);
+                }
+            }
+            return MethodList.wrap(list.toArray(Finals.EMPTY_METHOD_ARRAY));
+        }
+    }
+
+
+
+    /**
+     * All tip updates are obtained here
+     */
+    protected String getMemberName0(Member member) {
+        return member.getName();
+    }
+
+    /**
+     * All tip updates are obtained here
+     */
+    protected String getSimpleName0(Class<?> name) {
+        return Classx.findSimpleName(name);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //all map variable suffix is Map
+
+
+
+    /*
+     * Update cache if not present
+     */
+    private WeakCache<Map<Class, ClassesList>, RuntimeException> classesListMap;
+
+    protected ClassesList getClassesList(Class cls) {
+        if (null == cls) {
+            return null;
+        }
+        Map<Class, ClassesList> cacheMap = this.classesListMap.getOrCreateCache();
+        ClassesList object;
+        if (null == (object = cacheMap.get(cls))) {
+//            this.putCacheBefore();
+            cacheMap.put(cls, object = this.createClassesList(cls));
+        }
+        return object;
+    }
+
+
+
+    private WeakCache<Map<Class, Map<String, Class>>, RuntimeException> classesNameListMap;
+
+    protected Class getClasses(Class cls, String name) {
+        if (null == cls || null == name) {
+            return null;
+        }
+        Map<Class, Map<String, Class>> cacheMap = this.classesNameListMap.getOrCreateCache();
+        Map<String, Class> listMap;
+        if (null == (listMap = cacheMap.get(cls))) {
+//            this.putCacheBefore();
+            return this.update(cacheMap, cls, this.createClassesList(cls)).get(name);
+        }
+        return listMap.get(name);
+    }
+    private Map<String, Class> update(Map<Class, Map<String, Class>> cacheMap, Class cls, ClassesList values) {
+        Map<String, Class> tempMap = new LinkedHashMap<>();
+        for (Class value : values.list()) {
+            String fn = getSimpleName0(value);
+            if (tempMap.containsKey(fn))
+                continue;
+            tempMap.put(fn, value);
+        }
+        cacheMap.put(cls, tempMap);
+        return tempMap;
+    }
+
+
+
+
+
+
+    private WeakCache<Map<Class, ConstructorList>, RuntimeException> constructorListMap;
+
+    protected ConstructorList getConstructorList(Class cls) {
+        if (null == cls) {
+            return null;
+        }
+        Map<Class, ConstructorList> cacheMap = this.constructorListMap.getOrCreateCache();
+        ConstructorList object;
+        if (null == (object = cacheMap.get(cls))) {
+//            this.putCacheBefore();
+            cacheMap.put(cls, object = this.createConstructorList(cls));
+        }
+        return object;
+    }
+
+
+
+
+
+
+
+    private WeakCache<Map<Class, FieldList>, RuntimeException> fieldsListMap;
+
+    protected FieldList getFieldList(Class cls) {
+        if (null == cls) {
+            return null;
+        }
+        Map<Class, FieldList> cacheMap = this.fieldsListMap.getOrCreateCache();
+        FieldList object;
+        if (null == (object = cacheMap.get(cls))) {
+//            this.putCacheBefore();
+            cacheMap.put(cls, object = this.createFieldList(cls));
+        }
+        return object;
+    }
+
+
+
+
+
+
+    private WeakCache<Map<Class, Map<String, FieldList>>, RuntimeException> fieldsNameListMap;
+    protected FieldList getFieldList(Class cls, String name) {
+        if (null == cls || null == name) {
+            return null;
+        }
+        Map<Class, Map<String, FieldList>> cacheMap = this.fieldsNameListMap.getOrCreateCache();
+        Map<String, FieldList> listMap;
+        if (null == (listMap = cacheMap.get(cls))) {
+//            this.putCacheBefore();
+            return this.update(cacheMap, cls, this.createFieldList(cls)).get(name);
+        }
+        return listMap.get(name);
+    }
+    private Map<String, FieldList> update(Map<Class, Map<String, FieldList>> cacheMap, Class cls, FieldList values) {
+        Map<String, List<Field>> tempMap = new LinkedHashMap<>();
+        for (Field value : values.list()) {
+            String fn = getMemberName0(value);
+            List<Field> tempList = tempMap.get(fn);
+            if (null == tempList) {
+                tempMap.put(fn, tempList = new ArrayList<>());
+            }
+            tempList.add(value);
+        }
+        Map<String, FieldList> temp2Map = new HashMap<>();
+        for (String n : tempMap.keySet()) {
+            List<Field> tempList = tempMap.get(n);
+            temp2Map.put(n, FieldList.wrap(tempList.toArray(Finals.EMPTY_FIELD_ARRAY)));
+        }
+        cacheMap.put(cls, temp2Map);
+        return temp2Map;
+    }
+
+
+
+
+
+    private WeakCache<Map<Class, MethodList>, RuntimeException> methodsListMap;
+    protected MethodList getMethodList(Class cls) {
+        if (null == cls) {
+            return null;
+        }
+        Map<Class, MethodList> cacheMap = this.methodsListMap.getOrCreateCache();
+        MethodList object;
+        if (null == (object = cacheMap.get(cls))) {
+//            this.putCacheBefore();
+            cacheMap.put(cls, object = this.createMethodList(cls));
+        }
+        return object;
+    }
+
+
+    private WeakCache<Map<Class, Map<String, MethodList>>, RuntimeException> methodsNameListMap;
+    protected MethodList getMethodList(Class cls, String name) {
+        if (null == cls || null == name) {
+            return null;
+        }
+        Map<Class, Map<String, MethodList>> cacheMap = this.methodsNameListMap.getOrCreateCache();
+        Map<String, MethodList> listMap;
+        if (null == (listMap = cacheMap.get(cls))) {
+//            this.putCacheBefore();
+            return this.update(cacheMap, cls, this.createMethodList(cls)).get(name);
+        }
+        return listMap.get(name);
+    }
+    private Map<String, MethodList> update(Map<Class, Map<String, MethodList>> cacheMap, Class cls, MethodList values) {
+        Map<String, List<Method>> tempMap = new LinkedHashMap<>();
+        for (Method value : values.list()) {
+            String fn = getMemberName0(value);
+            List<Method> tempList = tempMap.get(fn);
+            if (null == tempList) {
+                tempMap.put(fn, tempList = new ArrayList<>());
+            }
+            tempList.add(value);
+        }
+        Map<String, MethodList> temp2Map = new HashMap<>();
+        for (String n : tempMap.keySet()) {
+            List<Method> tempList = tempMap.get(n);
+            temp2Map.put(n, MethodList.wrap(tempList.toArray(Finals.EMPTY_METHOD_ARRAY)));
+        }
+        cacheMap.put(cls, temp2Map);
+        return temp2Map;
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     * All tip updates are obtained here
+     */
+    protected ClassesList createClassesList(Class cls) {
+        return ClassesList.wrap(Reflects.classes(cls));
+    }
+    /**
+     * All tip updates are obtained here
+     */
+    protected ConstructorList createConstructorList(Class cls) {
+        return ConstructorList.wrap(Reflects.accessible(Reflects.constructors(cls)));
+    }
+    /**
+     * All tip updates are obtained here
+     */
+    protected FieldList createFieldList(Class cls) {
+        return FieldList.wrap(Reflects.accessible(Reflects.fields(cls)));
+    }
+    /**
+     * All tip updates are obtained here
+     */
+    protected MethodList createMethodList(Class cls) {
+        return MethodList.wrap(Reflects.accessible(Reflects.methods(cls)));
+    }
+
+
+
+
+
+
+
+    public Class[] classes(Class cls) {
+        ClassesList list = this.getClassesList(cls);
+        if (null == list) {
+            return null;
+        }
+        return list.listClone();
+    }
+    public Class classes(Class cls, String simpleName) {
+        return this.getClasses(cls, simpleName);
+    }
+
+
+    /**
+     * Update cache if not present
+     *
+     * @return cache
+     */
+    public Field field(Class cls, String name) {
+        return this.field(cls, null, name);
+    }
+
+    public Field field(Class cls, Class returnClass, String name) {
+        FieldList   list = this.getFieldList(cls, name);
+        if (null == list) {
+            return null;
+        }
+        Field[] fields = list.list();
+        if (null == returnClass) {
+            return fields.length == 0 ? null : fields[0];
+        } else {
+            for (Field field : fields) {
+                if (returnClass == field.getType()) {
+                    return field;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Field[] fields(Class cls) {
+        FieldList list = this.getFieldList(cls);
+        return null == list ? null : list.listClone();
+    }
+
+
+    /**
+     * Update cache if not present
+     *
+     * @return cache
+     */
+    public Constructor constructor(Class cls, Class... parameterTypes) {
+        if (null == parameterTypes) {
+            return null;
+        }
+        ConstructorList list = this.getConstructorList(cls);
+        if (null == list) {
+            return null;
+        }
+        Constructor[] constructors = list.list();
+        int length =  constructors.length;
+        for (int i = 0; i < length; i++) {
+            if (Objects.identityEquals(list.parameterTypes(i), parameterTypes)) {
+                return constructors[i];
+            }
+        }
+        return null;
+    }
+
+    public Constructor[] constructors(Class cls) {
+        ConstructorList list = this.getConstructorList(cls);
+        return null == list ? null : list.listClone();
+    }
+
+
+    /**
+     * Update cache if not present
+     *
+     * @return cache
+     */
+    public Method method(Class cls, String name, Class... parameterTypes) {
+        return this.method(cls, null, name, parameterTypes);
+    }
+
+    public Method method(Class cls, Class returnClass, String name, Class... parameterTypes) {
+        if (null == parameterTypes) {
+            return null;
+        }
+        MethodList  list = this.getMethodList(cls, name);
+        if (null == list) {
+            return null;
+        }
+        Method[] methods = list.list();
+        int length = methods.length;
+        if (null == returnClass) {
+            for (int i = 0; i < length; i++) {
+                if (Objects.identityEquals(list.parameterTypes(i), parameterTypes)) {
+                    return methods[i];
+                }
+            }
+        } else {
+            for (int i = 0; i < length; i++) {
+                if (returnClass == methods[i].getReturnType() &&
+                    Objects.identityEquals(list.parameterTypes(i), parameterTypes)) {
+                    return methods[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    public Method[] methods(Class cls) {
+        MethodList list = this.getMethodList(cls);
+        return null == list ? null : list.listClone();
+    }
+
+    public Method[] methods(Class cls, String name) {
+        MethodList list = this.getMethodList(cls, name);
+        return null == list ? null : list.listClone();
+    }
+
+
+
+
+
+
+
+
+
+    public ReflectCache release(Class<?> cls) {
+        for (WeakCache<Map<Class, ?>, RuntimeException> cacheMap: innerMaps)
+            cacheMap.getOrCreateCache().remove(cls);
+        return this;
+    }
+
+    public ReflectCache release(ClassLoader classLoader) {
+        for (WeakCache<Map<Class, ?>, RuntimeException> cacheMap: innerMaps) {
+            Map<Class, ?> orCreateCache = cacheMap.getOrCreateCache();
+            for (Class aClass : orCreateCache.keySet()) {
+                if (null != aClass)
+                    if (aClass.getClassLoader() == classLoader)
+                        orCreateCache.remove(aClass);
+            }
+        }
+        return this;
+    }
+
+
+
+
+
+
+    WeakCache<Map<Class, ?>, RuntimeException> createStoreMap() { return new WeakCache<Map<Class, ?>, RuntimeException>() {
+        @Override
+        public Map createCache() {
+            return new ConcurrentHashMap();
+        }
+    }; }
+
+
+
+    public boolean isDefault() { return this == DEFAULT; }
+    public static final ReflectCache DEFAULT = new ReflectCache();
+
+
+    private WeakCache[] initTable() {
+        return new WeakCache[] {
+                this.classesListMap     = (WeakCache) createStoreMap(),
+                this.classesNameListMap = (WeakCache) createStoreMap(),
+
+                this.constructorListMap = (WeakCache) createStoreMap(),
+
+                this.fieldsListMap      = (WeakCache) createStoreMap(),
+                this.fieldsNameListMap  = (WeakCache) createStoreMap(),
+
+                this.methodsListMap     = (WeakCache) createStoreMap(),
+                this.methodsNameListMap = (WeakCache) createStoreMap()
+        };
+    }
+
+    private WeakCache<Map<Class, ?>, RuntimeException>[] innerMaps = initTable();
+
+    public void release() {
+        for (WeakCache<Map<Class, ?>, RuntimeException> cacheMap: innerMaps) {
+            cacheMap.release();
+        }
+        innerMaps = initTable();
+    }
+}

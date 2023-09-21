@@ -2,7 +2,6 @@ package top.fols.atri.lang;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
-import top.fols.atri.lang.Finals;
 import java.util.ArrayList;
 
 public class Boxing {
@@ -86,7 +85,7 @@ public class Boxing {
 
 
 	
-	static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_MAPPING = new IdentityHashMap<Class<?>, Class<?>>() {{
+	static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_MAPPING = new IdentityHashMap<Class<?>, Class<?>>() {{//不会增量
 			put(boolean.class, 		Boolean.class);
 
 			put(byte.class,    		Byte.class);
@@ -103,49 +102,65 @@ public class Boxing {
 	
 	
 	//**
-	public static Class<?> 			getPrimitiveTypeBoxingType(Class<?> type)				{ 
+	public static Class<?> toWrapperType(Class<?> type)	{
 		return Boxing.PRIMITIVE_TYPE_MAPPING.get(type); 
 	}
 
-	public static Class<?> 			getPrimitiveTypeBoxingType(Object object) 				{ return null; }
+	public static Class<Boolean> toWrapperType(boolean object) 			{ return Finals.BOOLEAN_PACKAGE_CLASS; }
 
-	public static Class<Boolean> 	getPrimitiveTypeBoxingType(boolean object) 				{ return Finals.BOOLEAN_PACKAGE_CLASS; }
+	public static Class<Byte> toWrapperType(byte object) 				{ return Finals.BYTE_PACKAGE_CLASS; }
+	public static Class<Character> toWrapperType(char object) 			{ return Finals.CHAR_PACKAGE_CLASS; }
 
-	public static Class<Byte> 		getPrimitiveTypeBoxingType(byte object) 				{ return Finals.BYTE_PACKAGE_CLASS; }
-	public static Class<Character> 	getPrimitiveTypeBoxingType(char object) 				{ return Finals.CHAR_PACKAGE_CLASS; }
+	public static Class<Double> toWrapperType(double object) 			{ return Finals.DOUBLE_PACKAGE_CLASS; }
+	public static Class<Float> toWrapperType(float object) 				{ return Finals.FLOAT_PACKAGE_CLASS; }
 
-	public static Class<Double> 	getPrimitiveTypeBoxingType(double object) 				{ return Finals.DOUBLE_PACKAGE_CLASS; }
-	public static Class<Float> 		getPrimitiveTypeBoxingType(float object) 				{ return Finals.FLOAT_PACKAGE_CLASS; }
-
-	public static Class<Short> 		getPrimitiveTypeBoxingType(short object) 				{ return Finals.SHORT_PACKAGE_CLASS; }
-	public static Class<Long> 		getPrimitiveTypeBoxingType(long object) 				{ return Finals.LONG_PACKAGE_CLASS; }
-	public static Class<Integer> 	getPrimitiveTypeBoxingType(int object) 					{ return Finals.INT_PACKAGE_CLASS; }
+	public static Class<Short> toWrapperType(short object) 				{ return Finals.SHORT_PACKAGE_CLASS; }
+	public static Class<Long> toWrapperType(long object) 				{ return Finals.LONG_PACKAGE_CLASS; }
+	public static Class<Integer> toWrapperType(int object) 				{ return Finals.INT_PACKAGE_CLASS; }
 
 
-
-
-	public static boolean isPrimitive(Class<?> object) {
-		if (null == object) { return false; }
-		return object.getClass().isPrimitive();
+	//**
+	public static boolean isWrapperType(Class<?> object) {
+		return
+				! (null == object) &&
+				! (null == Boxing.PRIMITIVE_BOXING_TYPE_MAPPING.get(object));
 	}
-	public static boolean isPrimitive(Object object) 	{ return false; /* auto boxing */}
-
-	public static boolean isPrimitive(boolean object) 	{ return true; }
-
-	public static boolean isPrimitive(byte object) 		{ return true; }
-	public static boolean isPrimitive(char object) 		{ return true; }
-
-	public static boolean isPrimitive(double object) 	{ return true; }
-	public static boolean isPrimitive(float object) 	{ return true; }
-
-	public static boolean isPrimitive(short object) 	{ return true; }
-	public static boolean isPrimitive(long object) 		{ return true; }
-	public static boolean isPrimitive(int object) 		{ return true; }
-
-
-	public static Class<?>[] listPrimitive() {
-		return Boxing.PRIMITIVE_TYPE_ALL.clone();
+	//**
+	public static boolean isWrapperType(Object object) {
+		return
+				! (null == object) && (Boxing.PRIMITIVE_BOXING_TYPE_MAPPING.containsKey(object.getClass()));
 	}
+	public static boolean isWrapperType(boolean object) 	{ return false; }
+
+	public static boolean isWrapperType(byte object) 		{ return false; }
+	public static boolean isWrapperType(char object) 		{ return false; }
+
+	public static boolean isWrapperType(double object) 		{ return false; }
+	public static boolean isWrapperType(float object) 		{ return false; }
+
+	public static boolean isWrapperType(short object) 		{ return false; }
+	public static boolean isWrapperType(long object) 		{ return false; }
+	public static boolean isWrapperType(int object) 		{ return false; }
+
+
+
+	public static boolean isWrapperType(Boolean object) 	{ return !(null == object); }
+
+	public static boolean isWrapperType(Byte object) 		{ return !(null == object); }
+	public static boolean isWrapperType(Character object) 	{ return !(null == object); }
+
+	public static boolean isWrapperType(Double object) 		{ return !(null == object); }
+	public static boolean isWrapperType(Float object) 		{ return !(null == object); }
+
+	public static boolean isWrapperType(Short object) 		{ return !(null == object); }
+	public static boolean isWrapperType(Long object) 		{ return !(null == object); }
+	public static boolean isWrapperType(Integer object) 	{ return !(null == object); }
+
+	public static Class<?>[] listWrapperType() {
+		return Boxing.PRIMITIVE_BOXING_TYPE_CLASS.clone();
+	}
+
+
 
 
 
@@ -157,87 +172,65 @@ public class Boxing {
 
 
 	//**
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Class<?> type) {
+	public static Class<?> toPrimitiveType(Class<?> type) {
 		return Boxing.PRIMITIVE_BOXING_TYPE_MAPPING.get(type);
 	}
 	//**
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Object type) {
+	public static Class<?> toPrimitiveType(Object type) {
 		return null == type ?null: Boxing.PRIMITIVE_BOXING_TYPE_MAPPING.get(type.getClass());
 	}
 
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(boolean object) 	{ return null; }
+	public static Class<?> toPrimitiveType(boolean object) 	{ return null; }
 
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(byte object) 		{ return null; }
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(char object) 		{ return null; }
+	public static Class<?> toPrimitiveType(byte object) 		{ return null; }
+	public static Class<?> toPrimitiveType(char object) 		{ return null; }
 
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(double object) 	{ return null; }
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(float object) 	{ return null; }
+	public static Class<?> toPrimitiveType(double object) 	{ return null; }
+	public static Class<?> toPrimitiveType(float object) 	{ return null; }
 
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(short object) 	{ return null; }
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(long object) 		{ return null; }
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(int object) 		{ return null; }
-
-
-
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Boolean object) 	{ return (null == object) ?null: Finals.BOOLEAN_CLASS; }
-
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Byte object) 		{ return (null == object) ?null: Finals.BYTE_CLASS; }
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Character object) { return (null == object) ?null: Finals.CHAR_CLASS; }
-
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Double object) 	{ return (null == object) ?null: Finals.DOUBLE_CLASS; }
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Float object) 	{ return (null == object) ?null: Finals.FLOAT_CLASS; }
-
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Short object) 	{ return (null == object) ?null: Finals.SHORT_CLASS; }
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Long object) 		{ return (null == object) ?null: Finals.LONG_CLASS; }
-	public static Class<?> getPrimitiveBoxingTypeUnboxingType(Integer object) 	{ return (null == object) ?null: Finals.INT_CLASS; }
+	public static Class<?> toPrimitiveType(short object) 	{ return null; }
+	public static Class<?> toPrimitiveType(long object) 		{ return null; }
+	public static Class<?> toPrimitiveType(int object) 		{ return null; }
 
 
 
+	public static Class<?> toPrimitiveType(Boolean object) 	{ return (null == object) ?null: Finals.BOOLEAN_CLASS; }
+
+	public static Class<?> toPrimitiveType(Byte object) 		{ return (null == object) ?null: Finals.BYTE_CLASS; }
+	public static Class<?> toPrimitiveType(Character object) { return (null == object) ?null: Finals.CHAR_CLASS; }
+
+	public static Class<?> toPrimitiveType(Double object) 	{ return (null == object) ?null: Finals.DOUBLE_CLASS; }
+	public static Class<?> toPrimitiveType(Float object) 	{ return (null == object) ?null: Finals.FLOAT_CLASS; }
+
+	public static Class<?> toPrimitiveType(Short object) 	{ return (null == object) ?null: Finals.SHORT_CLASS; }
+	public static Class<?> toPrimitiveType(Long object) 		{ return (null == object) ?null: Finals.LONG_CLASS; }
+	public static Class<?> toPrimitiveType(Integer object) 	{ return (null == object) ?null: Finals.INT_CLASS; }
 
 
-	//**
-	public static boolean isPrimitiveBoxing(Class<?> object) {
-		return 
-			! (null == object) &&
-			! (null == Boxing.PRIMITIVE_BOXING_TYPE_MAPPING.get(object));
+
+
+	public static boolean isPrimitiveType(Class<?> object) {
+		if (null == object) { return false; }
+		return object.isPrimitive();
 	}
-	//**
-	public static boolean isPrimitiveBoxing(Object object) {
-		return 
-			! (null == object) && (Boxing.PRIMITIVE_BOXING_TYPE_MAPPING.containsKey(object.getClass()));
+	public static boolean isPrimitiveType(Object object) 	{ return false; /* auto boxing */}
+
+	public static boolean isPrimitiveType(boolean object) 	{ return true; }
+
+	public static boolean isPrimitiveType(byte object) 		{ return true; }
+	public static boolean isPrimitiveType(char object) 		{ return true; }
+
+	public static boolean isPrimitiveType(double object) 	{ return true; }
+	public static boolean isPrimitiveType(float object) 	{ return true; }
+
+	public static boolean isPrimitiveType(short object) 	{ return true; }
+	public static boolean isPrimitiveType(long object) 		{ return true; }
+	public static boolean isPrimitiveType(int object) 		{ return true; }
+
+
+	public static Class<?>[] listPrimitiveType() {
+		return Boxing.PRIMITIVE_TYPE_ALL.clone();
 	}
-	public static boolean isPrimitiveBoxing(boolean object) 	{ return false; }
-
-	public static boolean isPrimitiveBoxing(byte object) 		{ return false; }
-	public static boolean isPrimitiveBoxing(char object) 		{ return false; }
-
-	public static boolean isPrimitiveBoxing(double object) 		{ return false; }
-	public static boolean isPrimitiveBoxing(float object) 		{ return false; }
-
-	public static boolean isPrimitiveBoxing(short object) 		{ return false; }
-	public static boolean isPrimitiveBoxing(long object) 		{ return false; }
-	public static boolean isPrimitiveBoxing(int object) 		{ return false; }
-
-
-
-	public static boolean isPrimitiveBoxing(Boolean object) 	{ return !(null == object); }
-
-	public static boolean isPrimitiveBoxing(Byte object) 		{ return !(null == object); }
-	public static boolean isPrimitiveBoxing(Character object) 	{ return !(null == object); }
-
-	public static boolean isPrimitiveBoxing(Double object) 		{ return !(null == object); }
-	public static boolean isPrimitiveBoxing(Float object) 		{ return !(null == object); }
-
-	public static boolean isPrimitiveBoxing(Short object) 		{ return !(null == object); }
-	public static boolean isPrimitiveBoxing(Long object) 		{ return !(null == object); }
-	public static boolean isPrimitiveBoxing(Integer object) 	{ return !(null == object); }
-
-
-
-	public static Class<?>[] listPrimitiveBoxing() {
-		return Boxing.PRIMITIVE_BOXING_TYPE_CLASS.clone();
-	}
-
 
 
 
@@ -248,39 +241,38 @@ public class Boxing {
 	/**
 	 * boxing type or primitive type
 	 */
-	public static boolean isPrimitiveOrBoxing(Class<?> object) {
-		return !(null == object) && (object.isPrimitive() || isPrimitiveBoxing(object));
+	public static boolean isPrimitiveTypeOrWrapperType(Class<?> object) {
+		return !(null == object) && (object.isPrimitive() || isWrapperType(object));
 	}
 
-	public static boolean isPrimitiveOrBoxing(Object object) {
-		return !(null == object) && (isPrimitiveBoxing(object));
+	public static boolean isPrimitiveTypeOrWrapperType(Object object) {
+		return !(null == object) && (isWrapperType(object));
 	}
 
-	public static boolean isPrimitiveOrBoxing(boolean object) 	{ return true; }
+	public static boolean isPrimitiveTypeOrWrapperType(boolean object) 	{ return true; }
 
-	public static boolean isPrimitiveOrBoxing(byte object) 		{ return true; }
-	public static boolean isPrimitiveOrBoxing(char object) 		{ return true; }
+	public static boolean isPrimitiveTypeOrWrapperType(byte object) 		{ return true; }
+	public static boolean isPrimitiveTypeOrWrapperType(char object) 		{ return true; }
 
-	public static boolean isPrimitiveOrBoxing(double object) 	{ return true; }
-	public static boolean isPrimitiveOrBoxing(float object) 	{ return true; }
+	public static boolean isPrimitiveTypeOrWrapperType(double object) 	{ return true; }
+	public static boolean isPrimitiveTypeOrWrapperType(float object) 	{ return true; }
 
-	public static boolean isPrimitiveOrBoxing(short object) 	{ return true; }
-	public static boolean isPrimitiveOrBoxing(long object) 		{ return true; }
-	public static boolean isPrimitiveOrBoxing(int object) 		{ return true; }
+	public static boolean isPrimitiveTypeOrWrapperType(short object) 	{ return true; }
+	public static boolean isPrimitiveTypeOrWrapperType(long object) 		{ return true; }
+	public static boolean isPrimitiveTypeOrWrapperType(int object) 		{ return true; }
 
 
+	public static boolean isPrimitiveTypeOrWrapperType(Boolean object) 	{ return !(null == object); }
 
-	public static boolean isPrimitiveOrBoxing(Boolean object) 		{ return !(null == object); }
+	public static boolean isPrimitiveTypeOrWrapperType(Byte object) 		{ return !(null == object); }
+	public static boolean isPrimitiveTypeOrWrapperType(Character object) 	{ return !(null == object); }
 
-	public static boolean isPrimitiveOrBoxing(Byte object) 			{ return !(null == object); }
-	public static boolean isPrimitiveOrBoxing(Character object) 	{ return !(null == object); }
+	public static boolean isPrimitiveTypeOrWrapperType(Double object) 		{ return !(null == object); }
+	public static boolean isPrimitiveTypeOrWrapperType(Float object) 		{ return !(null == object); }
 
-	public static boolean isPrimitiveOrBoxing(Double object) 		{ return !(null == object); }
-	public static boolean isPrimitiveOrBoxing(Float object) 		{ return !(null == object); }
-
-	public static boolean isPrimitiveOrBoxing(Short object) 		{ return !(null == object); }
-	public static boolean isPrimitiveOrBoxing(Long object) 			{ return !(null == object); }
-	public static boolean isPrimitiveOrBoxing(Integer object) 		{ return !(null == object); }
+	public static boolean isPrimitiveTypeOrWrapperType(Short object) 		{ return !(null == object); }
+	public static boolean isPrimitiveTypeOrWrapperType(Long object) 		{ return !(null == object); }
+	public static boolean isPrimitiveTypeOrWrapperType(Integer object) 	{ return !(null == object); }
 
 	
 	
@@ -293,7 +285,7 @@ public class Boxing {
 	
 	
 	
-	static final Map<Class<?>, Object> DEFAULT_VALUE = new IdentityHashMap<Class<?>, Object>() {{
+	static final Map<Class<?>, Object> DEFAULT_VALUE = new IdentityHashMap<Class<?>, Object>() {{//不会增量
 			put(boolean.class, 		false);
 
 			put(byte.class,    		(byte)0);
@@ -306,13 +298,13 @@ public class Boxing {
 			put(long.class,         (long)0);
 			put(int.class,      	(Integer)0);
 		}};
-	static{
+	static {
 		for (Class<?> type: new ArrayList<>(DEFAULT_VALUE.keySet())) {
-			DEFAULT_VALUE.put(getPrimitiveTypeBoxingType(type), DEFAULT_VALUE.get(type));
+			DEFAULT_VALUE.put(toWrapperType(type), DEFAULT_VALUE.get(type));
 		}
 	}
 	
-	public static Object getDefault(Class<?> type) {
+	public static Object getDefaultValue(Class<?> type) {
 		return DEFAULT_VALUE.get(type);
 	}
 	

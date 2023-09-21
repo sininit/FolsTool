@@ -1,10 +1,12 @@
 package top.fols.atri.lang;
 
-import top.fols.atri.util.Releasable;
+import top.fols.atri.interfaces.interfaces.IReleasable;
+import top.fols.atri.interfaces.interfaces.IValue;
+
 import java.io.Serializable;
 
 @SuppressWarnings("ConstantConditions")
-public class Value<T> implements Releasable, Serializable {
+public class Value<T> implements IReleasable, IValue<T>, Serializable {
     private static final long serialVersionUID = 1L;
     private T obj;
 
@@ -20,6 +22,7 @@ public class Value<T> implements Releasable, Serializable {
         this.obj = o;
     }
 
+    @Override
     public T get() {
         return this.obj;
     }
@@ -28,12 +31,21 @@ public class Value<T> implements Releasable, Serializable {
         return this;
     }
 
+    @Override
     public int      hashCode() {
         return null == this.obj ? 0 : this.obj.hashCode();
     }
-    public boolean  equals(Object obj) {
-        return Objects.equals(this.obj, obj);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IValue)) return Objects.equals(obj, o);
+
+        IValue<?> value = (IValue<?>) o;
+        return Objects.equals(obj, value.get());
     }
+
+    @Override
     public String   toString() {
         return null == this.obj ? null : this.obj.toString();
     }
@@ -76,22 +88,5 @@ public class Value<T> implements Releasable, Serializable {
     }
     public static <T> T get(Value<T> value) {
         return null == value?null:value.get();
-    }
-
-
-
-
-    public static  Value<Object>  NULL() {
-        return new Value<>();
-    }
-    public static  Value<Boolean> TRUE() {
-        Value<Boolean> result = new Value<>();
-        result.set(true);
-        return result;
-    }
-    public static  Value<Boolean> FALSE() {
-        Value<Boolean> result = new Result<>();
-        result.set(false);
-        return result;
     }
 }

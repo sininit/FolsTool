@@ -2,56 +2,59 @@ package top.fols.atri.reflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import top.fols.atri.lang.Clasz;
-import top.fols.box.lang.XClass;
+import top.fols.atri.lang.Arrayz;
+import top.fols.atri.lang.Classz;
+import top.fols.box.lang.Classx;
 
 import static top.fols.atri.reflect.ReflectCache.*;
 import static top.fols.atri.lang.Finals.*;
-public class ReflectMatcher {
-	ReflectCache cache;
-	public ReflectMatcher(ReflectCache cache) {
+@SuppressWarnings({"rawtypes", "ForLoopReplaceableByForEach"})
+public class ReflectMatcher<T extends ReflectCache> {
+	T cache;
+	public ReflectMatcher(T cache) {
 		this.cache = cache;
 	}
 
 
-	/**
-	 * @param returnClass Nullable
-	 * @param name Nullable
-	 */
-	public static Field matchField(Field[] list, Class returnClass, String name) {
-        if (null == list) { return null; }
-        for (int i = 0; i < list.length; i++) {
+
+
+    /**
+     * @param returnClass Nullable
+     * @param name Nullable
+     */
+    public Field matchField(ReflectCache.FieldList list, Class returnClass, String name) {
+        return matchField(list.list(), returnClass, name);
+    }
+    public Field matchField(Field[] list, Class returnClass, String name) {
+        int forCount = list.length;
+        for (int i = 0; i < forCount; i++) {
             Field element = list[i];
-            if ((null == returnClass || returnClass == element.getType())
-				&& (null == name || name.equals(element.getName()))) {
-				return element;
-			}
+            if ((null == returnClass || returnClass == element.getType()) &&
+                (null == name || name.equals(element.getName()))) {
+                return element;
+            }
         }
         return null;
     }
 
-	/**
-	 * @param listParameterTypes Nullable
-	 */
-	public static Constructor matchConstructor(Constructor[] list, Class[][] listParameterTypes,
-											   boolean nullObjectCanCastToClass, Class... paramClassArr) {
-        if (null == list) {
-            return null;
-        }
-        int forlength = list.length;
-        for (int i = 0; i < forlength; i++) {
+
+
+    public Constructor matchConstructorArgumentsTypes(ReflectCache.ConstructorList list, Class... paramClassArr) {
+        return matchConstructorArgumentsTypes(list.list(), list.parameterTypes(), true, paramClassArr);
+    }
+    public Constructor matchConstructorArgumentsTypes(Constructor[] list, Class[][] listParameterTypes,
+                                                      boolean nullObjectCanCastToClass, Class... paramClassArr) {
+        int forCount = list.length;
+        for (int i = 0; i < forCount; i++) {
             Constructor element = list[i];
-            Class[] elementParameterTypes = null == listParameterTypes ? element.getParameterTypes()
-				: listParameterTypes[i];
+            Class[] elementParameterTypes = listParameterTypes[i];
             if (elementParameterTypes.length == paramClassArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Classz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -63,28 +66,25 @@ public class ReflectMatcher {
         }
         return null;
     }
-	/**
-	 * @param listParameterTypes Nullable
-	 */
-	public static Constructor[] matchConstructors(Constructor[] list, Class[][] listParameterTypes,
-												  boolean nullObjectCanCastToClass, Class... paramClassArr) {
-        if (null == list) {
-            return EMPTY_CONSTRUCTOR_ARRAY;
-        }
-        int forlength = list.length;
-        if (forlength == 0) {
-            return EMPTY_CONSTRUCTOR_ARRAY;
+
+    public Constructor[] matchConstructorsArgumentsTypes(ReflectCache.ConstructorList list, Class... paramClassAr) {
+        return matchConstructorsArgumentsTypes(list.list(), list.parameterTypes(), true, paramClassAr);
+    }
+    public Constructor[] matchConstructorsArgumentsTypes(Constructor[] list, Class[][] listParameterTypes,
+                                                         boolean nullObjectCanCastToClass, Class... paramClassArr) {
+        int forCount = list.length;
+        if (forCount == 0) {
+            return null;
         }
         Constructor[] result = null;
         int index = 0;
-        for (int i = 0; i < forlength; i++) {
+        for (int i = 0; i < forCount; i++) {
             Constructor element = list[i];
-            Class[] elementParameterTypes = null == listParameterTypes ? element.getParameterTypes()
-				: listParameterTypes[i];
+            Class[] elementParameterTypes = listParameterTypes[i];
             if (elementParameterTypes.length == paramClassArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Classz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -101,7 +101,7 @@ public class ReflectMatcher {
         if (null != result) {
             return Arrays.copyOf(result, index);
         } else {
-            return EMPTY_CONSTRUCTOR_ARRAY;
+            return null;
         }
     }
 
@@ -109,27 +109,25 @@ public class ReflectMatcher {
 
 
 
-	/**
+    public Method matchMethodArgumentsTypes(ReflectCache.MethodList list, Class returnClass, String name, Class... paramClassArr) {
+        return matchMethodArgumentsTypes(list.list(), list.parameterTypes(), returnClass, name, true, paramClassArr);
+    }
+    /**
      * @param returnClass        	Nullable
-     * @param listParameterTypes 	Nullable
      * @param name         			Nullable
      */
-    public static Method matchMethod(Method[] list, Class[][] listParameterTypes, Class returnClass, String name,
-									 boolean nullObjectCanCastToClass, Class... paramClassArr) {
-        if (null == list) {
-            return null;
-        }
-        int forlength = list.length;
-        for (int i = 0; i < forlength; i++) {
+    public Method matchMethodArgumentsTypes(Method[] list, Class[][] listParameterTypes, Class returnClass, String name,
+                                            boolean nullObjectCanCastToClass, Class... paramClassArr) {
+        int forCount = list.length;
+        for (int i = 0; i < forCount; i++) {
             Method element = list[i];
-            Class[] elementParameterTypes = null == listParameterTypes ? element.getParameterTypes()
-				: listParameterTypes[i];
+            Class[] elementParameterTypes = listParameterTypes[i];
             if (elementParameterTypes.length == paramClassArr.length
-				&& (null == returnClass || returnClass == element.getReturnType())
-				&& (null == name || name.equals(element.getName()))) {
+                    && (null == returnClass || returnClass == element.getReturnType())
+                    && (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Classz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -142,32 +140,31 @@ public class ReflectMatcher {
         return null;
     }
 
+
+    public Method[] matchMethodsArgumentsTypes(ReflectCache.MethodList list, Class returnClass, String name, Class... paramClassArr) {
+        return matchMethodsArgumentsTypes(list.list(), list.parameterTypes(), returnClass, name, true, paramClassArr);
+    }
     /**
      * @param returnClass        	Nullable
-     * @param listParameterTypes 	Nullable
      * @param name         			Nullable
      */
-    public static Method[] matchMethods(Method[] list, Class[][] listParameterTypes, Class returnClass, String name, 
-										boolean nullObjectCanCastToClass, Class... paramClassArr) {
-        if (null == list) {
-            return EMPTY_METHOD_ARRAY;
-        }
-        int forlength = list.length;
-        if (forlength == 0) {
-            return EMPTY_METHOD_ARRAY;
+    public Method[] matchMethodsArgumentsTypes(Method[] list, Class[][] listParameterTypes, Class returnClass, String name,
+                                               boolean nullObjectCanCastToClass, Class... paramClassArr) {
+        int forCount = list.length;
+        if (forCount == 0) {
+            return null;
         }
         Method[] result = null;
         int index = 0;
-        for (int i = 0; i < forlength; i++) {
+        for (int i = 0; i < forCount; i++) {
             Method element = list[i];
-            Class[] elementParameterTypes = null == listParameterTypes ? element.getParameterTypes()
-				: listParameterTypes[i];
+            Class[] elementParameterTypes = listParameterTypes[i];
             if (elementParameterTypes.length == paramClassArr.length
-				&& (null == returnClass || returnClass == element.getReturnType())
-				&& (null == name || name.equals(element.getName()))) {
+                    && (null == returnClass || returnClass == element.getReturnType())
+                    && (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!Clasz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Classz.isInstance(paramClassArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -184,7 +181,7 @@ public class ReflectMatcher {
         if (null != result) {
             return Arrays.copyOf(result, index);
         } else {
-            return EMPTY_METHOD_ARRAY;
+            return null;
         }
     }
 
@@ -196,27 +193,24 @@ public class ReflectMatcher {
 
 
 
-	/**
-     * matcher object type param
-     */
+    /* matcher object type param */
 
-    /**
-	 * @param listParameterTypes Nullable
-	 */
-    public static Constructor matchConstructor(Constructor[] list, Class[][] listParameterTypes,
-											   boolean nullObjectCanCastToClass, Object... paramInstanceArr) {
-        if (null == list) {
-            return null;
-        }
-        int forlength = list.length;
-        for (int i = 0; i < forlength; i++) {
+
+
+
+    public Constructor matchConstructorArguments(ReflectCache.ConstructorList list, Object... paramInstanceArr) {
+        return matchConstructorArguments(list.list(), list.parameterTypes(), true, paramInstanceArr);
+    }
+    public Constructor matchConstructorArguments(Constructor[] list, Class[][] listParameterTypes,
+                                                 boolean nullObjectCanCastToClass, Object... paramInstanceArr) {
+        int forCount = list.length;
+        for (int i = 0; i < forCount; i++) {
             Constructor element = list[i];
-            Class[] elementParameterTypes = null == listParameterTypes ? element.getParameterTypes()
-				: listParameterTypes[i];
+            Class[] elementParameterTypes = listParameterTypes[i];
             if (elementParameterTypes.length == paramInstanceArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Classz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -229,28 +223,24 @@ public class ReflectMatcher {
         return null;
     }
 
-    /**
-	 * @param listParameterTypes Nullable
-	 */
-    public static Constructor[] matchConstructors(Constructor[] list, Class[][] listParameterTypes,
-												  boolean nullObjectCanCastToClass, Object... paramInstanceArr) {
-        if (null == list) {
-            return EMPTY_CONSTRUCTOR_ARRAY;
-        }
-        int forlength = list.length;
-        if (forlength == 0) {
-            return EMPTY_CONSTRUCTOR_ARRAY;
+    public Constructor[] matchConstructorsArguments(ReflectCache.ConstructorList list, Object... paramInstanceArr) {
+        return matchConstructorsArguments(list.list(), list.parameterTypes(), true, paramInstanceArr);
+    }
+    public Constructor[] matchConstructorsArguments(Constructor[] list, Class[][] listParameterTypes,
+                                                    boolean nullObjectCanCastToClass, Object... paramInstanceArr) {
+        int forCount = list.length;
+        if (forCount == 0) {
+            return null;
         }
         Constructor[] result = null;
         int index = 0;
-        for (int i = 0; i < forlength; i++) {
+        for (int i = 0; i < forCount; i++) {
             Constructor element = list[i];
-            Class[] elementParameterTypes = null == listParameterTypes ? element.getParameterTypes()
-				: listParameterTypes[i];
+            Class[] elementParameterTypes = listParameterTypes[i];
             if (elementParameterTypes.length == paramInstanceArr.length) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Classz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -267,31 +257,30 @@ public class ReflectMatcher {
         if (null != result) {
             return Arrays.copyOf(result, index);
         } else {
-            return EMPTY_CONSTRUCTOR_ARRAY;
+            return null;
         }
     }
 
+
+    public Method matchMethodArguments(ReflectCache.MethodList list, Class returnClass, String name, Object... paramInstanceArr) {
+        return matchMethodArguments(list.list(), list.parameterTypes(), returnClass, name, true, paramInstanceArr);
+    }
     /**
      * @param returnClass        	Nullable
-     * @param listParameterTypes 	Nullable
      * @param name         			Nullable
      */
-    public static Method matchMethod(Method[] list, Class[][] listParameterTypes, Class returnClass, String name,
-									 boolean nullObjectCanCastToClass, Object... paramInstanceArr) {
-        if (null == list) {
-            return null;
-        }
-        int forlength = list.length;
-        for (int i = 0; i < forlength; i++) {
+    public Method matchMethodArguments(Method[] list, Class[][] listParameterTypes, Class returnClass, String name,
+                                       boolean nullObjectCanCastToClass, Object... paramInstanceArr) {
+        int forCount = list.length;
+        for (int i = 0; i < forCount; i++) {
             Method element = list[i];
-            Class[] elementParameterTypes = null == listParameterTypes ? element.getParameterTypes()
-				: listParameterTypes[i];
+            Class[] elementParameterTypes = listParameterTypes[i];
             if (elementParameterTypes.length == paramInstanceArr.length
-				&& (null == returnClass || returnClass == element.getReturnType())
-				&& (null == name || name.equals(element.getName()))) {
+                    && (null == returnClass || returnClass == element.getReturnType())
+                    && (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Classz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -304,32 +293,31 @@ public class ReflectMatcher {
         return null;
     }
 
+
+    public Method[] matchMethodsArguments(ReflectCache.MethodList list, Class returnClass, String name, Object... paramInstanceArr) {
+        return matchMethodsArguments(list.list(), list.parameterTypes(), returnClass, name, true, paramInstanceArr);
+    }
     /**
      * @param returnClass        	Nullable
-     * @param listParameterTypes 	Nullable
      * @param name         			Nullable
      */
-    public static Method[] matchMethods(Method[] list, Class[][] listParameterTypes, Class returnClass,
-										String name, boolean nullObjectCanCastToClass, Object... paramInstanceArr) {
-        if (null == list) {
-            return EMPTY_METHOD_ARRAY;
-        }
-        int forlength = list.length;
-        if (forlength == 0) {
-            return EMPTY_METHOD_ARRAY;
+    public Method[] matchMethodsArguments(Method[] list, Class[][] listParameterTypes, Class returnClass,
+                                          String name, boolean nullObjectCanCastToClass, Object... paramInstanceArr) {
+        int forCount = list.length;
+        if (forCount == 0) {
+            return null;
         }
         Method[] result = null;
         int index = 0;
-        for (int i = 0; i < forlength; i++) {
+        for (int i = 0; i < forCount; i++) {
             Method element = list[i];
-            Class[] elementParameterTypes = null == listParameterTypes ? element.getParameterTypes()
-				: listParameterTypes[i];
+            Class[] elementParameterTypes = listParameterTypes[i];
             if (elementParameterTypes.length == paramInstanceArr.length
-				&& (null == returnClass || returnClass == element.getReturnType())
-				&& (null == name || name.equals(element.getName()))) {
+                    && (null == returnClass || returnClass == element.getReturnType())
+                    && (null == name || name.equals(element.getName()))) {
                 boolean b = true;
                 for (int i2 = 0; i2 < elementParameterTypes.length; i2++) {
-                    if (!Clasz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
+                    if (!Classz.isInstance(paramInstanceArr[i2], elementParameterTypes[i2], nullObjectCanCastToClass)) {
                         b = false;
                         break;
                     }
@@ -346,7 +334,7 @@ public class ReflectMatcher {
         if (null != result) {
             return Arrays.copyOf(result, index);
         } else {
-            return EMPTY_METHOD_ARRAY;
+            return null;
         }
     }
 
@@ -354,61 +342,88 @@ public class ReflectMatcher {
 
 
 
+    public String buildNoSuchClasses(Class cls, String name) {
+        ReflectCache.ClassesList throwList = cacher().getClassesList(cls);
+        return buildNoSuchMatch(cls, null == throwList?null:throwList.list(), null, name, (Class[]) null);
+    }
 
+    public String buildNoSuchField(Class cls, Class type, String name) {
+        ReflectCache.FieldList list = cacher().getFieldList(cls);
+        return buildNoSuchMatch(cls, null == list?null:list.list(), type, name, (Class[]) null);
+    }
 
+    public String buildNoSuchConstructor(Class<?> cls, Object... paramInstanceArr) {
+        ReflectCache.ConstructorList list = cacher().getConstructorList(cls);
+        return buildNoSuchMatch(cls, null == list?null:list.list(), null, "", null == paramInstanceArr ? EMPTY_OBJECT_ARRAY : paramInstanceArr);
+    }
+    public String buildNoSuchConstructor(Class<?> cls, Class... paramClass) {
+        ReflectCache.ConstructorList list = cacher().getConstructorList(cls);
+        return buildNoSuchMatch(cls, null == list?null:list.list(), null, "", null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
+    }
 
+    public String buildNoSuchMethod(Class cls, Class returnClass, String name, Object... paramInstanceArr) {
+        ReflectCache.MethodList list = cacher().getMethodList(cls);
+        return buildNoSuchMatch(cls, null == list?null:list.list(), returnClass, name, null == paramInstanceArr ? EMPTY_OBJECT_ARRAY : paramInstanceArr);
+    }
+    public String buildNoSuchMethod(Class cls, Class returnClass, String name, Class... paramClass) {
+        ReflectCache.MethodList list = cacher().getMethodList(cls);
+        return buildNoSuchMatch(cls, null == list?null:list.list(), returnClass, name, null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
+    }
 
-	public static String throwNoSuchMatch(Member[] finds
-										  , Class returnClass, String name,
-										  Object... paramInstanceArr) {
-        StringBuilder strbuf = new StringBuilder();
-        strbuf.append("cannot found: ").append(null == returnClass ? "" : XClass.toAbsCanonicalName(returnClass)).append(" ")
-			.append(name).append(null == finds ? "" : XClass.joinParamJavaClassCanonicalName(paramInstanceArr))
-			.append("    ");
-        strbuf.append("matching list: ");
-        if (null == finds) {
-            strbuf.append((String) null);
+    public static String buildNoSuchMatch(Class inClass, Object[] inClassElementList,
+                                          Class returnClass, String name,
+                                          Object... paramInstanceArr) {
+        StringBuilder builder = new StringBuilder();
+        String s = null == returnClass ? "" : Classx.getClassGetNameToCanonicalName(returnClass);
+        builder.append("cannot found: ").append(s);
+        if (null == paramInstanceArr) {
+            builder.append(s.length() > 0 ? " " : "").append(name);
         } else {
-			StringBuilder xsj = new StringBuilder();
-            String separator = ",    ";
-            for (Member constructor22 : finds) {
-                xsj.append(null == constructor22 ? "null" : constructor22.toString()).append(separator);
-            }
-			String xsjstr = xsj.toString();
-			int offset = 0; int end = (xsjstr.endsWith(separator) ?xsjstr.length() - separator.length(): xsjstr.length());
-            strbuf.append(xsjstr, offset, end);
+            builder.append(s.length() > 0 ? " " : "").append(name).append(null == inClassElementList ? "" : Classx.joinParamJavaClassCanonicalName(paramInstanceArr));
         }
-        return strbuf.toString();
+        builder.append(" in ");
+        if (null != inClass) {
+            builder.append(Classx.getClassGetNameToCanonicalName(inClass)).append(" ");
+        }
+        if (null == inClassElementList) {
+            builder.append("[]");
+        } else {
+            builder.append(Arrayz.toString(inClassElementList));
+        }
+        return builder.toString();
     }
 
-    public static String throwNoSuchMatch(Member[] finds
-										  , Class returnClass, String name,
-										  Class... paramClassArr) {
-        StringBuilder strbuf = new StringBuilder();
-        strbuf.append("cannot found: ").append(null == returnClass ? "" : XClass.toAbsCanonicalName(returnClass)).append(" ")
-			.append(name).append(null == finds ? "" : XClass.joinParamJavaClassCanonicalName(paramClassArr))
-			.append("    ");
-        strbuf.append("matching list: ");
-        if (null == finds) {
-            strbuf.append((String) null);
+    public static String buildNoSuchMatch(Class inClass, Object[] inClassElementList,
+                                          Class returnClass, String name,
+                                          Class... paramClassArr) {
+        StringBuilder builder = new StringBuilder();
+        String s = null == returnClass ? "" : Classx.getClassGetNameToCanonicalName(returnClass);
+        builder.append("cannot found: ").append(s);
+        if (null == paramClassArr) {
+            builder.append(s.length() > 0 ? " " : "").append(name);
         } else {
-            StringBuilder xsj = new StringBuilder();
-            String separator = ",    ";
-            for (Member constructor22 : finds) {
-                xsj.append(null == constructor22 ? "null" : constructor22.toString()).append(separator);
-            }
-			String xsjstr = xsj.toString();
-			int offset = 0; int end = (xsjstr.endsWith(separator) ?xsjstr.length() - separator.length(): xsjstr.length());
-            strbuf.append(xsjstr, offset, end);
+            builder.append(s.length() > 0 ? " " : "").append(name).append(null == inClassElementList ? "" : Classx.joinParamJavaClassCanonicalName(paramClassArr));
         }
-        return strbuf.toString();
+        builder.append(" in ");
+        if (null != inClass) {
+            builder.append(Classx.getClassGetNameToCanonicalName(inClass)).append(" ");
+        }
+        if (null == inClassElementList) {
+            builder.append("[]");
+        } else {
+            builder.append(Arrayz.toString(inClassElementList));
+        }
+        return builder.toString();
     }
+
+
+
+
+    //****************************
 	
 	
-	
-	
-	public ReflectCache 	cacher() { return this.cache; }
-    public ReflectMatcher 	cacherRelease() {
+	public T 	                cacher() { return this.cache; }
+    public ReflectMatcher<T>    release() {
         this.cacher().release();
         return this;
     }
@@ -417,74 +432,118 @@ public class ReflectMatcher {
 
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	/**
+
+
+    /**
+     * @param cls Nullable
+     * @param name Nullable
+     */
+    public Class requireClasses(Class cls, String name) throws RuntimeException {
+        Class match = classes(cls, name);
+        if (null != match) {
+            return  match;
+        }
+        throw new RuntimeException(buildNoSuchClasses(cls, name));
+    }
+    public Class classes(Class cls, String name) throws RuntimeException {
+        ReflectCache cache = this.cacher();
+        return cache.getClasses(cls, name);
+    }
+
+
+
+    /**
 	 * @param type Nullable
 	 * @param name Nullable
 	 */
-	public Field getField(Class cls, Class type, String name) throws RuntimeException {
-        ReflectCache cache = this.cacher();
-		ReflectCache.FieldList gets = cache.getFieldsList(cls, name);
-        if (null != gets && gets.list.length != 0) {
-			Field match = matchField(gets.list(), type, name);
-            return Reflects.accessible(match);
+	public Field requireField(Class cls, Class type, String name) throws RuntimeException {
+        Field match = field(cls, type, name);
+        if (null != match) {
+            return  match;
         }
-        throw new RuntimeException(throwNoSuchMatch(cache.getFieldsList(cls).list(), null, name, (Class[]) null));
+        throw new RuntimeException(buildNoSuchField(cls, type, name));
+    }
+    public Field field(Class cls, Class type, String name) throws RuntimeException {
+        ReflectCache.FieldList fieldList = this.cacher().getFieldList(cls, name);
+        if (null != fieldList) {
+            return matchField(fieldList.list(), type, name);
+        }
+        return null;
     }
 
 
 
-	public Constructor getConstructor(Class<?> cls, Object... paramInstanceArr) throws RuntimeException {
-        ReflectCache cache = this.cacher();
-		ConstructorList gets = cache.getConstructorsList(cls);
-        if (null != gets && gets.list.length != 0) {
-            Constructor match = matchConstructor(gets.list(), gets.parameterTypes(), true,
-												 null == paramInstanceArr ? EMPTY_OBJECT_ARRAY : paramInstanceArr);
-            return Reflects.accessible(match);
+
+
+	public Constructor requireConstructor(Class<?> cls, Object... paramInstanceArr) throws RuntimeException {
+        Constructor match = constructor(cls, paramInstanceArr);
+        if (null != match) {
+            return match;
         }
-        throw new RuntimeException(throwNoSuchMatch(cache.getConstructorsList(cls).list(), null, "", paramInstanceArr));
+        throw new RuntimeException(buildNoSuchConstructor(cls, paramInstanceArr));
     }
-    public Constructor getConstructor(Class<?> cls, Class... paramClass) throws RuntimeException {
-        ReflectCache cache = this.cacher();
-		ConstructorList gets = cache.getConstructorsList(cls);
-        if (null != gets && gets.list.length != 0) {
-            Constructor match = matchConstructor(gets.list(), gets.parameterTypes(), true,
-												 null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
-            return Reflects.accessible(match);
+    public Constructor constructor(Class<?> cls, Object... paramInstanceArr) throws RuntimeException {
+        ConstructorList constructorList = this.cacher().getConstructorList(cls);
+        if (null != constructorList) {
+            return matchConstructorArguments(constructorList.list(), constructorList.parameterTypes(), true,
+                   null == paramInstanceArr ? EMPTY_OBJECT_ARRAY : paramInstanceArr);
         }
-        throw new RuntimeException(throwNoSuchMatch(cache.getConstructorsList(cls).list(), null, "", paramClass));
+        return null;
+    }
+
+    public Constructor requireConstructor(Class<?> cls, Class... paramClass) throws RuntimeException {
+        Constructor match = constructor(cls, paramClass);
+        if (null != match) {
+            return match;
+        }
+        throw new RuntimeException(buildNoSuchConstructor(cls, paramClass));
+    }
+    public Constructor constructor(Class<?> cls, Class... paramClass) throws RuntimeException {
+        ConstructorList constructorList = this.cacher().getConstructorList(cls);
+        if (null != constructorList) {
+            return matchConstructorArgumentsTypes(constructorList.list(), constructorList.parameterTypes(), true,
+                   null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
+        }
+        return null;
     }
 
 
 
-    public Constructor[] getConstructors(Class<?> cls, Object... paramInstanceArr) throws RuntimeException {
-        ReflectCache cache = this.cacher();
-		ReflectCache.ConstructorList gets = cache.getConstructorsList(cls);
-        if (null != gets && gets.list.length != 0) {
-            Constructor[] match = matchConstructors(gets.list(), gets.parameterTypes(), true,
-													null == paramInstanceArr ? EMPTY_OBJECT_ARRAY : paramInstanceArr);
-            return Reflects.accessible(match);
+
+
+
+    public Constructor[] requireConstructors(Class<?> cls, Object... paramInstanceArr) throws RuntimeException {
+        Constructor[] match = constructors(cls, paramInstanceArr);
+        if (null != match && match.length > 0) {
+            return  match;
         }
-        throw new RuntimeException(throwNoSuchMatch(cache.getConstructorsList(cls).list(), null, "", paramInstanceArr));
+        throw new RuntimeException(buildNoSuchConstructor(cls, paramInstanceArr));
     }
-    public Constructor[] getConstructors(Class<?> cls, Class... paramClass) throws RuntimeException {
-        ReflectCache cache = this.cacher();
-		ReflectCache.ConstructorList gets = cache.getConstructorsList(cls);
-        if (null != gets && gets.list.length != 0) {
-            Constructor[] match = matchConstructors(gets.list(), gets.parameterTypes(), true,
-													null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
-            return Reflects.accessible(match);
+    public Constructor[] constructors(Class<?> cls, Object... paramInstanceArr) throws RuntimeException {
+        ReflectCache.ConstructorList constructorList = this.cacher().getConstructorList(cls);
+        if (null != constructorList) {
+            return matchConstructorsArguments(constructorList.list(), constructorList.parameterTypes(), true,
+                   null == paramInstanceArr ? EMPTY_OBJECT_ARRAY : paramInstanceArr);
         }
-        throw new RuntimeException(throwNoSuchMatch(cache.getConstructorsList(cls).list(), null, "", paramClass));
+        return null;
+    }
+
+
+    public Constructor[] requireConstructors(Class<?> cls, Class... paramClass) throws RuntimeException {
+        Constructor[] match = constructors(cls, paramClass);
+        if (null != match && match.length > 0) {
+            return  match;
+        }
+        throw new RuntimeException(buildNoSuchConstructor(cls, paramClass));
+    }
+    public Constructor[] constructors(Class<?> cls, Class... paramClass) throws RuntimeException {
+        ReflectCache.ConstructorList constructorList = this.cacher().getConstructorList(cls);
+        if (null != constructorList) {
+            return  matchConstructorsArgumentsTypes(constructorList.list(), constructorList.parameterTypes(), true,
+                    null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
+        }
+        return null;
     }
 
 
@@ -498,120 +557,102 @@ public class ReflectMatcher {
 	 * @param returnClass Nullable
 	 * @param name Nullable
 	 */
-    public Method getMethod(Class cls, Class returnClass, String name, Object... paramInstanceArr)
-	throws RuntimeException {
-        ReflectCache cache = this.cacher();
-		ReflectCache.MethodList gets = cache.getMethodsList(cls, name);
-        if (null != gets && gets.list.length != 0) {
-            Method match = matchMethod(gets.list(), gets.parameterTypes(), returnClass, null, true, paramInstanceArr);
-            return Reflects.accessible(match);
+    public Method requireMethod(Class cls, Class returnClass, String name, Object... paramInstanceArr)
+	    throws RuntimeException {
+        Method match = method(cls, returnClass, name, paramInstanceArr);
+        if (null != match) {
+            return match;
         }
-        throw new RuntimeException(throwNoSuchMatch(cache.getMethodsList(cls).list(), returnClass, name,
-													null == paramInstanceArr ? EMPTY_OBJECT_ARRAY : paramInstanceArr));
+        throw new RuntimeException(buildNoSuchMethod(cls, returnClass, name, paramInstanceArr));
     }
-	/**
-	 * @param returnClass Nullable
-	 * @param name Nullable
-	 */
-    public Method getMethod(Class cls, Class returnClass, String name, Class... paramClass)
-	throws RuntimeException {
-        ReflectCache cache = this.cacher();
-		ReflectCache.MethodList gets = cache.getMethodsList(cls, name);
-        if (null != gets && gets.list.length != 0) {
-            Method match = matchMethod(gets.list(), gets.parameterTypes(), returnClass, null, true,
-									   null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
-            return Reflects.accessible(match);
+    public Method method(Class cls, Class returnClass, String name, Object... paramInstanceArr)
+            throws RuntimeException {
+        ReflectCache.MethodList methodList = this.cacher().getMethodList(cls, name);
+        if (null != methodList) {
+            return  matchMethodArguments(methodList.list(), methodList.parameterTypes(), returnClass, null, true, paramInstanceArr);
         }
-        throw new RuntimeException(throwNoSuchMatch(cache.getMethodsList(cls).list(), returnClass, name,
-													null == paramClass ? EMPTY_CLASS_ARRAY : paramClass));
+        return null;
     }
-
 
 
 	/**
 	 * @param returnClass Nullable
 	 * @param name Nullable
 	 */
-    public Method[] getMethods(Class cls, Class returnClass, String name, Object... paramInstanceArr)
-	throws RuntimeException {
-        ReflectCache cache = this.cacher();
-		MethodList gets = cache.getMethodsList(cls, name);
-        if (null != gets && gets.list.length != 0) {
-            Method[] match = matchMethods(gets.list(), gets.parameterTypes(), returnClass, null, true,
-										  null == paramInstanceArr ? EMPTY_OBJECT_ARRAY : paramInstanceArr);
-            return Reflects.accessible(match);
+    public Method requireMethod(Class cls, Class returnClass, String name, Class... paramClass)
+	        throws RuntimeException {
+        Method match = method(cls, returnClass, name, paramClass);
+        if (null != match) {
+            return match;
         }
-        throw new RuntimeException(throwNoSuchMatch(cache.getMethodsList(cls).list(), returnClass, name,
-													paramInstanceArr));
+        throw new RuntimeException(buildNoSuchMethod(cls, returnClass, name, paramClass));
+    }
+    public Method method(Class cls, Class returnClass, String name, Class... paramClass)
+            throws RuntimeException {
+        ReflectCache.MethodList methodList = this.cacher().getMethodList(cls, name);
+        if (null != methodList) {
+            return  matchMethodArgumentsTypes(methodList.list(), methodList.parameterTypes(), returnClass, null, true,
+                    null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
+        }
+        return null;
+    }
+
+
+	/**
+	 * @param returnClass Nullable
+	 * @param name Nullable
+	 */
+    public Method[] requireMethods(Class cls, Class returnClass, String name, Object... paramInstanceArr)
+            throws RuntimeException {
+        Method[] match = methods(cls, returnClass, name, paramInstanceArr);
+        if (null != match && match.length > 0) {
+            return  match;
+        }
+        throw new RuntimeException(buildNoSuchMethod(cls, returnClass, name, paramInstanceArr));
+    }
+    public Method[] methods(Class cls, Class returnClass, String name, Object... paramInstanceArr)
+            throws RuntimeException {
+        MethodList methodList = this.cacher().getMethodList(cls, name);
+        if (null != methodList) {
+            return  matchMethodsArguments(methodList.list(), methodList.parameterTypes(), returnClass, null, true,
+                    null == paramInstanceArr ? EMPTY_OBJECT_ARRAY : paramInstanceArr);
+        }
+        return null;
     }
 	/**
 	 * @param returnClass Nullable
 	 * @param name Nullable
 	 */
-    public Method[] getMethods(Class cls, Class returnClass, String name, Class... paramClass)
-	throws RuntimeException {
-        ReflectCache cache = this.cacher();
-		MethodList gets = cache.getMethodsList(cls, name);
-        if (null != gets && gets.list.length != 0) {
-            Method[] match = matchMethods(gets.list(), gets.parameterTypes(), returnClass, null, true,
-										  null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
-            return Reflects.accessible(match);
+    public Method[] requireMethods(Class cls, Class returnClass, String name, Class... paramClass)
+	        throws RuntimeException {
+        Method[] match = methods(cls, returnClass, name, paramClass);
+        if (null != match && match.length > 0) {
+            return  match;
         }
-        throw new RuntimeException(throwNoSuchMatch(cache.getMethodsList(cls).list(), returnClass, name,
-													paramClass));
+        throw new RuntimeException(buildNoSuchMethod(cls, returnClass, name, paramClass));
     }
-	
-	
-	
-	
-	
-	public Object invoke(Class  cls, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        return this.invoke(cls, null, null, name, args);
+    public Method[] methods(Class cls, Class returnClass, String name, Class... paramClass)
+            throws RuntimeException {
+        MethodList methodList = this.cacher().getMethodList(cls, name);
+        if (null != methodList) {
+            return  matchMethodsArgumentsTypes(methodList.list(), methodList.parameterTypes(), returnClass, null, true,
+                    null == paramClass ? EMPTY_CLASS_ARRAY : paramClass);
+        }
+        return null;
     }
-	public Object invoke(Object object, String name, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-        if (null == object) { throw new NullPointerException("object"); }
-        return this.invoke(object.getClass(), object, null, name, args);
-    }
-	public Object invoke(Class cls, Object object, Class returnClass, String name, Object... args) throws NullPointerException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		Method invoke = this.getMethod(null == cls ?object.getClass():cls, returnClass, name, args);
-		return invoke.invoke(object, args);
-	}
-
-	public Object get(Class cls, Class returnClass, String name) throws IllegalArgumentException, IllegalAccessException { return this.get(cls, null, returnClass, name); }
-	public Object get(Class cls, String name) throws IllegalArgumentException, IllegalAccessException { return this.get(cls, null, null, name); }
-	public Object get(Object object, Class returnClass, String name) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } return this.get(null, object, returnClass, name); }
-	public Object get(Object object, String name) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } return this.get(null, object, null, name); }
-	public Object get(Class cls, Object object, Class returnClass, String name) throws IllegalArgumentException, IllegalAccessException {
-		Field invoke = this.getField(null == cls ?cls = object.getClass(): cls, returnClass, name);
-		return invoke.get(object);
-	}
-
-	public void set(Class cls, Class returnClass, String name, Object value) throws IllegalArgumentException, IllegalAccessException { this.set(cls, null, returnClass, name, value); }
-	public void set(Class cls, String name, Object value) throws IllegalArgumentException, IllegalAccessException { this.set(cls, null, null, name, value); }
-	public void set(Object object, Class returnClass, String name, Object value) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } this.set(null, object, returnClass, name, value); }
-	public void set(Object object, String name, Object value) throws IllegalArgumentException, IllegalAccessException { if (null == object) { throw new NullPointerException("object"); } this.set(null, object, null, name, value); }
-	public void set(Class cls, Object object, Class returnClass, String name, Object value) throws IllegalArgumentException, IllegalAccessException {
-		Field invoke = this.getField(null == cls ?cls = object.getClass(): cls, returnClass, name);
-		invoke.set(object, value);
-	} 
 
 
-	public Object newInstance(Object object, Object... args) throws IllegalArgumentException, InstantiationException, NullPointerException, IllegalAccessException, InvocationTargetException  {
-        if (null == object) { throw new NullPointerException("object"); }
-        return this.newInstance(object.getClass(), args);
-    }
-	public Object newInstance(Class cls, Object... args) throws NullPointerException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
-		if (null == cls) { throw new NullPointerException("class"); }
-		Constructor invoke = this.getConstructor(cls, args);
-		return invoke.newInstance(args);
-	}
 
 
-	public ReflectPoint point(Object object) 	{ return ReflectPoint.from(this, object); }
-	public ReflectPoint point(Class object) 	{ return ReflectPoint.fromClass(this, object); }
-	
-	
-	public boolean isDefault(){ return this == DEFAULT_INSTANCE; }
-	public static final ReflectMatcher DEFAULT_INSTANCE = new ReflectMatcher(ReflectCache.DEFAULT_INSTANCE){
-	};
+
+
+
+
+
+
+
+    //****************************
+
+    public boolean isDefault() { return this == DEFAULT; }
+	public static final ReflectMatcher<ReflectCache> DEFAULT = new ReflectMatcher<ReflectCache>(ReflectCache.DEFAULT){};
 }

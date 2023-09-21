@@ -3,19 +3,15 @@ package top.fols.atri.net;
 import java.io.Serializable;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import top.fols.atri.assist.util.IgnoreCaseLinkedHashMap;
+import top.fols.atri.io.StringReaders;
 import top.fols.atri.lang.Finals;
-import top.fols.atri.util.interfaces.IInnerMap;
-import top.fols.box.annotation.BaseAnnotations;
-import top.fols.box.io.base.XStringReader;
-import top.fols.box.util.XArrays;
-import top.fols.atri.util.BlurryKey;
-import top.fols.atri.util.BlurryKey.IgnoreCaseKey;
+import top.fols.atri.interfaces.interfaces.IInnerMap;
+import top.fols.atri.interfaces.annotations.Tips;
+import top.fols.box.lang.Arrayy;
+import top.fols.box.net.header.CookieText;
 
 /**
  * HTTP/1.1和HTTP/2报头都是不区分大小写的。
@@ -24,11 +20,9 @@ import top.fols.atri.util.BlurryKey.IgnoreCaseKey;
  *
  */
 
-@SuppressWarnings({"unchecked", "UnusedReturnValue", "CharsetObjectCanBeUsed"})
-public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<String>, List<String>> {
+@SuppressWarnings({"UnusedReturnValue", "CharsetObjectCanBeUsed"})
+public class MessageHeader implements Serializable, IInnerMap<String, List<String>> {
     private static final long serialVersionUID = 1L;
-
-
 
 
     /**
@@ -39,58 +33,41 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
      */
     public 	static final Charset 		HTTP_MESSAGE_HEADER_CHARSET_ISO_8859_1 = Charset.forName("ISO-8859-1");
 
-    public 	static final String 		LINE_SEPARATOR = new String(Finals.Separator.getCharsLineSeparatorRN());
+    public 	static final String 		LINE_SEPARATOR = new String(Finals.LineSeparator.getCharsLineSeparatorRN());
     public 	static final char 			ASSIGNMENT_SYMBOL_CHAR = ':';
 
-    @SuppressWarnings("rawtypes")
-    private static final IgnoreCaseKey KeyFactory = BlurryKey.IgnoreCaseKey.getDefaultFactory();
 
 
+    public static final String REQUEST_HEADER_COOKIE           = "Cookie";
+    public static final String REQUEST_HEADER_HOST             = "Host";
+    public static final String REQUEST_HEADER_RANGE            = "Range";
+    public static final String REQUEST_HEADER_CONTENT_TYPE     = "Content-Type";
 
-
-
-
-    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_COOKIE           = KeyFactory.newKey("Cookie");
-    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_HOST             = KeyFactory.newKey("Host");
-    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_RANGE            = KeyFactory.newKey("Range");
-
-    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_CONTENT_TYPE     = KeyFactory.newKey("Content-Type");
-
-    public static final BlurryKey.IgnoreCaseKey<String> REQUEST_HEADER_ACCEPT_ENCODING  = KeyFactory.newKey("Accept-Encoding");
+    public static final String REQUEST_HEADER_ACCEPT_ENCODING  = "Accept-Encoding";
     public static final String REQUEST_HEADER_VALUE_ACCEPT_ENCODING_IDENTITY            = "identity";
 
+    public static final String RESPONSE_HEADER_CONTENT_RANGE           = "Content-Range";
+    public static final String RESPONSE_HEADER_ACCEPT_RANGES           = "Accept-Ranges";
+    public static final String RESPONSE_HEADER_CONTENT_LENGTH          = "Content-Length";
+    public static final String RESPONSE_HEADER_CONTENT_TYPE            = "Content-Type";
+    public static final String RESPONSE_HEADER_CONTENT_DISPOSITION     = "Content-Disposition";
+    public static final String RESPONSE_HEADER_CONTENT_ENCODING        = "Content-Encoding";
+    public static final String RESPONSE_HEADER_LOCATION                = "location";
+    public static final String RESPONSE_HEADER_SERVER                  = "Server";
+    public static final String RESPONSE_HEADER_SET_COOKIE              = "Set-Cookie";
 
-
-
-
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_RANGE           = KeyFactory.newKey("Content-Range");
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_ACCEPT_RANGES           = KeyFactory.newKey("Accept-Ranges");
-
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_LENGTH          = KeyFactory.newKey("Content-Length");
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_TYPE            = KeyFactory.newKey("Content-Type");
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_DISPOSITION     = KeyFactory.newKey("Content-Disposition");
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_CONTENT_ENCODING        = KeyFactory.newKey("Content-Encoding");
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_LOCATION                = KeyFactory.newKey("location");
-
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_SERVER                  = KeyFactory.newKey("Server");
-
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_SET_COOKIE              = KeyFactory.newKey("Set-Cookie");
-
-    public static final BlurryKey.IgnoreCaseKey<String> RESPONSE_HEADER_TRANSFER_ENCODING       = KeyFactory.newKey("Transfer-Encoding");
-    public static final String RESPONSE_HEADER_VALUE_TRANSFER_ENCODING_CHUNKED                  = "chunked";
+    public static final String RESPONSE_HEADER_TRANSFER_ENCODING                = "Transfer-Encoding";
+    public static final String RESPONSE_HEADER_VALUE_TRANSFER_ENCODING_CHUNKED  = "chunked";
 
 
 
 
 
 
-    private final Map<IgnoreCaseKey<String>, List<String>> headerValue = new LinkedHashMap<>();
+    private final IgnoreCaseLinkedHashMap<String, List<String>> headerValue = new IgnoreCaseLinkedHashMap<>();//no use thread...
 
 
     private void setValue0(String k, String v) {
-        this.setValue0(KeyFactory.newKey(k), v);
-    }
-    private void setValue0(IgnoreCaseKey<String> k, String v) {
         List<String> newValues = new ArrayList<String>();
         if (null != v) {
             newValues.add(v);
@@ -101,9 +78,6 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
      * @param v original List
      */
     private void setValueList0(String k, List<String> v) {
-        this.setValueList0(KeyFactory.newKey(k), v);
-    }
-    private void setValueList0(IgnoreCaseKey<String> k, List<String> v) {
         List<String> newValues = null == v ?v = new ArrayList<String>(): v;
         this.headerValue.remove(k);// update key
         this.headerValue.put(k, newValues);
@@ -112,9 +86,6 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
 
 
     private void addValue0(String k, String v) {
-        this.addValue0(KeyFactory.newKey(k), v);
-    }
-    private void addValue0(IgnoreCaseKey<String> k, String v) {
         List<String> newValues = this.headerValue.get(k);
         if (null == newValues) {
             newValues = new ArrayList<String>();
@@ -126,9 +97,6 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
 
 
     private void addValueList0(String k, List<String> v) {
-        this.addValueList0(KeyFactory.newKey(k), v);
-    }
-    private void addValueList0(IgnoreCaseKey<String> k, List<String> v) {
         if (null == v) {
             return;
         } else {
@@ -145,18 +113,12 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
 
 
     private String getValue0(String k) {
-        return this.getValue0(KeyFactory.newKey(k));
-    }
-    private String getValue0(IgnoreCaseKey<String> k) {
         List<String> newValues = this.headerValue.get(k);
         return (null == newValues || newValues.size() == 0) ? null : newValues.get(newValues.size() - 1);
     }
 
 
     private List<String> getValueList0(String k) {
-        return this.getValueList0(KeyFactory.newKey(k));
-    }
-    private List<String> getValueList0(IgnoreCaseKey<String> k) {
         return this.headerValue.get(k);
     }
 
@@ -165,11 +127,7 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
 
 
 
-
     public boolean containsKey(String key) {
-        return this.containsKey(KeyFactory.newKey(key));
-    }
-    public boolean containsKey(IgnoreCaseKey<String> key) {
         return this.headerValue.containsKey(key);
     }
 
@@ -179,6 +137,10 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
         return this.headerValue.containsValue(value);
     }
 
+    public MessageHeader remove(String key) {
+        this.headerValue.remove(key);
+        return this;
+    }
 
 
 
@@ -186,7 +148,7 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
         return this.headerValue.size();
     }
 
-    public Set<IgnoreCaseKey<String>> keySet() {
+    public Set<String> keySet() {
         return this.headerValue.keySet();
     }
 
@@ -195,36 +157,19 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
         return this;
     }
 
-    public MessageHeader remove(String key) {
-        return this.remove(KeyFactory.newKey(key));
-    }
-    public MessageHeader remove(IgnoreCaseKey<String> key) {
-        this.headerValue.remove(key);
-        return this;
-    }
 
 
 
     @Override
-    public Map<IgnoreCaseKey<String>, List<String>> getInnerMap() {
+    public Map<String, List<String>> getInnerMap() {
         return this.headerValue;
     }
 
-    public Map<String, List<String>> toOriginStringKeyMap() {
-        Map<String, List<String>> map = new LinkedHashMap<>();
-        for (IgnoreCaseKey<String> key: this.keySet()) {
+    public Map<String, List<String>> toStringKeyMap() {
+        Map<String, List<String>> map = new LinkedHashMap<>();//no use thread...
+        for (String key: this.keySet()) {
             List<String> list = this.getValueList0(key);
-            map.put((String)(null == key ?null: key.getOriginKey()), null == list ?null: new ArrayList<String>(list));
-        }
-        return map;
-    }
-
-
-    public Map<String, List<String>> toFormatStringKeyMap() {
-        Map<String, List<String>> map = new LinkedHashMap<>();
-        for (IgnoreCaseKey<String> key: this.keySet()) {
-            List<String> list = this.getValueList0(key);
-            map.put((String)(null == key ?null: key.getFormatKey()), null == list ?null: new ArrayList<String>(list));
+            map.put(key, null == list ?null: new ArrayList<>(list));
         }
         return map;
     }
@@ -244,26 +189,20 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
     /*
      * deal multi line able ^ for The beginning of a line
      *
-     * ^key: value\n ^key2: value2\n ^...
+     * ^key: tip\n ^key2: value2\n ^...
      */
-    private static final char[][] LINE_SEPARATOR_ALL = new char[][]{
-            Finals.Separator.getCharsLineSeparatorRN(),
-            Finals.Separator.getCharsLineSeparatorR(),
-            Finals.Separator.getCharsLineSeparatorN()
-    };
-    private static void dealMultiLineMessage0(MessageHeader m, String headerMessage, boolean putValue) {
-        XStringReader rowStreanm = new XStringReader(headerMessage);
-        char lines[];
-        char splitchar = MessageHeader.ASSIGNMENT_SYMBOL_CHAR;
-
+    static void dealMultiLineMessage0(MessageHeader m, String headerMessage, boolean putValue) {
+        StringReaders reader = new StringReaders(headerMessage);
+        reader.setDelimiterAsLine();
 
         MessageHeader properties = new MessageHeader();
-
-        while (null != (lines = rowStreanm.readLine(LINE_SEPARATOR_ALL, false))) {
-            if (lines.length == 0) {
+        char[]  lines;
+        while (reader.findNext()) {
+            lines = reader.readNext();
+            if (reader.lastIsReadReadSeparator())
                 continue;
-            }
-            int splistCharindex = XArrays.indexOf(lines, splitchar, 0, lines.length);
+
+            int splistCharindex = Arrayy.indexOf(lines, MessageHeader.ASSIGNMENT_SYMBOL_CHAR, 0, lines.length);
             String ski = null, svi = null;
             if (splistCharindex != -1) {
                 ski = new String(lines, 0, splistCharindex);
@@ -274,22 +213,17 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
             }
 
             properties.addValue0(ski, svi);
-
-            lines = null;
         }
-
         if (putValue) {
-            for (IgnoreCaseKey<String> key: properties.keySet()) {
+            for (String key: properties.keySet()) {
                 m.setValueList0(key, properties.getValueList0(key));
             }
         } else {
-            for (IgnoreCaseKey<String> key: properties.keySet()) {
+            for (String key: properties.keySet()) {
                 m.addValueList0(key, properties.getValueList0(key));
             }
         }
-
-        properties = null;
-        rowStreanm.close();
+        reader.close();
     }
 
 
@@ -320,12 +254,8 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
 
 
 
-    @BaseAnnotations("set")
+    @Tips("set")
     public MessageHeader put(String k, String v) {
-        this.setValue0(k, v);
-        return this;
-    }
-    public MessageHeader put(IgnoreCaseKey<String> k, String v) {
         this.setValue0(k, v);
         return this;
     }
@@ -334,12 +264,8 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
         this.setValueList0(k, null == v ?null: new ArrayList<>(v));
         return this;
     }
-    public MessageHeader put(IgnoreCaseKey<String> k, List<String> v) {
-        this.setValueList0(k, null == v ?null: new ArrayList<>(v));
-        return this;
-    }
 
-    @BaseAnnotations("deal multi line able")
+    @Tips("deal multi line able")
     public MessageHeader putAll(String... multiLineContent) {
         StringBuilder buf = new StringBuilder();
         for (String s : multiLineContent) {
@@ -350,7 +276,7 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
         return this;
     }
 
-    @BaseAnnotations("deal multi line able")
+    @Tips("deal multi line able")
     public MessageHeader putAll(String multiLineContent) {
         MessageHeader.dealMultiLineMessage0(this, multiLineContent, true);
         return this;
@@ -382,9 +308,9 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
         }
         return this;
     }
-    public MessageHeader putAllKeyMap(Map<IgnoreCaseKey<String>, List<String>> ua) {
+    public MessageHeader putAllKeyMap(Map<String, List<String>> ua) {
         if (null != ua) {
-            for (IgnoreCaseKey<String> key : ua.keySet()) {
+            for (String key : ua.keySet()) {
                 List<String> values = ua.get(key);
                 this.setValueList0(key, null == values ? null : new ArrayList<>(values));
             }
@@ -397,12 +323,8 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
 
 
 
-    @BaseAnnotations("add")
+    @Tips("add")
     public MessageHeader add(String k, String v) {
-        this.addValue0(k, v);
-        return this;
-    }
-    public MessageHeader add(IgnoreCaseKey<String> k, String v) {
         this.addValue0(k, v);
         return this;
     }
@@ -411,12 +333,8 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
         this.addValueList0(k, v);
         return this;
     }
-    public MessageHeader addAll(IgnoreCaseKey<String> k, List<String> v) {
-        this.addValueList0(k, v);
-        return this;
-    }
 
-    @BaseAnnotations("deal multi line able")
+    @Tips("deal multi line able")
     public MessageHeader addAll(String... Content) {
         StringBuilder buf = new StringBuilder();
         for (String s : Content) {
@@ -426,7 +344,7 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
         return this;
     }
 
-    @BaseAnnotations("deal multi line able")
+    @Tips("deal multi line able")
     public MessageHeader addAll(String Content) {
         MessageHeader.dealMultiLineMessage0(this, Content, false);
         return this;
@@ -458,9 +376,9 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
         }
         return this;
     }
-    public MessageHeader addAllKeyMap(Map<IgnoreCaseKey<String>, List<String>> ua) {
+    public MessageHeader addAllKeyMap(Map<String, List<String>> ua) {
         if (null != ua) {
-            for (IgnoreCaseKey<String> key : ua.keySet()) {
+            for (String key : ua.keySet()) {
                 List<String> values = ua.get(key);
                 this.addValueList0(key, null == values ? null : new ArrayList<>(values));
             }
@@ -476,35 +394,21 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
     public String get(String k) {
         return this.getValue0(k);
     }
-    public String get(IgnoreCaseKey<String> k) {
-        return this.getValue0(k);
-    }
 
 
     public String getNoNNull(String k, String defaultValue) {
         String value = this.getValue0(k);
         return null != value ?value: defaultValue;
     }
-    public String getNoNNull(IgnoreCaseKey<String> k, String defaultValue) {
-        String value = this.getValue0(k);
-        return null != value ?value: defaultValue;
-    }
-
 
 
     public List<String> getInnerValueList(String k) {
-        return this.getValueList0(k);
-    }
-    public List<String> getInnerValueList(IgnoreCaseKey<String> k) {
         return this.getValueList0(k);
     }
 
 
 
     public boolean containsValue(String key, String value) {
-        return this.containsKey(KeyFactory.newKey(key));
-    }
-    public boolean containsValue(IgnoreCaseKey<String> key, String value) {
         List<String> newValues = this.getValueList0(key);
         return null != newValues && newValues.contains(value);
     }
@@ -512,9 +416,6 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
 
 
     public MessageHeader removeValue(String key, String value) {
-        return this.removeValue(KeyFactory.newKey(key), value);
-    }
-    public MessageHeader removeValue(IgnoreCaseKey<String> key, String value) {
         List<String> newValues = this.getValueList0(key);
         if (null != newValues) {
             newValues.remove(value);
@@ -526,9 +427,6 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
 
 
     public int size(String key) {
-        return this.size(KeyFactory.newKey(key));
-    }
-    public int size(IgnoreCaseKey<String> key) {
         List<String> list = this.getValueList0(key);
         return null == list ? 0 : list.size();
     }
@@ -549,39 +447,33 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
     /**
      * @return [Cookie or Set-Cookie]
      */
-    public Cookies getCookies() {
-        Cookies cookies = new Cookies();
+    public CookieText getCookies() {
+        CookieText cookieText = new CookieText();
         if (containsKey(REQUEST_HEADER_COOKIE)) {
-            cookies.putAll(getCookies(REQUEST_HEADER_COOKIE));
+            cookieText.putAll(getCookies(REQUEST_HEADER_COOKIE));
         }
         if (containsKey(RESPONSE_HEADER_SET_COOKIE)) {
-            cookies.putAll(getCookies(RESPONSE_HEADER_SET_COOKIE));
+            cookieText.putAll(getCookies(RESPONSE_HEADER_SET_COOKIE));
         }
-        return cookies;
+        return cookieText;
     }
 
-    public Cookies getCookies(String key)                   {
-        return this.getCookies(KeyFactory.newKey(key));
-    }
-    public Cookies getCookies(IgnoreCaseKey<String> key)    {
+    public CookieText getCookies(String key)    {
         List<String> value0 = this.getValueList0(key);
-        Cookies cookies = new Cookies();
+        CookieText cookieText = new CookieText();
         if (null != value0) {
             for (String s : value0) {
-                Cookies.parse(cookies.getInnerMap(), s);
+                CookieText.parse(cookieText.getInnerMap(), s);
             }
         }
-        return cookies;
+        return cookieText;
     }
 
 
-    public MessageHeader setCookies(String key, Cookies cookies) {
-        return this.setCookies(KeyFactory.newKey(key), cookies);
-    }
-    public MessageHeader setCookies(IgnoreCaseKey<String> key, Cookies cookies) {
-        if (null == cookies || cookies.isEmpty()) { return this; }
+    public MessageHeader setCookies(String key, CookieText cookieText) {
+        if (null == cookieText || cookieText.isEmpty()) { return this; }
 
-        String value = cookies.toString();
+        String value = cookieText.toString();
         this.setValue0(key, value);
 
         return this;
@@ -599,13 +491,13 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
 
 
     /**
-     * key: value\n
+     * key: tip\n
      * ...
      */
     public String toHeaderString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (IgnoreCaseKey<String> fk : this.keySet()) {
-            String ok = fk.getOriginKey();
+        for (String fk : this.keySet()) {
+            String ok = fk;
             String oks = null == ok ?null: String.valueOf(ok);
             List<String> values = this.getValueList0(fk);
             if (null == values || values.size() == 0) {
@@ -633,9 +525,9 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
      */
     /**
      * requestOrReturnLine\n
-     * key: value\n
+     * key: tip\n
      * ...
-     * key: value\n
+     * key: tip\n
      * \n
      */
     public String toHttpHeaderString(String requestOrReturnLine) {
@@ -646,8 +538,8 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
                     .append(MessageHeader.LINE_SEPARATOR);
         }
         if (this.size() != 0) {
-            for (IgnoreCaseKey<String> fk : this.keySet()) {
-                String ok = fk.getOriginKey();
+            for (String fk : this.keySet()) {
+                String ok = fk;
                 String oks = null == ok ?null: String.valueOf(ok);
                 List<String> values = this.getValueList0(fk);
                 if (null == values || values.size() == 0) {
@@ -684,10 +576,10 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
     /*
      * 不会设置key为空的字段
      */
-    @BaseAnnotations("the empty key won't be set")
+    @Tips("the empty key won't be set")
     public MessageHeader setToURLConnection(URLConnection con) {
-        for (IgnoreCaseKey<String> fk : this.keySet()) {
-            String ok = fk.getOriginKey();
+        for (String fk : this.keySet()) {
+            String ok = fk;
             String oks = null == ok ?null: String.valueOf(ok);
             if (null == oks || oks.length() == 0) {
                 continue;
@@ -723,10 +615,10 @@ public class MessageHeader implements Serializable, IInnerMap<IgnoreCaseKey<Stri
     /*
      * 不会添加key为空的字段
      */
-    @BaseAnnotations("the empty key won't be add")
+    @Tips("the empty key won't be add")
     public MessageHeader addToURLConnection(URLConnection con) {
-        for (IgnoreCaseKey<String> fk : this.keySet()) {
-            String ok = fk.getOriginKey();
+        for (String fk : this.keySet()) {
+            String ok = fk;
             String oks = null == ok ?null: String.valueOf(ok);
             if (null == oks || oks.length() == 0) {
                 continue;

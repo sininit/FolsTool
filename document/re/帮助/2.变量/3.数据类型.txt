@@ -1,0 +1,75 @@
+---------------------------------------------------------------------------------------------------------------------
+    数据结构(可能出现的数据类型):
+        if (ire-object) {
+            ire-object
+              reClass object-instance
+              reClass list-instance
+        } else {
+            [ null ] (java),
+            [ int, long, float, double, short, char, boolean, byte ] (java)
+            [ java.lang.String ] (java)
+
+            java-array
+
+            数据结构-额外：
+                key-iterable(java.lang.Iterable)  Re_IInnerVariableMap  变量表， 可以使用tolist toinstance toarray
+
+            java.lang.Object
+        }
+---------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+    变量操作函数：
+        setattr(varmap, key, value): value
+            null        -> null
+            re_iobject  -> object-set-value
+            array (java-array) -> set-index-value
+            java.lang.Object  -> object-set-value
+
+        getattr(varmap, key): value
+            null        -> null
+            re_iobject  -> object-get-value
+            array (java-array) -> get-index-value
+            java.lang.Object  -> object-get-value
+
+
+        hasattr(varmap, key): boolean
+            null        -> false
+            re_iobject  -> object-has-key
+            array (java-array) -> has-index
+            java.lang.Object  -> object-has-key
+
+        delattr(varmap, key): boolean
+            null        -> false
+            re_iobject  -> object-remove-key
+            array (java-array) -> boolean
+            java.lang.Object -> boolean
+
+        lenattr(varmap): int
+            null        -> 0
+            re_iobject  -> object-keys-count
+            array (java-array) -> array.length
+            java.lang.Object -> object-keys-count
+
+        keyattr(varmap): java.lang.Iterable
+            null        -> null
+            re_iobject  -> object-keys
+            array (java-array) -> arrayIndex[0 - array.length - 1]
+            java.lang.Object -> object-keys
+
+        clearattr(varmap): boolean
+            null        ->
+            re_iobject  ->
+            array (java-array) ->
+            java.lang.Object ->
+
+
+
+
+
+
+

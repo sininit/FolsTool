@@ -1,0 +1,44 @@
+
+
+
+
+data = map();
+print("map: "+data);
+arr = Object[](1,2,3,4,5,6,7,8,9);
+for((i=0, len=arr()); i<len; i=i+1; 
+    print(arr(i));
+    data("no"+i, arr(i));
+);
+print(data);
+
+
+s=0;
+print(st=time());
+while(s<10000000, s=s+1);
+print(time()-st);
+								   
+								   
+								   
+s=0; list_o = map();
+print(st=time());
+while(s<5000000, s=s+1, list_o(s, s));
+print(time()-st);
+list_o = null;		 
+								  			   
+								   
+a=range(0, 1000*10000);
+print(st=time());
+while(a());
+print(time()-st);
+								   
+								   
+								   
+
+while(x=input();
+    eval(
+    x);
+);
+
+
+
+

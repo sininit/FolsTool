@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="app.page.Main">
+  <grid id="27dc6" binding="Windows" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="7" y="10" width="476" height="1256"/>
+    </constraints>
+    <properties>
+      <background color="-855310"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="9e7ec" class="javax.swing.JLabel" binding="status">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font size="16"/>
+          <text value="SATUS"/>
+        </properties>
+      </component>
+      <tabbedpane id="9ffd2" binding="tabbed">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="d0cad" binding="JPanel_首页" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="首页"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <scrollpane id="f80e6" binding="首页_jScrollPane_Log">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="-1" height="240"/>
+                    <preferred-size width="-1" height="240"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                  <inheritsPopupMenu value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="9f9a1" class="javax.swing.JTextArea" binding="首页_log_textArea1">
+                    <constraints/>
+                    <properties>
+                      <background color="-16777216"/>
+                      <font size="18"/>
+                      <foreground color="-1"/>
+                      <lineWrap value="true"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <grid id="e5676" binding="JPanel_DebuggerPage" layout-manager="GridLayoutManager" row-count="3" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="调试页"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <scrollpane id="e1690" binding="调试页_TableTracePane">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="-1" height="420"/>
+                    <preferred-size width="334" height="420"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <verticalScrollBarPolicy value="22"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="a1119" class="javax.swing.JTable" binding="调试页_TableTrace">
+                    <constraints/>
+                    <properties>
+                      <autoCreateRowSorter value="false"/>
+                      <fillsViewportHeight value="false"/>
+                      <preferredScrollableViewportSize width="450" height="400"/>
+                      <showHorizontalLines value="true"/>
+                      <showVerticalLines value="true"/>
+                      <updateSelectionOnSort value="true"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <grid id="6b60e" binding="调试页_地址栏" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="8078f" class="javax.swing.JButton" binding="调试页_链接Button" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="链接"/>
+                    </properties>
+                  </component>
+                  <component id="9596b" class="javax.swing.JTextField" binding="调试页_地址textField">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="4" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="701b1" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="地址："/>
+                    </properties>
+                  </component>
+                  <component id="cffc3" class="javax.swing.JButton" binding="调试页_断开Button">
+                    <constraints>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="断开"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="d9b58" binding="调试页_StackID栏" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="bb6e2" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="StackID:"/>
+                    </properties>
+                  </component>
+                  <component id="b6b54" class="javax.swing.JLabel" binding="调试页_StackIDTextField">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="4" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="c7c21" binding="调试页_侧边操作栏" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <vspacer id="1eb61">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </vspacer>
+                  <component id="dc384" class="javax.swing.JLabel" binding="调试页_状态_链接">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="未连接"/>
+                    </properties>
+                  </component>
+                  <vspacer id="9f167">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="-1" height="48"/>
+                        <preferred-size width="-1" height="48"/>
+                        <maximum-size width="-1" height="48"/>
+                      </grid>
+                    </constraints>
+                  </vspacer>
+                  <component id="61c0d" class="javax.swing.JButton" binding="调试页_恢复Button" default-binding="true">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="恢复"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="cc64" binding="调试页_TableObjectJPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <scrollpane id="727e6" binding="调试页_TableObjectPane">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <minimum-size width="-1" height="420"/>
+                        <preferred-size width="-1" height="420"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <verticalScrollBarPolicy value="22"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="f602b" class="javax.swing.JTable" binding="调试页_TableObject">
+                        <constraints/>
+                        <properties>
+                          <autoCreateRowSorter value="false"/>
+                          <fillsViewportHeight value="false"/>
+                          <preferredScrollableViewportSize width="450" height="400"/>
+                          <showHorizontalLines value="true"/>
+                          <showVerticalLines value="true"/>
+                          <updateSelectionOnSort value="true"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+</form>

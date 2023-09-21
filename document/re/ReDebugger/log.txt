@@ -1,0 +1,18 @@
+admin: true
+start success
+time: 2023-01-30 18:11:58
+admin: true
+ObjectElement{objectID='null', objectName='java.lang.Boolean@11a76a31', objectIsBaseType=true, objectIsArrayType=false}
+自动保存成功
+自动保存成功
+自动保存成功
+自动保存成功
+Application.AutoSave.exit()
+Application.AutoSave.exit()
+ExecutorLock.FILE_LOCK.joins()
+ExecutorLock.FILE_LOCK.joins()
+normalExit()
+normalExit()
+saveStatus()
+saveStatus()
+exit()

@@ -1,0 +1,23 @@
+[
+  {
+    "artifactId": "byte-buddy-agent",
+    "excludes": [],
+    "groupId": "net.bytebuddy",
+    "scope": "compile",
+    "versionName": "1.12.7"
+  },
+  {
+    "artifactId": "byte-buddy-android",
+    "excludes": [],
+    "groupId": "net.bytebuddy",
+    "scope": "compile",
+    "versionName": "1.12.7"
+  },
+  {
+    "artifactId": "byte-buddy",
+    "excludes": [],
+    "groupId": "net.bytebuddy",
+    "scope": "compile",
+    "versionName": "1.12.7"
+  }
+]

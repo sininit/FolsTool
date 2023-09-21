@@ -3,9 +3,14 @@ package top.fols.atri.lang;
 import java.lang.reflect.Array;
 import java.util.*;
 
-import top.fols.atri.array.ArrayObject;
+import top.fols.atri.interfaces.interfaces.ICaller;
+import top.fols.atri.interfaces.interfaces.IFilter;
+import top.fols.box.array.ArrayObject;
+import top.fols.box.lang.Arrayx;
 
-@SuppressWarnings({"unused", "SpellCheckingInspection", "unchecked", "StatementWithEmptyBody", "rawtypes", "UnnecessaryLocalVariable", "SuspiciousSystemArraycopy"})
+import static java.lang.reflect.Array.newInstance;
+
+@SuppressWarnings({"unused", "SpellCheckingInspection", "unchecked", "rawtypes", "UnnecessaryLocalVariable", "SuspiciousSystemArraycopy"})
 public class Arrayz {
 	/**
 	 * The maximum size of array to allocate. Some VMs reserve some header words in
@@ -21,422 +26,83 @@ public class Arrayz {
 	 *
 	 * void[] unrealistic
 	 */
-	public static void set(Object originalArray, int index, Object value)
-			throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
-		Array.set(originalArray, index, value);
-	}
 
-	public static Object get(Object originalArray, int index)
-			throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
-		return Array.get(originalArray, index);
-	}
 
-	public static int getLength(Object originalArray) {
-		return Array.getLength(originalArray);
-	}
-
-	public static Object newInstance(java.lang.Class<?> componentType, int length) {
-		return Array.newInstance(componentType, length);
-	}
-
-	public static Object newInstance(java.lang.Class<?> componentType, int... dimensions)
-			throws java.lang.IllegalArgumentException, java.lang.NegativeArraySizeException {
-		return Array.newInstance(componentType, dimensions);
-	}
-
-
-
-
-	@SuppressWarnings({"rawtypes", "unchecked"})
-    public static <L> L[] marge(L[] left, L[] right) {
-        if (null == left) {
-            if (null == right) {
-                return null;
-            } else {
-                return java.util.Arrays.copyOf(right, right.length);
-            }
-        } else {
-            if (null == right) {
-                return java.util.Arrays.copyOf(left, left.length);
-            } else {
-                Class componentType = left.getClass().getComponentType();
-                int length = left.length + right.length;
-                L[] newInstance = (L[]) java.lang.reflect.Array.newInstance(componentType, length);
-                System.arraycopy(left, 0, newInstance, 0, left.length);
-                System.arraycopy(right, 0, newInstance, left.length, right.length);
-                return newInstance;
-            }
-        }
-    }
-
-
-
-	public static <T> T[] filter(T[] array, top.fols.atri.lang.Objects.Invoke<Boolean, T> filter) {
-		if (null == array) {
-			return null;
-		}
-		int length = Array.getLength(array);
-		Class<?> component = array.getClass().getComponentType();
-		if (null == filter) {
-			T newArray = (T) Array.newInstance(component, length);
-			System.arraycopy(array, 0, newArray, 0, length);
-			return array;
-		} else {
-			Object[] newArray = new Object[length];
-			int newArraySize  = 0;
-			for (T element: array) {
-				Boolean filte = filter.invoke(element);
-				if (null != filte && filte) {
-					newArray[newArraySize++] = element;
-				}
-			}
-			T[] arr = (T[]) Array.newInstance(component, newArraySize);
-			System.arraycopy(newArray, 0, arr, 0, arr.length);
-			return arr;
-		}
-	}
-
-	
-	
-	
-	@SuppressWarnings("unchecked")
-	public static <T, C> C convert(T array, C convertArrayType) {
-		return (C) convert(array, null == convertArrayType ?null: convertArrayType.getClass());
-	}
-	public static <T, C> C convert(T array, Class<C> convertArrayType) {
-		if (null == array) {
-			return null;
-		}
-		if (null == convertArrayType) {
-			return null;
-		}
-		ArrayObject oriArr = ArrayObject.wrap(array);
-
-		Class<?> componentType = convertArrayType.getComponentType();
-		ArrayObject newArr = ArrayObject.wrap(Array.newInstance(componentType, Array.getLength(array)));
-
-		oriArr.copy(0, newArr, 0, oriArr.length());
-
-		C inner = (C) newArr.innerArray();
-
-		return inner;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*
-	 * try get next, If invoke return null then end
-	 */
-	@SuppressWarnings("UnusedReturnValue")
-	public static abstract class Traverse<T> {
-		public abstract Value<T> invoke(Value<T> next);
-	}
-
-
-
-	/**
-	 * traverse all elements, whether it encounters null or not
-	 */
-	@SuppressWarnings({"unchecked", "ForLoopReplaceableByWhile"})
-	public static abstract class TraverseArray<RETURN, ELEMENT> extends Traverse<RETURN> implements Next<RETURN, ELEMENT> {
-		Object[] array;
-		public TraverseArray(ELEMENT[] array) {
-			this.array = null == array ?Finals.EMPTY_OBJECT_ARRAY: array;
-		}
-		int i = 0;
-
-
-
-		public Value<RETURN> end()    { this.i = array.length; return null; }
-		public int  index()  { return this.i; }
-		public int  index(int newIndex) { return this.i = newIndex;}
-		public int  length() { return this.array.length; }
-
-		Value<RETURN> next_result = new Value<>();
-
-
-
-		@Override
-		public final Value<RETURN> invoke(Value<RETURN> next) {
-			for (;i < array.length;) {
-				Value<RETURN> n = next(this.next_result, (ELEMENT) array[i++]);
-				if (null != n) {
-					return  n;
-				}
-			}
-			return null;
-		}
-	}
-	@SuppressWarnings("unchecked")
-	public static abstract class TraverseList<RETURN, ELEMENT> extends Traverse<RETURN> implements Next<RETURN, ELEMENT> {
-		List<ELEMENT> array;
-		public TraverseList(List<ELEMENT> array) {
-			this.array = null == array ?Finals.EMPTY_LIST: array;
-		}
-		int i = 0;
-
-
-		public Value<RETURN> end()    { this.i = array.size(); return null; }
-		public int  index()  { return this.i; }
-		public int  index(int newIndex) { this.i = newIndex; return i;}
-		public int  length() { return this.array.size(); }
-
-		Value<RETURN> next_result = new Value<>();
-
-
-
-		@Override
-		public final Value<RETURN> invoke(Value<RETURN> next) {
-			for (int size = array.size(); i < size;) {
-				Value<RETURN> n = next(this.next_result, array.get(i++));
-				if (null != n) {
-					return  n;
-				}
-			}
-			return null;
-		}
-	}
-	@SuppressWarnings("unchecked")
-	public static abstract class TraverseCollection<RETURN, ELEMENT> extends Traverse<RETURN> implements Next<RETURN, ELEMENT> {
-		Collection<ELEMENT> array;
-		Iterator<ELEMENT>   array_iterator;
-		public TraverseCollection(Collection<ELEMENT> array) {
-			this.array = null == array ?Finals.EMPTY_LIST: array;
-			this.array_iterator = this.array.iterator();
-		}
-
-		static final Iterator EMPTY = new Iterator<Object>() {
-			@Override
-			public boolean hasNext() {
-				return false;
-			}
-
-			@Override
-			public Object next() {
-				return null;
-			}
-		};
-
-
-		public Value<RETURN> end()    { this.array_iterator = EMPTY; return null; }
-		public int  length() { return this.array.size(); }
-
-		Value<RETURN> next_result = new Value<>();
-
-		@Override
-		public final Value<RETURN> invoke(Value<RETURN> next) {
-			while  (array_iterator.hasNext()) {
-				Value<RETURN> n = next(this.next_result, array_iterator.next());
-				if (null != n) {
-					return  n;
-				}
-			}
-			return null;
-		}
-	}
-
-
-
-
-
-	/**
-	 * @param executor If executor returns null, it means the creation process is over
-	 */
-	public static <RETURN> RETURN[] create(RETURN[] array, Traverse<RETURN> executor) {
-		Objects.requireNonNull(array, "array type");
-		List<RETURN> list = new ArrayList<>();
-		create(list, executor);
-		return  list.toArray(array);
-	}
-	public static <RETURN> Collection<RETURN> create(Collection<RETURN> buffer, Traverse<RETURN> executor) {
-		Objects.requireNonNull(buffer, "null buffer");
-		if (null == executor) {
-		} else {
-			Value<RETURN> result = new Value<>();
-			while (null != (result = executor.invoke(result))) {
-				buffer.add(result.get());
-			}
-		}
-		return buffer;
-	}
-
-
-
-
-
-
-
-
-
-
-	public interface Next<RETURN, ELEMENT> {
-		Value<RETURN> next(Value<RETURN> next, ELEMENT array_element);
-	}
-
-
-//	public static <RETURN, ELEMENT> RETURN[] filter(Class<RETURN[]> type, Next<RETURN, ELEMENT> executor,
-//													ELEMENT[] filter) {
-//		return filter(type, executor, filter, 0, null == filter ?0: filter.length);
-//	}
-//	public static <RETURN, ELEMENT> RETURN[] filter(Class<RETURN[]> type, Next<RETURN, ELEMENT> executor,
-//													ELEMENT[] filter, int filter_offset, int filter_count) {
-//		return filter((RETURN[]) newInstance(Objects.requireNonNull(type.getComponentType(), "array type"), 0), executor, filter, filter_offset, filter_count);
-//	}
-
-	public static <RETURN, ELEMENT> RETURN[] filter(RETURN[] buffer, Next<RETURN, ELEMENT> executor,
-													ELEMENT[] filter) {
-		return filter(buffer, executor, filter, 0, null == filter ?0: filter.length);
-	}
-	public static <RETURN, ELEMENT> RETURN[] filter(RETURN[] buffer, Next<RETURN, ELEMENT> executor,
-													ELEMENT[] filter, int filter_offset, int filter_count) {
-		Objects.requireNonNull(buffer, "buffer type");
-		List<RETURN> list = new ArrayList<>();
-		filter(list, executor, filter, filter_offset, filter_count);
-		return  list.toArray(buffer);
-	}
-
-	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
-															  ELEMENT[] filter) {
-		return filter(buffer, executor, filter, 0, null == filter ?0: filter.length);
-	}
-	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
-															  ELEMENT[] filter, int filter_offset, int filter_count) {
-		Objects.requireNonNull(buffer, "null buffer");
-		if (null == executor) {
-		} else {
-			if (null == filter) { return buffer; }
-			Value<RETURN> result = new Value<>();
-			for (int max = filter_offset + filter_count; filter_offset < max;) {
-				Value<RETURN> n = executor.next(result, filter[filter_offset++]);
-				if (null != n) {
-					buffer.add(n.get());
-				}
-			}
-		}
-		return buffer;
-	}
-
-
-
-	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
-															  List<ELEMENT> filter) {
-		return filter(buffer, executor, filter, 0, null == filter ?0: filter.size());
-	}
-	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
-															  List<ELEMENT> filter, int filter_offset, int filter_count) {
-		Objects.requireNonNull(buffer, "null buffer");
-		if (null == executor) {
-		} else {
-			if (null == filter) { return buffer; }
-			Value<RETURN> result = new Value<>();
-			for (int max = filter_offset + filter_count; filter_offset < max;) {
-				Value<RETURN> n = executor.next(result, filter.get(filter_offset++));
-				if (null != n) {
-					buffer.add(n.get());
-				}
-			}
-		}
-		return buffer;
-	}
-
-
-
-
-	public static <RETURN, ELEMENT> Collection<RETURN> filter(Collection<RETURN> buffer, Next<RETURN, ELEMENT> executor,
-															  Collection<ELEMENT> filter) {
-		Objects.requireNonNull(buffer, "null buffer");
-		if (null == executor) {
-		} else {
-			if (null == filter) { return buffer; }
-			Iterator<ELEMENT> array_iterator = filter.iterator();
-			Value<RETURN> result = new Value<>();
-			while  (array_iterator.hasNext()) {
-				Value<RETURN> n = executor.next(result, array_iterator.next());
-				if (null != n) {
-					buffer.add(n.get());
-				}
-			}
-		}
-		return buffer;
-	}
-
-
-
-
-
-
-
-
-	public static <R> Iterator<R> keys(R... array) {
-		return Arrays.asList(array).iterator();
-	}
-
-
-
-
-
-
-	public static <A, B> Object cast(A[] src, int srcPos, B[] dest, int destPos, int length, Objects.Cast<A, B> cast) {
-		if (length <= 0) {
-			return dest;
-		}
-		for (int i = 0; i < length; i++) {
-			dest[i + destPos] = cast.cast(src[i + srcPos]);
-		}
-		return dest;
-	}
 	public static char[] arraycopy(String src, int srcPos, char[] dest, int destPos, int length) {
-		if (length <= 0) {
-			return dest;
-		}
 		src.getChars(srcPos, srcPos + length, dest, destPos);
 		return dest;
 	}
 	public static Object arraycopy(Object src, int srcPos, Object dest, int destPos, int length) {
-		if (length <= 0) {
-			return dest;
-		}
 		System.arraycopy(src, srcPos, dest, destPos, length);
 		return dest;
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-	public static int space(Object a) {
+	public static int dimension(Object a) {
 		if (null == a) {
 			return 0;
 		} else {
-			int space = 0;
 			Class type = a.getClass();
-			do {
-				if (type.isArray()) { space++; }
-			} while (null != (type = type.getComponentType()));
-			return space;
+			if (type.isArray()) {
+				int space = 0;
+				while (null != (type = type.getComponentType())) {
+					space++;
+				}
+				return space;
+			} else {
+				return 0;
+			}
 		}
 	}
+	public static int dimension(Class type) {
+		if (null == type) {
+			return 0;
+		} else {
+			if (type.isArray()) {
+				int space = 0;
+				while (null != (type = type.getComponentType())) {
+					space++;
+				}
+				return space;
+			} else {
+				return 0;
+			}
+		}
+	}
+
+	public static Class dimensionClass(Class<?> type, int dimension) {
+		if (null == type) { return null; }
+		return Array.newInstance(type, new int[dimension]).getClass();
+	}
+
+
+
+	public static Class elevationDimensionClass(Class type) {
+		if (null == type) { return null; }
+		return Array.newInstance(type, 0).getClass();
+	}
+	public static Class reductionDimensionClass(Class type) {
+		if (null == type) { return null; }
+		return type.getComponentType();
+	}
+
+	public static Class getRootComponentType(Class type) {
+		if (null == type) {
+			return null;
+		} else {
+			Class ret = null;
+			if (type.isArray()) {
+				while (null != (type = type.getComponentType())) {
+					ret = type;
+				}
+				return ret;
+			} else {
+				return null;
+			}
+		}
+	}
+
+
 
 	public static boolean isArray(Object object) {
 		return null != object && object.getClass().isArray();
@@ -453,17 +119,42 @@ public class Arrayz {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
+	public static <T> T clear(T src) {
+		if (null == src) { return null; }
+		Class aClass = src.getClass();
+		if (aClass.isArray()) {
+			if (src instanceof byte[]) {
+				Arrays.fill((byte[])   src, (byte)0);
+				return src;
+			} else if (src instanceof short[]) {
+				Arrays.fill((short[])   src, (short)0);
+				return src;
+			} else if (src instanceof int[]) {
+				Arrays.fill((int[])   src, 0);
+				return src;
+			} else if (src instanceof long[]) {
+				Arrays.fill((long[])   src, 0);
+				return src;
+			} else if (src instanceof char[]) {
+				Arrays.fill((char[])   src, (char)0);
+				return src;
+			} else if (src instanceof float[]) {
+				Arrays.fill((float[])  src, (float)0);
+				return src;
+			} else if (src instanceof double[]) {
+				Arrays.fill((double[])  src, 0);
+				return src;
+			} else if (src instanceof boolean[]) {
+				Arrays.fill((boolean[]) src, false);
+				return src;
+			} else {
+				Arrays.fill((Object[])  src, null);
+				return src;
+			}
+		} else {
+			return src;
+		}
+	}
 
 	public static <T> T copyOf(T src) {
 		if (null == src) { return null; }
@@ -555,6 +246,205 @@ public class Arrayz {
 		}
 	}
 
+
+	@SuppressWarnings("unchecked")
+	public static <C> C convert(Object array, C convertArrayType) {
+		return (C) convert(array, 0,  Array.getLength(array), convertArrayType.getClass());
+	}
+	public static <C> C convert(Object array, Class<C> convertArrayType) {
+		return convert(array, 0,  Array.getLength(array), convertArrayType);
+	}
+	public static <C> C convert(Object array, int offset, int len, Class<C> convertArrayType) {
+		if (null == array) return null;
+
+		ArrayObject oriArr = ArrayObject.wrap(array);
+		ArrayObject newArr = ArrayObject.wrap(Array.newInstance(convertArrayType.getComponentType(), len));
+
+		oriArr.copy(offset, newArr, 0, newArr.length());
+
+		return (C) newArr.innerArray();
+	}
+
+	public static Object convertElement(Object array, Class<?> elementType) {
+		return convertElement(array, 0,  Array.getLength(array), elementType);
+	}
+	public static Object convertElement(Object array, int offset, int len, Class<?> elementType) {
+		if (null == array) return null;
+
+		ArrayObject oriArr = ArrayObject.wrap(array);
+		ArrayObject newArr = ArrayObject.wrap(Array.newInstance(elementType, len));
+
+		oriArr.copy(offset, newArr, 0, newArr.length());
+
+		return newArr.innerArray();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	public static void leftMove(long[] data, int position, int limit,
+								int leftMove) {
+		if (leftMove >= (limit - position)) {
+			for (int i = position; i < limit; i++) {
+				data[i] = 0;
+			}
+		} else {
+			int ind = limit - leftMove;
+			if (ind - position > 0) {
+				System.arraycopy(data, limit - ind + position, data, position, ind - position);
+			}
+			for (int i = ind, ed = ind + leftMove; i < ed; i++) {
+				data[i] = 0;
+			}
+		}
+	}
+	public static void rightMove(long[] data, int position, int limit,
+								 int rightMove) {
+		int len = limit - position;
+		if (rightMove >= len) {
+			for (int i = position; i < limit; i++) {
+				data[i] = 0;
+			}
+		} else {
+			if (len - rightMove > 0) {
+				System.arraycopy(data, position, data, position + rightMove, len - rightMove);
+			}
+			for (int i = position, ed = position + rightMove; i < ed; i++) {
+				data[i] = 0;
+			}
+		}
+	}
+
+
+
+
+
+
+	public static <R> Iterator<R> keys(R... array) {
+		return Arrays.asList(array).iterator();
+	}
+
+
+
+
+	public static <T> T[] filter(T[] origin, IFilter<T> fp) {
+		if (null == origin)
+			return null;
+		return filter(origin, 0, origin.length, fp);
+	}
+	public static <T> T[] filter(T[] origin, int off, int len, IFilter<T> filter) {
+		int length = Array.getLength(origin);
+		Object[] buff = new Object[length];
+		int      buffCount  = 0;
+		for (int i = 0; i < len; i++) {
+			T element = origin[off + i];
+			if (filter.next(element)) {
+				buff[buffCount++] = element;
+			}
+		}
+		T[] arr = (T[]) Array.newInstance(origin.getClass().getComponentType(), buffCount);
+		System.arraycopy(buff, 0, arr, 0, arr.length);
+		return arr;
+	}
+
+	public static <O, T> T[] cast(O[] origin, T[] to, ICaller<O, T> filter) {
+		return cast(origin, 0, origin.length,
+				to, filter);
+	}
+	public static <O, T> T[] cast(O[] origin, int off, int len, T[] to, ICaller<O, T> filter) {
+		T[] arr = (T[]) Array.newInstance(to.getClass().getComponentType(), len);
+		for (int i = 0; i < len; i++)
+			arr[i] = filter.next(origin[off + i]);
+		return arr;
+	}
+	public static <TO, FROM> Object cast(FROM[] src, int srcPos, TO[] dest, int destPos, int length, ICaller<FROM, TO> cast) {
+		if (length <= 0) {
+			return dest;
+		}
+		for (int i = 0; i < length; i++) {
+			dest[i + destPos] = cast.next(src[i + srcPos]);
+		}
+		return dest;
+	}
+
+
+	public static <T> void sort(T[] cover, Comparator<T> c) {
+		sort(cover, 0, cover.length, c);
+	}
+
+	public static <T> void sort(T[] cover, int off, int ed, Comparator<T> c) {
+		int i, j;
+		for (i = off; i < ed - 1; i++) {
+			for (j = off; j < ed - 1 - i + off; j++) {
+				if (c.compare(cover[j], cover[j + 1]) > 0) {
+					T temp = cover[j];
+					cover[j] = cover[j + 1];
+					cover[j + 1] = temp;
+				}
+			}
+		}
+	}
+
+	/**
+	 * 合并数组
+	 */
+	public static <T> T[] merge(T[][] arrays) {
+		return null == arrays ? null : merge(arrays, 0, arrays.length);
+	}
+
+	public static <T> T[] merge(T[][] arrays, int off, int len) {
+		if (null == arrays) {
+			return null;
+		}
+		int length = 0;
+		for (int i = 0; i < len; i++) {
+			T[] array = arrays[off + i];
+			length += (null == array ? 0 : array.length);
+		}
+		int index = 0;
+		T[] newArray = (T[]) newInstance(Arrayx.getElementClass(Arrayx.getElementClass(arrays)), length);
+		for (int i = 0; i < len; i++) {
+			T[] array = arrays[off + i];
+			System.arraycopy(array, 0, newArray, index, array.length);
+			index += array.length;
+		}
+		return newArray;
+	}
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	public static <L> L[] marge(L[] left, L[] right) {
+		if (null == left) {
+			if (null == right) {
+				return null;
+			} else {
+				return java.util.Arrays.copyOf(right, right.length);
+			}
+		} else {
+			if (null == right) {
+				return java.util.Arrays.copyOf(left, left.length);
+			} else {
+				Class componentType = left.getClass().getComponentType();
+				int length = left.length + right.length;
+				L[] newInstance = (L[]) java.lang.reflect.Array.newInstance(componentType, length);
+				System.arraycopy(left, 0, newInstance, 0, left.length);
+				System.arraycopy(right, 0, newInstance, left.length, right.length);
+				return newInstance;
+			}
+		}
+	}
 
 
 }

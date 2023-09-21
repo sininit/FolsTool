@@ -1,0 +1,26 @@
+re里的变量一般是两种 
+一种是Java对象        为了方便反射直接可以使用Java对象操作
+
+
+一种是Re_IObject对象  基础函数也是Re_IObject对象
+当然不要忘了Re_IObject也是Java对象
+
+
+Java对象:
+比如
+a 是一个java对象
+a.b;   获取 a的b字段的值
+a.b(); 执行 a的b的方法
+a.b = 赋值 a的b字段的值
+a() 不能被执行
+
+
+Re_IObject:
+比如 
+global是一个 Re_IObject对象
+global()      则会调用Re_IObject 的executeCallProcess
+global.a()    则会调用Re_IObject 的executePointMethodProcess
+global.a      则会调用Re_IObject 的getVariableValue
+global.a = "" 则会调用Re_IObject 的setVariableValue
+
+

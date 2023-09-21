@@ -3,7 +3,7 @@ package top.fols.box.io.base;
 
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
-import top.fols.box.io.digest.XDigestOutputStream;
+import top.fols.atri.io.digest.XDigestOutputStream;
 import top.fols.box.io.os.XFile;
 import top.fols.box.time.XTimeConsum;
 import top.fols.atri.util.MessageDigests;

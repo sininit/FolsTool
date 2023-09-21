@@ -17,15 +17,17 @@
  */
 
 package top.fols.atri.assist.json;
-import top.fols.atri.lang.Objects;
 
+import java.util.*;
+
+@SuppressWarnings({"rawtypes", "unchecked", "ForLoopReplaceableByForEach", "UnusedReturnValue", "unused"})
 public class JSON {
     /**
-     * Returns the input if it is a JSON-permissible value; throws otherwise.
+     * Returns the input if it is a JSON-permissible tip; throws otherwise.
      */
     static double checkDouble(double d) throws JSONException {
         if (Double.isInfinite(d) || Double.isNaN(d)) {
-            throw new JSONException("Forbidden numeric value: " + d);
+            throw new JSONException("Forbidden numeric tip: " + d);
         }
         return d;
     }
@@ -52,9 +54,7 @@ public class JSON {
         } else if (value instanceof String) {
             try {
                 return Double.valueOf((String) value);
-            } catch (NumberFormatException ignored) {
-				ignored = null;
-            }
+            } catch (NumberFormatException ignored) {}
         }
         return null;
     }
@@ -67,9 +67,7 @@ public class JSON {
         } else if (value instanceof String) {
             try {
                 return (int) Double.parseDouble((String) value);
-            } catch (NumberFormatException ignored) {
-				ignored = null;
-            }
+            } catch (NumberFormatException ignored) {}
         }
         return null;
     }
@@ -82,9 +80,7 @@ public class JSON {
         } else if (value instanceof String) {
             try {
                 return (long) Double.parseDouble((String) value);
-            } catch (NumberFormatException ignored) {
-				ignored = null;
-            }
+            } catch (NumberFormatException ignored) {}
         }
         return null;
     }
@@ -137,29 +133,6 @@ public class JSON {
     }
 
 
-    public static boolean isJSON(String str) {
-        return isJSONObject(str) || isJSONArray(str);
-    }
-    public static boolean isJSONObject(String str) {
-        if (!Objects.empty(str) && (str = str.trim()).length() > 0 && (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}')) {
-            try {
-                parseJSONObject(str);
-                return true;
-            } catch (Throwable ignored) {
-            }
-        }
-        return false;
-    }
-    public static boolean isJSONArray(String str) {
-        if (!Objects.empty(str) && (str = str.trim()).length() > 0 && (str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']')) {
-            try {
-                parseJSONArray(str);
-                return true;
-            } catch (Throwable ignored) {
-            }
-        }
-        return false;
-    }
 
 
 
@@ -194,6 +167,101 @@ public class JSON {
         } else {
             throw JSON.typeMismatch(object, "JSON");
         }
+    }
+
+
+
+
+    public static boolean isJSON(String str) {
+        return isJSONObject(str) || isJSONArray(str);
+    }
+    public static boolean isJSONObject(String str) {
+        if (!(null == str || str.length() == 0) && (str = str.trim()).length() > 0 && (str.charAt(0) == '{' && str.charAt(str.length() - 1) == '}')) {
+            try {
+                parseJSONObject(str);
+                return true;
+            } catch (Throwable ignored) { }
+        }
+        return false;
+    }
+    public static boolean isJSONArray(String str) {
+        if (!(null == str || str.length() == 0) && (str = str.trim()).length() > 0 && (str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']')) {
+            try {
+                parseJSONArray(str);
+                return true;
+            } catch (Throwable ignored) { }
+        }
+        return false;
+    }
+
+
+
+    public static JSONObject toJSONObject(Map<String, Object> map) {
+        if (null == map)
+            return null;
+        return new JSONObject((Map<?, ?>) map);
+    }
+    public static JSONArray toJSONArrayFromArray(Object array) {
+        if (null == array)
+            return null;
+        return new JSONArray(array);
+    }
+    public static JSONArray toJSONArray(List map) {
+        if (null == map)
+            return null;
+
+        return new JSONArray((Collection<?>) map);
+    }
+    public static JSONArray toJSONArray(Iterable map) {
+        if (null == map)
+            return null;
+
+        return new JSONArray((Iterable<?>) map);
+    }
+
+
+
+
+
+    static Object jsonAsJavaObject(Object object) {
+        if (object instanceof JSONObject) {
+            return toMap((JSONObject)object);
+        } else if (object instanceof JSONArray) {
+            return toList((JSONArray)object);
+        }
+        return object;
+    }
+    public static Map<String, Object> toMap(JSONObject json) {
+        if (null == json)
+            return null;
+
+        Map cloneMap = new LinkedHashMap<>();
+        Map<String, Object> inner = json.getInnerMap();
+        for (String k:  inner.keySet()) {
+            Object  vs = jsonAsJavaObject(inner.get(k));
+            if (vs instanceof JSONObject)
+                vs = toMap((JSONObject)vs);
+            if (vs instanceof JSONArray)
+                vs = toList((JSONArray)vs);
+            cloneMap.put(k, vs);
+        }
+        return cloneMap;
+    }
+    public static List<Object> toList(JSONArray json) {
+        if (null == json)
+            return null;
+
+        List<Object> cloneMap = new ArrayList<>();
+        List<Object> inner = json.getInnerList();
+        for (int i = 0; i < inner.size();i++) {
+            Object vs = jsonAsJavaObject(inner.get(i));
+            if (vs instanceof JSONObject)
+                vs = toMap((JSONObject)vs);
+            if (vs instanceof JSONArray)
+                vs = toList((JSONArray)vs);
+            cloneMap.add(vs);
+        }
+        return cloneMap;
     }
 
 }

@@ -1,9 +1,12 @@
 package top.fols.atri.lang;
 
-import top.fols.atri.util.KeySetMap;
+import top.fols.atri.interfaces.annotations.Tips;
+import top.fols.atri.io.Delimiter;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.security.Security;
@@ -22,12 +25,13 @@ public class Finals {
 
 
 
-    public static final Field[] 		EMPTY_FIELD_ARRAY = new Field[]{};
+    public static final Annotation[]    EMPTY_ANNOTATION_ARRAY  = new Annotation[]{};
+    public static final Field[] 		EMPTY_FIELD_ARRAY       = new Field[]{};
     public static final Constructor[] 	EMPTY_CONSTRUCTOR_ARRAY = new Constructor[]{};
-    public static final Method[] 		EMPTY_METHOD_ARRAY = new Method[]{};
+    public static final Method[] 		EMPTY_METHOD_ARRAY      = new Method[]{};
 
-    public static final Class[] 		EMPTY_CLASS_ARRAY = new Class[]{};
-    public static final Object[] 		EMPTY_OBJECT_ARRAY = new Object[]{};
+    public static final Class[] 		EMPTY_CLASS_ARRAY   = new Class[]{};
+    public static final Object[] 		EMPTY_OBJECT_ARRAY  = new Object[]{};
 
 
     public static final String[]        EMPTY_STRING_ARRAY = new String[]{};
@@ -53,16 +57,6 @@ public class Finals {
 
     public static final StackTraceElement[] EMPTY_STACK_TRACE_ELEMENT_ARRAY = new StackTraceElement[]{};
 
-
-
-
-
-    public static final Iterator        EMPTY_ITERATOR = Collections.emptyIterator();
-    public static final List            EMPTY_LIST = Collections.emptyList();
-    public static final ListIterator    EMPTY_LIST_ITERATOR = Collections.emptyListIterator();
-    public static final Enumeration     EMPTY_ENUMERATION = Collections.emptyEnumeration();
-    public static final Set             EMPTY_SET = Collections.emptySet();
-    public static final Map             EMPTY_MAP = Collections.emptyMap();
 
 
 
@@ -120,7 +114,7 @@ public class Finals {
     public static final Class<boolean[]>    BOOLEAN_ARRAY_CLASS = boolean[].class;
     public static final Class<float[]>      FLOAT_ARRAY_CLASS = float[].class;
     public static final Class<short[]>      SHORT_ARRAY_CLASS = short[].class;
-  //public static final Class<int[]>        VOID_ARRAY_CLASS = void[].class;
+  //public static final Class<void[]>       VOID_ARRAY_CLASS = void[].class;
 
     public static final Class<Byte>         BYTE_PACKAGE_CLASS = Byte.class;
     public static final Class<Long>         LONG_PACKAGE_CLASS = Long.class;
@@ -178,6 +172,7 @@ public class Finals {
 
 
 
+    public static final Class<InvocationHandler> INVOCATION_HANDLER_CLASS = InvocationHandler.class;
 
 
 
@@ -185,25 +180,23 @@ public class Finals {
 
 
 
-    public static final Class<Object>           OBJECT_CLASS = Object.class;
-    public static final Class<Class>            CLASS_CLASS = Class.class;
-    public static final Class<String>           STRING_CLASS = String.class;
-    public static final Class<Method>           METHOD_CLASS = Method.class;
-    public static final Class<Field>            FIELD_CLASS = Field.class;
-    public static final Class<Constructor>      CONSTRUCTOR_CLASS = Constructor.class;
+    public static final Class<Object>           OBJECT_CLASS            = Object.class;
+    public static final Class<Class>            CLASS_CLASS             = Class.class;
+    public static final Class<String>           STRING_CLASS            = String.class;
+    public static final Class<Method>           METHOD_CLASS            = Method.class;
+    public static final Class<Field>            FIELD_CLASS             = Field.class;
+    public static final Class<Constructor>      CONSTRUCTOR_CLASS       = Constructor.class;
 
-    public static final Class<Object[]>         OBJECT_ARRAY_CLASS = Object[].class;
-    public static final Class<Class[]>          CLASS_ARRAY_CLASS = Class[].class;
-    public static final Class<String[]>         STRING_ARRAY_CLASS = String[].class;
-    public static final Class<Method[]>         METHOD_ARRAY_CLASS = Method[].class;
-    public static final Class<Field[]>          FIELD_ARRAY_CLASS = Field[].class;
+    public static final Class<Object[]>         OBJECT_ARRAY_CLASS      = Object[].class;
+    public static final Class<Class[]>          CLASS_ARRAY_CLASS       = Class[].class;
+    public static final Class<String[]>         STRING_ARRAY_CLASS      = String[].class;
+    public static final Class<Method[]>         METHOD_ARRAY_CLASS      = Method[].class;
+    public static final Class<Field[]>          FIELD_ARRAY_CLASS       = Field[].class;
     public static final Class<Constructor[]>    CONSTRUCTOR_ARRAY_CLASS = Constructor[].class;
 
 
-    public static final class Separator {
-
-        public static final byte LINE_SEPARATOR_BYTE_R = '\r';
-        public static final byte LINE_SEPARATOR_BYTE_N = '\n';
+    @SuppressWarnings("ManualArrayCopy")
+    public static final class LineSeparator {
         public static final char LINE_SEPARATOR_CHAR_R = '\r';
         public static final char LINE_SEPARATOR_CHAR_N = '\n';
 
@@ -215,38 +208,146 @@ public class Finals {
         public static final String MAC_LINE_SEPARATOR = "\r";//MAC
         public static final String LINUX_UNIX_LINE_SEPARATOR = "\n";//Linux, Unix
 
-        public static byte[] getBytesLineSeparatorN()  { return new byte[] { '\n' }; }
-
-        public static byte[] getBytesLineSeparatorR()  { return new byte[] { '\r' }; }
-
-        public static byte[] getBytesLineSeparatorRN() { return new byte[] { '\r', '\n' }; }
-
         public static char[] getCharsLineSeparatorN()  { return new char[] { '\n' }; }
-
         public static char[] getCharsLineSeparatorR()  { return new char[] { '\r' }; }
-
         public static char[] getCharsLineSeparatorRN() { return new char[] { '\r', '\n' }; }
 
-        public static final String  SYSTEM_LINE_SEPARATOR = System.lineSeparator(); //write command line spearator
-        public static byte[]        SYSTEM_LINE_SEPARATOR_BYTES() {
-            return SYSTEM_LINE_SEPARATOR.getBytes(); //write command line spearator
+
+        public static String getSystemLineSeparator() {
+            return System.lineSeparator();
         }
 
-        public static String[] getAllSystemLineSeparator() {
-            return new String[]{
-                    WINDOWS_LINE_SEPARATOR,
-                    MAC_LINE_SEPARATOR,
-                    LINUX_UNIX_LINE_SEPARATOR,
+
+        static final String[] ALL_SYSTEM_STRING;
+        static final char[][] ALL_SYSTEM_CHARS;
+        static {
+            ALL_SYSTEM_STRING = new LinkedHashSet<String>() {{
+                add(WINDOWS_LINE_SEPARATOR);
+                add(MAC_LINE_SEPARATOR);
+                add(LINUX_UNIX_LINE_SEPARATOR);
+                add(getSystemLineSeparator());
+            }}.toArray(Finals.EMPTY_STRING_ARRAY);
+            Arrays.sort(ALL_SYSTEM_STRING, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return Mathz.compareAsLeftMinToRightMax(o2.length(), o1.length());//left max, right min
+                }
+            });
+
+            ALL_SYSTEM_CHARS = new char[ALL_SYSTEM_STRING.length][];
+            for (int i = 0; i < ALL_SYSTEM_STRING.length; i++) {
+                String s = ALL_SYSTEM_STRING[i];
+                ALL_SYSTEM_CHARS[i] = s.toCharArray();
+            }
+        }
+
+
+        /**
+         * sorted [max length,..., min length]
+         */
+        @Tips("sorted [max length,..., min length]")
+        public static String[] getAllSystemLineSeparatorSortedMaxToMin() {
+            String[] chars = new String[ALL_SYSTEM_STRING.length];
+            for (int i = 0; i < chars.length; i++) {
+                chars[i] = ALL_SYSTEM_STRING[i];
+            }
+            return chars;
+        }
+        /**
+         * sorted [max length,..., min length]
+         */
+        @Tips("sorted [max length,..., min length]")
+        public static char[][] getAllSystemLineSeparatorCharsSortedMaxToMin() {
+            char[][] chars = new char[ALL_SYSTEM_CHARS.length][];
+            for (int i = 0; i < chars.length; i++) {
+                chars[i] = ALL_SYSTEM_CHARS[i].clone();
+            }
+            return chars;
+        }
+
+
+
+
+        /**
+         * sorted [max length,..., min length]
+         */
+        @Tips("sorted [max length,..., min length]")
+        public static byte[][] getAllSystemLineSeparatorBytesSortedMaxToMin(Charset charset) {
+            byte[][] chars = new byte[ALL_SYSTEM_STRING.length][];
+            for (int i = 0; i < chars.length; i++) {
+                chars[i] = ALL_SYSTEM_STRING[i].getBytes(charset);
+            }
+            return chars;
+        }
+
+
+        static final Delimiter.ICharsDelimiter LINE_CHAR_DELIMITER =  new Delimiter.ICharsDelimiter() {
+            final char[][] SEPARATOR = {
+                    "\r\n".toCharArray(),
+                    "\r".toCharArray(),
+                    "\n".toCharArray()
             };
+            final Delimiter.CharsDelimiterHeads heads = Delimiter.CharsDelimiterHeads.extractHead(SEPARATOR);
+
+            @Override public boolean isHead(char ch) {
+                return ch == '\r' ||
+                       ch == '\n';
+            }
+            @Override public int headMatchMinLength(char ch) { return heads.headMatchMinLength(ch); }
+            @Override public int headMatchMaxLength(char ch) { return heads.headMatchMaxLength(ch); }
+
+            @Override
+            public int assertSeparator(char[] data, int dataOffset, int dataLimit) {
+                // TODO: Implement this method
+                char ch = data[dataOffset];
+                if (ch == '\r') return dataOffset + 1 < dataLimit && data[dataOffset + 1] == '\n' ? 0 : 1;
+                if (ch == '\n') return 2;
+                return -1;
+            }
+            @Override
+            public int assertSeparator(CharSequence data, int dataOffset, int dataLimit) {
+                // TODO: Implement this method
+                char ch = data.charAt(dataOffset);
+                if (ch == '\r') return dataOffset + 1 < dataLimit && data.charAt(dataOffset + 1) == '\n' ? 0 : 1;
+                if (ch == '\n') return 2;
+                return -1;
+            }
+
+            @Override
+            public char[] cloneSeparator(int index) {
+                // TODO: Implement this method
+                return SEPARATOR[index].clone();
+            }
+
+            @Override
+            public char[][] cloneSeparators() {
+                // TODO: Implement this method
+                return Delimiter.clone(SEPARATOR);
+            }
+
+            @Override
+            protected char[] innerSeparator(int index) {
+                // TODO: Implement this method
+                return SEPARATOR[index];
+            }
+            @Override
+            protected char[][] innerSeparators() {
+                // TODO: Implement this method
+                return SEPARATOR;
+            }
+        };
+        //LineSeparator.lineCharDelimit
+        public static Delimiter.ICharsDelimiter lineCharDelimit() {
+            return LINE_CHAR_DELIMITER;
         }
     }
 
 
+    @SuppressWarnings("CharsetObjectCanBeUsed")
     public static final class Charsets {
         private Charsets() {
             throw new AssertionError("No instances for you!");
         }
-
 
         /**
          * Seven-bit ASCII, a.k.a. ISO646-US, a.k.a. the Basic Latin block of the
@@ -262,46 +363,55 @@ public class Finals {
          */
         public static final Charset UTF_8 = Charset.forName("UTF-8");
 
+        public static final Charset UNICODE = Charset.forName("UNICODE");
 
 
         /**
          * Sixteen-bit UCS Transformation Format, big-endian byte order
          */
-        public static final Charset UTF_16BE = Charset.forName("UTF-16BE");
+        static  public final Charset UTF_16BE;
+        static {
+            UTF_16BE = Charset.forName("UTF-16BE");
+        }
         /**
          * Sixteen-bit UCS Transformation Format, little-endian byte order
          */
-        public static final Charset UTF_16LE = Charset.forName("UTF-16LE");
+        static public final Charset UTF_16LE;
+        static {
+            UTF_16LE = Charset.forName("UTF-16LE");
+        }
         /**
          * Sixteen-bit UCS Transformation Format, byte order identified by an
          * optional byte-order mark
          */
-        public static final Charset UTF_16 = Charset.forName("UTF-16");
+        static public final Charset UTF_16;
+        static {
+            UTF_16 = Charset.forName("UTF-16");
+        }
 
         /**
          * Operating system default encoding
          * sun.jnu.encoding refers to the default encoding of the operating system, and file.encoding refers to the encoding of JAVA files (remember, not class files, all class files are encoded in UTF-8), so, in the same operating system The sun.jnu.encoding of the JAVA application running on the computer is exactly the same, and even if the file.encoding is in the same JAVA application, the encoding of the JAVA file can be different.
          *       * In most cases, sun.jnu.encoding is transparent to us.
          *
-         * LINUX 系统默认编码utf-8
-         * WINDOWS 默认编码GBK
-         * @return
          */
         public static String getOperateSystemCharset() {
-            String charset = System.getProperty("sun.jnu.encoding");
-            return charset;
+            return System.getProperty("sun.jnu.encoding");
         }
 
-        public static String getOperateSystemCharsetOrDefaultCharset() {
-            String charset = getOperateSystemCharset();
-            return null != charset ? charset
-                    : defaultCharsetName();
+        public static String getOperateSystemCharsetOrDefaultCharsetName() {
+            return getOperateSystemCharsetOrDefaultCharset().name();
         }
+        public static Charset getOperateSystemCharsetOrDefaultCharset() {
+            String charset = getOperateSystemCharset();
+            return null != charset ? Charset.forName(charset)
+                    : defaultCharset();
+        }
+
 
         public static String  defaultCharsetName() {
             return defaultCharset().name();
         }
-
         public static Charset defaultCharset() {
             return Charset.defaultCharset();
         }
@@ -335,10 +445,10 @@ public class Finals {
 
 
 
-    public static KeySetMap<String> getMessageDigestAlgorithms() {
-        KeySetMap<String> list = new KeySetMap<>();
+    public static Set<String> getMessageDigestAlgorithms() {
+        Set<String> list = new HashSet<>();
         for (String Str : Security.getAlgorithms("MessageDigest")) {
-            list.put(Str);
+            list.add(Str);
         }
         return list;
     }

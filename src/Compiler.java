@@ -158,4 +158,35 @@ public class Compiler {
         }
         is.close();
     }
+
+
+
+    public static void runBat(String command) throws IOException {
+        ProcessBuilder pb = new ProcessBuilder("cmd");
+        pb.redirectErrorStream(true);
+        Process process = pb.start();
+
+        OutputStream os = process.getOutputStream();
+        os.write(command.getBytes());
+        os.write("\n".getBytes());
+        os.write("exit".getBytes());
+        os.write("\n".getBytes());
+
+        os.flush();
+
+        InputStream is = process.getInputStream();
+        int read;
+        byte[] line = new byte[8192];
+        while ((read = is.read(line)) != -1) {
+            System.out.println(new String(line, 0, read, "GBK"));
+        }
+        try {
+            process.waitFor();
+            process.exitValue();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        is.close();
+    }
 }

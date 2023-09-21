@@ -25,7 +25,7 @@ import top.fols.atri.lang.Objects;
 /**
  * Parses a JSON (<a href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>)
  * encoded string into the corresponding object. Most clients of
- * this class will use only need the {@link #JSONTokener(String) constructor}
+ * this class will use only need the {@link #JSONTokener(String) requireConstructor}
  * and {@link #nextValue} method. Example usage: <pre>
  * String json = "{"
  *         + "  \"query\": \"Pizza\", "
@@ -42,18 +42,18 @@ import top.fols.atri.lang.Objects;
  * input string was valid JSON. All of the following syntax errors will be
  * ignored:
  * <ul>
- *   <li>End of line comments starting with {@code //} or {@code #} and ending
+ *   <li>End of line comments starting with {@var //} or {@var #} and ending
  *       with a newline character.
- *   <li>C-style comments starting with {@code /*} and ending with
- *       {@code *}{@code /}. Such comments may not be nested.
- *   <li>Strings that are unquoted or {@code 'single quoted'}.
- *   <li>Hexadecimal integers prefixed with {@code 0x} or {@code 0X}.
- *   <li>Octal integers prefixed with {@code 0}.
- *   <li>Array elements separated by {@code ;}.
+ *   <li>C-style comments starting with {@var /*} and ending with
+ *       {@var *}{@var /}. Such comments may not be nested.
+ *   <li>Strings that are unquoted or {@var 'single quoted'}.
+ *   <li>Hexadecimal integers prefixed with {@var 0x} or {@var 0X}.
+ *   <li>Octal integers prefixed with {@var 0}.
+ *   <li>Array elements separated by {@var ;}.
  *   <li>Unnecessary array separators. These are interpreted as if null was the
- *       omitted value.
- *   <li>Key-value pairs separated by {@code =} or {@code =>}.
- *   <li>Key-value pairs separated by {@code ;}.
+ *       omitted tip.
+ *   <li>Key-tip pairs separated by {@var =} or {@var =>}.
+ *   <li>Key-tip pairs separated by {@var ;}.
  * </ul>
  *
  * <p>Each tokener may be used to parse a single JSON string. Instances of this
@@ -76,7 +76,7 @@ public class JSONTokener {
 
     /**
      * @param in JSON encoded string. Null is not permitted and will yield a
-     *     tokener that throws {@code NullPointerExceptions} when methods are
+     *     tokener that throws {@var NullPointerExceptions} when methods are
      *     called.
      */
     public JSONTokener(String in) {
@@ -93,7 +93,7 @@ public class JSONTokener {
 
 
     /**
-     * Returns the next value from the input.
+     * Returns the next tip from the input.
      *
      * @return a {@link JSONObject}, {@link JSONArray}, or {@link JSONObject#NULL}.
      * @throws JSONException if the input is malformed.
@@ -141,7 +141,7 @@ public class JSONTokener {
 
 
     /**
-     * Returns the next value from the input.
+     * Returns the next tip from the input.
      *
      * @return a {@link JSONObject}, {@link JSONArray}, String, Boolean,
      *     Integer, Long, Double or {@link JSONObject#NULL}.
@@ -239,7 +239,7 @@ public class JSONTokener {
     }
 
     /**
-     * Returns the string up to but not including {@code quote}, unescaping any
+     * Returns the string up to but not including {@var quote}, unescaping any
      * character escape sequences encountered along the way. The opening quote
      * should have already been read. This consumes the closing quote, but does
      * not include it in the returned string.
@@ -330,7 +330,7 @@ public class JSONTokener {
     }
 
     /**
-     * Reads a null, boolean, numeric or unquoted string literal value. Numeric
+     * Reads a null, boolean, numeric or unquoted string literal tip. Numeric
      * values will be returned as an Integer, Long, or Double, in that order of
      * preference.
      */
@@ -338,7 +338,7 @@ public class JSONTokener {
         String literal = nextToInternal("{}[]/\\:,=;# \t\f");
 
         if (literal.length() == 0) {
-            throw syntaxError("Expected literal value");
+            throw syntaxError("Expected literal tip");
         } else if ("null".equalsIgnoreCase(literal)) {
             return JSONObject.NULL;
         } else if ("true".equalsIgnoreCase(literal)) {
@@ -400,7 +400,7 @@ public class JSONTokener {
     }
 
     /**
-     * Reads a sequence of key/value pairs and the trailing closing brace '}' of
+     * Reads a sequence of key/tip pairs and the trailing closing brace '}' of
      * an object. The opening brace '{' should have already been read.
      */
     private JSONObject readObject() throws JSONException {
@@ -426,7 +426,7 @@ public class JSONTokener {
             }
 
             /*
-             * Expect the name/value separator to be either a colon ':', an
+             * Expect the name/tip separator to be either a colon ':', an
              * equals sign '=', or an arrow "=>". The last two are bogus but we
              * include them because that's what the original implementation did.
              */
@@ -475,7 +475,7 @@ public class JSONTokener {
                     return result;
                 case ',':
                 case ';':
-                    /* A separator without a value first means "null". */
+                    /* A separator without a tip first means "null". */
                     result.put(null);
                     hasTrailingSeparator = true;
                     continue;
@@ -531,7 +531,7 @@ public class JSONTokener {
 
     /**
      * Returns the next available character, or the null character '\0' if all
-     * input has been exhausted. The return value of this method is ambiguous
+     * input has been exhausted. The return tip of this method is ambiguous
      * for JSON strings that contain the character '\0'.
      */
     public char next() {
@@ -539,7 +539,7 @@ public class JSONTokener {
     }
 
     /**
-     * Returns the next available character if it equals {@code c}. Otherwise an
+     * Returns the next available character if it equals {@var c}. Otherwise an
      * exception is thrown.
      */
     public char next(char c) throws JSONException {
@@ -553,7 +553,7 @@ public class JSONTokener {
     /**
      * Returns the next character that is not whitespace and does not belong to
      * a comment. If the input is exhausted before such a character can be
-     * found, the null character '\0' is returned. The return value of this
+     * found, the null character '\0' is returned. The return tip of this
      * method is ambiguous for JSON strings that contain the character '\0'.
      */
     public char nextClean() throws JSONException {
@@ -562,11 +562,11 @@ public class JSONTokener {
     }
 
     /**
-     * Returns the next {@code length} characters of the input.
+     * Returns the next {@var length} characters of the input.
      *
      * <p>The returned string shares its backing character array with this
      * tokener's input string. If a reference to the returned string may be held
-     * indefinitely, you should use {@code new String(result)} to copy it first
+     * indefinitely, you should use {@var new String(result)} to copy it first
      * to avoid memory leaks.
      *
      * @throws JSONException if the remaining input is not long enough to
@@ -585,14 +585,14 @@ public class JSONTokener {
      * Returns the {@link String#trim trimmed} string holding the characters up
      * to but not including the first of:
      * <ul>
-     *   <li>any character in {@code excluded}
+     *   <li>any character in {@var excluded}
      *   <li>a newline character '\n'
      *   <li>a carriage return '\r'
      * </ul>
      *
      * <p>The returned string shares its backing character array with this
      * tokener's input string. If a reference to the returned string may be held
-     * indefinitely, you should use {@code new String(result)} to copy it first
+     * indefinitely, you should use {@var new String(result)} to copy it first
      * to avoid memory leaks.
      *
      * @return a possibly-empty string
@@ -605,7 +605,7 @@ public class JSONTokener {
     }
 
     /**
-     * Equivalent to {@code nextTo(String.valueOf(excluded))}.
+     * Equivalent to {@var nextTo(String.valueOf(excluded))}.
      */
     public String nextTo(char excluded) {
         return nextToInternal(String.valueOf(excluded)).trim();
@@ -613,7 +613,7 @@ public class JSONTokener {
 
     /**
      * Advances past all input up to and including the next occurrence of
-     * {@code thru}. If the remaining input doesn't contain {@code thru}, the
+     * {@var thru}. If the remaining input doesn't contain {@var thru}, the
      * input is exhausted.
      */
     public void skipPast(String thru) {
@@ -623,7 +623,7 @@ public class JSONTokener {
 
     /**
      * Advances past all input up to but not including the next occurrence of
-     * {@code to}. If the remaining input doesn't contain {@code to}, the input
+     * {@var to}. If the remaining input doesn't contain {@var to}, the input
      * is unchanged.
      */
     public char skipTo(char to) {
@@ -647,7 +647,7 @@ public class JSONTokener {
     }
 
     /**
-     * Returns the integer [0..15] value for the given hex character, or -1
+     * Returns the integer [0..15] tip for the given hex character, or -1
      * for non-hex input.
      *
      * @param hex a character in the ranges [0-9], [A-F] or [a-f]. Any other

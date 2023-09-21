@@ -1,6 +1,6 @@
 package top.fols.atri.util;
 
-import top.fols.atri.lang.Objects;
+import top.fols.atri.interfaces.interfaces.IConvert;
 
 import java.io.Serializable;
 import java.util.ConcurrentModificationException;
@@ -71,7 +71,7 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
      *
      * <p>This field is used by the iterator and list iterator implementation
      * returned by the {@code iterator} and {@code listIterator} methods.
-     * If the value of this field changes unexpectedly, the iterator (or list
+     * If the tip of this field changes unexpectedly, the iterator (or list
      * iterator) will throw a {@code ConcurrentModificationException} in
      * response to the {@code next}, {@code remove}, {@code previous},
      * {@code set} or {@code add} operations.  This provides
@@ -120,17 +120,17 @@ public class DoubleLinkedList<T extends Object> implements Serializable, Cloneab
         }
         return newList;
     }
-    public DoubleLinkedList<T> clone(Objects.Cast<T, T> cloneContent) {
+    public DoubleLinkedList<T> clone(IConvert<T, T> cloneContent) {
         // TODO: Implement this method
         DoubleLinkedList<T> newList = new DoubleLinkedList<>();
         if (this.size != 0) {
             Element<T>      first;
-            first            = newList.first = new Element<>(cloneContent.cast(this.first.content));
+            first            = newList.first = new Element<>(cloneContent.next(this.first.content));
             first.superList  = newList;
 
             Element<T>      last   = first;
             for (DoubleLinkedList.Element<T> element = (Element<T>) this.first.getNext(); null != element; element = (Element<T>) element.getNext()) {
-                Element<T> cloneElement = new Element<>(cloneContent.cast(element.content));
+                Element<T> cloneElement = new Element<>(cloneContent.next(element.content));
                 DoubleLinked._addNext(last, cloneElement);
 
                 cloneElement.superList = newList;

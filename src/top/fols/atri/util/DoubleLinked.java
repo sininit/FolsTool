@@ -1,15 +1,15 @@
 package top.fols.atri.util;
 
-import top.fols.atri.assist.StringJoiner;
+import top.fols.atri.assist.util.StringJoiner;
 import top.fols.atri.lang.Objects;
 
 import java.io.Serializable;
 
-@SuppressWarnings({"EqualsReplaceableByObjectsCall", "DanglingJavadoc"})
+@SuppressWarnings({"EqualsReplaceableByObjectsCall", "DanglingJavadoc", "UnusedReturnValue"})
 public class DoubleLinked<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private DoubleLinked<T> prev = null, next = null;
+	protected DoubleLinked<T> prev = null, next = null;
 	protected T content;
 
 
@@ -54,7 +54,7 @@ public class DoubleLinked<T> implements Serializable {
 	 *
 	 * @param obj1
 	 * @param obj2
-	 * @return Is the value equals
+	 * @return Is the tip equals
 	 */
 	public static boolean equalsContent(Object obj1, Object obj2) {
 		// TODO: Implement this method
@@ -97,6 +97,22 @@ public class DoubleLinked<T> implements Serializable {
 	}
 
 
+	public DoubleLinked<T> disconAfter() {
+		if (null != this.next) {
+			DoubleLinked<T> next = this.next;
+			this.next = null;
+			return next;
+		}
+		return null;
+	}
+	public DoubleLinked<T> disconBefore() {
+		if (null != this.prev) {
+			DoubleLinked<T> prev = this.prev;
+			this.prev = null;
+			return prev;
+		}
+		return null;
+	}
 
 
 
@@ -162,14 +178,9 @@ public class DoubleLinked<T> implements Serializable {
 		}
 		element.prev = element.next = null;
 	}
-	/**
-	 *
-	 * @param newFirst new First
-	 * @return new First
-	 * @throws NullPointerException
-	 * @throws RuntimeException
-	 */
-	public void addFirst(DoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
+
+
+	public void addFirst(DoubleLinked<T> newFirst) throws RuntimeException {
 		DoubleLinked._addFirst(this, newFirst);
 	}
 	static <T> void _addFirst(DoubleLinked<T> originalFirst, DoubleLinked<T> newFirst) throws NullPointerException, RuntimeException {
@@ -197,6 +208,26 @@ public class DoubleLinked<T> implements Serializable {
 
 
 
+	public void addPrev(DoubleLinked<T> prev_element) throws RuntimeException {
+		DoubleLinked._addPrev(this, prev_element);
+	}
+	static <T> void _addPrev(DoubleLinked<T> current, DoubleLinked<T> prevElement) throws NullPointerException, RuntimeException {
+		if (null == current) {
+			throw new NullPointerException("null current element");
+		}
+		if (null == prevElement) {
+			throw new NullPointerException("null prev element");
+		}
+		if (current == prevElement) {
+			return;
+		}
+		DoubleLinked._remove(prevElement);
+
+		prevElement.prev = current.prev;
+		prevElement.next = current;
+
+		current.prev = prevElement;
+	}
 
 
 

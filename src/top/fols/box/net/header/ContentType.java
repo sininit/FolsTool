@@ -48,6 +48,7 @@ import java.util.Map;
  multipart/form-data ： 表单上传文件
 
  */
+@Deprecated
 @SuppressWarnings({"ConstantConditions", "StatementWithEmptyBody", "SimplifiableConditionalExpression"})
 public class ContentType {
 
@@ -86,7 +87,7 @@ public class ContentType {
 				Value no = (Value) obj;
 				return
 					Objects.equals(null == this.property ?null: this.property.toLowerCase(), null == no.property ?null: no.property.toLowerCase())
-//					&& Objects.equals(this.value, no.value)
+//					&& Objects.equals(this.tip, no.tip)
 					;
 			}
 			return false;

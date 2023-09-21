@@ -1,0 +1,144 @@
+----------------
+1.0
+local运行后就没了
+
+运行规则: 父执行器指当前Executor
+每个类的加载没有 父执行器 可以有传入参数  只会加载一次
+加载内部类 class();   父执行器即可
+function 每次执行需要 local 和 父执行器 // 不需要任何 instance, sstatic instance
+
+如果static instance 找不到 variable则向 declaringClass查询
+
+直接 执行 class.re_class 类的function 没有父执行器 只有 local, static instance   
+
+直接 执行 class.re_class 实例function 没有父执行器 只有 local, instance, static instance 
+创建类实例 执行 的function  没有父执行器 只有 local, instance, static instance 
+----------------
+2.0
+类初始化只会初始化一次
+匿名类和动态创建的类也会初始化一次 
+
+初始化类 以及 执行类方法 以及 对象方法
+的
+变量域排序 为 
+[local] > (创建时的域) 
+
+
+----------------
+
+文件夹 是包
+文件名为类名
+本类名为 main
+导入为 import("main");
+import不能导入内部类
+本类只会加载一次
+
+----------------
+
+删除所有keyword变量域
+基础变量 不需要获取
+所有Call编译时就从关键词里获取 后面不再获取
+直接Var内置 Variable得了
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------- start
+
+----------------------
+Re_Variable +
+Re_ClassFunction 
+    accesserId = 0;
+PermissionChecker
+    accesserId = [public, protected, private]
+-------------------------
+
+继承
+class Base {
+    function v() { return 1; };
+};
+class A {
+    static var k = 8;
+    this   var j = this;
+    init(): Base {
+        this.version = 1;
+    };
+    function getVersion() { return super.v(); };
+};
+class B {
+    init(): A {
+        super();
+        super.j;
+        super.getVersion();
+    };
+};
+
+
+
+标准对象类
+Re_ZPrimitiveClass_exception (需要优化)
+Re_ZPrimitiveClass_reflect
+直接继承 object 允许被继承(Java里)
+
+非标准对象类
+Re_ZPrimitiveClass_list
+Re_ZPrimitiveClass_json
+直接继承 object 不允许被继承(Java里)
+    
+
+继承后直接复制类的所有 方法 和 字段
+instanceof  也要修改
+super()     直接父类执行器
+super.xx    直接获取父类变量
+super.xx()  直接执行父类类方法
+
+-------------------------------------------
+
+typeof
+-------------------------------------------
+
+synchronized
+-------------------------------------------
+
+格式化输出
+-------------------------------------------
+
+序列化 (只序列化 基本数据 )
+-------------------------------------------
+
+注解
+-------------------------------------------
+
+//println("Hello, ${user}!");
+-------------------------------------------
+
+//回调地狱
+-------------------------------------------
+
+//所有基本方法绑定一个类 + 类有文档注释
+-------------------------------------------
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------end
+
+// 以下不再使用
+//delete private    顶级类
+//delete protected  ClassLoader + package + isinstanceof 目标类继承表判断 
+//##
+
+-----------
+        事实上可以去掉 所有的pointmethod 只用basemethod也行，理论上应该删掉 但是又不该删掉 只用basemethod
+        field.var_name.var_field			==> 	field.var_name.var_field
+        field.var_name.var_field(type...)	==> 	(field.var_name.var_field)(type...) 如果要实现这样那么base方法需要获取一次上次获取的fieldname 重新匹配field  或者  field.var_name("out", "java.oi.PrintWriter")
+        System.out.println(a)				==>	    (System.out.println)(a)	 每一次.都要创建一个新的对象并保存 field的type和instance 还有名称  最后获取println时直接执行即可

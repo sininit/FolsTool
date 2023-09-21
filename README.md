@@ -1,16 +1,38 @@
 # FolsTool
 
+ArrayObject
+
+Arrayz
+Classz
+Finals
+Objects
+
+JSON
+
+BitsBigEndian / BitsLittleEndian
+Classx
+Arrayx
+Arrayy
+
+Boxing
 
 
-```
-Reference：
-I'm not the author of these classes. I've indicated the original author in the class.
 
-/top/fols/box/util/XByteEncode.java
-/top/fols/box/util/XByteEncodeInit.java
 
-/top/atri/assist/*.java
 
-/top/fols/box/util/encode/XBase64Encoder.java
+<!--
+    cmd 导入jar包到maven本地
 
-```
+   mvn install:install-file -DgroupId=top.fols -DartifactId=box -Dversion=1.0.0-SNAPSHOT -Dpackaging=jar -Dfile=C:\\documents\\360Sync\\Programming\\JAVA\\fols\\folsTool\\top.fols.box.jar
+
+<!--		导入本地包  才能用maven直接打包 -->
+<!--        maven clean install package-->
+		<dependency>
+			<groupId>top.fols</groupId>
+			<artifactId>box</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+-->
+
+
+多个分隔符导致的遍历次数
