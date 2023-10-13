@@ -1,7 +1,7 @@
 package top.fols.box.reflect.re;
 import java.util.Iterator;
 
-import top.fols.atri.assist.ArrayLists;
+import top.fols.atri.assist.util.ArrayLists;
 import top.fols.atri.lang.Strings;
 import top.fols.atri.interfaces.annotations.NotNull;
 
@@ -371,7 +371,7 @@ public class Re_NativeStack {
 					@Override
 					public ITraceElement next() {
 						if (hasNext())
-							return top.buffer(index--);
+							return top.value(index--);
 						return null;
 					}
 

@@ -18,7 +18,7 @@ import java.lang.annotation.RetentionPolicy;
 		ElementType.TYPE
 	}
 )
-public @interface Tips {
+public @interface Help {
 	String   value() default "";
 	String[] text()  default "";
 }

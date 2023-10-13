@@ -2,7 +2,7 @@ package top.fols.box.util.encode;
 
 import top.fols.atri.io.CharsWriters;
 import top.fols.atri.lang.Finals;
-import top.fols.atri.interfaces.annotations.Tips;
+import top.fols.atri.interfaces.annotations.Help;
 
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
@@ -358,7 +358,7 @@ public class URLEncoders {
          * a-f 97>=x<=102
          * a-f 65>=x<=70
          */
-        @Tips("%XX or +")
+        @Help("%XX or +")
         private int nextURLCodeLength(int start) {
             if (text.charAt(start) == '+') {
                 return 1;

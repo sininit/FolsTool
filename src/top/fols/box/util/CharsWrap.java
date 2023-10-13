@@ -1,6 +1,6 @@
 package top.fols.box.util;
 
-import top.fols.atri.interfaces.annotations.UnsafeOperate;
+import top.fols.atri.interfaces.annotations.Private;
 
 public class CharsWrap implements CharSequence {
     int beginIndex;
@@ -23,7 +23,7 @@ public class CharsWrap implements CharSequence {
         this.length     = count;
 	}
 	
-	@UnsafeOperate
+	@Private
 	protected CharsWrap(char[] content, int begin, int count, boolean fromBuffer) {
 		if (begin < 0 || count < 0)
 			throw new ArrayIndexOutOfBoundsException();
@@ -34,7 +34,7 @@ public class CharsWrap implements CharSequence {
         this.beginIndex = begin;
         this.length     = count;
 	}
-	@UnsafeOperate
+	@Private
 	private CharsWrap() {}
 	
 	

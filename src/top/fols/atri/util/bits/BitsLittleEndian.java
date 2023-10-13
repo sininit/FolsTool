@@ -5,7 +5,7 @@ package top.fols.atri.util.bits;
   using little-endian byte ordering.
  */
 import top.fols.atri.interfaces.abstracts.BitsOptions;
-import top.fols.atri.interfaces.annotations.Tips;
+import top.fols.atri.interfaces.annotations.Help;
 
 public class BitsLittleEndian extends BitsOptions {
 
@@ -25,12 +25,12 @@ public class BitsLittleEndian extends BitsOptions {
 	 * Methods for unpacking primitive values from byte arrays starting at given
 	 * offsets.
 	 */
-	@Tips("occupied byte length: 1")
+	@Help("occupied byte length: 1")
 	public boolean getBoolean(byte[] b, int off) {
 		return b[off] != 0;
 	}
 
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	public char getChar(byte[] b, int off) {
 		return (char) (
 			(b[off] & 0xFF) + 
@@ -38,7 +38,7 @@ public class BitsLittleEndian extends BitsOptions {
 			);
 	}
 
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	public short getShort(byte[] b, int off) {
 		return (short) (
 			(b[off] & 0xFF) +
@@ -46,7 +46,7 @@ public class BitsLittleEndian extends BitsOptions {
 			);
 	}
 
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	public int getInt(byte[] b, int off) {
 		return
 			((b[off] & 0xFF)) +
@@ -55,12 +55,12 @@ public class BitsLittleEndian extends BitsOptions {
 			((b[off + 3]) << 24);
 	}
 
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	public float getFloat(byte[] b, int off) {
 		return Float.intBitsToFloat(getInt(b, off));
 	}
 
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	public long getLong(byte[] b, int off) {
 		return
 			((b[off] & 0xFFL)) +
@@ -82,7 +82,7 @@ public class BitsLittleEndian extends BitsOptions {
 //			(0xff00000000000000L & 	((long)b[off + 7] << 56));
 	}
 
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	public double getDouble(byte[] b, int off) {
 		return Double.longBitsToDouble(getLong(b, off));
 	}
@@ -96,11 +96,11 @@ public class BitsLittleEndian extends BitsOptions {
 	 * Methods for packing primitive values into byte arrays starting at given
 	 * offsets.
 	 */
-	@Tips("occupied byte length: 1")
+	@Help("occupied byte length: 1")
 	public void putBytes(byte[] b, int off, boolean val) {
 		b[off] = (byte) (val ? 1 : 0);
 	}
-	@Tips("occupied byte length: 1")
+	@Help("occupied byte length: 1")
 	public byte[] getBytes(boolean val) {
 		byte[] bytes = new byte[BOOLEAN_BYTE_LENGTH];
 		putBytes(bytes, 0, val);
@@ -108,12 +108,12 @@ public class BitsLittleEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	public void putBytes(byte[] b, int off, char val) {
 		b[off] = (byte) (val);
 		b[off + 1] = (byte) (val >>> 8);
 	}
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	public byte[] getBytes(char val) {
 		byte[] bytes = new byte[CHAR_BYTE_LENGTH];
 		putBytes(bytes, 0, val);
@@ -121,12 +121,12 @@ public class BitsLittleEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	public void putBytes(byte[] b, int off, short val) {
 		b[off] = (byte) (val);
 		b[off + 1] = (byte) (val >>> 8);
 	}
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	public byte[] getBytes(short val) {
 		byte[] bytes = new byte[SHORT_BYTE_LENGTH];
 		putBytes(bytes, 0, val);
@@ -134,14 +134,14 @@ public class BitsLittleEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	public void putBytes(byte[] b, int off, int val) {
 		b[off] = (byte) (val);
 		b[off + 1] = (byte) (val >>> 8);
 		b[off + 2] = (byte) (val >>> 16);
 		b[off + 3] = (byte) (val >>> 24);
 	}
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	public byte[] getBytes(int val) {
 		byte[] bytes = new byte[INT_BYTE_LENGTH];
 		putBytes(bytes, 0, val);
@@ -149,11 +149,11 @@ public class BitsLittleEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	public void putBytes(byte[] b, int off, float val) {
 		putBytes(b, off, Float.floatToIntBits(val));
 	}
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	public byte[] getBytes(float val) {
 		byte[] bytes = new byte[FLOAT_BYTE_LENGTH];
 		putBytes(bytes, 0, val);
@@ -161,7 +161,7 @@ public class BitsLittleEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	public void putBytes(byte[] b, int off, long val) {
 		b[off] = (byte) (val);
 		b[off + 1] = (byte) (val >>> 8);
@@ -172,7 +172,7 @@ public class BitsLittleEndian extends BitsOptions {
 		b[off + 6] = (byte) (val >>> 48);
 		b[off + 7] = (byte) (val >>> 56);
 	}
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	public byte[] getBytes(long val) {
 		byte[] bytes = new byte[LONG_BYTE_LENGTH];
 		putBytes(bytes, 0, val);
@@ -180,11 +180,11 @@ public class BitsLittleEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	public void putBytes(byte[] b, int off, double val) {
 		putBytes(b, off, Double.doubleToLongBits(val));
 	}
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	public byte[] getBytes(double val) {
 		byte[] bytes = new byte[DOUBLE_BYTE_LENGTH];
 		putBytes(bytes, 0, val);

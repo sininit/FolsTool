@@ -1,13 +1,13 @@
 package top.fols.atri.cache;
 
 import top.fols.atri.interfaces.annotations.ThreadSafe;
-import top.fols.atri.interfaces.annotations.UnsafeOperate;
+import top.fols.atri.interfaces.annotations.Private;
 import top.fols.atri.interfaces.interfaces.IReleasable;
 
 @ThreadSafe
 public abstract class TemporaryMapValueModCache<K, V, Ex extends Throwable> {
 
-	@UnsafeOperate
+	@Private
 	transient long mod;
 	
 	public void addMod() { mod ++; }
@@ -23,7 +23,7 @@ public abstract class TemporaryMapValueModCache<K, V, Ex extends Throwable> {
 		return new ValueGetter(k);
 	}
 	public class ValueGetter implements IReleasable {
-		@UnsafeOperate
+		@Private
 		@Override
 		public boolean release() {
 			// TODO: Implement this method
@@ -40,7 +40,7 @@ public abstract class TemporaryMapValueModCache<K, V, Ex extends Throwable> {
 		}
 		
 		
-		@UnsafeOperate
+		@Private
 		long lastMod = (TemporaryMapValueModCache.this.mod - 1);
 
 		final K k;

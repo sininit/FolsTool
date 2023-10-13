@@ -7,8 +7,8 @@ import java.util.Arrays;
 import top.fols.atri.lang.Mathz;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.time.Times;
-import top.fols.atri.util.SizeUnit;
 import top.fols.box.util.CycleDigitalRecorder;
+import top.fols.box.util.SizeUnit;
 
 /** 
  * restrict broadband and automatically determine broadband bandwidth

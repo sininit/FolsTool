@@ -1,4 +1,4 @@
-package top.fols.atri.util;
+package top.fols.box.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

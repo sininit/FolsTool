@@ -1,7 +1,6 @@
 package top.fols.atri.cache;
 
 import top.fols.atri.interfaces.annotations.ThreadSafe;
-import top.fols.atri.interfaces.annotations.ThreadUnsafe;
 import top.fols.atri.interfaces.interfaces.IReleasable;
 
 @SuppressWarnings({"UnusedReturnValue", "PointlessBooleanExpression"})

@@ -1,4 +1,4 @@
-package top.fols.atri.assist;
+package top.fols.atri.assist.util;
 
 import java.lang.reflect.Array;
 import java.util.*;

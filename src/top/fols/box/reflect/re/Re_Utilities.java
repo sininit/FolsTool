@@ -1,12 +1,13 @@
 package top.fols.box.reflect.re;
 
-import top.fols.atri.interfaces.annotations.UnsafeOperate;
+import top.fols.atri.interfaces.annotations.Private;
 import top.fols.atri.lang.*;
 import top.fols.atri.lang.Objects;
 import top.fols.atri.reflect.ReflectCache;
 import top.fols.atri.reflect.ReflectMatcher;
 import top.fols.atri.interfaces.annotations.NotNull;
 import top.fols.atri.interfaces.annotations.Nullable;
+import top.fols.atri.util.Iterables;
 import top.fols.box.lang.Arrayx;
 import top.fols.box.lang.Classx;
 import top.fols.atri.util.Lists;
@@ -1624,7 +1625,7 @@ public class Re_Utilities {
             //java array
             Class<?> aClass = object.getClass();
             if (aClass.isArray()) {
-                return Lists.wrapRange(0, Array.getLength(object));
+                return Iterables.wrapRange(0, Array.getLength(object));
             }
 
             //java object
@@ -1640,11 +1641,11 @@ public class Re_Utilities {
 
     static void ______________________(){}
 
-    @UnsafeOperate
+    @Private
     @SuppressWarnings("UnusedReturnValue")
     static class UnsafeDebugger {
         static NReflectMatcher matcher = new NReflectMatcher(new NReflectMatcher.NCache());
-        @UnsafeOperate
+        @Private
         static class NReflectMatcher extends ReflectMatcher<NReflectMatcher.NCache> implements Re_IJavaReflector {
             public NReflectMatcher(NCache cache) {
                 super(cache);
@@ -1662,7 +1663,7 @@ public class Re_Utilities {
                 //------------------------------------------------------------------------------------------------------------------
             }
         }
-        @UnsafeOperate
+        @Private
         static Object getObjectFieldValue(Object object, Object key) {
             if (object instanceof Re_IRe_Object) {
                 if (Re_Utilities.isReClass(object)) {
@@ -1712,7 +1713,7 @@ public class Re_Utilities {
                 }
             }
         }
-        @UnsafeOperate
+        @Private
         static boolean setObjectFieldValue(Object object, Object key, Object value) {
             if (object instanceof Re_IRe_Object) {
                 if (Re_Utilities.isReClass(object)) {
@@ -1770,7 +1771,7 @@ public class Re_Utilities {
                 }
             }
         }
-        @UnsafeOperate
+        @Private
         static boolean contanisObjectKey(Object object, Object key) {
             if (object instanceof Re_IRe_Object) {
                 if (Re_Utilities.isReClass(object)) {
@@ -1813,7 +1814,7 @@ public class Re_Utilities {
             }
         }
 
-        @UnsafeOperate
+        @Private
         static boolean delObjectKey(Object object, Object key) {
             if (object instanceof Re_IRe_Object) {
                 if (Re_Utilities.isReClass(object)) {
@@ -1853,7 +1854,7 @@ public class Re_Utilities {
                 throw new RuntimeException("unsupport type: " + objectAsName(object));
             }
         }
-        @UnsafeOperate
+        @Private
         static int getObjectLength(Object object) {
             if (object instanceof Re_IRe_Object) {
                 if (Re_Utilities.isReClass(object)) {
@@ -1892,7 +1893,7 @@ public class Re_Utilities {
             }
         }
 
-        @UnsafeOperate
+        @Private
         static Iterable getObjectKeys(Object object) {
             if (object instanceof Re_IRe_Object) {
                 if (Re_Utilities.isReClass(object)) {
@@ -1921,7 +1922,7 @@ public class Re_Utilities {
                 //java array
                 Class<?> aClass = object.getClass();
                 if (aClass.isArray()) {
-                    return Lists.wrapRange(0, Array.getLength(object));
+                    return Iterables.wrapRange(0, Array.getLength(object));
                 }
 
                 //java object
@@ -1932,7 +1933,7 @@ public class Re_Utilities {
                     nameList.add(field.getName());
                 }
                 String[] names = nameList.toArray(Finals.EMPTY_STRING_ARRAY);
-                return Lists.wrapArray(names, 0, names.length);
+                return Iterables.wrapArray(names, 0, names.length);
             }
         }
     }

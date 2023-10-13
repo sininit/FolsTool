@@ -1,6 +1,6 @@
 package top.fols.box.net;
 
-import top.fols.atri.net.XURL;
+import top.fols.atri.net.HttpURL;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,10 +32,17 @@ public class XURLTest {
         testUrl = "http://tester:123456@www.baidu.com//a///b///c/..//?sb//../..///?a=b&b=c&c=d//../#cxk";
 
         System.out.println(testUrl);
-        XURL tsx = new XURL(testUrl).absoluteUrl();
+        HttpURL tsx = new HttpURL(testUrl);
         System.out.println(tsx);
-        Method[] ms = XURL.class.getMethods();
+        System.out.println("-------------------------");
+
+        tsx = new HttpURL("http://tester:123456@www.baidu.com//a/", "//b///c/..//?sb//../..///?a=b&b=c&c=d//../#cxk");
+        System.out.println(tsx);
+
+
+        Method[] ms = HttpURL.class.getMethods();
         for (Method m : ms) {
+            m.setAccessible(true);
             if (m.getParameterTypes().length == 0) {
                 System.out.println(m.getName() + " ==> " + m.invoke(tsx));
             }

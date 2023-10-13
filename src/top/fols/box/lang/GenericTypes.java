@@ -31,7 +31,7 @@ import top.fols.atri.lang.Arrayz;
 import top.fols.atri.lang.Classz;
 import top.fols.atri.lang.Finals;
 import top.fols.box.util.DataSequences;
-import top.fols.box.util.EntityTable;
+import top.fols.box.util.EntitySpace;
 
 /**
  * can read generic declarations written by normal people
@@ -57,7 +57,7 @@ public class GenericTypes {
 			void test(List<E>[] data) {};
 		}
 		static class CC2<E extends CharSequence> extends CC<E> {}
-		static abstract class EntityTableTest<K, E extends EntityTable.Entity>{}
+		static abstract class EntityTableTest<K, E extends EntitySpace.Entity>{}
 
 
 		static public void main(String[] args) {

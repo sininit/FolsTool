@@ -6,10 +6,10 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 import top.fols.atri.assist.util.IgnoreCaseLinkedHashMap;
+import top.fols.atri.interfaces.annotations.Help;
 import top.fols.atri.io.StringReaders;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.interfaces.interfaces.IInnerMap;
-import top.fols.atri.interfaces.annotations.Tips;
 import top.fols.box.lang.Arrayy;
 import top.fols.box.net.header.CookieText;
 
@@ -254,7 +254,7 @@ public class MessageHeader implements Serializable, IInnerMap<String, List<Strin
 
 
 
-    @Tips("set")
+    @Help("set")
     public MessageHeader put(String k, String v) {
         this.setValue0(k, v);
         return this;
@@ -265,7 +265,7 @@ public class MessageHeader implements Serializable, IInnerMap<String, List<Strin
         return this;
     }
 
-    @Tips("deal multi line able")
+    @Help("deal multi line able")
     public MessageHeader putAll(String... multiLineContent) {
         StringBuilder buf = new StringBuilder();
         for (String s : multiLineContent) {
@@ -276,7 +276,7 @@ public class MessageHeader implements Serializable, IInnerMap<String, List<Strin
         return this;
     }
 
-    @Tips("deal multi line able")
+    @Help("deal multi line able")
     public MessageHeader putAll(String multiLineContent) {
         MessageHeader.dealMultiLineMessage0(this, multiLineContent, true);
         return this;
@@ -323,7 +323,7 @@ public class MessageHeader implements Serializable, IInnerMap<String, List<Strin
 
 
 
-    @Tips("add")
+    @Help("add")
     public MessageHeader add(String k, String v) {
         this.addValue0(k, v);
         return this;
@@ -334,7 +334,7 @@ public class MessageHeader implements Serializable, IInnerMap<String, List<Strin
         return this;
     }
 
-    @Tips("deal multi line able")
+    @Help("deal multi line able")
     public MessageHeader addAll(String... Content) {
         StringBuilder buf = new StringBuilder();
         for (String s : Content) {
@@ -344,7 +344,7 @@ public class MessageHeader implements Serializable, IInnerMap<String, List<Strin
         return this;
     }
 
-    @Tips("deal multi line able")
+    @Help("deal multi line able")
     public MessageHeader addAll(String Content) {
         MessageHeader.dealMultiLineMessage0(this, Content, false);
         return this;
@@ -576,7 +576,7 @@ public class MessageHeader implements Serializable, IInnerMap<String, List<Strin
     /*
      * 不会设置key为空的字段
      */
-    @Tips("the empty key won't be set")
+    @Help("the empty key won't be set")
     public MessageHeader setToURLConnection(URLConnection con) {
         for (String fk : this.keySet()) {
             String ok = fk;
@@ -615,7 +615,7 @@ public class MessageHeader implements Serializable, IInnerMap<String, List<Strin
     /*
      * 不会添加key为空的字段
      */
-    @Tips("the empty key won't be add")
+    @Help("the empty key won't be add")
     public MessageHeader addToURLConnection(URLConnection con) {
         for (String fk : this.keySet()) {
             String ok = fk;

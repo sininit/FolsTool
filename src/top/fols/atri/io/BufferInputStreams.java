@@ -3,7 +3,7 @@ package top.fols.atri.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import top.fols.atri.interfaces.annotations.UnsafeOperate;
+import top.fols.atri.interfaces.annotations.Private;
 import top.fols.atri.interfaces.interfaces.IInnerStream;
 import top.fols.atri.io.util.Streams;
 import top.fols.atri.lang.Arrayz;
@@ -264,7 +264,7 @@ public class BufferInputStreams<T extends InputStream> extends InputStream imple
 //		System.out.println(new String(next));
 //	} while (buff.hasNext());
 
-	@UnsafeOperate
+	@Private
 	@Deprecated
 	@Override
 	public boolean findNext() throws IOException {

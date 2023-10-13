@@ -50,94 +50,94 @@ public class ClassProperties {
 
 	public static Class[] classMap(Class clazz) {
 		if (null == clazz) { return null; }
-        return Reflects.classes(clazz);
-    }
+		return Reflects.classes(clazz);
+	}
 	public static Constructor[] constructorMap(Class clazz) {
 		if (null == clazz) { return null; }
-        return Reflects.constructors(clazz);
-    }
-    /**
-     * signature insensitive
-     */
+		return Reflects.constructors(clazz);
+	}
+	/**
+	 * signature insensitive
+	 */
 	public static Field[] fieldMap(Class clazz) {
 		if (null == clazz) { return null; }
-        Map<String, Field> values = new LinkedHashMap<>();
-        try {
-            Class tempClass = clazz;
-            while (null != tempClass) {
-                for (Field field : Reflects.getDeclaredFields(tempClass)) {
-                    String fieldName = field.getName();
-                    if (!values.containsKey(fieldName)) {
+		Map<String, Field> values = new LinkedHashMap<>();
+		try {
+			Class tempClass = clazz;
+			while (null != tempClass) {
+				for (Field field : Reflects.getDeclaredFields(tempClass)) {
+					String fieldName = field.getName();
+					if (!values.containsKey(fieldName)) {
 						values.put(fieldName, field);
-                    }
-                }
-                tempClass = tempClass.getSuperclass();
-            }
-        } catch (Exception ignore) {}
+					}
+				}
+				tempClass = tempClass.getSuperclass();
+			}
+		} catch (Exception ignore) {}
 
-        for (Field field : clazz.getFields()) {
-            String fieldName = field.getName();
-            //if (!values.containsKey(fieldName)) {
-		    values.put(fieldName, field);
-            //}
-        }
-        return values.values().toArray(new Field[]{});
-    }
-    public static Method[] methodMap(Class clazz) {
-        if (null == clazz) { return null; }
-        Map<Reflects.SignatureMethodWrap, Method> values = new LinkedHashMap<>();
-        try {
-            Class tempClass = clazz;
-            while (null != tempClass) {
-                for (Method cf: tempClass.getDeclaredMethods()) {
-                    Reflects.SignatureMethodWrap cacheFieldObject = Reflects.SignatureMethodWrap.wrap(cf);
-                    Method cacheField = values.get(cacheFieldObject);
-                    if (null == cacheField) {
-                        values.put(cacheFieldObject, cf);
-                    }
-                }
-                tempClass = tempClass.getSuperclass();
-            }
-        } catch (Exception ignore) {}
+		for (Field field : clazz.getFields()) {
+			String fieldName = field.getName();
+			//if (!values.containsKey(fieldName)) {
+			values.put(fieldName, field);
+			//}
+		}
+		return values.values().toArray(new Field[]{});
+	}
+	public static Method[] methodMap(Class clazz) {
+		if (null == clazz) { return null; }
+		Map<Reflects.SignatureMethodWrap, Method> values = new LinkedHashMap<>();
+		try {
+			Class tempClass = clazz;
+			while (null != tempClass) {
+				for (Method cf: tempClass.getDeclaredMethods()) {
+					Reflects.SignatureMethodWrap cacheFieldObject = Reflects.SignatureMethodWrap.wrap(cf);
+					Method cacheField = values.get(cacheFieldObject);
+					if (null == cacheField) {
+						values.put(cacheFieldObject, cf);
+					}
+				}
+				tempClass = tempClass.getSuperclass();
+			}
+		} catch (Exception ignore) {}
 
-        for (Method cf: clazz.getMethods()) {
-            Reflects.SignatureMethodWrap cacheFieldObject = Reflects.SignatureMethodWrap.wrap(cf);
-            Method cacheField = values.get(cacheFieldObject);
-            if (null == cacheField) {
-                values.put(cacheFieldObject, cf);
-            }
-        }
-        return values.values().toArray(EMPTY_METHOD_ARRAY);
-    }
+		for (Method cf: clazz.getMethods()) {
+			Reflects.SignatureMethodWrap cacheFieldObject = Reflects.SignatureMethodWrap.wrap(cf);
+			Method cacheField = values.get(cacheFieldObject);
+			if (null == cacheField) {
+				values.put(cacheFieldObject, cf);
+			}
+		}
+		return values.values().toArray(EMPTY_METHOD_ARRAY);
+	}
 
 
 	public Class[] 			getClassMap(Class clazz) { return classMap(clazz); }
 	public Constructor[] 	getConstructorMap(Class clazz) { return constructorMap(clazz); }
 	public Field[] 			getFieldMap(Class clazz) { return fieldMap(clazz); }
-    public Method[] 		getMethodMap(Class clazz) { return methodMap(clazz); }
+	public Method[] 		getMethodMap(Class clazz) { return methodMap(clazz); }
 
 
 
 
 
 //------------------------/
-    /**
-     * field or method
-     */
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({ElementType.FIELD, ElementType.METHOD})
-    public @interface Ignored {}
+	/**
+	 * field or method
+	 */
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ElementType.FIELD, ElementType.METHOD})
+	public @interface Ignored {}
 
 	public boolean isIgnored(AccessibleObject... objs) {
-        for (AccessibleObject obj: objs) {
-            if (null != obj) {
+		for (AccessibleObject obj: objs) {
+			if (null != obj) {
 				if (obj.getAnnotation(Ignored.class) != null) {
 					return true;
 				}
-            }
-        }
-        return false;
-    }
+			}
+		}
+		return false;
+	}
 
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -145,8 +145,8 @@ public class ClassProperties {
 	public @interface Transient {}
 
 	/**
-     * field or method
-     */
+	 * field or method
+	 */
 	public boolean isTransient(AccessibleObject... objs) {
 		for (AccessibleObject obj: objs) {
 			if (null != obj) {
@@ -162,61 +162,65 @@ public class ClassProperties {
 		}
 		return false;
 	}
-//-----------/
+	//-----------/
 	@Retention(RetentionPolicy.RUNTIME)
-    @Target({ElementType.FIELD, ElementType.METHOD})
-    public @interface Name { String value(); }
+	@Target({ElementType.FIELD, ElementType.METHOD})
+	public @interface Name { String value(); }
 
 	public String getProxyName(AccessibleObject... objs) {
 		for (AccessibleObject obj: objs) {
-            if (null != obj) {
-                Name element;
+			if (null != obj) {
+				Name element;
 				if ((element = obj.getAnnotation(Name.class)) != null) {
 					return element.value();
 				}
-            }
-        }
+			}
+		}
 		return null;
 	}
 //------------------------/
 
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({ElementType.TYPE})
-    public @interface ScanConfiguration {
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target({ElementType.TYPE})
+	public @interface ScanConfiguration {
 		boolean isScanField()					default true;
 		boolean isScanMethod()					default true;
 
-        boolean isScanStaticField()             default false;
+		boolean isScanStaticField()             default false;
 		boolean isScanStaticMethod()            default false;
-		
 
+		boolean isScanObjectClass()   			default false;
 
-        public static final ScanConfiguration DEFAULT = new ScanConfiguration() {
+		public static final ScanConfiguration DEFAULT = new ScanConfiguration() {
 			@Override public boolean isScanField()    {return true;}
 			@Override public boolean isScanMethod()   {return true;}
 			@Override public boolean isScanStaticField()  {return false;}
 			@Override public boolean isScanStaticMethod() {return false;}
+			@Override public boolean isScanObjectClass()  {return false;}
 
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return ScanConfiguration.class;
-            }
-            @Override
-            public String toString() {
-                return "@" + ScanConfiguration.class.getSimpleName() + 
-					"(" +
-					"isScanField="  + isScanField() + ", " +
-					"isScanMethod=" + isScanMethod() + ", " +
 
-					"isScanStaicField="  + isScanStaticField() + ", " +
-					"isScanStaicMethod=" + isScanStaticMethod() + ", " +
-					
-					"hash=" + hashCode() +
-					")";
-            }
-        };
-    }
+			@Override
+			public Class<? extends Annotation> annotationType() {
+				return ScanConfiguration.class;
+			}
+			@Override
+			public String toString() {
+				return "@" + ScanConfiguration.class.getSimpleName() +
+						"(" +
+						"isScanField="  + isScanField() + ", " +
+						"isScanMethod=" + isScanMethod() + ", " +
+
+						"isScanStaicField="  + isScanStaticField() + ", " +
+						"isScanStaicMethod=" + isScanStaticMethod() + ", " +
+
+						"isScanObjectClass=" + isScanObjectClass() +
+
+						"hash=" + hashCode() +
+						")";
+			}
+		};
+	}
 	protected ScanConfiguration getDefaultScanConfiguration() {
 		return ScanConfiguration.DEFAULT;
 	}
@@ -234,13 +238,13 @@ public class ClassProperties {
 
 
 	public static class AccessFieldException extends RuntimeException {
-        public AccessFieldException(String var1) {
-            super(var1);
-        }
-        public AccessFieldException(Throwable var1) {
-            super(var1);
-        }
-    }
+		public AccessFieldException(String var1) {
+			super(var1);
+		}
+		public AccessFieldException(Throwable var1) {
+			super(var1);
+		}
+	}
 
 
 	public static interface ObjectConstructor<T> {
@@ -288,8 +292,8 @@ public class ClassProperties {
 
 	public static interface Getter {
 		public Class  getType();
-        public Object get(Object invoke) throws AccessFieldException;
-    }
+		public Object get(Object invoke) throws AccessFieldException;
+	}
 	protected static JavaFieldGetter newJavaFieldGetter(Unlocker unlocker, Field field, Class fieldType) {
 		return new JavaFieldGetter(unlocker, field, fieldType);
 	}
@@ -369,10 +373,10 @@ public class ClassProperties {
 
 
 	public static interface Setter {
-        public Class   getType();
+		public Class   getType();
 		public void    set(Object invoke, Object value) throws AccessFieldException;
 		public boolean isAvailable();
-    }
+	}
 
 	protected static JavaFieldSetter newJavaFieldSetter(Unlocker unlocker, Field field, Class setType) {
 		if (setType.isPrimitive()) {
@@ -556,34 +560,35 @@ public class ClassProperties {
 		Map<String, Property> propertys;
 		Set<String>      	  propertysSet;
 
-		
-		
-		
+
+		public Class getType() {return type;}
+
+
 
 		public void setConstructor(ObjectConstructor v) {
 			if (isInit) throw new UnsupportedOperationException("already init");
 			this.constructor = v;
 		}
-		public ObjectConstructor getConstructor() { 
-			return constructor; 
+		public ObjectConstructor getConstructor() {
+			return constructor;
 		}
-		
-		
+
+
 
 		public Property 				propertyGet(Object name)    				 { return propertys.get(name); }
 		public int 						propertyCount() 							 { return propertys.size(); }
 		public Set<String> 			    propertyKeySet() 							 {
 			if (propertys == null)
 				return ((((((null))))));
-			if (propertysSet == null) 
+			if (propertysSet == null)
 				propertysSet = Collections.unmodifiableSet(propertys.keySet());
 			return propertysSet;
 		}
 		public Property 				propertyRemove(Object name) 				 {
-			if (isInit) throw new UnsupportedOperationException("already init"); 
-			return propertys.remove(name); 
+			if (isInit) throw new UnsupportedOperationException("already init");
+			return propertys.remove(name);
 		}
-		public Property 				propertyPut(String name, Property attritube) { 
+		public Property 				propertyPut(String name, Property attritube) {
 			if (isInit) throw new UnsupportedOperationException("already init");
 			return propertys.put(name, attritube);
 		}
@@ -591,8 +596,8 @@ public class ClassProperties {
 
 		public <T> T newInstance() {
 			ObjectConstructor oc = this.getConstructor();
-			if (null == oc) 
-				throw new UnsupportedOperationException("no available constructor(): " + type);
+			if (null == oc)
+				throw new UnsupportedOperationException("no available constructor(): " + getType());
 			return (T) oc.newInstance();
 		}
 		public Object get(Object instance, Object name) {
@@ -619,7 +624,7 @@ public class ClassProperties {
 				throw new UnsupportedOperationException("not found setter " + name);
 			property.set(type, instance, v);
 		}
-		
+
 		public Set<String> keySet() {
 			return propertyKeySet();
 		}
@@ -627,7 +632,15 @@ public class ClassProperties {
 		@Override
 		public String toString() {
 			// TODO: Implement this method
-			return String.valueOf(type) + propertys.toString();
+			StringBuilder sb = new StringBuilder(getType().getName());
+			sb.append("{").append("\n");
+			for (String n: propertys.keySet()) {
+				Property property = propertys.get(n);
+				sb.append("\t").append(property);
+				sb.append("\n");
+			}
+			sb.append("}");
+			return sb.toString();
 		}
 	}
 	public static class Property {
@@ -644,8 +657,8 @@ public class ClassProperties {
 		private transient Boolean cache_isSettable;
 
 
-        public String getName()      	  { return name; }
-        public Class  getDeclaringClass() { return declaringClass; }
+		public String getName()      	  { return name; }
+		public Class  getDeclaringClass() { return declaringClass; }
 
 		public Class getGetterType() { return null != getter ? getter.getType() : CLASS_OBJECT; }
 		public Class getSetterType() { return null != setter ? setter.getType() : CLASS_OBJECT; }
@@ -654,7 +667,7 @@ public class ClassProperties {
 		public boolean isTransient() { return isTransient; }
 
 		public boolean isGettable() {
-			return null != getter; 
+			return null != getter;
 		}
 		public boolean isSettable() {
 			Boolean     cache = cache_isSettable;
@@ -674,16 +687,16 @@ public class ClassProperties {
 			return cache;
 		}
 
-        @Override
-        public String toString() {
-            // TODO: Implement this method
-            return (name)
-				+ "("
-				+   "getter=" + getter  + ", " + "setter=" + setter + ", "
-				+ 	"final="  + isFinal + ", " + "transient="  + isTransient + ", "
-				+   "gettype=" + getGetterType() + ", " + "settype=" + getSetterType()
-				+ ")";
-        }
+		@Override
+		public String toString() {
+			// TODO: Implement this method
+			return (name)
+					+ "("
+					+   "getter=" + getter  + ", " + "setter=" + setter + ", "
+					+ 	"final="  + isFinal + ", " + "transient="  + isTransient + ", "
+					+   "gettype=" + getGetterType() + ", " + "settype=" + getSetterType()
+					+ ")";
+		}
 
 
 
@@ -720,7 +733,7 @@ public class ClassProperties {
 	public static Property newProperty(Unlocker unlocker, Class<?> declaringClass,
 									   Field field,
 									   String oldName, String finalName,
-									   /*@Nullable*/ Method mget, /*@Nullable*/ Method mset,
+			/*@Nullable*/ Method mget, /*@Nullable*/ Method mset,
 									   boolean isTransient) {
 		Property attr = new Property();
 		attr.oldName = oldName;
@@ -730,29 +743,29 @@ public class ClassProperties {
 		if (null == mget) {
 			if (null == mset) {
 				attr.getter = newJavaFieldGetter(unlocker,
-												 field, fieldType(field));
+						field, fieldType(field));
 				attr.setter = newJavaFieldSetter(unlocker,
-												 field, fieldType(field));
+						field, fieldType(field));
 				attr.isFinal = Modifier.isFinal(field.getModifiers());
 			} else {
 				attr.getter = newJavaFieldGetter(unlocker,
-												 field, fieldType(field));
-				attr.setter = newJavaMethodSetter(unlocker, 
-												  mset, setterType(mset));
+						field, fieldType(field));
+				attr.setter = newJavaMethodSetter(unlocker,
+						mset, setterType(mset));
 				attr.isFinal = false;
 			}
 		} else {
 			if (null == mset) {
-				attr.getter = newJavaMethodGetter(unlocker, 
-												  mget,  getterType(mget));
+				attr.getter = newJavaMethodGetter(unlocker,
+						mget,  getterType(mget));
 				attr.setter = newJavaFieldSetter(unlocker,
-												 field,  fieldType(field));
+						field,  fieldType(field));
 				attr.isFinal = Modifier.isFinal(field.getModifiers());
 			} else {
 				attr.getter = newJavaMethodGetter(unlocker,
-												  mget, getterType(mget));
+						mget, getterType(mget));
 				attr.setter = newJavaMethodSetter(unlocker,
-												  mset, setterType(mset));
+						mset, setterType(mset));
 				attr.isFinal = false;
 			}
 		}
@@ -769,12 +782,12 @@ public class ClassProperties {
 		attr.declaringClass = declaringClass;
 
 
-		Getter getter = newJavaMethodGetter(unlocker, 
-											mget, getterType(mget));
+		Getter getter = newJavaMethodGetter(unlocker,
+				mget, getterType(mget));
 		Setter setter = null == mset
-			? unavailableSetter(finalName) 
-			: (newJavaMethodSetter(unlocker,
-								   mset, setterType(mset)));
+				? unavailableSetter(finalName)
+				: (newJavaMethodSetter(unlocker,
+				mset, setterType(mset)));
 
 		attr.getter         = getter;
 		attr.setter         = setter;
@@ -804,7 +817,7 @@ public class ClassProperties {
 
 
 
-	private final Map<Class, ClassProperty> cache       = new WeakHashMap<>();
+	private final Map<Class, ClassProperty> cache       = this.newCacheMap();
 
 	protected void clear() {
 		synchronized (cache) { cache.clear(); }
@@ -816,16 +829,18 @@ public class ClassProperties {
 
 		boolean cScanField        = configuration.isScanField();
 		boolean cScanMethod       = configuration.isScanMethod();
-		
+
 		boolean cScanStaticField  = configuration.isScanStaticField();
 		boolean cScanStaticMethod = configuration.isScanStaticMethod();
 
+		boolean cScanObjectClass = configuration.isScanObjectClass();
+
 		@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-			final Map<String, Property> propertyMap;
+		final Map<String, Property> propertyMap;
 		final ClassProperty classProperty;
 		classProperty = new ClassProperty();
 		classProperty.type = cls;
-		classProperty.propertys = propertyMap = newClassPropertyVarMap();
+		classProperty.propertys = propertyMap = newClassPropertyInPropertyMap();
 
 		final Constructor[] constructors = getConstructorMap(cls);
 		for (int i = 0; i < constructors.length;i++) {
@@ -835,10 +850,17 @@ public class ClassProperties {
 				break;
 			}
 		}
+
 		final Field[] fields = !cScanField ? EMPTY_FIELD_ARRAY : getFieldMap(cls);
 		for (int i = 0; i < fields.length;i++) {
-			Field field = fields[i];
-			if (Modifier.isStatic(field.getModifiers())) {
+			Field value = fields[i];
+			if (value.getDeclaringClass() == CLASS_OBJECT) {
+				if (!cScanObjectClass) {
+					fields[i] = null;
+					continue;
+				}
+			}
+			if (Modifier.isStatic(value.getModifiers())) {
 				if (!cScanStaticField) {
 					fields[i] = null;
 					continue;
@@ -847,13 +869,19 @@ public class ClassProperties {
 		}
 		final Method[] methods = !cScanMethod ? EMPTY_METHOD_ARRAY : getMethodMap(cls);
 		for (int i = 0; i < methods.length;i++) {
-			Method method = methods[i];
-			if (Modifier.isStatic(method.getModifiers())) {
+			Method value = methods[i];
+			if (value.getDeclaringClass() == CLASS_OBJECT) {
+				if (!cScanObjectClass) {
+					methods[i] = null;
+					continue;
+				}
+			}
+			if (Modifier.isStatic(value.getModifiers())) {
 				if (!cScanStaticMethod) {
 					methods[i] = null;
 					continue;
 				}
-			} 
+			}
 		}
 
 
@@ -910,10 +938,10 @@ public class ClassProperties {
 
 
 					Property attr = newProperty(unlocker, field.getDeclaringClass(),
-												field,
-												oldName, finalName,
-												mget, mset,
-												isTransient);
+							field,
+							oldName, finalName,
+							mget, mset,
+							isTransient);
 					propertyMap.put(finalName, attr);
 					fields[i] = null;
 				}
@@ -930,8 +958,8 @@ public class ClassProperties {
 					String methodName = getterElement.getName();
 					boolean isPrefix  = isGetterOrSetterPrefix(fieldType, methodName);
 					if (isPrefix) {
-						@SuppressWarnings("UnnecessaryLocalVariable") 
-							GetterSetterMethodNameMap.MethodElement mgetr = getterElement;
+						@SuppressWarnings("UnnecessaryLocalVariable")
+						GetterSetterMethodNameMap.MethodElement mgetr = getterElement;
 
 						String oldName = toGetterOrSetterAsSimpleFieldName(mgetr.getValue());
 						GetterSetterMethodNameMap.FindMethodElements msetr = gss.findBestSetterFromFieldName(fieldType, oldName);
@@ -954,9 +982,9 @@ public class ClassProperties {
 						/* ---- */
 
 						Property attr = newProperty(unlocker, mget.getDeclaringClass(),
-													oldName, finalName,
-													mget, mset,
-													isTransient);
+								oldName, finalName,
+								mget, mset,
+								isTransient);
 						propertyMap.put(finalName, attr);
 					}
 				}
@@ -967,25 +995,32 @@ public class ClassProperties {
 //					System.out.println("avail-setter: " + lowercaseNameGSetMethods.lowercaseNameSetMethods);
 		return classProperty;
 	}
-
-	public ClassProperty getClassProperties(Object obj) {
-		if (null == obj) return null;
-
-		return getClassProperties(obj.getClass());
+	protected void buildClassPropertyAfter(Class cls, ClassProperty baseFieldAttribute) {
 	}
-	@SuppressWarnings({"UnnecessaryContinue", "ForLoopReplaceableByForEach"})
-	public ClassProperty getClassProperties(Class cls) {
+	public ClassProperty newClassProperty(Class<?> cls) {
+		if (cls == null)
+			return null;
+		ClassProperty buildClassProperty;
+		buildClassProperty = buildClassProperty(cls);
+		buildClassPropertyAfter(cls, buildClassProperty);
+		buildClassProperty.isInit = true;
+		return buildClassProperty;
+	}
+
+	protected Map<Class, ClassProperty> newCacheMap() { return new WeakHashMap<>();}
+	protected Map<String, Property>     newClassPropertyInPropertyMap() {
+		return new LinkedHashMap<>();
+	}
+
+
+	public ClassProperty getClassProperty(Class cls) {
+		if (cls == null)
+			return null;
 		final ClassProperty cacheClassProperty = cache.get(cls);
 		if (null != cacheClassProperty)
-			return cacheClassProperty;
-		if (null == cls)
-			return null;
+			return (cacheClassProperty);
 		synchronized (cache)	{
-			ClassProperty buildClassProperty;
-			buildClassProperty = buildClassProperty(cls);
-			buildClassPropertyAfter(cls, buildClassProperty);
-			buildClassProperty.isInit = true;
-
+			ClassProperty  buildClassProperty = newClassProperty(cls);
 			cache.put(cls, buildClassProperty);
 			return buildClassProperty;
 		}
@@ -995,66 +1030,66 @@ public class ClassProperties {
 
 
 	public static Class fieldType(Field f) {
-        return f.getType();
-    }
+		return f.getType();
+	}
 	public static Class getterType(Method getter) {
-        return null == getter ? CLASS_OBJECT: getter.getReturnType();
-    }
+		return null == getter ? CLASS_OBJECT: getter.getReturnType();
+	}
 	public static Class setterType(Method setter) {
-        return null == setter ? CLASS_OBJECT: setter.getParameterTypes()[0];
-    }
+		return null == setter ? CLASS_OBJECT: setter.getParameterTypes()[0];
+	}
 
 	public static boolean isGetterOrSetterPrefix(Class returnType, String n) {
-        if (Strings.startsWithIgnoreCase(n, GETTER_NAME_IS_PREFIX)) {
-            if (returnType == CLASS_BOOLEAN) {
-                return true;
-            }
-        } else if (Strings.startsWithIgnoreCase(n, GETTER_NAME_PREFIX)) {
-            return true;
-        } else if (Strings.startsWithIgnoreCase(n, SETTER_NAME_PREFIX)) {
-            return true;
-        }
-        return false;
-    }
-    public static String toGetterOrSetterAsSimpleFieldName(Method o) {
-        Class returnType = getterType(o);
-        String n = o.getName();
-        int len = n.length();
-        if (len > 0) {
-            if (Strings.startsWithIgnoreCase(n, GETTER_NAME_IS_PREFIX)) {
-                if (returnType == CLASS_BOOLEAN) {
-                    n = n.substring(GETTER_NAME_IS_PREFIX.length(), len);
-                }
-            } else if (Strings.startsWithIgnoreCase(n, GETTER_NAME_PREFIX)) {
-                n = n.substring(GETTER_NAME_PREFIX.length(), len);
-            } else if (Strings.startsWithIgnoreCase(n, SETTER_NAME_PREFIX)) {
-                n = n.substring(SETTER_NAME_PREFIX.length(), len);
-            }
-            if ((len = n.length()) > 0) {
-                if (Character.isLowerCase(n.charAt(0))) {//lineContent > lineContent
-                    return n;
-                } else if (len > 1) {
-                    if (Character.isLowerCase(n.charAt(1))) {//GetLineContent > lineContent
-                        return n.substring(0, 1).toLowerCase() + n.substring(1, len);
-                    } else {
-                        return n;
-                    }
-                } else {
-                    return n.toLowerCase();
-                }
-            }
-        }
-        return n;
-    }
+		if (Strings.startsWithIgnoreCase(n, GETTER_NAME_IS_PREFIX)) {
+			if (returnType == CLASS_BOOLEAN) {
+				return true;
+			}
+		} else if (Strings.startsWithIgnoreCase(n, GETTER_NAME_PREFIX)) {
+			return true;
+		} else if (Strings.startsWithIgnoreCase(n, SETTER_NAME_PREFIX)) {
+			return true;
+		}
+		return false;
+	}
+	public static String toGetterOrSetterAsSimpleFieldName(Method o) {
+		Class returnType = getterType(o);
+		String n = o.getName();
+		int len = n.length();
+		if (len > 0) {
+			if (Strings.startsWithIgnoreCase(n, GETTER_NAME_IS_PREFIX)) {
+				if (returnType == CLASS_BOOLEAN) {
+					n = n.substring(GETTER_NAME_IS_PREFIX.length(), len);
+				}
+			} else if (Strings.startsWithIgnoreCase(n, GETTER_NAME_PREFIX)) {
+				n = n.substring(GETTER_NAME_PREFIX.length(), len);
+			} else if (Strings.startsWithIgnoreCase(n, SETTER_NAME_PREFIX)) {
+				n = n.substring(SETTER_NAME_PREFIX.length(), len);
+			}
+			if ((len = n.length()) > 0) {
+				if (Character.isLowerCase(n.charAt(0))) {//lineContent > lineContent
+					return n;
+				} else if (len > 1) {
+					if (Character.isLowerCase(n.charAt(1))) {//GetLineContent > lineContent
+						return n.substring(0, 1).toLowerCase() + n.substring(1, len);
+					} else {
+						return n;
+					}
+				} else {
+					return n.toLowerCase();
+				}
+			}
+		}
+		return n;
+	}
 
 
 
 
 
-    @SuppressWarnings("ConstantValue")
+	@SuppressWarnings("ConstantValue")
 	static class GetterSetterMethodNameMap {
-        final CasesLinkedHashMap<Map<Class, MethodElement>> getMethods = new CasesLinkedHashMap<>(); //all method
-        final CasesLinkedHashMap<Map<Class, MethodElement>> setMethods = new CasesLinkedHashMap<>(); //all method
+		final CasesLinkedHashMap<Map<Class, MethodElement>> getMethods = new CasesLinkedHashMap<>(); //all method
+		final CasesLinkedHashMap<Map<Class, MethodElement>> setMethods = new CasesLinkedHashMap<>(); //all method
 		final ClassMapperMatcher clm = new ClassMapperMatcher();
 
 		public static class MethodElement {
@@ -1076,24 +1111,24 @@ public class ClassProperties {
 		}
 
 
-        public void addGetterMethod(MethodElement me) {
+		public void addGetterMethod(MethodElement me) {
 			CasesLinkedHashMap<Map<Class, MethodElement>> table = getMethods;
 			String name = me.getValue().getName();
 			Map<Class, MethodElement> map = table.getExact(name);
 			if (null == map) {
 				table.put(name, map = new HashMap<>());
 			}
-            map.put(me.getFieldType(), me);
-        }
-        public void addSetterMethod(MethodElement me) {
-            CasesLinkedHashMap<Map<Class, MethodElement>> table = setMethods;
+			map.put(me.getFieldType(), me);
+		}
+		public void addSetterMethod(MethodElement me) {
+			CasesLinkedHashMap<Map<Class, MethodElement>> table = setMethods;
 			String name = me.getValue().getName();
 			Map<Class, MethodElement> map = table.getExact(name);
 			if (null == map) {
 				table.put(name, map = new HashMap<>());
 			}
-            map.put(me.getFieldType(), me);
-        }
+			map.put(me.getFieldType(), me);
+		}
 
 
 
@@ -1126,73 +1161,73 @@ public class ClassProperties {
 		/**
 		 * best match matching standard getter setter
 		 */
-        public FindMethodElements findBestGetterFromFieldName(Class fieldType, String name) {
+		public FindMethodElements findBestGetterFromFieldName(Class fieldType, String name) {
 			String n = null;
 			Map<Class, MethodElement> v = null;
-            if (fieldType == CLASS_BOOLEAN) {//boolean v;
-                if (v == null)
-                    v = (n = getMethods.findBestKey(GETTER_NAME_IS_PREFIX + name)) 	!= null ? getMethods.getExact(n) : null;//isV()
-                if (v == null)
-                    v = (n = getMethods.findBestKey(GETTER_NAME_PREFIX + name)) 	!= null ? getMethods.getExact(n) : null;//getV()
-                if (v == null)
-                    v = (n = getMethods.findBestKey(name)) 							!= null ? getMethods.getExact(n) : null;//equalsName v()
-            } else {//String v;
-                if (v == null)
-                    v = (n = getMethods.findBestKey(GETTER_NAME_PREFIX + name))	    != null ? getMethods.getExact(n) : null;//getV()
-			    if (v == null)
-                    v = (n = getMethods.findBestKey(name)) 							!=  null ? getMethods.getExact(n) : null;//equalsName v()
-            }
+			if (fieldType == CLASS_BOOLEAN) {//boolean v;
+				if (v == null)
+					v = (n = getMethods.findBestKey(GETTER_NAME_IS_PREFIX + name)) 	!= null ? getMethods.getExact(n) : null;//isV()
+				if (v == null)
+					v = (n = getMethods.findBestKey(GETTER_NAME_PREFIX + name)) 	!= null ? getMethods.getExact(n) : null;//getV()
+				if (v == null)
+					v = (n = getMethods.findBestKey(name)) 							!= null ? getMethods.getExact(n) : null;//equalsName v()
+			} else {//String v;
+				if (v == null)
+					v = (n = getMethods.findBestKey(GETTER_NAME_PREFIX + name))	    != null ? getMethods.getExact(n) : null;//getV()
+				if (v == null)
+					v = (n = getMethods.findBestKey(name)) 							!=  null ? getMethods.getExact(n) : null;//equalsName v()
+			}
 			if (v ==   null)
 				return null;
 
 			ClassMapperMatcher.Result<MethodElement> result = clm.findAssignableFroms((Map<Class, MethodElement>)v, (Class<?>)fieldType);
-			return new FindMethodElements(n, 
-										  v,
-										  result);
-        }
-        public FindMethodElements findBestSetterFromFieldName(Class fieldType, String name) {
-            String n = null;
+			return new FindMethodElements(n,
+					v,
+					result);
+		}
+		public FindMethodElements findBestSetterFromFieldName(Class fieldType, String name) {
+			String n = null;
 			Map<Class, MethodElement> v = null;
-            if (v == null)
-                v = (n = setMethods.findBestKey(SETTER_NAME_PREFIX + name)) != null ? setMethods.getExact(n) : null;//setV(p)
-            if (v == null)
-                v = (n = setMethods.findBestKey(name)) 						!= null ? setMethods.getExact(n) : null;//equalsName v(p)
+			if (v == null)
+				v = (n = setMethods.findBestKey(SETTER_NAME_PREFIX + name)) != null ? setMethods.getExact(n) : null;//setV(p)
+			if (v == null)
+				v = (n = setMethods.findBestKey(name)) 						!= null ? setMethods.getExact(n) : null;//equalsName v(p)
 
 			if (v ==   null)
 				return null;
 
 
-            ClassMapperMatcher.Result<MethodElement> result = clm.findAssignableFroms((Map<Class, MethodElement>)v, (Class<?>)fieldType);
+			ClassMapperMatcher.Result<MethodElement> result = clm.findAssignableFroms((Map<Class, MethodElement>)v, (Class<?>)fieldType);
 			return new FindMethodElements(n,
-										  v,
-										  result);
-        }
+					v,
+					result);
+		}
 
 		public void removeGetterMethod(FindMethodElements m) {
-			if (null != m) 
+			if (null != m)
 				getMethods.removeExact(m.getName());
-        }
-        public void removeGetterMethod(MethodElement m) {
-			if (null != m) 
+		}
+		public void removeGetterMethod(MethodElement m) {
+			if (null != m)
 				getMethods.removeExact(m.getName());
-        }
+		}
 
 		public void removeSetterMethod(FindMethodElements m) {
-			if (null != m) 
+			if (null != m)
 				setMethods.removeExact(m.getName());
-        }
-        public void removeSetterMethod(MethodElement m) {
-            if (null != m) 
+		}
+		public void removeSetterMethod(MethodElement m) {
+			if (null != m)
 				setMethods.removeExact(m.getName());
-        }
+		}
 
 		public List<Map<Class, MethodElement>> getterMethods() {
 			return getMethods.valuesList();
-        }
+		}
 		public List<Map<Class, MethodElement>> setterMethods() {
-            return setMethods.valuesList();
-        }
-    }
+			return setMethods.valuesList();
+		}
+	}
 
 
 
@@ -1201,10 +1236,11 @@ public class ClassProperties {
 		return DEFAULT;
 	}
 
-	protected void buildClassPropertyAfter(Class cls, ClassProperty baseFieldAttribute) {}
-	protected Map<String, Property> newClassPropertyVarMap() {
-		return new LinkedHashMap<>();
-	}
+
+
+
+
 
 }
+
 

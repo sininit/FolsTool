@@ -2,6 +2,7 @@ package top.fols.box.reflect.re;
 
 import top.fols.atri.lang.Finals;
 import top.fols.atri.interfaces.annotations.NotNull;
+import top.fols.atri.util.Iterables;
 import top.fols.box.reflect.Reflectx;
 import top.fols.atri.util.Lists;
 
@@ -257,7 +258,7 @@ public class Re_PrimitiveClass_list extends Re_PrimitiveClass {
         @Override
         public Iterable<?> _variable_keys() {
             // TODO: Implement this method
-            return Lists.wrapRange(0, len.get(),1);
+            return Iterables.wrapRange(0, len.get(),1);
         }
         //-------------------------------------------------------------------------------
 

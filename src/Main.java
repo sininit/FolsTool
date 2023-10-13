@@ -9,12 +9,10 @@ import top.fols.atri.reflect.ReflectMatcher;
 import top.fols.atri.reflect.Reflects;
 import top.fols.atri.time.Times;
 import top.fols.box.lang.Classx;
-import top.fols.box.reflect.ClassProperties;
 import top.fols.box.reflect.ReflectMatcherAsPeak;
 import top.fols.box.reflect.re.*;
 import top.fols.box.reflect.re.resource.Re_DirectoryResource;
-import top.fols.box.util.EntityTable;
-import top.fols.box.util.process_guard.ProcessGuard;
+import top.fols.box.util.EntitySpace;
 
 import java.io.*;
 import java.lang.reflect.Method;
@@ -25,7 +23,7 @@ import java.util.Date;
 
 
 @SuppressWarnings({"ConstantConditions", "rawtypes"})
-public class Main extends k {
+public class Main extends MainAbstract {
     static final File  		      logDirectory   = new File(Filez.RUN_CANONICAL.getPath(), "/log/");
     static final String 		  logFile        = new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".log";
     static final SimpleDateFormat logPrefix 	 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -74,9 +72,9 @@ public class Main extends k {
     }
 
     static {
-        EntityTable et = new EntityTable(){};
-        EntityTable.Entity e1 = et.newEntity("1");
-        EntityTable.Entity e2 = et.newEntity("2");
+        EntitySpace et = new EntitySpace(){};
+        EntitySpace.Entity e1 = et.newEntity("1");
+        EntitySpace.Entity e2 = et.newEntity("2");
         et.appendEntity(et.getRootEntity(), e1);
         et.appendEntity(et.getRootEntity(), e2);
         System.out.println(et);
@@ -94,7 +92,7 @@ public class Main extends k {
         System.out.println(et);
 
         System.out.println("=======");
-        EntityTable.Entity e3 = et.newEntity("3");
+        EntitySpace.Entity e3 = et.newEntity("3");
         e3.append(e1);
         e3.append(e2);
         System.out.println(e3);
@@ -505,16 +503,3 @@ public class Main extends k {
 
 }
 
-
-abstract class k {
-
-    int df, tt, yh, dd, ghji, ttfgg, fryh, dedcvhu, rrtgv;
-
-    public abstract void v();
-
-    protected void dddd() {
-        System.out.println();
-    }
-
-    public interface Size{}
-}

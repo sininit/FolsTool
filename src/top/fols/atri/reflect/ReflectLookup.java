@@ -12,12 +12,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import top.fols.atri.assist.ArrayLists;
+import top.fols.atri.assist.util.ArrayLists;
 import top.fols.atri.interfaces.abstracts.Filter;
 import top.fols.atri.interfaces.interfaces.IFilter;
 import top.fols.atri.lang.Classz;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Arrayz;
+import top.fols.atri.util.Iterables;
 import top.fols.atri.util.Lists;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -1450,7 +1451,7 @@ public class ReflectLookup {
 				throw new NullPointerException("null == array");
 
 			this.array = array;
-			this.iterable = Lists.wrapArray(array, 0, array.length);
+			this.iterable = Iterables.wrapArray(array, 0, array.length);
 		}
 
 		public T[] array() {

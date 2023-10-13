@@ -1,15 +1,16 @@
 package top.fols.atri.io.file;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.*;
 
+import top.fols.atri.assist.json.JSONArray;
+import top.fols.atri.assist.json.JSONObject;
+import top.fols.atri.io.util.Streams;
+import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Strings;
 
 @SuppressWarnings({"SpellCheckingInspection", "rawtypes"})
@@ -27,7 +28,7 @@ public class Filex {
 		File file = toFile(path);
 		try {
 			@SuppressWarnings("unchecked")
-			FileTime t = Files.readAttributes(file.toPath(), BASIC_FILE_ATTRIBUTES_CLASS).creationTime();
+			FileTime t = Files.readAttributes(toPath(file), BASIC_FILE_ATTRIBUTES_CLASS).creationTime();
 			return t.toMillis();
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
@@ -216,22 +217,42 @@ public class Filex {
 		if (null == path) {	return null; }
 		if (path instanceof Filez) {
 			return ((Filez)path).innerFile();
-		} else if (path instanceof File) {
-			return (File) path;
 		}
+
+		if (path instanceof File)
+			return ((File) path);
+		if (path instanceof Path)
+			return ((Path) path).toFile();
+
 		String fPath = path.toString();
 		return new File(fPath);
 	}
-	public static String    toPath(Object path) {
+	public static String toFilePath(Object path) {
 		File file = toFile(path);
 		if (null == file) { return null; }
 		if (path instanceof Filez) {
-			return ((Filez)path).getPath();
-		} else if (path instanceof File) {
-			return ((File) path).getPath();
+			return ((Filez) path).getPath();
 		}
-		String fPath = path.toString();
-		return fPath;
+
+		if (path instanceof File)
+			return ((File) path).getPath();
+		if (path instanceof Path)
+			return ((Path) path).toFile().getPath();
+
+		return path.toString();
+	}
+	public static Path toPath(Object path) {
+		if (null == path) { return null; }
+		if (path instanceof Filez) {
+			return ((Filez) path).toPath();
+		}
+
+		if (path instanceof File)
+			return ((File) path).toPath();
+		if (path instanceof Path)
+			return ((Path) path);
+
+		return new File(path.toString()).toPath();
 	}
 	public static String toLocalCanonicalPath(Object path) {
 		if (path instanceof Filez) {
@@ -266,7 +287,7 @@ public class Filex {
 		File file = toFile(path);
 		try {
 			FileTime fileTime = FileTime.fromMillis(millis);
-			Files.setLastModifiedTime(file.toPath(), fileTime);
+			Files.setLastModifiedTime(toPath(file), fileTime);
 			return true;
 		} catch (Throwable e) {
 			return file.setLastModified(millis);
@@ -277,6 +298,12 @@ public class Filex {
 	public static boolean exists(Object path) {
 		File file = toFile(path);
 		return null != file && file.exists();
+	}
+
+
+	public static boolean createSymbolicLink(Object to, Path link) throws IOException {
+		Files.createSymbolicLink(toPath(to), link);
+		return true;
 	}
 
 	public static boolean createFile(Object path) {
@@ -312,7 +339,10 @@ public class Filex {
 		return true;
 	}
 
-
+	public static boolean isSymbolicLink(Object path) {
+		File file = toFile(path);
+		return Files.isSymbolicLink(toPath(file));
+	}
 
 	public static boolean isFile(Object path) {
 		File file = toFile(path);
@@ -323,13 +353,6 @@ public class Filex {
 		File file = toFile(path);
 		return null != file && file.isDirectory();
 	}
-
-	public static boolean isStartWithAbsolute(Object path) {
-		File file = toFile(path);
-		return null != file && file.isAbsolute();
-	}
-
-
 
 
 	public static boolean rwx(Object path) {
@@ -391,12 +414,13 @@ public class Filex {
 		}
 		if (file.isFile()) {
 			return file.delete();
+		} else if (isSymbolicLink(file)) {
+			return file.delete();
 		} else {
 			boolean result = true;
 			File[] files = file.listFiles();
 			if (null != files) {
-				for (int i = 0; i < files.length; i++) {
-					File filei = files[i];
+				for (File filei : files) {
 					result &= deletes(filei);
 				}
 			}
@@ -640,6 +664,50 @@ public class Filex {
 	}
 
 
+	public static boolean isStartWithAbsolute(Object path) {
+		File file = toFile(path);
+		return null != file && file.isAbsolute();
+	}
+
+
+	//dealRelativePath|getCanonicalRelativePath|hasRelativePath|normalizePath|convertFileSeparator|dealRelativePath
+
+	public static String startWithAbsolutePath(char separator, String path) {
+		return separator + path;
+	}
+
+
+
+	/**
+	 * is absolute path
+	 * 判断是否为绝对路径
+	 *
+	 * if @param separator for /
+	 * "/a"				return true
+	 * "/../../"		return true
+	 * "./"				return false
+	 * "../"			return false
+	 */
+	public static boolean isStartWithAbsolute(char separator, String path) {
+		int n = path.length();
+		if (n == 0) return false;
+		char c0 = path.charAt(0);
+//        char c1 = (n > 1) ? path.charAt(1) : 0;
+		if (c0 == separator) {
+//            if (c1 == separator) return true;  /* Absolute UNC pathname "\\\\foo" */
+			return true;                   /* Drive-relative "\\foo" */
+		}
+//		if (((c0 >= 'a') && (c0 <= 'z')) || ((c0 >= 'A') && (c0 <= 'Z')) && (c1 == ':')) {
+//            if ((n > 2) && (path.charAt(2) == separator))
+//                return true;               /* Absolute local pathname "z:\\foo" */
+//            return true;                   /* Directory-relative "z:foo" */
+//        }
+		return false;
+	}
+
+
+
+
 
 	/**
 	 * Normalize all system separators
@@ -664,19 +732,20 @@ public class Filex {
 		return sb.toString();
 	}
 
+
 	static class Paths {
 		/**
 		 * 去除重复斜杠 并且将分隔符转为统一格式
 		 */
-		public static String normalizePath(String path, char separator) {
-			return normalizePath(path, true, false, separator);
+		public static String normalizePath(String path, char toSeparator) {
+			return normalizePath(path, true, false, toSeparator);
 		}
 		/**
 		 * 去除重复斜杠 并且将分隔符转为统一格式
 		 * @param forceDirectory 如果是false则无意义
 		 */
 		@SuppressWarnings("CStyleArrayDeclaration")
-		public static String normalizePath(String path, boolean isConverSeparator, boolean forceDirectory, char separator) {
+		public static String normalizePath(String path, boolean isConverSeparator, boolean forceDirectory, char toSeparator) {
 			int pathLength = path.length();
 			char buffer[]  = new char[pathLength + 1];
 			int  bufferLimit = 0;
@@ -687,7 +756,7 @@ public class Filex {
 				if (isConverSeparator) {
 					for (char s: separatorChars) {
 						if (ch == s) {
-							ch = separator;
+							ch = toSeparator;
 							break;
 						}
 					}
@@ -697,13 +766,13 @@ public class Filex {
 						ch = path.charAt(i);
 						for (char s: separatorChars) {
 							if (ch == s) {
-								ch = separator;
+								ch = toSeparator;
 								break;
 							}
 						}
-						if  (ch == separator) {
-							if (bufferLimit == 0 || buffer[bufferLimit - 1] != separator)
-								buffer[bufferLimit++] = separator;
+						if  (ch == toSeparator) {
+							if (bufferLimit == 0 || buffer[bufferLimit - 1] != toSeparator)
+								buffer[bufferLimit++] = toSeparator;
 						} else {
 							buffer[bufferLimit++] = ch;
 						}
@@ -712,9 +781,9 @@ public class Filex {
 					buffer[bufferLimit++] = ch;
 					for (int i = 1; i < pathLength; i++) {
 						ch = path.charAt(i);
-						if  (ch == separator) {
-							if (bufferLimit == 0 || buffer[bufferLimit - 1] != separator)
-								buffer[bufferLimit++] = separator;
+						if  (ch == toSeparator) {
+							if (bufferLimit == 0 || buffer[bufferLimit - 1] != toSeparator)
+								buffer[bufferLimit++] = toSeparator;
 						} else {
 							buffer[bufferLimit++] = ch;
 						}
@@ -723,10 +792,10 @@ public class Filex {
 			}
 			if (forceDirectory) {
 				if (bufferLimit == 0) {
-					path = String.valueOf(separator);
+					path = String.valueOf(toSeparator);
 				} else {
-					if (buffer[bufferLimit - 1] != separator)
-						buffer[bufferLimit++] = separator;
+					if (buffer[bufferLimit - 1] != toSeparator)
+						buffer[bufferLimit++] = toSeparator;
 					path = new String(buffer, 0, bufferLimit);
 				}
 				return path;
@@ -741,12 +810,12 @@ public class Filex {
 		/**
 		 * 是否存在 . 和 ..
 		 */
-		public static boolean hasRelativePath(String path, char separator) {
-			String pathToUse = normalizePath(path, true, false, separator);
+		public static boolean hasRelativePath(String path, char toSeparator) {
+			String pathToUse = normalizePath(path, true, false, toSeparator);
 			int pathToUseLength = pathToUse.length();
 			if (pathToUseLength == 0)
 				return false;
-			String separatorString = String.valueOf(separator);
+			String separatorString = String.valueOf(toSeparator);
 			List<String> pathArray = Strings.split(pathToUse, separatorString);
 			int i;
 			for (i = pathArray.size() - 1; i >= 0; --i) {
@@ -773,25 +842,25 @@ public class Filex {
 		 */
 		/**
 		 * @param path 路径
-		 * @param separator 转换为 分隔符
+		 * @param toSeparator 转换为 分隔符
 		 */
-		public static String dealRelativePath(String path, char separator) {
-			return dealRelativePath(path, false, separator);
+		public static String dealRelativePath(String path, char toSeparator) {
+			return dealRelativePath(path, false, toSeparator);
 		}
 
 		/**
 		 * 处理相对路径 [. 和 ..]
 		 * @param path 路径
-		 * @param forceAbsolutePath 如果为true则强制为绝对路径（首字符为 @param separator ）不会出现 . 和 ..  ，如果是FALSE则无意义
-		 * @param separator 转换为 分隔符
+		 * @param forceAbsolutePath 如果为true则强制为绝对路径（首字符为 @param toSeparator ）不会出现 . 和 ..  ，如果是FALSE则无意义
+		 * @param toSeparator 转换为 分隔符
 		 */
-		private static String dealRelativePath(String path, boolean forceAbsolutePath, char separator) {
-			String pathToUse = normalizePath(path, true, false, separator);
+		private static String dealRelativePath(String path, boolean forceAbsolutePath, char toSeparator) {
+			String pathToUse = normalizePath(path, true, false, toSeparator);
 			int pathToUseLength = pathToUse.length();
 			if (pathToUseLength == 0)
-				return forceAbsolutePath ? String.valueOf(separator) : "";
-			boolean forceAbsolute  = forceAbsolutePath || pathToUse.charAt(0) == separator;
-			String separatorString = String.valueOf(separator);
+				return forceAbsolutePath ? String.valueOf(toSeparator) : "";
+			boolean forceAbsolute  = forceAbsolutePath || pathToUse.charAt(0) == toSeparator;
+			String separatorString = String.valueOf(toSeparator);
 
 			List<String> pathArray = Strings.split(pathToUse, separatorString);
 			List<String> pathElements = new LinkedList<>();
@@ -822,21 +891,21 @@ public class Filex {
 				String element = iter.next();
 				if (element.length() != 0) {
 					if (forceAbsolute)
-						sb.append(separator);
+						sb.append(toSeparator);
 					sb.append(element);
 				} else if (pathElementsSize == 1) {
-					sb.append(separator);
+					sb.append(toSeparator);
 				}
 				while (iter.hasNext()) {
-					sb.append(separator);
+					sb.append(toSeparator);
 					sb.append(iter.next());
 				}
 				int sblen = sb.length();
-				if (sblen > 0 && sb.charAt(sblen - 1) != separator) {
+				if (sblen > 0 && sb.charAt(sblen - 1) != toSeparator) {
 					int parentSymbolLength = PATH_CURRENT_PARENT_STRING.length();
-					if ((pathToUse.charAt(pathToUseLength - 1) == separator) ||
+					if ((pathToUse.charAt(pathToUseLength - 1) == toSeparator) ||
 							(pathToUse.regionMatches(pathToUseLength - parentSymbolLength, PATH_CURRENT_PARENT_STRING, 0, parentSymbolLength))) {
-						sb.append(separator);//is Directory
+						sb.append(toSeparator);//is Directory
 					}
 				}
 				return sb.toString();
@@ -848,17 +917,17 @@ public class Filex {
 		/**
 		 * 获取绝对路径 不会出现  ../ 和 ./
 		 */
-		public static String getCanonicalRelativePath(String path, char separator) {
-			return dealRelativePath(path, true, separator);
+		public static String getCanonicalRelativePath(String path, char toSeparator) {
+			return dealRelativePath(path, true, toSeparator);
 		}
 		/**
 		 * @param dir		父目录不会被处理相对路径
 		 * @param subpath		子路径将会处理为绝对路径 绝对不会超过parent的路径 也就是不会出现 ../ 和 ./
-		 * @param separator		格式化为某个类型的分隔符
+		 * @param toSeparator		格式化为某个类型的分隔符
 		 */
-		public static String getCanonicalRelativePath(String dir, String subpath, char separator) {
-			StringBuilder stringBuilder = new StringBuilder(normalizePath(dir, true, true, separator));
-			String relativePath = dealRelativePath(subpath, true, separator);
+		public static String getCanonicalRelativePath(String dir, String subpath, char toSeparator) {
+			StringBuilder stringBuilder = new StringBuilder(normalizePath(dir, true, true, toSeparator));
+			String relativePath = dealRelativePath(subpath, true, toSeparator);
 			return stringBuilder.append(relativePath, 1, relativePath.length()).toString();
 		}
 
@@ -963,42 +1032,207 @@ public class Filex {
 
 
 
-	//dealRelativePath|getCanonicalRelativePath|hasRelativePath|normalizePath|convertFileSeparator|dealRelativePath
-
-	public static String startWithAbsolutePath(char separator, String path) {
-		return separator + path;
+	public static Path getSymbolicLinkTarget(Object from) throws IOException {
+		return Files.readSymbolicLink(toPath(from));
 	}
 
 
-
-	/**
-	 * is absolute path
-	 * 判断是否为绝对路径
-	 *
-	 * if @param separator for /
-	 * "/a"				return true
-	 * "/../../"		return true
-	 * "./"				return false
-	 * "../"			return false
-	 */
-	public static boolean isStartWithAbsolute(char separator, String path) {
-		int n = path.length();
-		if (n == 0) return false;
-		char c0 = path.charAt(0);
-//        char c1 = (n > 1) ? path.charAt(1) : 0;
-		if (c0 == separator) {
-//            if (c1 == separator) return true;  /* Absolute UNC pathname "\\\\foo" */
-			return true;                   /* Drive-relative "\\foo" */
+	public static boolean copySymbolicLinkTo(Object from, Object to) throws IOException {
+		createSymbolicLink(to, getSymbolicLinkTarget(from));
+		return true;
+	}
+	protected static boolean copyTo(Filez file, Snapshot childrenFileSnapshot, Filez to, boolean ignoredIoError) throws IOException  {
+		if (null == to) {
+			throw new NullPointerException("to file");
 		}
-//		if (((c0 >= 'a') && (c0 <= 'z')) || ((c0 >= 'A') && (c0 <= 'Z')) && (c1 == ':')) {
-//            if ((n > 2) && (path.charAt(2) == separator))
-//                return true;               /* Absolute local pathname "z:\\foo" */
-//            return true;                   /* Directory-relative "z:foo" */
-//        }
-		return false;
+		if (to.exists()) {
+			//throw new IOException("existed: " + file);
+		}
+		boolean result = true;
+		if (file.isFile()) {
+			to.createsFile();
+			try {
+				copyAfterClose(file.input(), file.output());
+			} catch (IOException e) {
+				if (ignoredIoError) {
+					result = false;
+				} else {
+					throw e;
+				}
+			}
+		} else if(isSymbolicLink(file)) {
+			try {
+				copySymbolicLinkTo(file, to);
+			} catch (IOException e) {
+				if (ignoredIoError) {
+					result = false;
+				} else {
+					throw e;
+				}
+			}
+		} else if (file.isDirectory()) {
+			to.createsDir();
+
+			if (null != childrenFileSnapshot) {
+				for (String s : childrenFileSnapshot.keySet()) {
+					final Filez fromFiles = file.files(s);
+					if (childrenFileSnapshot.isFile(s)) {
+						Filez toFiles;
+						toFiles = to.files(s);
+						toFiles.createsFile();
+						try {
+							copyAfterClose(fromFiles.input(), toFiles.output());
+						} catch (IOException e) {
+							if (ignoredIoError) {
+								result = false;
+							} else {
+								throw e;
+							}
+						}
+					} else {
+						result = result & copyTo(fromFiles, childrenFileSnapshot.getFileList(s), to.files(s), ignoredIoError);
+					}
+				}
+			}
+		}
+		return result;
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
+	public static long copyAfterClose(InputStream input, OutputStream output) throws IOException {
+		long   copy = Streams.copyFixedLength(input, output, Streams.DEFAULT_BYTE_BUFF_SIZE, Streams.COPY_UNLIMITED_COPY_LENGTH, true);
+		output.flush();
 
+		Streams.close(input);
+		Streams.close(output);
+
+		return copy;
+	}
+	/**
+	 * deep file list
+	 */
+	@SuppressWarnings({"UnnecessaryLocalVariable"})
+	public static class Snapshot implements Serializable {
+		static final long serialVersionUID = 42L;
+
+		String name;
+		LinkedHashMap<String, Object> fileLinkedHashMap = new LinkedHashMap<>();//thread unsafe
+
+		private Snapshot(String name) {
+			this.name = name;
+		}
+
+
+		private void put(String name, File file) {
+			if (null == file) { return; }
+			fileLinkedHashMap.put(name, file);
+		}
+		private void put(String name, Snapshot fileList) {
+			if (null ==   fileList) { return; }
+			fileLinkedHashMap.put(name, fileList);
+		}
+
+
+		public boolean contains(String name) {
+			return fileLinkedHashMap.containsKey(name);
+		}
+		public boolean remove(String name) {
+			return null == fileLinkedHashMap.remove(name);
+		}
+
+
+		public static Snapshot parse(File file) {
+			if (null == file) {
+				throw new NullPointerException("to file");
+			}
+			return parse0(new Snapshot(file.getName()),  file);
+		}
+		//递归搜索文件，假设子文件的子文件中存在一个子文件的链接，是否会造成无限死循环？
+		private static Snapshot parse0(Snapshot fileList, File file) {
+			if (null == file) {
+				throw new NullPointerException("to file");
+			}
+			File[] fs = file.listFiles();
+			for (File f: null == fs ? Filez.EMPTY_FILE_ARRAY: fs) {
+				String name = f.getName();
+				if (f.isFile()) {
+					fileList.put(name, f);
+				} else {
+					Snapshot fileL = new Snapshot(name);
+					fileList.put(name, fileL);
+					parse0(fileL, f);
+				}
+			}
+			return fileList;
+		}
+
+
+
+		public String   getName() {
+			return name;
+		}
+		public String[] listName() {
+			return fileLinkedHashMap.keySet().toArray(Finals.EMPTY_STRING_ARRAY);
+		}
+
+
+		public Set<String> keySet() {
+			return fileLinkedHashMap.keySet();
+		}
+
+		public Object get(String name) {
+			Object object = fileLinkedHashMap.get(name);
+			return object;
+		}
+
+		public boolean isDirectory(String name) {
+			return get(name) instanceof Snapshot;
+		}
+		public boolean isFile(String name) {
+			return get(name) instanceof File;
+		}
+
+		public Snapshot getFileList(String name) {
+			Object object = get(name);
+			if (object instanceof Snapshot) { return (Snapshot) object; }
+			return null;
+		}
+		public File 	getFile(String name) {
+			Object object = get(name);
+			if (object instanceof File)     { return (File) object;     }
+			return null;
+		}
+
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (!(o instanceof Snapshot)) return false;
+			Snapshot snapshot = (Snapshot) o;
+			return Objects.equals(name, snapshot.name) &&
+				   Objects.equals(fileLinkedHashMap, snapshot.fileLinkedHashMap);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(name, fileLinkedHashMap);
+		}
+
+		@Override
+		public String toString() {
+			JSONObject to = new JSONObject();
+
+			JSONArray tp = new JSONArray();
+			for (Object value: fileLinkedHashMap.values()) {
+				if (value instanceof File) {
+					value = ((File)value).getName();
+				}
+				tp.put(null==value?null:value.toString());
+			}
+			to.put(name, tp);
+			return to.toFormatString();
+		}
+	}
 }
 
 

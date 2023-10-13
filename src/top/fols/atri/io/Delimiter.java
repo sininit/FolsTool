@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.*;
 
-import top.fols.atri.assist.ArrayLists;
+import top.fols.atri.assist.util.ArrayLists;
 import top.fols.atri.lang.Arrayz;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Mathz;
@@ -862,8 +862,7 @@ public class Delimiter {
 
 
 
-	//--------<copy>-------
-
+	//--------<copy>-------//
 	public static byte[] convertAsBytes(char[] data, Charset charset) {
 		return ByteEncoders.charsToBytes(data, 0, data.length, charset);
 	}

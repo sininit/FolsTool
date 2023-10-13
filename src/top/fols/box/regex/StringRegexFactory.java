@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 import top.fols.atri.assist.json.JSONObject;
 import top.fols.atri.assist.lang.StringBuilders;
-import top.fols.atri.interfaces.annotations.UnsafeOperate;
+import top.fols.atri.interfaces.annotations.Private;
 import top.fols.atri.lang.Finals;
 import top.fols.box.util.StringQueryFactory;
 import top.fols.box.util.StringLineFinder;
@@ -249,7 +249,7 @@ public class StringRegexFactory  {
 	 */
 	@Deprecated
 	static final char UNABLE_CHAR = '\0';//i hope the regular expression doesn't find it
-	@UnsafeOperate
+	@Private
 	@Deprecated
 	static List<RegexResult> updateSfGroupListPriorityMode(MyStringQueryFactory sf, RegexQuery p) {
 		final String oldContent = sf.content().toString();

@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-import top.fols.atri.assist.ArrayLists;
+import top.fols.atri.assist.util.ArrayLists;
 import top.fols.atri.assist.util.StringJoiner;
 import top.fols.atri.io.CharsReaders;
 import top.fols.atri.io.CharsWriters;
@@ -2791,7 +2791,6 @@ public class Re_CodeLoader {
     @SuppressWarnings("ConstantConditions")
     public static class _CompileTimeCodeListEditor {
         static final int INIT_INDEX = -1;
-
         Re_CodeFile block;
         ArrayLists<Base> list;
         int index = INIT_INDEX;

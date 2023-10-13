@@ -7,7 +7,7 @@ import java.util.Set;
 
 import top.fols.atri.net.MessageHeader;
 import top.fols.atri.interfaces.interfaces.IInnerMap;
-import top.fols.atri.interfaces.annotations.Tips;
+import top.fols.atri.interfaces.annotations.Help;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class CookieText implements Serializable, IInnerMap<String, String> {
@@ -98,7 +98,7 @@ public class CookieText implements Serializable, IInnerMap<String, String> {
 
 
 
-	@Tips("direct return, result format:  key=tip; key1=value1...")
+	@Help("direct return, result format:  key=tip; key1=value1...")
 	@Override
 	public String toString() {
 		// TODO: Implement this method

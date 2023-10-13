@@ -186,15 +186,15 @@ public class HttpURL implements Serializable {
 
 
 
-    private final String oUrl; // origin url
+    private String oUrl; // origin url
 
-    private final String uProtocol; // null / protocol(http/https/ftp/...)
-    private final String uUser; // null / user
-    private final String uHostAndPort; // host(:port)
-    private final String uRoot; // (protocol://)(user@)host(:port)
-    private final String uDir; // /(dir/)
-    private final String uPathAndParam; // /(dir/filename)(?param=tip&multiplyParam=tip)
-    private final String uRef; // null / ref
+    private String uProtocol; // null / protocol(http/https/ftp/...)
+    private String uUser; // null / user
+    private String uHostAndPort; // host(:port)
+    private String uRoot; // (protocol://)(user@)host(:port)
+    private String uDir; // /(dir/)
+    private String uPathAndParam; // /(dir/filename)(?param=tip&multiplyParam=tip)
+    private String uRef; // null / ref
 
 
     transient Value<String> cAuthority; // (user@)host(:port)
@@ -501,9 +501,27 @@ public class HttpURL implements Serializable {
     }
 
     /**
-     * @param spec the String to parse as a URL.
+     * @param url the String to parse as a URL.
      */
-    public HttpURL(String spec) {
+    public HttpURL(String url) {
+        this.init(url);
+    }
+    public HttpURL(String root, String path) {
+        String start = root;
+        if (start.endsWith(URLs.PATH_SEPARATOR)) {
+            start = start.substring(0, start.length() - URLs.PATH_SEPARATOR.length());
+        }
+        String end = "";
+        int pIndex = path.indexOf(URLs.QUERY_SYMBOL);
+        if (pIndex > -1) {
+            end = path.substring(pIndex);
+            path = path.substring(0, pIndex);
+        }
+        String relativePath = Filex.getCanonicalRelativePath(path, URLs.PATH_SEPARATOR_CHAR);
+        String url = start + relativePath + end;
+        this.init(url);
+    }
+    private void init(String spec) {
         this.oUrl = spec;
 
         if (null == spec) {
@@ -546,7 +564,7 @@ public class HttpURL implements Serializable {
         int paramSplitCharIndex = spec.indexOf(QUERY_SYMBOL);
         if (paramSplitCharIndex > -1 && (paramSplitCharIndex < split || split <= -1)) {
             spec = spec.substring(0, paramSplitCharIndex) + PATH_SEPARATOR_CHAR +
-                   spec.substring(paramSplitCharIndex, spec.length());
+                    spec.substring(paramSplitCharIndex, spec.length());
         } else {
             if (split <= -1) {
                 spec = spec + PATH_SEPARATOR;

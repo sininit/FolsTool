@@ -1,6 +1,6 @@
 package top.fols.box.reflect.re;
 
-import top.fols.atri.assist.ArrayLists;
+import top.fols.atri.assist.util.ArrayLists;
 import top.fols.atri.lang.Classz;
 import top.fols.atri.interfaces.annotations.Nullable;
 

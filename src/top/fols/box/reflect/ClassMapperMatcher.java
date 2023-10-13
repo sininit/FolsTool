@@ -11,6 +11,8 @@ public class ClassMapperMatcher<V> {
 		public ClassMapper(Class<?> key) {
 			this.key = key;
 		}
+		
+		public Class<?> getType() { return key; }
 
 		@Override
 		public int hashCode() {
@@ -98,7 +100,8 @@ public class ClassMapperMatcher<V> {
 
     public void removeMapper(ClassMapper sourceType) {
 		synchronized (table) {
-			table.remove(sourceType);
+			this.table.remove(sourceType);
+			this.cached.release();
 		}
     }
 

@@ -1,13 +1,14 @@
 package top.fols.box.lang;
 
 
-import top.fols.box.lang.abstracts.XBitsOptionAbstract;
+import top.fols.atri.interfaces.abstracts.BitsOptions;
+import top.fols.atri.util.bits.BitsLittleEndian;
 
 import java.util.Arrays;
 
 public class XBitsLittleEndianTest {
     public static void main(String[] args) {
-        XBitsOptionAbstract be = new XBitsLittleEndian();
+        BitsOptions be = new BitsLittleEndian();
         System.out.println(be.getBoolean(be.getBytes(true), 0));
         System.out.println(be.getChar(be.getBytes((char)10086), 0) == (char)10086);
         System.out.println(be.getShort(be.getBytes((short)18525), 0) == (short)18525);
@@ -15,6 +16,6 @@ public class XBitsLittleEndianTest {
         System.out.println(be.getLong(be.getBytes((long)77777), 0) == (long)77777);
         System.out.println(be.getFloat(be.getBytes((float)10086.521), 0) == (float)10086.521);
         System.out.println(be.getDouble(be.getBytes((double)(5566355D + 0.4)), 0));
-        System.out.println(Arrays.toString(XBitsOptionAbstract.LITTLE_ENDIAN.getBytes(666D)));
+        System.out.println(Arrays.toString(BitsOptions.LITTLE_ENDIAN.getBytes(666D)));
     }
 }

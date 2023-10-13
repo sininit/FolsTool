@@ -1,6 +1,6 @@
 package top.fols.box.util;
 
-import top.fols.atri.io.Streams;
+import top.fols.atri.io.util.Streams;
 import top.fols.atri.util.DoubleLinkedList;
 
 public class DoubleLinkedListTest {

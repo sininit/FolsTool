@@ -18,13 +18,13 @@ import top.fols.atri.io.util.Streams;
 import static top.fols.box.util.Zips.*;
 
 
-public class ZipFileOutput extends OutputStream implements Closeable {
+public class ZipWriter extends OutputStream implements Closeable {
 	private final ZipOutputStream zout;
 
-	public ZipFileOutput(OutputStream out) {
+	public ZipWriter(OutputStream out) {
 		this(out, StandardCharsets.UTF_8);
 	}
-	public ZipFileOutput(OutputStream out, Charset charset) {
+	public ZipWriter(OutputStream out, Charset charset) {
 		zout = new ZipOutputStream(out, charset);
 	}
 
@@ -61,18 +61,15 @@ public class ZipFileOutput extends OutputStream implements Closeable {
 	public void putFolder(String filePath) throws IOException {
 		this.putFolder(filePath, System.currentTimeMillis());
 	}
-    public void putFolder(String filePath,
+	public void putFolder(String filePath,
 						  long lastModifiedTime) throws IOException {
 		filePath = formatPath(filePath, false);
 
 		this.addEntry(filePath, 0,
 				lastModifiedTime,
-					  0);
+				0);
 		this.closeEntry();
 	}
-
-
-
 
 
 
@@ -83,7 +80,7 @@ public class ZipFileOutput extends OutputStream implements Closeable {
 
 		this.addEntry(filePath, size,
 				lastModifiedTime,
-					  crc32);
+				crc32);
 		this.writeAndClose(new FileInputStream(localFile));
 	}
 	public void putFile(String filePath, byte[] localFile,
@@ -93,25 +90,26 @@ public class ZipFileOutput extends OutputStream implements Closeable {
 
 		this.addEntry(filePath, size,
 				lastModifiedTime,
-					  crc32);
+				crc32);
 		this.writeAndClose(new ByteArrayInputStream(localFile));
 	}
-	
-	public void putFileEntry(String filePath, long size, 
+
+
+	public void putFileEntry(String filePath, long size,
 							 long createTime,
 							 long crc32) throws IOException {
 		filePath = formatPath(filePath, true);
 
 		this.addEntry(filePath, size,
 				createTime,
-					  crc32);
+				crc32);
 	}
 
 
 
-	public void addEntry(String filePath, long size,
-						 long lastModifiedTime,
-						 long crc32) throws IOException {
+	protected void addEntry(String filePath, long size,
+							long lastModifiedTime,
+							long crc32) throws IOException {
 //		ZipParameters zp = new ZipParameters();
 //		zp.setCompressionMethod(CompressionMethod.STORE);
 //		zp.setCompressionLevel(CompressionLevel.NO_COMPRESSION);
@@ -152,17 +150,17 @@ public class ZipFileOutput extends OutputStream implements Closeable {
 	@Override
 	public void close() throws IOException {
 		zout.flush();
-	    zout.close();
+		zout.close();
 	}
 	public void write(int p1) throws IOException {
 		zout.write(p1);
 	}
 
-    public void write(byte[] b, int off, int len) throws IOException {
+	public void write(byte[] b, int off, int len) throws IOException {
 		zout.write(b, off, len);
 	}
 
-    public void flush() throws IOException {
+	public void flush() throws IOException {
 		zout.flush();
 	}
 
@@ -170,5 +168,6 @@ public class ZipFileOutput extends OutputStream implements Closeable {
 }
 
 
-	
+
+
 

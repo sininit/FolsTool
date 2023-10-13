@@ -101,6 +101,18 @@ public class ZipResources implements AutoCloseable {
 		return zfile.entries();
 	}
 
+    public String getName(String file) {
+        if (file == null)
+			return null;
+		if (ROOT_DIRECTORY.equals(file))
+			return null;
+			
+		String name = Filex.getName(file);
+		if(null==name||name.length()==0){
+		    return null;
+		}
+		return name;
+    } 
 	public String getParent(String file) {
 		if (file == null)
 			return null;

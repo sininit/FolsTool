@@ -1,6 +1,7 @@
 package top.fols.box.reflect.re;
 
 import top.fols.atri.lang.Objects;
+import top.fols.atri.util.Iterables;
 import top.fols.atri.util.Lists;
 
 import java.lang.reflect.Array;
@@ -67,7 +68,7 @@ public class Re_PrimitiveObject_jobjectArray extends Re_PrimitiveObject_jobject 
 
     @Override
     public Iterable getObjectKeys(Re_Executor executor) throws Throwable {
-        return Lists.wrapRange(0, len);
+        return Iterables.wrapRange(0, len);
     }
 
     @Override

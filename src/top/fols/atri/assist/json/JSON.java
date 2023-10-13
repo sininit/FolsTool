@@ -225,41 +225,29 @@ public class JSON {
 
     static Object jsonAsJavaObject(Object object) {
         if (object instanceof JSONObject) {
-            return toMap((JSONObject)object);
+            return toMapOrList((JSONObject)object);
         } else if (object instanceof JSONArray) {
-            return toList((JSONArray)object);
+            return toMapOrList((JSONArray)object);
         }
         return object;
     }
-    public static Map<String, Object> toMap(JSONObject json) {
+    public static Map<String, Object> toMapOrList(JSONObject json) {
         if (null == json)
             return null;
-
-        Map cloneMap = new LinkedHashMap<>();
+        Map<String, Object> cloneMap = new LinkedHashMap<>();
         Map<String, Object> inner = json.getInnerMap();
         for (String k:  inner.keySet()) {
-            Object  vs = jsonAsJavaObject(inner.get(k));
-            if (vs instanceof JSONObject)
-                vs = toMap((JSONObject)vs);
-            if (vs instanceof JSONArray)
-                vs = toList((JSONArray)vs);
-            cloneMap.put(k, vs);
+            cloneMap.put(k, jsonAsJavaObject(inner.get(k)));
         }
         return cloneMap;
     }
-    public static List<Object> toList(JSONArray json) {
+    public static List<Object> toMapOrList(JSONArray json) {
         if (null == json)
             return null;
-
         List<Object> cloneMap = new ArrayList<>();
         List<Object> inner = json.getInnerList();
         for (int i = 0; i < inner.size();i++) {
-            Object vs = jsonAsJavaObject(inner.get(i));
-            if (vs instanceof JSONObject)
-                vs = toMap((JSONObject)vs);
-            if (vs instanceof JSONArray)
-                vs = toList((JSONArray)vs);
-            cloneMap.add(vs);
+            cloneMap.add(jsonAsJavaObject(inner.get(i)));
         }
         return cloneMap;
     }

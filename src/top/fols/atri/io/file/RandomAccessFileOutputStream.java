@@ -2,11 +2,11 @@ package top.fols.atri.io.file;
 
 import top.fols.atri.interfaces.interfaces.IInnerFile;
 import top.fols.atri.lang.Finals;
-import top.fols.atri.interfaces.annotations.Tips;
+import top.fols.atri.interfaces.annotations.Help;
 
 import java.io.*;
 
-@Tips("random access file mode rw, default seek to file end index")
+@Help("random access file mode rw, default seek to file end index")
 public class RandomAccessFileOutputStream extends OutputStream implements IInnerFile {
 	private final File file;
 	private RandomAccessFile innerStream;

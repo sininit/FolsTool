@@ -1,11 +1,9 @@
 package top.fols.box.reflect;
 
 import top.fols.atri.interfaces.annotations.NotNull;
-import top.fols.atri.interfaces.annotations.UnsafeOperate;
-import top.fols.atri.lang.Arrayz;
+import top.fols.atri.interfaces.annotations.Private;
 import top.fols.atri.lang.Boxing;
 import top.fols.atri.lang.Finals;
-import top.fols.atri.lang.Strings;
 import top.fols.atri.reflect.Reflects;
 import top.fols.box.lang.Classx;
 
@@ -227,13 +225,13 @@ public class Reflectx {
         return cache;
     }
 
-    @UnsafeOperate
+    @Private
     public static Field setFinalFieldAccessAble(Field f) throws IllegalArgumentException, IllegalAccessException {
-        return setFinalFieldAccessAble(f, f.getModifiers() & ~Modifier.FINAL);
+        return setFieldModifier(f, f.getModifiers() & ~Modifier.FINAL);
     }
 
-    @UnsafeOperate
-    public static Field setFinalFieldAccessAble(Field f, int modifier) throws IllegalArgumentException, IllegalAccessException {
+    @Private
+    public static Field setFieldModifier(Field f, int modifier) throws IllegalArgumentException, IllegalAccessException {
         ModifierSetter modifierList = java_lang_reflect_Field__modifier();
         modifierList.accessable(f, modifier);
         return f;

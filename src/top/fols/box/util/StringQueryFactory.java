@@ -2,7 +2,7 @@ package top.fols.box.util;
 
 
 import java.util.Comparator;
-import top.fols.atri.assist.ArrayLists;
+import top.fols.atri.assist.util.ArrayLists;
 import top.fols.atri.assist.lang.StringBuilders;
 import top.fols.atri.io.Delimiter;
 import top.fols.atri.lang.Finals;

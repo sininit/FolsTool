@@ -1,6 +1,6 @@
 package top.fols.atri.lang;
 
-import top.fols.atri.interfaces.annotations.Tips;
+import top.fols.atri.interfaces.annotations.Help;
 import top.fols.atri.io.Delimiter;
 
 import java.lang.annotation.Annotation;
@@ -245,7 +245,7 @@ public class Finals {
         /**
          * sorted [max length,..., min length]
          */
-        @Tips("sorted [max length,..., min length]")
+        @Help("sorted [max length,..., min length]")
         public static String[] getAllSystemLineSeparatorSortedMaxToMin() {
             String[] chars = new String[ALL_SYSTEM_STRING.length];
             for (int i = 0; i < chars.length; i++) {
@@ -256,7 +256,7 @@ public class Finals {
         /**
          * sorted [max length,..., min length]
          */
-        @Tips("sorted [max length,..., min length]")
+        @Help("sorted [max length,..., min length]")
         public static char[][] getAllSystemLineSeparatorCharsSortedMaxToMin() {
             char[][] chars = new char[ALL_SYSTEM_CHARS.length][];
             for (int i = 0; i < chars.length; i++) {
@@ -271,7 +271,7 @@ public class Finals {
         /**
          * sorted [max length,..., min length]
          */
-        @Tips("sorted [max length,..., min length]")
+        @Help("sorted [max length,..., min length]")
         public static byte[][] getAllSystemLineSeparatorBytesSortedMaxToMin(Charset charset) {
             byte[][] chars = new byte[ALL_SYSTEM_STRING.length][];
             for (int i = 0; i < chars.length; i++) {

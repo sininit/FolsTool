@@ -46,8 +46,8 @@ public class PropertyCaches {
 	}
 	
 	public static class Property<T> {
-		private Class<T> type;
-		private Initializer<T> initializer;
+		private final Class<T> type;
+		private final Initializer<T> initializer;
 
 		Property(Class<T> type, Initializer<T> initializer) {
 			this.type = Objects.requireNonNull(type, "type");

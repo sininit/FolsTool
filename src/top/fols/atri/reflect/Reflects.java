@@ -3,7 +3,7 @@ package top.fols.atri.reflect;
 import java.lang.reflect.*;
 import java.util.*;
 
-import top.fols.atri.interfaces.annotations.UnsafeOperate;
+import top.fols.atri.interfaces.annotations.Private;
 import top.fols.atri.lang.Finals;
 import top.fols.atri.lang.Objects;
 import top.fols.box.lang.Classx;
@@ -766,7 +766,7 @@ public class Reflects {
 
 
 
-	@UnsafeOperate
+	@Private
 	public static <T> Constructor<T> getEmptyArgsConstructor(Class<T> type){
 		try {
 			return Reflects.accessible(type.getDeclaredConstructor(Finals.EMPTY_CLASS_ARRAY));
@@ -775,7 +775,7 @@ public class Reflects {
 		}
 	}
 
-	@UnsafeOperate
+	@Private
 	public static <T> T newInstance(Class<T> type) {
 		Constructor<T> con = getEmptyArgsConstructor(type);
 		try {
@@ -785,7 +785,7 @@ public class Reflects {
 		}
 	}
 
-	@UnsafeOperate
+	@Private
 	@Deprecated
 	public static Field setFinalFieldAccessAble(Field f) throws IllegalAccessException, IllegalArgumentException {
 		return Reflectx.setFinalFieldAccessAble(f);

@@ -7,7 +7,7 @@ package top.fols.atri.util.bits;
  * java default using big-endian byte ordering.
  */
 import top.fols.atri.interfaces.abstracts.BitsOptions;
-import top.fols.atri.interfaces.annotations.Tips;
+import top.fols.atri.interfaces.annotations.Help;
 
 public class BitsBigEndian extends BitsOptions {
 
@@ -26,13 +26,13 @@ public class BitsBigEndian extends BitsOptions {
 	 * Methods for unpacking primitive values from byte arrays starting at given
 	 * offsets.
 	 */
-	@Tips("occupied byte length: 1")
+	@Help("occupied byte length: 1")
 	@Override
 	public boolean getBoolean(byte[] b, int off) {
 		return b[off] != 0;
 	}
 
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	@Override
 	public char getChar(byte[] b, int off) {
 		return (char) (
@@ -41,7 +41,7 @@ public class BitsBigEndian extends BitsOptions {
 			);
 	}
 
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	@Override
 	public short getShort(byte[] b, int off) {
 		return (short) (
@@ -50,7 +50,7 @@ public class BitsBigEndian extends BitsOptions {
 			);
 	}
 
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	@Override
 	public int getInt(byte[] b, int off) {
 		return
@@ -60,13 +60,13 @@ public class BitsBigEndian extends BitsOptions {
 			((b[off]) << 24);
 	}
 
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	@Override
 	public float getFloat(byte[] b, int off) {
 		return Float.intBitsToFloat(getInt(b, off));
 	}
 
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	@Override
 	public long getLong(byte[] b, int off) {
 		return 
@@ -80,7 +80,7 @@ public class BitsBigEndian extends BitsOptions {
 			(((long) b[off]) << 56);
 	}
 
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	@Override
 	public double getDouble(byte[] b, int off) {
 		return Double.longBitsToDouble(getLong(b, off));
@@ -95,12 +95,12 @@ public class BitsBigEndian extends BitsOptions {
 	 * Methods for packing primitive values into byte arrays starting at given
 	 * offsets.
 	 */
-	@Tips("occupied byte length: 1")
+	@Help("occupied byte length: 1")
 	@Override
 	public void putBytes(byte[] b, int off, boolean val) {
 		b[off] = (byte) (val ? 1 : 0);
 	}
-	@Tips("occupied byte length: 1")
+	@Help("occupied byte length: 1")
 	@Override
 	public byte[] getBytes(boolean val) {
 		byte[] bytes = new byte[BOOLEAN_BYTE_LENGTH];
@@ -109,13 +109,13 @@ public class BitsBigEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	@Override
 	public void putBytes(byte[] b, int off, char val) {
 		b[off + 1] = (byte) (val);
 		b[off] = (byte) (val >>> 8);
 	}
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	@Override
 	public byte[] getBytes(char val) {
 		byte[] bytes = new byte[CHAR_BYTE_LENGTH];
@@ -124,13 +124,13 @@ public class BitsBigEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	@Override
 	public void putBytes(byte[] b, int off, short val) {
 		b[off + 1] = (byte) (val);
 		b[off] = (byte) (val >>> 8);
 	}
-	@Tips("occupied byte length: 2")
+	@Help("occupied byte length: 2")
 	@Override
 	public byte[] getBytes(short val) {
 		byte[] bytes = new byte[SHORT_BYTE_LENGTH];
@@ -139,7 +139,7 @@ public class BitsBigEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	@Override
 	public void putBytes(byte[] b, int off, int val) {
 		b[off + 3] = (byte) (val);
@@ -147,7 +147,7 @@ public class BitsBigEndian extends BitsOptions {
 		b[off + 1] = (byte) (val >>> 16);
 		b[off] = (byte) (val >>> 24);
 	}
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	@Override
 	public byte[] getBytes(int val) {
 		byte[] bytes = new byte[INT_BYTE_LENGTH];
@@ -156,12 +156,12 @@ public class BitsBigEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	@Override
 	public void putBytes(byte[] b, int off, float val) {
 		putBytes(b, off, Float.floatToIntBits(val));
 	}
-	@Tips("occupied byte length: 4")
+	@Help("occupied byte length: 4")
 	@Override
 	public byte[] getBytes(float val) {
 		byte[] bytes = new byte[FLOAT_BYTE_LENGTH];
@@ -170,7 +170,7 @@ public class BitsBigEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	@Override
 	public void putBytes(byte[] b, int off, long val) {
 		b[off + 7] = (byte) (val);
@@ -182,7 +182,7 @@ public class BitsBigEndian extends BitsOptions {
 		b[off + 1] = (byte) (val >>> 48);
 		b[off] = (byte) (val >>> 56);
 	}
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	@Override
 	public byte[] getBytes(long val) {
 		byte[] bytes = new byte[LONG_BYTE_LENGTH];
@@ -191,12 +191,12 @@ public class BitsBigEndian extends BitsOptions {
 	}
 
 
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	@Override
 	public void putBytes(byte[] b, int off, double val) {
 		putBytes(b, off, Double.doubleToLongBits(val));
 	}
-	@Tips("occupied byte length: 8")
+	@Help("occupied byte length: 8")
 	@Override
 	public byte[] getBytes(double val) {
 		byte[] bytes = new byte[DOUBLE_BYTE_LENGTH];

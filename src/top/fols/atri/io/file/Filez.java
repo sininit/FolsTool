@@ -2,12 +2,11 @@ package top.fols.atri.io.file;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.text.Collator;
 import java.util.*;
 
 import top.fols.atri.assist.encode.ByteEncodeDetect;
-import top.fols.atri.assist.json.JSONArray;
-import top.fols.atri.assist.json.JSONObject;
 import top.fols.atri.io.BufferReaders;
 import top.fols.atri.io.Delimiter;
 import top.fols.atri.io.util.Streams;
@@ -32,7 +31,7 @@ public class Filez implements IInnerFile {
 	public static final Charset CHARSET_UTF8 = Finals.Charsets.UTF_8;
 
 	public static Filez absolute(Object path) {
-		return new Filez(Filex.getCanonicalRelativePath(Filex.toPath(path)));
+		return new Filez(Filex.getCanonicalRelativePath(Filex.toFilePath(path)));
 	}
 
 	public static Filez wrap(String path) { return new Filez(path); }
@@ -359,12 +358,12 @@ public class Filez implements IInnerFile {
 
 
 
-	public Snapshot snapshot() {
+	public Filex.Snapshot snapshot() {
 		return snapshot(innerFile());
 	}
-	public static Snapshot snapshot(Object path) {
+	public static Filex.Snapshot snapshot(Object path) {
 		File file = Filex.toFile(path);
-		return Snapshot.parse(file);
+		return Filex.Snapshot.parse(file);
 	}
 
 
@@ -605,6 +604,20 @@ public class Filez implements IInnerFile {
 		return strings.toArray(Finals.EMPTY_STRING_ARRAY);
 	}
 
+
+	public Path toPath(){ return innerFile().toPath(); }
+
+	public boolean isSymbolicLink() {
+		return Filex.isSymbolicLink(this);
+	}
+	public boolean copySymbolicLinkTo(Filez to) {
+		try {
+			return Filex.copySymbolicLinkTo(this, to);
+		} catch (IOException e) {
+			return false;
+		}
+	}
+
 	/**
 	 * Copy this file to the specified directory
 	 *
@@ -626,7 +639,7 @@ public class Filez implements IInnerFile {
 	 */
 	public boolean deepCopyTo(Filez to) {
 		try {
-			return deepCopyTo(Snapshot.parse(this.innerFile()), to, true);
+			return deepCopyTo(Filex.Snapshot.parse(this.innerFile()), to, true);
 		} catch (IOException ignored) {
 			return false;
 		}
@@ -639,201 +652,8 @@ public class Filez implements IInnerFile {
 	 * @param subfiles file filter   if this file is Directory
 	 * @param to to
 	 */
-	public boolean deepCopyTo(Snapshot subfiles, Filez to, boolean ignoredIoError) throws IOException {
-		return clone0(subfiles, to, ignoredIoError);
-	}
-
-
-
-	private boolean clone0(Snapshot thisList, Filez to, boolean ignoredIoError) throws IOException  {
-		if (null == to) {
-			throw new NullPointerException("to file");
-		}
-		if (to.exists()) {
-			//throw new IOException("existed: " + file);
-		}
-		boolean result = true;
-		if (this.isFile()) {
-			to.createsFile();
-			try {
-				copyAfterClose(input(), output());
-			} catch (IOException e) {
-				if (ignoredIoError) {
-					result = false;
-				} else {
-					throw e;
-				}
-			}
-		} else if (this.isDirectory()) {
-			to.createsDir();
-
-			if (null != thisList) {
-				for (String s : thisList.keySet()) {
-					final Filez fromFiles = this.files(s);
-					if (thisList.isFile(s)) {
-						Filez toFiles;
-						toFiles = to.files(s);
-						toFiles.createsFile();
-
-						try {
-							copyAfterClose(fromFiles.input(), toFiles.output());
-						} catch (IOException e) {
-							if (ignoredIoError) {
-								result = false;
-							} else {
-								throw e;
-							}
-						}
-					} else {
-						result = result & fromFiles.clone0(thisList.getFileList(s), to.files(s), ignoredIoError);
-					}
-				}
-			}
-		}
-		return result;
-	}
-
-
-
-
-
-
-
-	@SuppressWarnings("UnusedReturnValue")
-	public static long copyAfterClose(InputStream input, OutputStream output) throws IOException {
-		long   copy = Streams.copyFixedLength(input, output, Streams.DEFAULT_BYTE_BUFF_SIZE, Streams.COPY_UNLIMITED_COPY_LENGTH, true);
-		output.flush();
-
-		Streams.close(input);
-		Streams.close(output);
-
-		return copy;
-	}
-
-	/**
-	 * deep file list
-	 */
-	@SuppressWarnings({"UnnecessaryLocalVariable"})
-	public static class Snapshot implements Serializable {
-		static final long serialVersionUID = 42L;
-
-		String name;
-		LinkedHashMap<String, Object> fileLinkedHashMap = new LinkedHashMap<>();//thread unsafe
-
-		private Snapshot(String name) {
-			this.name = name;
-		}
-
-
-		private void put(String name, File file) {
-			if (null == file) { return; }
-			fileLinkedHashMap.put(name, file);
-		}
-		private void put(String name, Snapshot fileList) {
-			if (null ==   fileList) { return; }
-			fileLinkedHashMap.put(name, fileList);
-		}
-
-
-		public boolean contains(String name) {
-			return fileLinkedHashMap.containsKey(name);
-		}
-		public boolean remove(String name) {
-			return null == fileLinkedHashMap.remove(name);
-		}
-
-
-		public static Snapshot parse(File file) {
-			if (null == file) {
-				throw new NullPointerException("to file");
-			}
-			return parse0(new Snapshot(file.getName()),  file);
-		}
-		//递归搜索文件，假设子文件的子文件中存在一个子文件的链接，是否会造成无限死循环？
-		private static Snapshot parse0(Snapshot fileList, File file) {
-			if (null == file) {
-				throw new NullPointerException("to file");
-			}
-			File[] fs = file.listFiles();
-			for (File f: null == fs ?EMPTY_FILE_ARRAY: fs) {
-				String name = f.getName();
-				if (f.isFile()) {
-					fileList.put(name, f);
-				} else {
-					Snapshot fileL = new Snapshot(name);
-					fileList.put(name, fileL);
-					parse0(fileL, f);
-				}
-			}
-			return fileList;
-		}
-
-
-
-		public String   getName() {
-			return name;
-		}
-		public String[] listName() {
-			return fileLinkedHashMap.keySet().toArray(Finals.EMPTY_STRING_ARRAY);
-		}
-
-
-		public Set<String> keySet() {
-			return fileLinkedHashMap.keySet();
-		}
-
-		public Object get(String name) {
-			Object object = fileLinkedHashMap.get(name);
-			return object;
-		}
-
-		public boolean isDirectory(String name) {
-			return get(name) instanceof Snapshot;
-		}
-		public boolean isFile(String name) {
-			return get(name) instanceof File;
-		}
-
-		public Snapshot getFileList(String name) {
-			Object object = get(name);
-			if (object instanceof Snapshot) { return (Snapshot) object; }
-			return null;
-		}
-		public File 	getFile(String name) {
-			Object object = get(name);
-			if (object instanceof File)     { return (File) object;     }
-			return null;
-		}
-
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (!(o instanceof Snapshot)) return false;
-			Snapshot snapshot = (Snapshot) o;
-			return java.util.Objects.equals(name, snapshot.name) &&
-				   java.util.Objects.equals(fileLinkedHashMap, snapshot.fileLinkedHashMap);
-		}
-
-		@Override
-		public int hashCode() {
-			return java.util.Objects.hash(name, fileLinkedHashMap);
-		}
-
-		@Override
-		public String toString() {
-			JSONObject to = new JSONObject();
-
-			JSONArray tp = new JSONArray();
-			for (Object value: fileLinkedHashMap.values()) {
-				if (value instanceof File) {
-					value = ((File)value).getName();
-				}
-				tp.put(null==value?null:value.toString());
-			}
-			to.put(name, tp);
-			return to.toFormatString();
-		}
+	public boolean deepCopyTo(Filex.Snapshot subfiles, Filez to, boolean ignoredIoError) throws IOException {
+		return Filex.copyTo(this, subfiles, to, ignoredIoError);
 	}
 
 

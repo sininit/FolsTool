@@ -1,9 +1,8 @@
 package top.fols.box.net;
 
-import top.fols.atri.io.Streams;
+import top.fols.atri.io.util.Streams;
 import top.fols.atri.lang.Strings;
 import top.fols.atri.net.MessageHeader;
-import top.fols.atri.net.URLConnections;
 
 import java.io.IOException;
 import java.net.URLConnection;

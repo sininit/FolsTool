@@ -24,6 +24,7 @@ public class IndexPieces {
 	/**
 	 * get the block where the pointer is, starting from 0
 	 */
+	@SuppressWarnings("UnnecessaryLocalVariable")
 	public static int getPieceFromIndex(int index, int eachPieceSize) {
 		int    newPiece = index / eachPieceSize;
 		return newPiece;
@@ -31,12 +32,12 @@ public class IndexPieces {
 
 
 	/**
-	 * @return piece size, starting from 0
+	 * @return pieceIndex size, starting from 0
 	 */
-	public static int getPieceSize(int piece,  int pieceCount,
+	public static int getPieceSize(int pieceIndex,  int pieceCount,
 								   int length, int eachPieceSize) {
-		return (getPieceIndexEnd(piece, pieceCount,
-								 length, eachPieceSize) + 1) - getPieceIndexStart(piece, pieceCount,
+		return (getPieceIndexEnd(pieceIndex, pieceCount,
+								 length, eachPieceSize) + 1) - getPieceIndexStart(pieceIndex, pieceCount,
 																				  length, eachPieceSize);
 	}
 
@@ -44,26 +45,26 @@ public class IndexPieces {
 	/**
 	 * @return start pointer of the block, starting from 0
 	 */
-	public static int getPieceIndexStart(int piece, int pieceCount,
+	public static int getPieceIndexStart(int pieceIndex, int pieceCount,
 										 int length, int eachPieceSize) {
-		if (piece < 0 || piece >= pieceCount) 
+		if (pieceIndex < 0 || pieceIndex >= pieceCount)
 			throw new IndexOutOfBoundsException(
-				String.format("hopePiece=%s, minPiece=%s, pieceCount=%s", piece, 0, pieceCount));
-		return piece * eachPieceSize;
+				String.format("hopePiece=%s, minPiece=%s, pieceCount=%s", pieceIndex, 0, pieceCount));
+		return pieceIndex * eachPieceSize;
 	}
 
 	/**
-	 * @return end pointer of the block, (piece index) + (piece len) - 1
+	 * @return end pointer of the block, (pieceIndex index) + (pieceIndex len) - 1
 	 */
-	public static int getPieceIndexEnd(int piece, int pieceCount, 
+	public static int getPieceIndexEnd(int pieceIndex, int pieceCount,
 									   int length, int eachPieceSize) {
-		if (piece < 0 || piece >= pieceCount) 
+		if (pieceIndex < 0 || pieceIndex >= pieceCount)
 			throw new IndexOutOfBoundsException(
-				String.format("hopePiece=%s, minPiece=%s, pieceCount=%s", piece, 0, pieceCount));
+				String.format("hopePiece=%s, minPiece=%s, pieceCount=%s", pieceIndex, 0, pieceCount));
 		if (eachPieceSize == 0) 
 			throw new RuntimeException("perPieceSize=" + eachPieceSize);
 
-		int end = (piece * eachPieceSize) + eachPieceSize;
+		int end = (pieceIndex * eachPieceSize) + eachPieceSize;
 		if (end < 1) {
 			end = Integer.MAX_VALUE;
 		}
@@ -104,6 +105,8 @@ public class IndexPieces {
 	/**
 	 * get the block where the pointer is, starting from 0
 	 */
+	@SuppressWarnings("UnnecessaryLocalVariable")
+
 	public static long getLongPieceFromIndex(long index, long eachPieceSize) {
 		long   newPiece = index / eachPieceSize;
 		return newPiece;
@@ -111,36 +114,39 @@ public class IndexPieces {
 	/**
 	 * @return piece size, starting from 0
 	 */
-	public static long getLongPieceSize(long piece, long pieceCount,
-									long length, long eachPieceSize) {
-		return (getLongPieceIndexEnd(piece, pieceCount,
-								 length, eachPieceSize) + 1) - getLongPieceIndexStart(piece, pieceCount,
+
+	public static long getLongPieceSize(long pieceIndex, long pieceCount,
+										long length, long eachPieceSize) {
+		return (getLongPieceIndexEnd(pieceIndex, pieceCount,
+								 length, eachPieceSize) + 1) - getLongPieceIndexStart(pieceIndex, pieceCount,
 																				  length, eachPieceSize);
 	}
 	/**
 	 * @return start pointer of the block, starting from 0
 	 */
-	public static long getLongPieceIndexStart(long piece, long pieceCount,
-										  long length, long eachPieceSize) {
-		if (piece < 0 || piece >= pieceCount) 
-			throw new IndexOutOfBoundsException(
-				String.format("hopePiece=%s, minPiece=%s, pieceCount=%s", piece, 0, pieceCount));
 
-		return piece * eachPieceSize;
+	public static long getLongPieceIndexStart(long pieceIndex, long pieceCount,
+										 	  long length, long eachPieceSize) {
+		if (pieceIndex < 0 || pieceIndex >= pieceCount)
+			throw new IndexOutOfBoundsException(
+				String.format("hopePiece=%s, minPiece=%s, pieceCount=%s", pieceIndex, 0, pieceCount));
+
+		return pieceIndex * eachPieceSize;
 	}
 
 	/**
-	 * @return end pointer of the block, (piece index) + (piece len) - 1
+	 * @return end pointer of the block, (pieceIndex index) + (pieceIndex len) - 1
 	 */
-	public static long getLongPieceIndexEnd(long piece, long pieceCount, 
-										long length, long eachPieceSize) {
-		if (piece < 0 || piece >= pieceCount) 
+
+	public static long getLongPieceIndexEnd(long pieceIndex, long pieceCount,
+											long length, long eachPieceSize) {
+		if (pieceIndex < 0 || pieceIndex >= pieceCount)
 			throw new IndexOutOfBoundsException(
-				String.format("hopePiece=%s, minPiece=%s, pieceCount=%s", piece, 0, pieceCount));
+				String.format("hopePiece=%s, minPiece=%s, pieceCount=%s", pieceIndex, 0, pieceCount));
 		if (eachPieceSize == 0) 
 			throw new RuntimeException("perPieceSize=" + eachPieceSize);
 
-		long end = (piece * eachPieceSize) + eachPieceSize;
+		long end = (pieceIndex * eachPieceSize) + eachPieceSize;
 		if (end < 1) {
 			end = Long.MAX_VALUE;
 		}
